@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/app_depencies.dart';
-import 'package:flutter_template/core/theme/theme_controller.dart';
+import 'core/app_depencies.dart';
+import 'core/theme/theme_controller.dart';
 
 void main() async {
   runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
-  
 }
 
 class MyApp extends StatefulWidget {
