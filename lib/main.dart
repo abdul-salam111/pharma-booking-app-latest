@@ -27,11 +27,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Project',
+      title: 'Pharma Booking App',
       home: Center(),
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: _themeController.themeMode,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
