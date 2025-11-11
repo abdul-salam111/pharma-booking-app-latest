@@ -1,0 +1,556 @@
+// ============================================================================
+// HOME CONTROLLER
+// ============================================================================
+
+import 'dart:async';
+import '../../../create_order/data/models/get_order_response/get_order_response.dart';
+import '../barrel.dart';
+
+/// Controller to manage HomeScreen state and data synchronization.
+/// Handles data loading, synchronization, and UI card interactions.
+class HomeController extends GetxController {
+  // ==========================================================================
+  // PRODUCT USECASES
+  // ==========================================================================
+  final GetAllProductsUsecase getAllProductsUsecase;
+  final GetAllLocalProductsUsecase getAllLocalProductsUsecase;
+  final InsertProductsLocallyUsecase insertProductsLocallyUsecase;
+  final ClearLocalProductsUsecase clearLocalProductsUsecase;
+
+  // ==========================================================================
+  // COMPANY USECASES
+  // ==========================================================================
+
+  final GetAllCompaniesUsecase getAllCompaniesUsecase;
+  final GetAllLocalCompaniesUsecase getAllLocalCompaniesUsecase;
+  final InsertLocalCompaniesUsecase insertLocalCompaniesUsecase;
+  final ClearLocalCompaniesUsecase clearLocalCompaniesUsecase;
+
+  // ==========================================================================
+  // CUSTOMER REMOTE USECASES
+  // ==========================================================================
+
+  final GetAllCustomersUsecase getAllCustomersUsecase;
+  final GetAllTownsUsecase getAllTownsUsecase;
+  final GetAllSectorsUsecase getAllSectorsUseCase;
+  final GetAllSalesmanUsecase getAllSalesmanUsecase;
+
+  // ==========================================================================
+  // CUSTOMER LOCAL USECASES
+  // ==========================================================================
+
+  final GetAllLocalCustomersUsecase getAllLocalCustomersUsecase;
+  final GetAllLocalTownsUsecase getAllLocalTownsUsecase;
+  final GetAllLocalSectorsUsecase getAllLocalSectorsUsecase;
+  final GetLocalSalesmanByIdUsecase getLocalSalesmanByIdUsecase;
+
+  final InsertAllCustomersLocalUsecase insertAllCustomersLocalUsecase;
+  final InsertAllTownsLocalUsecase insertAllTownsLocalUsecase;
+  final InsertAllSectorsLocalUsecase insertAllSectorsLocalUsecase;
+  final InsertAllSalesmansLocalUsecase insertAllSalesmansLocalUsecase;
+
+  final ClearCustomersLocalUsecase clearCustomersLocalUsecase;
+  final ClearTownsLocalUsecase clearTownsLocalUsecase;
+  final ClearSectorsLocalUsecase clearSectorsLocalUsecase;
+  final ClearSalesmansLocalUsecase clearSalesmansLocalUsecase;
+
+  // ==========================================================================
+  // Orders LOCAL USECASES
+  // ==========================================================================
+  final GetUnsyncOrdersUsecase getUnsyncOrdersUsecase;
+  final GetCountUnsyncordersUsecase getCountUnsyncordersUsecase;
+  final UpdateOrdersSyncStatusUsecase updateOrdersSyncStatusUsecase;
+  final CreateOrdersRemotelyUsecase createOrdersRemotelyUsecase;
+  // ==========================================================================
+  // CONSTRUCTOR
+  // ==========================================================================
+  HomeController({
+    // Product usecases
+    required this.getAllProductsUsecase,
+    required this.getAllLocalProductsUsecase,
+    required this.insertProductsLocallyUsecase,
+    required this.clearLocalProductsUsecase,
+    // Company usecases
+    required this.getAllCompaniesUsecase,
+    required this.getAllLocalCompaniesUsecase,
+    required this.insertLocalCompaniesUsecase,
+    required this.clearLocalCompaniesUsecase,
+    // Customer remote usecases
+    required this.getAllCustomersUsecase,
+    required this.getAllTownsUsecase,
+    required this.getAllSectorsUseCase,
+    required this.getAllSalesmanUsecase,
+    // Customer local usecases
+    required this.getAllLocalCustomersUsecase,
+    required this.getAllLocalTownsUsecase,
+    required this.getAllLocalSectorsUsecase,
+    required this.getLocalSalesmanByIdUsecase,
+    required this.insertAllCustomersLocalUsecase,
+    required this.insertAllTownsLocalUsecase,
+    required this.insertAllSectorsLocalUsecase,
+    required this.insertAllSalesmansLocalUsecase,
+    required this.clearCustomersLocalUsecase,
+    required this.clearTownsLocalUsecase,
+    required this.clearSectorsLocalUsecase,
+    required this.clearSalesmansLocalUsecase,
+    // Orders usecases
+    required this.getUnsyncOrdersUsecase,
+    required this.getCountUnsyncordersUsecase,
+    required this.updateOrdersSyncStatusUsecase,
+    required this.createOrdersRemotelyUsecase,
+  });
+
+  // ==========================================================================
+  // STATE MANAGEMENT
+  // ==========================================================================
+
+  final RxBool isLoadingData = false.obs;
+  final RxBool isSyncingData = false.obs;
+  final RxInt unsyncedOrdersCount = 0.obs;
+
+  // ==========================================================================
+  // DATA LISTS
+  // ==========================================================================
+
+  final RxList<GetAllProductsModel> getAllProducts =
+      <GetAllProductsModel>[].obs;
+  final RxList<GetCompaniesModel> getCompaniesModel = <GetCompaniesModel>[].obs;
+  final RxList<GetSectorsModel> getAllSectors = <GetSectorsModel>[].obs;
+  final RxList<GetTownsModel> getAllTowns = <GetTownsModel>[].obs;
+  final RxList<GetCustomersModel> getAllCustomers = <GetCustomersModel>[].obs;
+
+  // ==========================================================================
+  // UI CONFIGURATION
+  // ==========================================================================
+
+  late final List<CardModel> cardList;
+
+  // ==========================================================================
+  // LIFECYCLE METHODS
+  // ==========================================================================
+
+  @override
+  void onInit() {
+    super.onInit();
+    _initializeCards();
+    _initializeData();
+  }
+
+  // ==========================================================================
+  // INITIALIZATION
+  // ==========================================================================
+
+  void _initializeCards() {
+    cardList = [
+      CardModel(
+        cardColor: const Color(0xffA2CDFF),
+        cardIcon: "assets/icons/cloud_upload.png",
+        cardName: "Export Orders",
+        onTap: _handleExportOrders,
+        textColor: const Color(0xff0872EB),
+      ),
+      CardModel(
+        cardColor: const Color(0xffBEBAFD),
+        cardIcon: "assets/icons/order_summary.png",
+        cardName: "Order Summary",
+        onTap: _navigateToOrderSummary,
+        textColor: const Color(0xff350BBF),
+      ),
+      CardModel(
+        cardColor: const Color(0xff90FDF0),
+        cardIcon: "assets/icons/syncdata.png",
+        cardName: "Import Data",
+        onTap: syncAllData,
+        textColor: const Color(0xff09877A),
+      ),
+      CardModel(
+        cardColor: const Color(0xffFFA2A2),
+        cardIcon: "assets/icons/recover.png",
+        cardName: "Recover",
+        onTap: _navigateToRecovery,
+        textColor: const Color(0xffED1D16),
+      ),
+    ];
+  }
+
+  Future<void> _initializeData() async {
+    // Load local data first for instant UI update
+    unawaited(loadLocalData());
+
+    // Check if sync is needed
+    final isDataSynced = await storage.readValues(StorageKeys.isDatasynced);
+
+    if (isDataSynced == null) {
+      Future.delayed(const Duration(seconds: 1), syncAllData);
+    }
+  }
+
+  // ==========================================================================
+  // DATA SYNCHRONIZATION (OPTIMIZED)
+  // ==========================================================================
+
+  Future<void> syncAllData() async {
+    if (isSyncingData.value) return;
+
+    try {
+      isSyncingData.value = true;
+      AppToasts.showLoaderDialog(Get.context!,'Syncing data...');
+
+      // Phase 1: Fetch all remote data in parallel (PERFORMANCE BOOST)
+      final results = await Future.wait([
+        getAllCompaniesUsecase.call(NoParams()),
+        getAllProductsUsecase.call(NoParams()),
+        getAllCustomersUsecase.call(NoParams()),
+        getAllSectorsUseCase.call(NoParams()),
+        getAllTownsUsecase.call(NoParams()),
+        getAllSalesmanUsecase.call(NoParams()),
+      ]);
+
+      // Phase 2: Clear all local data in parallel (PERFORMANCE BOOST)
+      await Future.wait([
+        clearLocalCompaniesUsecase.call(NoParams()),
+        clearLocalProductsUsecase.call(NoParams()),
+        clearCustomersLocalUsecase.call(NoParams()),
+        clearSectorsLocalUsecase.call(NoParams()),
+        clearTownsLocalUsecase.call(NoParams()),
+        clearSalesmansLocalUsecase.call(NoParams()),
+      ]);
+
+      // Phase 3: Insert all data in parallel (PERFORMANCE BOOST)
+      await _insertAllDataInParallel(results);
+
+      // Phase 4: Reload local data
+      await loadLocalData();
+
+      await storage.setValues(StorageKeys.isDatasynced, 'true');
+
+         AppToasts.dismiss(Get.context!);
+      AppToasts.showSuccessToast(Get.context!, 'Data synced successfully!');
+    } catch (error) {
+         AppToasts.dismiss(Get.context!);
+      AppToasts.showErrorToast(Get.context!, 'Sync failed: $error');
+    } finally {
+      isSyncingData.value = false;
+    }
+  }
+
+  Future<void> _insertAllDataInParallel(List<dynamic> results) async {
+    final insertOperations = <Future>[];
+
+    // Companies
+    results[0].fold(
+      (error) =>
+          throw Exception('Failed to fetch companies: ${error.toString()}'),
+      (companies) =>
+          insertOperations.add(insertLocalCompaniesUsecase.call(companies)),
+    );
+
+    // Products
+    results[1].fold(
+      (error) =>
+          throw Exception('Failed to fetch products: ${error.toString()}'),
+      (products) =>
+          insertOperations.add(insertProductsLocallyUsecase.call(products)),
+    );
+
+    // Customers
+    results[2].fold(
+      (error) =>
+          throw Exception('Failed to fetch customers: ${error.toString()}'),
+      (customers) =>
+          insertOperations.add(insertAllCustomersLocalUsecase.call(customers)),
+    );
+
+    // Sectors
+    results[3].fold(
+      (error) =>
+          throw Exception('Failed to fetch sectors: ${error.toString()}'),
+      (sectors) =>
+          insertOperations.add(insertAllSectorsLocalUsecase.call(sectors)),
+    );
+
+    // Towns
+    results[4].fold(
+      (error) => throw Exception('Failed to fetch towns: ${error.toString()}'),
+      (towns) => insertOperations.add(insertAllTownsLocalUsecase.call(towns)),
+    );
+
+    // Salesmans
+    results[5].fold(
+      (error) =>
+          throw Exception('Failed to fetch salesmans: ${error.toString()}'),
+      (salesmans) =>
+          insertOperations.add(insertAllSalesmansLocalUsecase.call(salesmans)),
+    );
+
+    // Execute all inserts in parallel
+    await Future.wait(insertOperations);
+  }
+
+  // ==========================================================================
+  // LOCAL DATA MANAGEMENT (OPTIMIZED)
+  // ==========================================================================
+
+  Future<void> loadLocalData() async {
+    if (isLoadingData.value) return;
+    try {
+      isLoadingData.value = true;
+      // Fetch all local data in parallel for maximum performance
+      final results = await Future.wait([
+        getAllLocalCompaniesUsecase.call(NoParams()),
+        getAllLocalProductsUsecase.call(NoParams()),
+        getAllLocalCustomersUsecase.call(NoParams()),
+        getAllLocalSectorsUsecase.call(NoParams()),
+        getAllLocalTownsUsecase.call(NoParams()),
+        getCountUnsyncordersUsecase.call(NoParams()),
+      ]);
+      // Update all data lists
+      _updateDataLists(results);
+    } catch (error) {
+      AppToasts.showErrorToast(
+        Get.context!,
+        'Failed to load local data: $error',
+      );
+    } finally {
+      isLoadingData.value = false;
+    }
+  }
+
+  void _updateDataLists(List<dynamic> results) {
+    // Companies
+    results[0].fold(
+      (error) =>
+          throw Exception('Failed to load companies: ${error.toString()}'),
+      (companies) => getCompaniesModel.value = companies,
+    );
+
+    // Products
+    results[1].fold(
+      (error) =>
+          throw Exception('Failed to load products: ${error.toString()}'),
+      (products) => getAllProducts.value = products,
+    );
+
+    // Customers
+    results[2].fold(
+      (error) =>
+          throw Exception('Failed to load customers: ${error.toString()}'),
+      (customers) => getAllCustomers.value = customers,
+    );
+
+    // Sectors
+    results[3].fold(
+      (error) => throw Exception('Failed to load sectors: ${error.toString()}'),
+      (sectors) => getAllSectors.value = sectors,
+    );
+
+    // Towns
+    results[4].fold(
+      (error) => throw Exception('Failed to load towns: ${error.toString()}'),
+      (towns) => getAllTowns.value = towns,
+    );
+
+    // unsync orders count
+    results[5].fold(
+      (error) => throw Exception(
+        'Failed to load unsync orders count: ${error.toString()}',
+      ),
+      (count) => unsyncedOrdersCount.value = count,
+    );
+  }
+
+  // ================= ORDER SYNCHRONIZATION =================
+  Future<void> _syncOrders() async {
+    // Check if already syncing to prevent multiple calls
+    if (isSyncingData.value) return;
+    try {
+      isSyncingData.value = true;
+      final ordersResponse = await getUnsyncOrdersUsecase.call(NoParams());
+      await ordersResponse.fold(
+        (error) {
+          AppToasts.showErrorToast(
+            Get.context!,
+            'Failed to fetch orders: ${error.toString()}',
+          );
+        },
+        (orders) async {
+          if (orders.isEmpty && unsyncedOrdersCount.value == 0) {
+            AppToasts.showWarningToast(Get.context!, 'No orders found.');
+            return;
+          }
+          // Show loader only once at the beginning
+
+          late GetSalesmanModel getSalesman;
+          final salesmanResponse = await getLocalSalesmanByIdUsecase.call(
+            SessionController().getUserDetails.salesmanId!,
+          );
+          await salesmanResponse.fold(
+            (error) {
+                 AppToasts.dismiss(Get.context!);
+            },
+            (salesman) {
+              AppToasts.dismiss(Get.context!);
+              getSalesman = salesman!;
+              return;
+            },
+          );
+          AppToasts.showLoaderDialog(Get.context!,'Syncing orders...');
+          final syncModel = await _prepareSyncModel(orders, getSalesman);
+
+          late List<GetOrderResponse> bookedOrdersResponse;
+          final remoteOrdersResponse = await createOrdersRemotelyUsecase.call(
+            syncModel,
+          );
+          remoteOrdersResponse.fold(
+            (error) {
+                 AppToasts.dismiss(Get.context!);
+              AppToasts.showErrorToast(
+                Get.context!,
+                "Error syncing orders. ${error.toString()}",
+              );
+            },
+            (bookedOrders) {
+              if (bookedOrders.isNotEmpty) {
+                bookedOrdersResponse = bookedOrders;
+                return;
+              } else {
+                   AppToasts.dismiss(Get.context!);
+                AppToasts.showErrorToast(Get.context!, 'Orders did not sync.');
+              }
+            },
+          );
+
+          await _updateSyncedOrders(orders, bookedOrdersResponse);
+
+          final updateUnsynccount = await getCountUnsyncordersUsecase.call(
+            NoParams(),
+          );
+          await updateUnsynccount.fold((error) {}, (count) {
+            unsyncedOrdersCount.value = count;
+          });
+
+             AppToasts.dismiss(Get.context!);
+          AppToasts.showSuccessToast(
+            Get.context!,
+            '${bookedOrdersResponse.length} orders synced successfully.',
+          );
+        },
+      );
+    } catch (error) {
+         AppToasts.dismiss(Get.context!);
+      AppToasts.showErrorToast(Get.context!, 'Sync failed: $error');
+    } finally {
+      isSyncingData.value = false;
+    }
+  }
+
+  Future<SyncOrdersModel> _prepareSyncModel(
+    List<OrderItemsForLocal> orders,
+    GetSalesmanModel salesman,
+  ) async {
+    final dataList = <DataList>[];
+
+    for (int i = 0; i < orders.length; i++) {
+      final orderRows = _extractOrderRows(orders[i]);
+
+      dataList.add(
+        DataList(
+          guid: orders[i].guid,
+          tenantOrderId: null,
+          salesmanOrderId: null,
+          deviceOrderId:
+              ((SessionController().getUserDetails.maxDeviceOrderId! + i) + 1),
+          customerId: int.tryParse(orders[i].customerId),
+          salesmanId: salesman.id,
+          orderTime: orders[i].orderDate,
+          syncDate: DateTime.now(),
+          orderRows: orderRows,
+          id: null,
+          tenantId: SessionController().getUserDetails.tenantId!.toIntOrNull,
+        ),
+      );
+    }
+    return SyncOrdersModel(
+      security: Security(
+        mobileNo: await storage.readValues('phone'),
+        password: "",
+        customerKey: SessionController().getUserDetails.customerKey,
+        tenantId: SessionController().getUserDetails.tenantId!.toIntOrNull,
+      ),
+      dataList: dataList,
+    );
+  }
+
+  List<OrderRowForSync> _extractOrderRows(OrderItemsForLocal order) {
+    final orderRows = <OrderRowForSync>[];
+
+    for (final company in order.companies) {
+      for (final product in company.products) {
+        orderRows.add(
+          OrderRowForSync(
+            productId: product.productId,
+            qty: product.quantity,
+            bonus: product.bonus,
+            discRatio: product.discRatio,
+            price: product.price,
+            tenantId: SessionController().getUserDetails.tenantId!.toIntOrNull,
+          ),
+        );
+      }
+    }
+
+    return orderRows;
+  }
+
+  Future<void> _updateSyncedOrders(
+    List<OrderItemsForLocal> orders,
+    List<GetOrderResponse> bookedOrders,
+  ) async {
+    for (int i = 0; i < bookedOrders.length; i++) {
+      if (bookedOrders[i].tenantOrderId != null) {
+        print('Order synced: Local Order ID ${orders[i].orderId} ');
+        await updateOrdersSyncStatusUsecase.call({
+          'orderId': orders[i].orderId,
+          'isSynced': true,
+        });
+      }
+    }
+  }
+
+  // ==========================================================================
+  // NAVIGATION HANDLERS
+  // ==========================================================================
+
+  void _handleExportOrders() async {
+    await _syncOrders();
+  }
+
+  void _navigateToOrderSummary() {
+    Get.toNamed(Routes.ORDERS_SUMMARY);
+  }
+
+  void _navigateToRecovery() {
+    Get.toNamed(Routes.RECOVERY);
+  }
+}
+
+// ============================================================================
+// CARD MODEL
+// ============================================================================
+
+/// UI Card model for HomeScreen features.
+class CardModel {
+  final Color cardColor;
+  final String cardIcon;
+  final String cardName;
+  final VoidCallback onTap;
+  final Color textColor;
+
+  const CardModel({
+    required this.cardColor,
+    required this.cardIcon,
+    required this.cardName,
+    required this.onTap,
+    required this.textColor,
+  });
+}

@@ -11,13 +11,13 @@ class CustomSearchField extends StatelessWidget {
   final bool readOnly;
 
   const CustomSearchField({
-    Key? key,
+    super.key,
     this.hintText = "Search",
     this.controller,
     this.onChanged,
     this.onTap,
     this.readOnly = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
