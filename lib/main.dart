@@ -1,8 +1,4 @@
 
-import 'core/local_storage/database/database_helper.dart';
-import 'core/networks/network_manager/dio_helper.dart';
-import 'core/routes/app_pages.dart';
-import 'core/theme/theme.dart';
 import 'modules/home/presentation/barrel.dart';
 
 

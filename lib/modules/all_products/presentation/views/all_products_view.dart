@@ -5,7 +5,6 @@ import '../../../../core/core.dart';
 import '../../../../core/routes/app_pages.dart';
 import '../../../../core/shared/models/post_models/create_order_for_local.dart';
 import '../../../../core/widgets/widgets.dart';
-import '../../../widgets/custom_searchfield.dart' hide CustomSearchField;
 import '../../data/models/get_products_model/get_all_products_model.dart';
 import '../controllers/all_products_controller.dart';
 

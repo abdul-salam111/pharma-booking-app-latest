@@ -15,10 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GetOrderResponse {
 
-// ✅ Map PascalCase API keys to camelCase Dart fields
-@JsonKey(name: 'TenantOrderId') int? get tenantOrderId;@JsonKey(name: 'SalesmanOrderId') int? get salesmanOrderId;@JsonKey(name: 'DeviceOrderID') int? get deviceOrderId;// Note: ID not Id
-@JsonKey(name: 'CustomerId') int? get customerId;@JsonKey(name: 'SalesmanId') int? get salesmanId;@JsonKey(name: 'OrderTime') DateTime? get orderTime;@JsonKey(name: 'SyncDate') DateTime? get syncDate;@JsonKey(name: 'OrderRows') List<OrderRow> get orderRows;@JsonKey(name: 'ID') int? get id;// API uses 'ID' not 'Id'
-@JsonKey(name: 'TenantID') int? get tenantId;
+@JsonKey(name: 'TenantOrderId') int? get tenantOrderId;@JsonKey(name: 'SalesmanOrderId') int? get salesmanOrderId;@JsonKey(name: 'DeviceOrderID') int? get deviceOrderId;@JsonKey(name: 'CustomerId') int? get customerId;@JsonKey(name: 'SalesmanId') int? get salesmanId;@JsonKey(name: 'OrderTime') DateTime? get orderTime;@JsonKey(name: 'SyncDate') DateTime? get syncDate;@JsonKey(name: 'OrderRows') List<OrderRow> get orderRows;@JsonKey(name: 'ID') int? get id;@JsonKey(name: 'TenantID') int? get tenantId;
 /// Create a copy of GetOrderResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -224,11 +221,9 @@ class _GetOrderResponse implements GetOrderResponse {
   const _GetOrderResponse({@JsonKey(name: 'TenantOrderId') this.tenantOrderId, @JsonKey(name: 'SalesmanOrderId') this.salesmanOrderId, @JsonKey(name: 'DeviceOrderID') this.deviceOrderId, @JsonKey(name: 'CustomerId') this.customerId, @JsonKey(name: 'SalesmanId') this.salesmanId, @JsonKey(name: 'OrderTime') this.orderTime, @JsonKey(name: 'SyncDate') this.syncDate, @JsonKey(name: 'OrderRows') final  List<OrderRow> orderRows = const [], @JsonKey(name: 'ID') this.id, @JsonKey(name: 'TenantID') this.tenantId}): _orderRows = orderRows;
   factory _GetOrderResponse.fromJson(Map<String, dynamic> json) => _$GetOrderResponseFromJson(json);
 
-// ✅ Map PascalCase API keys to camelCase Dart fields
 @override@JsonKey(name: 'TenantOrderId') final  int? tenantOrderId;
 @override@JsonKey(name: 'SalesmanOrderId') final  int? salesmanOrderId;
 @override@JsonKey(name: 'DeviceOrderID') final  int? deviceOrderId;
-// Note: ID not Id
 @override@JsonKey(name: 'CustomerId') final  int? customerId;
 @override@JsonKey(name: 'SalesmanId') final  int? salesmanId;
 @override@JsonKey(name: 'OrderTime') final  DateTime? orderTime;
@@ -241,7 +236,6 @@ class _GetOrderResponse implements GetOrderResponse {
 }
 
 @override@JsonKey(name: 'ID') final  int? id;
-// API uses 'ID' not 'Id'
 @override@JsonKey(name: 'TenantID') final  int? tenantId;
 
 /// Create a copy of GetOrderResponse
@@ -317,9 +311,7 @@ as int?,
 /// @nodoc
 mixin _$OrderRow {
 
-// ✅ Map PascalCase API keys to camelCase Dart fields
-@JsonKey(name: 'OrderId') int? get orderId;@JsonKey(name: 'ProductId') int? get productId;@JsonKey(name: 'TenantProdId') int? get tenantProdId;@JsonKey(name: 'Qty') int? get qty;@JsonKey(name: 'Bonus') int? get bonus;@JsonKey(name: 'DiscRatio') double? get discRatio;@JsonKey(name: 'Price') double? get price;@JsonKey(name: 'ID') int? get id;// API uses 'ID' not 'Id'
-@JsonKey(name: 'TenantID') int? get tenantId;
+@JsonKey(name: 'OrderId') int? get orderId;@JsonKey(name: 'ProductId') int? get productId;@JsonKey(name: 'TenantProdId') int? get tenantProdId;@JsonKey(name: 'Qty') int? get qty;@JsonKey(name: 'Bonus') int? get bonus;@JsonKey(name: 'DiscRatio') double? get discRatio;@JsonKey(name: 'Price') double? get price;@JsonKey(name: 'ID') int? get id;@JsonKey(name: 'TenantID') int? get tenantId;
 /// Create a copy of OrderRow
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -524,7 +516,6 @@ class _OrderRow implements OrderRow {
   const _OrderRow({@JsonKey(name: 'OrderId') this.orderId, @JsonKey(name: 'ProductId') this.productId, @JsonKey(name: 'TenantProdId') this.tenantProdId, @JsonKey(name: 'Qty') this.qty, @JsonKey(name: 'Bonus') this.bonus, @JsonKey(name: 'DiscRatio') this.discRatio, @JsonKey(name: 'Price') this.price, @JsonKey(name: 'ID') this.id, @JsonKey(name: 'TenantID') this.tenantId});
   factory _OrderRow.fromJson(Map<String, dynamic> json) => _$OrderRowFromJson(json);
 
-// ✅ Map PascalCase API keys to camelCase Dart fields
 @override@JsonKey(name: 'OrderId') final  int? orderId;
 @override@JsonKey(name: 'ProductId') final  int? productId;
 @override@JsonKey(name: 'TenantProdId') final  int? tenantProdId;
@@ -533,7 +524,6 @@ class _OrderRow implements OrderRow {
 @override@JsonKey(name: 'DiscRatio') final  double? discRatio;
 @override@JsonKey(name: 'Price') final  double? price;
 @override@JsonKey(name: 'ID') final  int? id;
-// API uses 'ID' not 'Id'
 @override@JsonKey(name: 'TenantID') final  int? tenantId;
 
 /// Create a copy of OrderRow
