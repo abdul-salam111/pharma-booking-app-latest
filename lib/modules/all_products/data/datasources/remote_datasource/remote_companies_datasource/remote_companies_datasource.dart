@@ -1,8 +1,5 @@
-
 import '../../../../../../core/core.dart';
-
 import '../../../../../../core/networks/network_manager/dio_helper.dart';
-import '../../../../../login_screen/data/models/login_request_model/login_request_model.dart';
 import '../../../models/get_companies_model/get_companies_model.dart';
 
 abstract interface class RemoteCompaniesDatasource {
@@ -16,15 +13,7 @@ class RemoteCompaniesDatasourceImpl implements RemoteCompaniesDatasource {
   @override
   Future<List<GetCompaniesModel>> getAllCompanies() async {
     try {
-      final response = await dioHelper.postApi(
-        url: ApiKeys.getCompaniesUrl,
-        requestBody: LoginRequestModel(
-          tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
-          customerKey: SessionController().getUserDetails.customerKey!
-              .toString(),
-          mobileNo: await storage.readValues('phone'),
-        ),
-      );
+      final response = await dioHelper.getApi(url: ApiKeys.getCompaniesUrl);
 
       if (response is List) {
         return response

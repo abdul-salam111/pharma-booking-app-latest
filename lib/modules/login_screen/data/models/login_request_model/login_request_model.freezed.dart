@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LoginRequestModel {
 
-@JsonKey(name: "TenantId") int? get tenantId;@JsonKey(name: "Password") String? get password;@JsonKey(name: "CustomerKey") String get customerKey;@JsonKey(name: "MobileNo") String get mobileNo;
+@JsonKey(name: "LoginId") String get loginId;@JsonKey(name: "Password") String get password;
 /// Create a copy of LoginRequestModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $LoginRequestModelCopyWith<LoginRequestModel> get copyWith => _$LoginRequestMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginRequestModel&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId)&&(identical(other.password, password) || other.password == password)&&(identical(other.customerKey, customerKey) || other.customerKey == customerKey)&&(identical(other.mobileNo, mobileNo) || other.mobileNo == mobileNo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginRequestModel&&(identical(other.loginId, loginId) || other.loginId == loginId)&&(identical(other.password, password) || other.password == password));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,tenantId,password,customerKey,mobileNo);
+int get hashCode => Object.hash(runtimeType,loginId,password);
 
 @override
 String toString() {
-  return 'LoginRequestModel(tenantId: $tenantId, password: $password, customerKey: $customerKey, mobileNo: $mobileNo)';
+  return 'LoginRequestModel(loginId: $loginId, password: $password)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $LoginRequestModelCopyWith<$Res>  {
   factory $LoginRequestModelCopyWith(LoginRequestModel value, $Res Function(LoginRequestModel) _then) = _$LoginRequestModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: "TenantId") int? tenantId,@JsonKey(name: "Password") String? password,@JsonKey(name: "CustomerKey") String customerKey,@JsonKey(name: "MobileNo") String mobileNo
+@JsonKey(name: "LoginId") String loginId,@JsonKey(name: "Password") String password
 });
 
 
@@ -65,12 +65,10 @@ class _$LoginRequestModelCopyWithImpl<$Res>
 
 /// Create a copy of LoginRequestModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? tenantId = freezed,Object? password = freezed,Object? customerKey = null,Object? mobileNo = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loginId = null,Object? password = null,}) {
   return _then(_self.copyWith(
-tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as int?,password: freezed == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
-as String?,customerKey: null == customerKey ? _self.customerKey : customerKey // ignore: cast_nullable_to_non_nullable
-as String,mobileNo: null == mobileNo ? _self.mobileNo : mobileNo // ignore: cast_nullable_to_non_nullable
+loginId: null == loginId ? _self.loginId : loginId // ignore: cast_nullable_to_non_nullable
+as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -156,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "TenantId")  int? tenantId, @JsonKey(name: "Password")  String? password, @JsonKey(name: "CustomerKey")  String customerKey, @JsonKey(name: "MobileNo")  String mobileNo)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "LoginId")  String loginId, @JsonKey(name: "Password")  String password)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoginRequestModel() when $default != null:
-return $default(_that.tenantId,_that.password,_that.customerKey,_that.mobileNo);case _:
+return $default(_that.loginId,_that.password);case _:
   return orElse();
 
 }
@@ -177,10 +175,10 @@ return $default(_that.tenantId,_that.password,_that.customerKey,_that.mobileNo);
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "TenantId")  int? tenantId, @JsonKey(name: "Password")  String? password, @JsonKey(name: "CustomerKey")  String customerKey, @JsonKey(name: "MobileNo")  String mobileNo)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "LoginId")  String loginId, @JsonKey(name: "Password")  String password)  $default,) {final _that = this;
 switch (_that) {
 case _LoginRequestModel():
-return $default(_that.tenantId,_that.password,_that.customerKey,_that.mobileNo);case _:
+return $default(_that.loginId,_that.password);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +195,10 @@ return $default(_that.tenantId,_that.password,_that.customerKey,_that.mobileNo);
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "TenantId")  int? tenantId, @JsonKey(name: "Password")  String? password, @JsonKey(name: "CustomerKey")  String customerKey, @JsonKey(name: "MobileNo")  String mobileNo)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "LoginId")  String loginId, @JsonKey(name: "Password")  String password)?  $default,) {final _that = this;
 switch (_that) {
 case _LoginRequestModel() when $default != null:
-return $default(_that.tenantId,_that.password,_that.customerKey,_that.mobileNo);case _:
+return $default(_that.loginId,_that.password);case _:
   return null;
 
 }
@@ -212,13 +210,11 @@ return $default(_that.tenantId,_that.password,_that.customerKey,_that.mobileNo);
 @JsonSerializable()
 
 class _LoginRequestModel implements LoginRequestModel {
-  const _LoginRequestModel({@JsonKey(name: "TenantId") this.tenantId, @JsonKey(name: "Password") this.password, @JsonKey(name: "CustomerKey") required this.customerKey, @JsonKey(name: "MobileNo") required this.mobileNo});
+  const _LoginRequestModel({@JsonKey(name: "LoginId") required this.loginId, @JsonKey(name: "Password") required this.password});
   factory _LoginRequestModel.fromJson(Map<String, dynamic> json) => _$LoginRequestModelFromJson(json);
 
-@override@JsonKey(name: "TenantId") final  int? tenantId;
-@override@JsonKey(name: "Password") final  String? password;
-@override@JsonKey(name: "CustomerKey") final  String customerKey;
-@override@JsonKey(name: "MobileNo") final  String mobileNo;
+@override@JsonKey(name: "LoginId") final  String loginId;
+@override@JsonKey(name: "Password") final  String password;
 
 /// Create a copy of LoginRequestModel
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +229,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginRequestModel&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId)&&(identical(other.password, password) || other.password == password)&&(identical(other.customerKey, customerKey) || other.customerKey == customerKey)&&(identical(other.mobileNo, mobileNo) || other.mobileNo == mobileNo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginRequestModel&&(identical(other.loginId, loginId) || other.loginId == loginId)&&(identical(other.password, password) || other.password == password));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,tenantId,password,customerKey,mobileNo);
+int get hashCode => Object.hash(runtimeType,loginId,password);
 
 @override
 String toString() {
-  return 'LoginRequestModel(tenantId: $tenantId, password: $password, customerKey: $customerKey, mobileNo: $mobileNo)';
+  return 'LoginRequestModel(loginId: $loginId, password: $password)';
 }
 
 
@@ -253,7 +249,7 @@ abstract mixin class _$LoginRequestModelCopyWith<$Res> implements $LoginRequestM
   factory _$LoginRequestModelCopyWith(_LoginRequestModel value, $Res Function(_LoginRequestModel) _then) = __$LoginRequestModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: "TenantId") int? tenantId,@JsonKey(name: "Password") String? password,@JsonKey(name: "CustomerKey") String customerKey,@JsonKey(name: "MobileNo") String mobileNo
+@JsonKey(name: "LoginId") String loginId,@JsonKey(name: "Password") String password
 });
 
 
@@ -270,12 +266,10 @@ class __$LoginRequestModelCopyWithImpl<$Res>
 
 /// Create a copy of LoginRequestModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? tenantId = freezed,Object? password = freezed,Object? customerKey = null,Object? mobileNo = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loginId = null,Object? password = null,}) {
   return _then(_LoginRequestModel(
-tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as int?,password: freezed == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
-as String?,customerKey: null == customerKey ? _self.customerKey : customerKey // ignore: cast_nullable_to_non_nullable
-as String,mobileNo: null == mobileNo ? _self.mobileNo : mobileNo // ignore: cast_nullable_to_non_nullable
+loginId: null == loginId ? _self.loginId : loginId // ignore: cast_nullable_to_non_nullable
+as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

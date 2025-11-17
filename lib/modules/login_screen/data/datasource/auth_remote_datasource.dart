@@ -1,4 +1,3 @@
-
 import '../../../../core/core.dart';
 import '../../../../core/networks/network_manager/dio_helper.dart';
 import '../models/login_request_model/login_request_model.dart';
@@ -21,16 +20,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDataSource {
         url: ApiKeys.loginUrl,
         requestBody: loginUser,
       );
-
-      if (response.toString().contains(
-        "Customer key is invalid or in-active",
-      )) {
-        throw InvalidInputException("The entered customer key is wrong");
-      } else if (response['Result'] != "OK") {
-        throw InvalidInputException("Please, enter correct credentials");
-      } else {
-        return LoginResponseModel.fromJson(response);
-      }
+      return LoginResponseModel.fromJson(response);
     } catch (error) {
       throw AppException(error.toString());
     }

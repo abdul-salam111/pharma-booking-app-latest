@@ -9,11 +9,11 @@ import '../../models/get_companies_model/get_companies_model.dart';
 
 class CompaniesRepoImpl implements CompaniesAbstractRepository {
   final RemoteCompaniesDatasource remoteCompaniesDatasource;
-  final LocalCompanyDatasource localCompanyDatasource;
+  // final LocalCompanyDatasource localCompanyDatasource;
 
   const CompaniesRepoImpl({
     required this.remoteCompaniesDatasource,
-    required this.localCompanyDatasource,
+    // required this.localCompanyDatasource,
   });
 
   //╔══════════════════════════════════════════════════════════════════════════════╗
@@ -34,47 +34,47 @@ class CompaniesRepoImpl implements CompaniesAbstractRepository {
   //║                            Local Companies Management                        ║
   //╚══════════════════════════════════════════════════════════════════════════════╝
 
-  @override
-  Future<Either<AppException, List<GetCompaniesModel>>> getAllLocalCompanies() async {
-    try {
-      final response = await localCompanyDatasource.getAllCompanies();
-      return Right(response);
-    } catch (error) {
-      return Left(AppException(error.toString()));
-    }
-  }
+  // @override
+  // Future<Either<AppException, List<GetCompaniesModel>>> getAllLocalCompanies() async {
+  //   try {
+  //     final response = await localCompanyDatasource.getAllCompanies();
+  //     return Right(response);
+  //   } catch (error) {
+  //     return Left(AppException(error.toString()));
+  //   }
+  // }
 
-  @override
-  Future<Either<AppException, GetCompaniesModel>> getCompanyByIdFromLocal({
-    required String companyId,
-  }) async {
-    try {
-      final response = await localCompanyDatasource.getCompanyById(companyId);
-      return Right(response!);
-    } catch (error) {
-      return Left(AppException(error.toString()));
-    }
-  }
+  // @override
+  // Future<Either<AppException, GetCompaniesModel>> getCompanyByIdFromLocal({
+  //   required String companyId,
+  // }) async {
+  //   try {
+  //     final response = await localCompanyDatasource.getCompanyById(companyId);
+  //     return Right(response!);
+  //   } catch (error) {
+  //     return Left(AppException(error.toString()));
+  //   }
+  // }
 
-  @override
-  Future<Either<AppException, List<int>>> insertCompaniesLocal(
-    List<GetCompaniesModel> companies,
-  ) async {
-    try {
-      final response = await localCompanyDatasource.insertCompanies(companies);
-      return Right(response);
-    } catch (error) {
-      return Left(AppException(error.toString()));
-    }
-  }
+  // @override
+  // Future<Either<AppException, List<int>>> insertCompaniesLocal(
+  //   List<GetCompaniesModel> companies,
+  // ) async {
+  //   try {
+  //     final response = await localCompanyDatasource.insertCompanies(companies);
+  //     return Right(response);
+  //   } catch (error) {
+  //     return Left(AppException(error.toString()));
+  //   }
+  // }
 
-  @override
-  Future<Either<AppException, bool>> clearLocalCompanies() async {
-    try {
-      final response = await localCompanyDatasource.clearCompanies();
-      return Right(response);
-    } catch (error) {
-      return Left(AppException(error.toString()));
-    }
-  }
+  // @override
+  // Future<Either<AppException, bool>> clearLocalCompanies() async {
+  //   try {
+  //     final response = await localCompanyDatasource.clearCompanies();
+  //     return Right(response);
+  //   } catch (error) {
+  //     return Left(AppException(error.toString()));
+  //   }
+  // }
 }

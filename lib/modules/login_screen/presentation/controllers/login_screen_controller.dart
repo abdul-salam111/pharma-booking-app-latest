@@ -1,20 +1,20 @@
-
 import '../../../home/presentation/barrel.dart';
 import '../../data/models/login_request_model/login_request_model.dart';
 import '../../data/models/login_response_model/login_response_model.dart';
 import '../../domain/usecases/login_user_usecase.dart';
 
-
 class LoginScreenController extends GetxController {
   final LoginUserUsecase loginUserUsecase;
   final PharmaDatabase databaseHelper;
 
-  LoginScreenController({required this.loginUserUsecase, required this.databaseHelper});
+  LoginScreenController({
+    required this.loginUserUsecase,
+    required this.databaseHelper,
+  });
   /* -------------------------------------------------------------------------- */
   /*                            Text-Editing Controllers                        */
   /* -------------------------------------------------------------------------- */
 
-  final TextEditingController keyController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -49,8 +49,7 @@ class LoginScreenController extends GetxController {
     final response = await loginUserUsecase.call(
       LoginRequestModel(
         password: passwordController.text.trim(),
-        customerKey: keyController.text.trim(),
-        mobileNo: phoneController.text.trim(),
+        loginId: phoneController.text.trim(),
       ),
     );
     response.fold(
@@ -59,25 +58,27 @@ class LoginScreenController extends GetxController {
         isLoading.value = false;
       },
       (userData) async {
+        await storage.setValues(StorageKeys.token, userData.token.toString());
+        Get.offAllNamed(Routes.HOME);
         // 2. Check for salesman change
-        final oldSalesmanId = SessionController().getUserDetails.salesmanId;
-        final newSalesmanId = userData.salesmanId;
+        // final oldSalesmanId = SessionController().getUserDetails.salesmanId;
+        // final newSalesmanId = userData.salesmanId;
 
-        final isFirstLogin = oldSalesmanId == null;
-        final isSameSalesman = oldSalesmanId == newSalesmanId;
+        // final isFirstLogin = oldSalesmanId == null;
+        // final isSameSalesman = oldSalesmanId == newSalesmanId;
 
-        if (isFirstLogin || isSameSalesman) {
-          // First login OR same salesman → proceed without confirmation
-          await _persistSessionAndNavigate(userData);
-        } else {
-          // Different salesman → ask to wash-out
-          final confirmed = await showSalesmanConfirmDialog(Get.context!);
-          if (confirmed == true) {
-            await _persistSessionAndNavigate(userData, washOut: true);
-          } else {
-            Get.offAllNamed(Routes.LOGIN_SCREEN);
-          }
-        }
+        // if (isFirstLogin || isSameSalesman) {
+        //   // First login OR same salesman → proceed without confirmation
+        //   await _persistSessionAndNavigate(userData);
+        // } else {
+        //   // Different salesman → ask to wash-out
+        //   final confirmed = await showSalesmanConfirmDialog(Get.context!);
+        //   if (confirmed == true) {
+        //     await _persistSessionAndNavigate(userData, washOut: true);
+        //   } else {
+        //     Get.offAllNamed(Routes.LOGIN_SCREEN);
+        //   }
+        // }
         isLoading.value = false;
       },
     );
@@ -90,19 +91,13 @@ class LoginScreenController extends GetxController {
   /// Saves credentials/session and navigates home.
   ///
   /// When [washOut] is `true`, previous orders are deleted.
-  Future<void> _persistSessionAndNavigate(
-    LoginResponseModel userData, {
-    bool washOut = false,
-  }) async {
+  Future<void> _persistSessionAndNavigate(LoginResponseModel userData) async {
     await Future.wait([
-      storage.setValues('phone', phoneController.text.trim()),
+      storage.setValues(StorageKeys.loginId, phoneController.text.trim()),
+      storage.setValues(StorageKeys.password, phoneController.text.trim()),
       SessionController().saveUserInStorage(userData),
       SessionController().getUserfromSharedpref(),
     ]);
-
-    if (washOut) {
-      await databaseHelper.deleteAllOrders();
-    }
 
     Get.offAllNamed(Routes.HOME);
   }
@@ -113,7 +108,6 @@ class LoginScreenController extends GetxController {
 
   @override
   void dispose() {
-    keyController.dispose();
     phoneController.dispose();
     passwordController.dispose();
     super.dispose();

@@ -118,7 +118,7 @@ class LocalCompanyDatasourceImpl implements LocalCompanyDatasource {
       return await dbClient.transaction((txn) async {
         final maps = await txn.query(
           _tableName,
-          where: 'CompanyId = ?',
+          where: 'id = ?',
           whereArgs: [companyId],
           limit: 1,
         );
@@ -133,7 +133,7 @@ class LocalCompanyDatasourceImpl implements LocalCompanyDatasource {
         final company = GetCompaniesModel.fromJson(_mapToJson(maps.first));
 
         if (kDebugMode) {
-          print('Retrieved company: ${company.companyName}');
+          print('Retrieved company: ${company.name}');
         }
 
         return company;
@@ -175,25 +175,11 @@ class LocalCompanyDatasourceImpl implements LocalCompanyDatasource {
 
   /// Convert GetCompaniesModel to database format
   Map<String, dynamic> _convertCompanyToDbFormat(GetCompaniesModel company) {
-    return {
-      'CompanyId': company.companyId,
-      'CompanyName': company.companyName,
-      'ASMTitle': company.asmTitle,
-      'DistributionCode': company.distributionCode,
-      'ID': company.id,
-      'TenantID': company.tenantId,
-    };
+    return {'id': company.id, 'name': company.name};
   }
 
   /// Convert database map to JSON format for model
   Map<String, dynamic> _mapToJson(Map<String, dynamic> map) {
-    return {
-      'CompanyId': map['CompanyId'],
-      'CompanyName': map['CompanyName'],
-      'ASMTitle': map['ASMTitle'],
-      'DistributionCode': map['DistributionCode'],
-      'ID': map['ID'],
-      'TenantID': map['TenantID'],
-    };
+    return {'id': map['id'], 'name': map['name']};
   }
 }

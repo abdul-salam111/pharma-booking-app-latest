@@ -15,19 +15,19 @@ abstract interface class CompaniesAbstractRepository {
   //║                            Local Companies Management                        ║
   //╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Retrieves all companies from local database
-  Future<Either<AppException, List<GetCompaniesModel>>> getAllLocalCompanies();
+  // /// Retrieves all companies from local database
+  // Future<Either<AppException, List<GetCompaniesModel>>> getAllLocalCompanies();
 
-  /// Retrieves a specific company by ID from local database
-  Future<Either<AppException, GetCompaniesModel?>> getCompanyByIdFromLocal({
-    required String companyId,
-  });
+  // /// Retrieves a specific company by ID from local database
+  // Future<Either<AppException, GetCompaniesModel?>> getCompanyByIdFromLocal({
+  //   required String companyId,
+  // });
 
-  /// Inserts companies into local database
-  Future<Either<AppException, List<int>>> insertCompaniesLocal(
-    List<GetCompaniesModel> companies,
-  );
+  // /// Inserts companies into local database
+  // Future<Either<AppException, List<int>>> insertCompaniesLocal(
+  //   List<GetCompaniesModel> companies,
+  // );
 
-  /// Clears all companies from local database
-  Future<Either<AppException, bool>> clearLocalCompanies();
+  // /// Clears all companies from local database
+  // Future<Either<AppException, bool>> clearLocalCompanies();
 }

@@ -1,7 +1,5 @@
-
 import '../../../../../../core/core.dart';
 import '../../../../../../core/networks/network_manager/dio_helper.dart';
-import '../../../../../login_screen/data/models/login_request_model/login_request_model.dart';
 import '../../../models/get_products_model/get_all_products_model.dart';
 
 abstract interface class RemoteProductDatasource {
@@ -15,15 +13,7 @@ class RemoteProductDataSourceImpl implements RemoteProductDatasource {
   @override
   Future<List<GetAllProductsModel>> getAllProducts() async {
     try {
-      final response = await dioHelper.postApi(
-        url: ApiKeys.getProductsUrl,
-        requestBody: LoginRequestModel(
-          tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
-          customerKey: SessionController().getUserDetails.customerKey!
-              .toString(),
-          mobileNo: await storage.readValues('phone'),
-        ),
-      );
+      final response = await dioHelper.getApi(url: ApiKeys.getProductsUrl);
 
       if (response is List) {
         return response

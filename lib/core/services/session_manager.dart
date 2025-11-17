@@ -2,8 +2,6 @@ import 'dart:convert';
 import '../../modules/login_screen/data/models/login_response_model/login_response_model.dart';
 import '../local_storage/storage.dart';
 
-
-
 class SessionController {
   LoginResponseModel getUserDetails = LoginResponseModel();
 
@@ -21,7 +19,7 @@ class SessionController {
   Future<void> saveUserInStorage(LoginResponseModel user) async {
     await storage.setValues(StorageKeys.userDetails, jsonEncode(user));
     await storage.setValues(StorageKeys.loggedIn, 'true');
-    await storage.setValues(StorageKeys.userId, user.userId.toString());
+    // await storage.setValues(StorageKeys.userId, user.userId.toString());
     // await storage.setValues(
     //   StorageKeys.token,
     //   user.authToken!.accessToken!,

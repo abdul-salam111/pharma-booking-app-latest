@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../core/core.dart';
+import '../../../../core/utils/input_formatters.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../controllers/login_screen_controller.dart';
 
@@ -63,25 +64,23 @@ class LoginScreenView extends GetView<LoginScreenController> {
                     child: Column(
                       children: [
                         CustomTextFormField(
-                          controller: controller.keyController,
-                          hintText: "Customer Key",
-                          prefixIcon: Iconsax.key,
-                          keyboardType: TextInputType.text,
-                          borderColor: AppColors.darkGreyColor,
-                          fillColor: AppColors.halfWhiteColor,
-                          validator: (p0) =>
-                              Validator.validateRequired("Customer Key"),
-                        ),
-                        heightBox(10),
-                        CustomTextFormField(
                           controller: controller.phoneController,
-                          hintText: "Mobile Number",
+                          hintText: "0300-0000000",
                           prefixIcon: Iconsax.call,
                           keyboardType: TextInputType.phone,
                           borderColor: AppColors.darkGreyColor,
                           fillColor: AppColors.halfWhiteColor,
-                          validator: (p0) =>
-                              Validator.validateRequired("Mobile Number"),
+                          inputFormatters: [PhoneNumberFormatter()],
+                          validator: (p0) {
+                            if (p0 == null || p0.isEmpty) {
+                              return "Mobile Number is required";
+                            }
+                            String digitsOnly = p0.replaceAll('-', '');
+                            if (digitsOnly.length != 11) {
+                              return "Mobile Number must be 11 digits";
+                            }
+                            return null;
+                          },
                         ),
                         heightBox(10),
                         CustomTextFormField(

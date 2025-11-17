@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GetAllProductsModel {
 
-@JsonKey(name: 'CompanyId') int? get companyId;@JsonKey(name: 'StrCompanyId') String? get strCompanyId;@JsonKey(name: 'ProductId') String? get productId;@JsonKey(name: 'GroupId') int? get groupId;@JsonKey(name: 'ProductName') String? get productName;@JsonKey(name: 'Packing') String? get packing;@JsonKey(name: 'TradePrice') double? get tradePrice;@JsonKey(name: 'SaleDiscRatio') double? get saleDiscRatio;@JsonKey(name: 'CurrentStock') int? get currentStock;@JsonKey(name: 'IsInActive') bool? get isInActive;@JsonKey(name: 'ID') int? get id;@JsonKey(name: 'TenantID') int? get tenantId;
+@JsonKey(name: "id") int? get id;@JsonKey(name: "productName") String? get productName;@JsonKey(name: "companyId") int? get companyId;@JsonKey(name: "pricePackPur") int? get pricePackPur;@JsonKey(name: "retailPrice") int? get retailPrice;@JsonKey(name: "discRatioPur") int? get discRatioPur;@JsonKey(name: "saleDiscRatio") int? get saleDiscRatio;@JsonKey(name: "pricePackSal1") int? get pricePackSal1;@JsonKey(name: "pricePackSal2") int? get pricePackSal2;@JsonKey(name: "pricePackSal3") int? get pricePackSal3;@JsonKey(name: "discRatioSal1") int? get discRatioSal1;@JsonKey(name: "discRatioSal2") int? get discRatioSal2;@JsonKey(name: "discRatioSal3") int? get discRatioSal3;@JsonKey(name: "sTaxRatio") int? get sTaxRatio;@JsonKey(name: "sTaxValPack") int? get sTaxValPack;@JsonKey(name: "isSTaxOnBnsSal") bool? get isSTaxOnBnsSal;@JsonKey(name: "displayOrder") int? get displayOrder;@JsonKey(name: "tradePrice") int? get tradePrice;@JsonKey(name: "packings") List<dynamic>? get packings;
 /// Create a copy of GetAllProductsModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $GetAllProductsModelCopyWith<GetAllProductsModel> get copyWith => _$GetAllProduc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetAllProductsModel&&(identical(other.companyId, companyId) || other.companyId == companyId)&&(identical(other.strCompanyId, strCompanyId) || other.strCompanyId == strCompanyId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.groupId, groupId) || other.groupId == groupId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.packing, packing) || other.packing == packing)&&(identical(other.tradePrice, tradePrice) || other.tradePrice == tradePrice)&&(identical(other.saleDiscRatio, saleDiscRatio) || other.saleDiscRatio == saleDiscRatio)&&(identical(other.currentStock, currentStock) || other.currentStock == currentStock)&&(identical(other.isInActive, isInActive) || other.isInActive == isInActive)&&(identical(other.id, id) || other.id == id)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetAllProductsModel&&(identical(other.id, id) || other.id == id)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.companyId, companyId) || other.companyId == companyId)&&(identical(other.pricePackPur, pricePackPur) || other.pricePackPur == pricePackPur)&&(identical(other.retailPrice, retailPrice) || other.retailPrice == retailPrice)&&(identical(other.discRatioPur, discRatioPur) || other.discRatioPur == discRatioPur)&&(identical(other.saleDiscRatio, saleDiscRatio) || other.saleDiscRatio == saleDiscRatio)&&(identical(other.pricePackSal1, pricePackSal1) || other.pricePackSal1 == pricePackSal1)&&(identical(other.pricePackSal2, pricePackSal2) || other.pricePackSal2 == pricePackSal2)&&(identical(other.pricePackSal3, pricePackSal3) || other.pricePackSal3 == pricePackSal3)&&(identical(other.discRatioSal1, discRatioSal1) || other.discRatioSal1 == discRatioSal1)&&(identical(other.discRatioSal2, discRatioSal2) || other.discRatioSal2 == discRatioSal2)&&(identical(other.discRatioSal3, discRatioSal3) || other.discRatioSal3 == discRatioSal3)&&(identical(other.sTaxRatio, sTaxRatio) || other.sTaxRatio == sTaxRatio)&&(identical(other.sTaxValPack, sTaxValPack) || other.sTaxValPack == sTaxValPack)&&(identical(other.isSTaxOnBnsSal, isSTaxOnBnsSal) || other.isSTaxOnBnsSal == isSTaxOnBnsSal)&&(identical(other.displayOrder, displayOrder) || other.displayOrder == displayOrder)&&(identical(other.tradePrice, tradePrice) || other.tradePrice == tradePrice)&&const DeepCollectionEquality().equals(other.packings, packings));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,companyId,strCompanyId,productId,groupId,productName,packing,tradePrice,saleDiscRatio,currentStock,isInActive,id,tenantId);
+int get hashCode => Object.hashAll([runtimeType,id,productName,companyId,pricePackPur,retailPrice,discRatioPur,saleDiscRatio,pricePackSal1,pricePackSal2,pricePackSal3,discRatioSal1,discRatioSal2,discRatioSal3,sTaxRatio,sTaxValPack,isSTaxOnBnsSal,displayOrder,tradePrice,const DeepCollectionEquality().hash(packings)]);
 
 @override
 String toString() {
-  return 'GetAllProductsModel(companyId: $companyId, strCompanyId: $strCompanyId, productId: $productId, groupId: $groupId, productName: $productName, packing: $packing, tradePrice: $tradePrice, saleDiscRatio: $saleDiscRatio, currentStock: $currentStock, isInActive: $isInActive, id: $id, tenantId: $tenantId)';
+  return 'GetAllProductsModel(id: $id, productName: $productName, companyId: $companyId, pricePackPur: $pricePackPur, retailPrice: $retailPrice, discRatioPur: $discRatioPur, saleDiscRatio: $saleDiscRatio, pricePackSal1: $pricePackSal1, pricePackSal2: $pricePackSal2, pricePackSal3: $pricePackSal3, discRatioSal1: $discRatioSal1, discRatioSal2: $discRatioSal2, discRatioSal3: $discRatioSal3, sTaxRatio: $sTaxRatio, sTaxValPack: $sTaxValPack, isSTaxOnBnsSal: $isSTaxOnBnsSal, displayOrder: $displayOrder, tradePrice: $tradePrice, packings: $packings)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $GetAllProductsModelCopyWith<$Res>  {
   factory $GetAllProductsModelCopyWith(GetAllProductsModel value, $Res Function(GetAllProductsModel) _then) = _$GetAllProductsModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'CompanyId') int? companyId,@JsonKey(name: 'StrCompanyId') String? strCompanyId,@JsonKey(name: 'ProductId') String? productId,@JsonKey(name: 'GroupId') int? groupId,@JsonKey(name: 'ProductName') String? productName,@JsonKey(name: 'Packing') String? packing,@JsonKey(name: 'TradePrice') double? tradePrice,@JsonKey(name: 'SaleDiscRatio') double? saleDiscRatio,@JsonKey(name: 'CurrentStock') int? currentStock,@JsonKey(name: 'IsInActive') bool? isInActive,@JsonKey(name: 'ID') int? id,@JsonKey(name: 'TenantID') int? tenantId
+@JsonKey(name: "id") int? id,@JsonKey(name: "productName") String? productName,@JsonKey(name: "companyId") int? companyId,@JsonKey(name: "pricePackPur") int? pricePackPur,@JsonKey(name: "retailPrice") int? retailPrice,@JsonKey(name: "discRatioPur") int? discRatioPur,@JsonKey(name: "saleDiscRatio") int? saleDiscRatio,@JsonKey(name: "pricePackSal1") int? pricePackSal1,@JsonKey(name: "pricePackSal2") int? pricePackSal2,@JsonKey(name: "pricePackSal3") int? pricePackSal3,@JsonKey(name: "discRatioSal1") int? discRatioSal1,@JsonKey(name: "discRatioSal2") int? discRatioSal2,@JsonKey(name: "discRatioSal3") int? discRatioSal3,@JsonKey(name: "sTaxRatio") int? sTaxRatio,@JsonKey(name: "sTaxValPack") int? sTaxValPack,@JsonKey(name: "isSTaxOnBnsSal") bool? isSTaxOnBnsSal,@JsonKey(name: "displayOrder") int? displayOrder,@JsonKey(name: "tradePrice") int? tradePrice,@JsonKey(name: "packings") List<dynamic>? packings
 });
 
 
@@ -65,21 +65,28 @@ class _$GetAllProductsModelCopyWithImpl<$Res>
 
 /// Create a copy of GetAllProductsModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? companyId = freezed,Object? strCompanyId = freezed,Object? productId = freezed,Object? groupId = freezed,Object? productName = freezed,Object? packing = freezed,Object? tradePrice = freezed,Object? saleDiscRatio = freezed,Object? currentStock = freezed,Object? isInActive = freezed,Object? id = freezed,Object? tenantId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? productName = freezed,Object? companyId = freezed,Object? pricePackPur = freezed,Object? retailPrice = freezed,Object? discRatioPur = freezed,Object? saleDiscRatio = freezed,Object? pricePackSal1 = freezed,Object? pricePackSal2 = freezed,Object? pricePackSal3 = freezed,Object? discRatioSal1 = freezed,Object? discRatioSal2 = freezed,Object? discRatioSal3 = freezed,Object? sTaxRatio = freezed,Object? sTaxValPack = freezed,Object? isSTaxOnBnsSal = freezed,Object? displayOrder = freezed,Object? tradePrice = freezed,Object? packings = freezed,}) {
   return _then(_self.copyWith(
-companyId: freezed == companyId ? _self.companyId : companyId // ignore: cast_nullable_to_non_nullable
-as int?,strCompanyId: freezed == strCompanyId ? _self.strCompanyId : strCompanyId // ignore: cast_nullable_to_non_nullable
-as String?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
-as String?,groupId: freezed == groupId ? _self.groupId : groupId // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
-as String?,packing: freezed == packing ? _self.packing : packing // ignore: cast_nullable_to_non_nullable
-as String?,tradePrice: freezed == tradePrice ? _self.tradePrice : tradePrice // ignore: cast_nullable_to_non_nullable
-as double?,saleDiscRatio: freezed == saleDiscRatio ? _self.saleDiscRatio : saleDiscRatio // ignore: cast_nullable_to_non_nullable
-as double?,currentStock: freezed == currentStock ? _self.currentStock : currentStock // ignore: cast_nullable_to_non_nullable
-as int?,isInActive: freezed == isInActive ? _self.isInActive : isInActive // ignore: cast_nullable_to_non_nullable
-as bool?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as int?,
+as String?,companyId: freezed == companyId ? _self.companyId : companyId // ignore: cast_nullable_to_non_nullable
+as int?,pricePackPur: freezed == pricePackPur ? _self.pricePackPur : pricePackPur // ignore: cast_nullable_to_non_nullable
+as int?,retailPrice: freezed == retailPrice ? _self.retailPrice : retailPrice // ignore: cast_nullable_to_non_nullable
+as int?,discRatioPur: freezed == discRatioPur ? _self.discRatioPur : discRatioPur // ignore: cast_nullable_to_non_nullable
+as int?,saleDiscRatio: freezed == saleDiscRatio ? _self.saleDiscRatio : saleDiscRatio // ignore: cast_nullable_to_non_nullable
+as int?,pricePackSal1: freezed == pricePackSal1 ? _self.pricePackSal1 : pricePackSal1 // ignore: cast_nullable_to_non_nullable
+as int?,pricePackSal2: freezed == pricePackSal2 ? _self.pricePackSal2 : pricePackSal2 // ignore: cast_nullable_to_non_nullable
+as int?,pricePackSal3: freezed == pricePackSal3 ? _self.pricePackSal3 : pricePackSal3 // ignore: cast_nullable_to_non_nullable
+as int?,discRatioSal1: freezed == discRatioSal1 ? _self.discRatioSal1 : discRatioSal1 // ignore: cast_nullable_to_non_nullable
+as int?,discRatioSal2: freezed == discRatioSal2 ? _self.discRatioSal2 : discRatioSal2 // ignore: cast_nullable_to_non_nullable
+as int?,discRatioSal3: freezed == discRatioSal3 ? _self.discRatioSal3 : discRatioSal3 // ignore: cast_nullable_to_non_nullable
+as int?,sTaxRatio: freezed == sTaxRatio ? _self.sTaxRatio : sTaxRatio // ignore: cast_nullable_to_non_nullable
+as int?,sTaxValPack: freezed == sTaxValPack ? _self.sTaxValPack : sTaxValPack // ignore: cast_nullable_to_non_nullable
+as int?,isSTaxOnBnsSal: freezed == isSTaxOnBnsSal ? _self.isSTaxOnBnsSal : isSTaxOnBnsSal // ignore: cast_nullable_to_non_nullable
+as bool?,displayOrder: freezed == displayOrder ? _self.displayOrder : displayOrder // ignore: cast_nullable_to_non_nullable
+as int?,tradePrice: freezed == tradePrice ? _self.tradePrice : tradePrice // ignore: cast_nullable_to_non_nullable
+as int?,packings: freezed == packings ? _self.packings : packings // ignore: cast_nullable_to_non_nullable
+as List<dynamic>?,
   ));
 }
 
@@ -164,10 +171,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'CompanyId')  int? companyId, @JsonKey(name: 'StrCompanyId')  String? strCompanyId, @JsonKey(name: 'ProductId')  String? productId, @JsonKey(name: 'GroupId')  int? groupId, @JsonKey(name: 'ProductName')  String? productName, @JsonKey(name: 'Packing')  String? packing, @JsonKey(name: 'TradePrice')  double? tradePrice, @JsonKey(name: 'SaleDiscRatio')  double? saleDiscRatio, @JsonKey(name: 'CurrentStock')  int? currentStock, @JsonKey(name: 'IsInActive')  bool? isInActive, @JsonKey(name: 'ID')  int? id, @JsonKey(name: 'TenantID')  int? tenantId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "productName")  String? productName, @JsonKey(name: "companyId")  int? companyId, @JsonKey(name: "pricePackPur")  int? pricePackPur, @JsonKey(name: "retailPrice")  int? retailPrice, @JsonKey(name: "discRatioPur")  int? discRatioPur, @JsonKey(name: "saleDiscRatio")  int? saleDiscRatio, @JsonKey(name: "pricePackSal1")  int? pricePackSal1, @JsonKey(name: "pricePackSal2")  int? pricePackSal2, @JsonKey(name: "pricePackSal3")  int? pricePackSal3, @JsonKey(name: "discRatioSal1")  int? discRatioSal1, @JsonKey(name: "discRatioSal2")  int? discRatioSal2, @JsonKey(name: "discRatioSal3")  int? discRatioSal3, @JsonKey(name: "sTaxRatio")  int? sTaxRatio, @JsonKey(name: "sTaxValPack")  int? sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal")  bool? isSTaxOnBnsSal, @JsonKey(name: "displayOrder")  int? displayOrder, @JsonKey(name: "tradePrice")  int? tradePrice, @JsonKey(name: "packings")  List<dynamic>? packings)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GetAllProductsModel() when $default != null:
-return $default(_that.companyId,_that.strCompanyId,_that.productId,_that.groupId,_that.productName,_that.packing,_that.tradePrice,_that.saleDiscRatio,_that.currentStock,_that.isInActive,_that.id,_that.tenantId);case _:
+return $default(_that.id,_that.productName,_that.companyId,_that.pricePackPur,_that.retailPrice,_that.discRatioPur,_that.saleDiscRatio,_that.pricePackSal1,_that.pricePackSal2,_that.pricePackSal3,_that.discRatioSal1,_that.discRatioSal2,_that.discRatioSal3,_that.sTaxRatio,_that.sTaxValPack,_that.isSTaxOnBnsSal,_that.displayOrder,_that.tradePrice,_that.packings);case _:
   return orElse();
 
 }
@@ -185,10 +192,10 @@ return $default(_that.companyId,_that.strCompanyId,_that.productId,_that.groupId
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'CompanyId')  int? companyId, @JsonKey(name: 'StrCompanyId')  String? strCompanyId, @JsonKey(name: 'ProductId')  String? productId, @JsonKey(name: 'GroupId')  int? groupId, @JsonKey(name: 'ProductName')  String? productName, @JsonKey(name: 'Packing')  String? packing, @JsonKey(name: 'TradePrice')  double? tradePrice, @JsonKey(name: 'SaleDiscRatio')  double? saleDiscRatio, @JsonKey(name: 'CurrentStock')  int? currentStock, @JsonKey(name: 'IsInActive')  bool? isInActive, @JsonKey(name: 'ID')  int? id, @JsonKey(name: 'TenantID')  int? tenantId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "productName")  String? productName, @JsonKey(name: "companyId")  int? companyId, @JsonKey(name: "pricePackPur")  int? pricePackPur, @JsonKey(name: "retailPrice")  int? retailPrice, @JsonKey(name: "discRatioPur")  int? discRatioPur, @JsonKey(name: "saleDiscRatio")  int? saleDiscRatio, @JsonKey(name: "pricePackSal1")  int? pricePackSal1, @JsonKey(name: "pricePackSal2")  int? pricePackSal2, @JsonKey(name: "pricePackSal3")  int? pricePackSal3, @JsonKey(name: "discRatioSal1")  int? discRatioSal1, @JsonKey(name: "discRatioSal2")  int? discRatioSal2, @JsonKey(name: "discRatioSal3")  int? discRatioSal3, @JsonKey(name: "sTaxRatio")  int? sTaxRatio, @JsonKey(name: "sTaxValPack")  int? sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal")  bool? isSTaxOnBnsSal, @JsonKey(name: "displayOrder")  int? displayOrder, @JsonKey(name: "tradePrice")  int? tradePrice, @JsonKey(name: "packings")  List<dynamic>? packings)  $default,) {final _that = this;
 switch (_that) {
 case _GetAllProductsModel():
-return $default(_that.companyId,_that.strCompanyId,_that.productId,_that.groupId,_that.productName,_that.packing,_that.tradePrice,_that.saleDiscRatio,_that.currentStock,_that.isInActive,_that.id,_that.tenantId);case _:
+return $default(_that.id,_that.productName,_that.companyId,_that.pricePackPur,_that.retailPrice,_that.discRatioPur,_that.saleDiscRatio,_that.pricePackSal1,_that.pricePackSal2,_that.pricePackSal3,_that.discRatioSal1,_that.discRatioSal2,_that.discRatioSal3,_that.sTaxRatio,_that.sTaxValPack,_that.isSTaxOnBnsSal,_that.displayOrder,_that.tradePrice,_that.packings);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,10 +212,10 @@ return $default(_that.companyId,_that.strCompanyId,_that.productId,_that.groupId
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'CompanyId')  int? companyId, @JsonKey(name: 'StrCompanyId')  String? strCompanyId, @JsonKey(name: 'ProductId')  String? productId, @JsonKey(name: 'GroupId')  int? groupId, @JsonKey(name: 'ProductName')  String? productName, @JsonKey(name: 'Packing')  String? packing, @JsonKey(name: 'TradePrice')  double? tradePrice, @JsonKey(name: 'SaleDiscRatio')  double? saleDiscRatio, @JsonKey(name: 'CurrentStock')  int? currentStock, @JsonKey(name: 'IsInActive')  bool? isInActive, @JsonKey(name: 'ID')  int? id, @JsonKey(name: 'TenantID')  int? tenantId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "productName")  String? productName, @JsonKey(name: "companyId")  int? companyId, @JsonKey(name: "pricePackPur")  int? pricePackPur, @JsonKey(name: "retailPrice")  int? retailPrice, @JsonKey(name: "discRatioPur")  int? discRatioPur, @JsonKey(name: "saleDiscRatio")  int? saleDiscRatio, @JsonKey(name: "pricePackSal1")  int? pricePackSal1, @JsonKey(name: "pricePackSal2")  int? pricePackSal2, @JsonKey(name: "pricePackSal3")  int? pricePackSal3, @JsonKey(name: "discRatioSal1")  int? discRatioSal1, @JsonKey(name: "discRatioSal2")  int? discRatioSal2, @JsonKey(name: "discRatioSal3")  int? discRatioSal3, @JsonKey(name: "sTaxRatio")  int? sTaxRatio, @JsonKey(name: "sTaxValPack")  int? sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal")  bool? isSTaxOnBnsSal, @JsonKey(name: "displayOrder")  int? displayOrder, @JsonKey(name: "tradePrice")  int? tradePrice, @JsonKey(name: "packings")  List<dynamic>? packings)?  $default,) {final _that = this;
 switch (_that) {
 case _GetAllProductsModel() when $default != null:
-return $default(_that.companyId,_that.strCompanyId,_that.productId,_that.groupId,_that.productName,_that.packing,_that.tradePrice,_that.saleDiscRatio,_that.currentStock,_that.isInActive,_that.id,_that.tenantId);case _:
+return $default(_that.id,_that.productName,_that.companyId,_that.pricePackPur,_that.retailPrice,_that.discRatioPur,_that.saleDiscRatio,_that.pricePackSal1,_that.pricePackSal2,_that.pricePackSal3,_that.discRatioSal1,_that.discRatioSal2,_that.discRatioSal3,_that.sTaxRatio,_that.sTaxValPack,_that.isSTaxOnBnsSal,_that.displayOrder,_that.tradePrice,_that.packings);case _:
   return null;
 
 }
@@ -220,21 +227,36 @@ return $default(_that.companyId,_that.strCompanyId,_that.productId,_that.groupId
 @JsonSerializable()
 
 class _GetAllProductsModel implements GetAllProductsModel {
-  const _GetAllProductsModel({@JsonKey(name: 'CompanyId') this.companyId, @JsonKey(name: 'StrCompanyId') this.strCompanyId, @JsonKey(name: 'ProductId') this.productId, @JsonKey(name: 'GroupId') this.groupId, @JsonKey(name: 'ProductName') this.productName, @JsonKey(name: 'Packing') this.packing, @JsonKey(name: 'TradePrice') this.tradePrice, @JsonKey(name: 'SaleDiscRatio') this.saleDiscRatio, @JsonKey(name: 'CurrentStock') this.currentStock, @JsonKey(name: 'IsInActive') this.isInActive, @JsonKey(name: 'ID') this.id, @JsonKey(name: 'TenantID') this.tenantId});
+  const _GetAllProductsModel({@JsonKey(name: "id") this.id, @JsonKey(name: "productName") this.productName, @JsonKey(name: "companyId") this.companyId, @JsonKey(name: "pricePackPur") this.pricePackPur, @JsonKey(name: "retailPrice") this.retailPrice, @JsonKey(name: "discRatioPur") this.discRatioPur, @JsonKey(name: "saleDiscRatio") this.saleDiscRatio, @JsonKey(name: "pricePackSal1") this.pricePackSal1, @JsonKey(name: "pricePackSal2") this.pricePackSal2, @JsonKey(name: "pricePackSal3") this.pricePackSal3, @JsonKey(name: "discRatioSal1") this.discRatioSal1, @JsonKey(name: "discRatioSal2") this.discRatioSal2, @JsonKey(name: "discRatioSal3") this.discRatioSal3, @JsonKey(name: "sTaxRatio") this.sTaxRatio, @JsonKey(name: "sTaxValPack") this.sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal") this.isSTaxOnBnsSal, @JsonKey(name: "displayOrder") this.displayOrder, @JsonKey(name: "tradePrice") this.tradePrice, @JsonKey(name: "packings") final  List<dynamic>? packings}): _packings = packings;
   factory _GetAllProductsModel.fromJson(Map<String, dynamic> json) => _$GetAllProductsModelFromJson(json);
 
-@override@JsonKey(name: 'CompanyId') final  int? companyId;
-@override@JsonKey(name: 'StrCompanyId') final  String? strCompanyId;
-@override@JsonKey(name: 'ProductId') final  String? productId;
-@override@JsonKey(name: 'GroupId') final  int? groupId;
-@override@JsonKey(name: 'ProductName') final  String? productName;
-@override@JsonKey(name: 'Packing') final  String? packing;
-@override@JsonKey(name: 'TradePrice') final  double? tradePrice;
-@override@JsonKey(name: 'SaleDiscRatio') final  double? saleDiscRatio;
-@override@JsonKey(name: 'CurrentStock') final  int? currentStock;
-@override@JsonKey(name: 'IsInActive') final  bool? isInActive;
-@override@JsonKey(name: 'ID') final  int? id;
-@override@JsonKey(name: 'TenantID') final  int? tenantId;
+@override@JsonKey(name: "id") final  int? id;
+@override@JsonKey(name: "productName") final  String? productName;
+@override@JsonKey(name: "companyId") final  int? companyId;
+@override@JsonKey(name: "pricePackPur") final  int? pricePackPur;
+@override@JsonKey(name: "retailPrice") final  int? retailPrice;
+@override@JsonKey(name: "discRatioPur") final  int? discRatioPur;
+@override@JsonKey(name: "saleDiscRatio") final  int? saleDiscRatio;
+@override@JsonKey(name: "pricePackSal1") final  int? pricePackSal1;
+@override@JsonKey(name: "pricePackSal2") final  int? pricePackSal2;
+@override@JsonKey(name: "pricePackSal3") final  int? pricePackSal3;
+@override@JsonKey(name: "discRatioSal1") final  int? discRatioSal1;
+@override@JsonKey(name: "discRatioSal2") final  int? discRatioSal2;
+@override@JsonKey(name: "discRatioSal3") final  int? discRatioSal3;
+@override@JsonKey(name: "sTaxRatio") final  int? sTaxRatio;
+@override@JsonKey(name: "sTaxValPack") final  int? sTaxValPack;
+@override@JsonKey(name: "isSTaxOnBnsSal") final  bool? isSTaxOnBnsSal;
+@override@JsonKey(name: "displayOrder") final  int? displayOrder;
+@override@JsonKey(name: "tradePrice") final  int? tradePrice;
+ final  List<dynamic>? _packings;
+@override@JsonKey(name: "packings") List<dynamic>? get packings {
+  final value = _packings;
+  if (value == null) return null;
+  if (_packings is EqualUnmodifiableListView) return _packings;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of GetAllProductsModel
 /// with the given fields replaced by the non-null parameter values.
@@ -249,16 +271,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetAllProductsModel&&(identical(other.companyId, companyId) || other.companyId == companyId)&&(identical(other.strCompanyId, strCompanyId) || other.strCompanyId == strCompanyId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.groupId, groupId) || other.groupId == groupId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.packing, packing) || other.packing == packing)&&(identical(other.tradePrice, tradePrice) || other.tradePrice == tradePrice)&&(identical(other.saleDiscRatio, saleDiscRatio) || other.saleDiscRatio == saleDiscRatio)&&(identical(other.currentStock, currentStock) || other.currentStock == currentStock)&&(identical(other.isInActive, isInActive) || other.isInActive == isInActive)&&(identical(other.id, id) || other.id == id)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetAllProductsModel&&(identical(other.id, id) || other.id == id)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.companyId, companyId) || other.companyId == companyId)&&(identical(other.pricePackPur, pricePackPur) || other.pricePackPur == pricePackPur)&&(identical(other.retailPrice, retailPrice) || other.retailPrice == retailPrice)&&(identical(other.discRatioPur, discRatioPur) || other.discRatioPur == discRatioPur)&&(identical(other.saleDiscRatio, saleDiscRatio) || other.saleDiscRatio == saleDiscRatio)&&(identical(other.pricePackSal1, pricePackSal1) || other.pricePackSal1 == pricePackSal1)&&(identical(other.pricePackSal2, pricePackSal2) || other.pricePackSal2 == pricePackSal2)&&(identical(other.pricePackSal3, pricePackSal3) || other.pricePackSal3 == pricePackSal3)&&(identical(other.discRatioSal1, discRatioSal1) || other.discRatioSal1 == discRatioSal1)&&(identical(other.discRatioSal2, discRatioSal2) || other.discRatioSal2 == discRatioSal2)&&(identical(other.discRatioSal3, discRatioSal3) || other.discRatioSal3 == discRatioSal3)&&(identical(other.sTaxRatio, sTaxRatio) || other.sTaxRatio == sTaxRatio)&&(identical(other.sTaxValPack, sTaxValPack) || other.sTaxValPack == sTaxValPack)&&(identical(other.isSTaxOnBnsSal, isSTaxOnBnsSal) || other.isSTaxOnBnsSal == isSTaxOnBnsSal)&&(identical(other.displayOrder, displayOrder) || other.displayOrder == displayOrder)&&(identical(other.tradePrice, tradePrice) || other.tradePrice == tradePrice)&&const DeepCollectionEquality().equals(other._packings, _packings));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,companyId,strCompanyId,productId,groupId,productName,packing,tradePrice,saleDiscRatio,currentStock,isInActive,id,tenantId);
+int get hashCode => Object.hashAll([runtimeType,id,productName,companyId,pricePackPur,retailPrice,discRatioPur,saleDiscRatio,pricePackSal1,pricePackSal2,pricePackSal3,discRatioSal1,discRatioSal2,discRatioSal3,sTaxRatio,sTaxValPack,isSTaxOnBnsSal,displayOrder,tradePrice,const DeepCollectionEquality().hash(_packings)]);
 
 @override
 String toString() {
-  return 'GetAllProductsModel(companyId: $companyId, strCompanyId: $strCompanyId, productId: $productId, groupId: $groupId, productName: $productName, packing: $packing, tradePrice: $tradePrice, saleDiscRatio: $saleDiscRatio, currentStock: $currentStock, isInActive: $isInActive, id: $id, tenantId: $tenantId)';
+  return 'GetAllProductsModel(id: $id, productName: $productName, companyId: $companyId, pricePackPur: $pricePackPur, retailPrice: $retailPrice, discRatioPur: $discRatioPur, saleDiscRatio: $saleDiscRatio, pricePackSal1: $pricePackSal1, pricePackSal2: $pricePackSal2, pricePackSal3: $pricePackSal3, discRatioSal1: $discRatioSal1, discRatioSal2: $discRatioSal2, discRatioSal3: $discRatioSal3, sTaxRatio: $sTaxRatio, sTaxValPack: $sTaxValPack, isSTaxOnBnsSal: $isSTaxOnBnsSal, displayOrder: $displayOrder, tradePrice: $tradePrice, packings: $packings)';
 }
 
 
@@ -269,7 +291,7 @@ abstract mixin class _$GetAllProductsModelCopyWith<$Res> implements $GetAllProdu
   factory _$GetAllProductsModelCopyWith(_GetAllProductsModel value, $Res Function(_GetAllProductsModel) _then) = __$GetAllProductsModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'CompanyId') int? companyId,@JsonKey(name: 'StrCompanyId') String? strCompanyId,@JsonKey(name: 'ProductId') String? productId,@JsonKey(name: 'GroupId') int? groupId,@JsonKey(name: 'ProductName') String? productName,@JsonKey(name: 'Packing') String? packing,@JsonKey(name: 'TradePrice') double? tradePrice,@JsonKey(name: 'SaleDiscRatio') double? saleDiscRatio,@JsonKey(name: 'CurrentStock') int? currentStock,@JsonKey(name: 'IsInActive') bool? isInActive,@JsonKey(name: 'ID') int? id,@JsonKey(name: 'TenantID') int? tenantId
+@JsonKey(name: "id") int? id,@JsonKey(name: "productName") String? productName,@JsonKey(name: "companyId") int? companyId,@JsonKey(name: "pricePackPur") int? pricePackPur,@JsonKey(name: "retailPrice") int? retailPrice,@JsonKey(name: "discRatioPur") int? discRatioPur,@JsonKey(name: "saleDiscRatio") int? saleDiscRatio,@JsonKey(name: "pricePackSal1") int? pricePackSal1,@JsonKey(name: "pricePackSal2") int? pricePackSal2,@JsonKey(name: "pricePackSal3") int? pricePackSal3,@JsonKey(name: "discRatioSal1") int? discRatioSal1,@JsonKey(name: "discRatioSal2") int? discRatioSal2,@JsonKey(name: "discRatioSal3") int? discRatioSal3,@JsonKey(name: "sTaxRatio") int? sTaxRatio,@JsonKey(name: "sTaxValPack") int? sTaxValPack,@JsonKey(name: "isSTaxOnBnsSal") bool? isSTaxOnBnsSal,@JsonKey(name: "displayOrder") int? displayOrder,@JsonKey(name: "tradePrice") int? tradePrice,@JsonKey(name: "packings") List<dynamic>? packings
 });
 
 
@@ -286,21 +308,28 @@ class __$GetAllProductsModelCopyWithImpl<$Res>
 
 /// Create a copy of GetAllProductsModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? companyId = freezed,Object? strCompanyId = freezed,Object? productId = freezed,Object? groupId = freezed,Object? productName = freezed,Object? packing = freezed,Object? tradePrice = freezed,Object? saleDiscRatio = freezed,Object? currentStock = freezed,Object? isInActive = freezed,Object? id = freezed,Object? tenantId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? productName = freezed,Object? companyId = freezed,Object? pricePackPur = freezed,Object? retailPrice = freezed,Object? discRatioPur = freezed,Object? saleDiscRatio = freezed,Object? pricePackSal1 = freezed,Object? pricePackSal2 = freezed,Object? pricePackSal3 = freezed,Object? discRatioSal1 = freezed,Object? discRatioSal2 = freezed,Object? discRatioSal3 = freezed,Object? sTaxRatio = freezed,Object? sTaxValPack = freezed,Object? isSTaxOnBnsSal = freezed,Object? displayOrder = freezed,Object? tradePrice = freezed,Object? packings = freezed,}) {
   return _then(_GetAllProductsModel(
-companyId: freezed == companyId ? _self.companyId : companyId // ignore: cast_nullable_to_non_nullable
-as int?,strCompanyId: freezed == strCompanyId ? _self.strCompanyId : strCompanyId // ignore: cast_nullable_to_non_nullable
-as String?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
-as String?,groupId: freezed == groupId ? _self.groupId : groupId // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
-as String?,packing: freezed == packing ? _self.packing : packing // ignore: cast_nullable_to_non_nullable
-as String?,tradePrice: freezed == tradePrice ? _self.tradePrice : tradePrice // ignore: cast_nullable_to_non_nullable
-as double?,saleDiscRatio: freezed == saleDiscRatio ? _self.saleDiscRatio : saleDiscRatio // ignore: cast_nullable_to_non_nullable
-as double?,currentStock: freezed == currentStock ? _self.currentStock : currentStock // ignore: cast_nullable_to_non_nullable
-as int?,isInActive: freezed == isInActive ? _self.isInActive : isInActive // ignore: cast_nullable_to_non_nullable
-as bool?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as int?,
+as String?,companyId: freezed == companyId ? _self.companyId : companyId // ignore: cast_nullable_to_non_nullable
+as int?,pricePackPur: freezed == pricePackPur ? _self.pricePackPur : pricePackPur // ignore: cast_nullable_to_non_nullable
+as int?,retailPrice: freezed == retailPrice ? _self.retailPrice : retailPrice // ignore: cast_nullable_to_non_nullable
+as int?,discRatioPur: freezed == discRatioPur ? _self.discRatioPur : discRatioPur // ignore: cast_nullable_to_non_nullable
+as int?,saleDiscRatio: freezed == saleDiscRatio ? _self.saleDiscRatio : saleDiscRatio // ignore: cast_nullable_to_non_nullable
+as int?,pricePackSal1: freezed == pricePackSal1 ? _self.pricePackSal1 : pricePackSal1 // ignore: cast_nullable_to_non_nullable
+as int?,pricePackSal2: freezed == pricePackSal2 ? _self.pricePackSal2 : pricePackSal2 // ignore: cast_nullable_to_non_nullable
+as int?,pricePackSal3: freezed == pricePackSal3 ? _self.pricePackSal3 : pricePackSal3 // ignore: cast_nullable_to_non_nullable
+as int?,discRatioSal1: freezed == discRatioSal1 ? _self.discRatioSal1 : discRatioSal1 // ignore: cast_nullable_to_non_nullable
+as int?,discRatioSal2: freezed == discRatioSal2 ? _self.discRatioSal2 : discRatioSal2 // ignore: cast_nullable_to_non_nullable
+as int?,discRatioSal3: freezed == discRatioSal3 ? _self.discRatioSal3 : discRatioSal3 // ignore: cast_nullable_to_non_nullable
+as int?,sTaxRatio: freezed == sTaxRatio ? _self.sTaxRatio : sTaxRatio // ignore: cast_nullable_to_non_nullable
+as int?,sTaxValPack: freezed == sTaxValPack ? _self.sTaxValPack : sTaxValPack // ignore: cast_nullable_to_non_nullable
+as int?,isSTaxOnBnsSal: freezed == isSTaxOnBnsSal ? _self.isSTaxOnBnsSal : isSTaxOnBnsSal // ignore: cast_nullable_to_non_nullable
+as bool?,displayOrder: freezed == displayOrder ? _self.displayOrder : displayOrder // ignore: cast_nullable_to_non_nullable
+as int?,tradePrice: freezed == tradePrice ? _self.tradePrice : tradePrice // ignore: cast_nullable_to_non_nullable
+as int?,packings: freezed == packings ? _self._packings : packings // ignore: cast_nullable_to_non_nullable
+as List<dynamic>?,
   ));
 }
 

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LoginResponseModel {
 
-@JsonKey(name: "UserId") String? get userId;@JsonKey(name: "SalesmanId") String? get salesmanId;@JsonKey(name: "UserName") String? get userName;@JsonKey(name: "CustomerKey") String? get customerKey;@JsonKey(name: "MaxDeviceOrderId") int? get maxDeviceOrderId;@JsonKey(name: "TenantID") String? get tenantId;@JsonKey(name: "Result") String? get result;
+@JsonKey(name: "token") String? get token;
 /// Create a copy of LoginResponseModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $LoginResponseModelCopyWith<LoginResponseModel> get copyWith => _$LoginResponseM
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginResponseModel&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.salesmanId, salesmanId) || other.salesmanId == salesmanId)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.customerKey, customerKey) || other.customerKey == customerKey)&&(identical(other.maxDeviceOrderId, maxDeviceOrderId) || other.maxDeviceOrderId == maxDeviceOrderId)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId)&&(identical(other.result, result) || other.result == result));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginResponseModel&&(identical(other.token, token) || other.token == token));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,salesmanId,userName,customerKey,maxDeviceOrderId,tenantId,result);
+int get hashCode => Object.hash(runtimeType,token);
 
 @override
 String toString() {
-  return 'LoginResponseModel(userId: $userId, salesmanId: $salesmanId, userName: $userName, customerKey: $customerKey, maxDeviceOrderId: $maxDeviceOrderId, tenantId: $tenantId, result: $result)';
+  return 'LoginResponseModel(token: $token)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $LoginResponseModelCopyWith<$Res>  {
   factory $LoginResponseModelCopyWith(LoginResponseModel value, $Res Function(LoginResponseModel) _then) = _$LoginResponseModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: "UserId") String? userId,@JsonKey(name: "SalesmanId") String? salesmanId,@JsonKey(name: "UserName") String? userName,@JsonKey(name: "CustomerKey") String? customerKey,@JsonKey(name: "MaxDeviceOrderId") int? maxDeviceOrderId,@JsonKey(name: "TenantID") String? tenantId,@JsonKey(name: "Result") String? result
+@JsonKey(name: "token") String? token
 });
 
 
@@ -65,15 +65,9 @@ class _$LoginResponseModelCopyWithImpl<$Res>
 
 /// Create a copy of LoginResponseModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = freezed,Object? salesmanId = freezed,Object? userName = freezed,Object? customerKey = freezed,Object? maxDeviceOrderId = freezed,Object? tenantId = freezed,Object? result = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? token = freezed,}) {
   return _then(_self.copyWith(
-userId: freezed == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as String?,salesmanId: freezed == salesmanId ? _self.salesmanId : salesmanId // ignore: cast_nullable_to_non_nullable
-as String?,userName: freezed == userName ? _self.userName : userName // ignore: cast_nullable_to_non_nullable
-as String?,customerKey: freezed == customerKey ? _self.customerKey : customerKey // ignore: cast_nullable_to_non_nullable
-as String?,maxDeviceOrderId: freezed == maxDeviceOrderId ? _self.maxDeviceOrderId : maxDeviceOrderId // ignore: cast_nullable_to_non_nullable
-as int?,tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as String?,result: freezed == result ? _self.result : result // ignore: cast_nullable_to_non_nullable
+token: freezed == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -159,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "UserId")  String? userId, @JsonKey(name: "SalesmanId")  String? salesmanId, @JsonKey(name: "UserName")  String? userName, @JsonKey(name: "CustomerKey")  String? customerKey, @JsonKey(name: "MaxDeviceOrderId")  int? maxDeviceOrderId, @JsonKey(name: "TenantID")  String? tenantId, @JsonKey(name: "Result")  String? result)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "token")  String? token)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoginResponseModel() when $default != null:
-return $default(_that.userId,_that.salesmanId,_that.userName,_that.customerKey,_that.maxDeviceOrderId,_that.tenantId,_that.result);case _:
+return $default(_that.token);case _:
   return orElse();
 
 }
@@ -180,10 +174,10 @@ return $default(_that.userId,_that.salesmanId,_that.userName,_that.customerKey,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "UserId")  String? userId, @JsonKey(name: "SalesmanId")  String? salesmanId, @JsonKey(name: "UserName")  String? userName, @JsonKey(name: "CustomerKey")  String? customerKey, @JsonKey(name: "MaxDeviceOrderId")  int? maxDeviceOrderId, @JsonKey(name: "TenantID")  String? tenantId, @JsonKey(name: "Result")  String? result)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "token")  String? token)  $default,) {final _that = this;
 switch (_that) {
 case _LoginResponseModel():
-return $default(_that.userId,_that.salesmanId,_that.userName,_that.customerKey,_that.maxDeviceOrderId,_that.tenantId,_that.result);case _:
+return $default(_that.token);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +194,10 @@ return $default(_that.userId,_that.salesmanId,_that.userName,_that.customerKey,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "UserId")  String? userId, @JsonKey(name: "SalesmanId")  String? salesmanId, @JsonKey(name: "UserName")  String? userName, @JsonKey(name: "CustomerKey")  String? customerKey, @JsonKey(name: "MaxDeviceOrderId")  int? maxDeviceOrderId, @JsonKey(name: "TenantID")  String? tenantId, @JsonKey(name: "Result")  String? result)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "token")  String? token)?  $default,) {final _that = this;
 switch (_that) {
 case _LoginResponseModel() when $default != null:
-return $default(_that.userId,_that.salesmanId,_that.userName,_that.customerKey,_that.maxDeviceOrderId,_that.tenantId,_that.result);case _:
+return $default(_that.token);case _:
   return null;
 
 }
@@ -215,16 +209,10 @@ return $default(_that.userId,_that.salesmanId,_that.userName,_that.customerKey,_
 @JsonSerializable()
 
 class _LoginResponseModel implements LoginResponseModel {
-  const _LoginResponseModel({@JsonKey(name: "UserId") this.userId, @JsonKey(name: "SalesmanId") this.salesmanId, @JsonKey(name: "UserName") this.userName, @JsonKey(name: "CustomerKey") this.customerKey, @JsonKey(name: "MaxDeviceOrderId") this.maxDeviceOrderId, @JsonKey(name: "TenantID") this.tenantId, @JsonKey(name: "Result") this.result});
+  const _LoginResponseModel({@JsonKey(name: "token") this.token});
   factory _LoginResponseModel.fromJson(Map<String, dynamic> json) => _$LoginResponseModelFromJson(json);
 
-@override@JsonKey(name: "UserId") final  String? userId;
-@override@JsonKey(name: "SalesmanId") final  String? salesmanId;
-@override@JsonKey(name: "UserName") final  String? userName;
-@override@JsonKey(name: "CustomerKey") final  String? customerKey;
-@override@JsonKey(name: "MaxDeviceOrderId") final  int? maxDeviceOrderId;
-@override@JsonKey(name: "TenantID") final  String? tenantId;
-@override@JsonKey(name: "Result") final  String? result;
+@override@JsonKey(name: "token") final  String? token;
 
 /// Create a copy of LoginResponseModel
 /// with the given fields replaced by the non-null parameter values.
@@ -239,16 +227,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginResponseModel&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.salesmanId, salesmanId) || other.salesmanId == salesmanId)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.customerKey, customerKey) || other.customerKey == customerKey)&&(identical(other.maxDeviceOrderId, maxDeviceOrderId) || other.maxDeviceOrderId == maxDeviceOrderId)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId)&&(identical(other.result, result) || other.result == result));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginResponseModel&&(identical(other.token, token) || other.token == token));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,salesmanId,userName,customerKey,maxDeviceOrderId,tenantId,result);
+int get hashCode => Object.hash(runtimeType,token);
 
 @override
 String toString() {
-  return 'LoginResponseModel(userId: $userId, salesmanId: $salesmanId, userName: $userName, customerKey: $customerKey, maxDeviceOrderId: $maxDeviceOrderId, tenantId: $tenantId, result: $result)';
+  return 'LoginResponseModel(token: $token)';
 }
 
 
@@ -259,7 +247,7 @@ abstract mixin class _$LoginResponseModelCopyWith<$Res> implements $LoginRespons
   factory _$LoginResponseModelCopyWith(_LoginResponseModel value, $Res Function(_LoginResponseModel) _then) = __$LoginResponseModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: "UserId") String? userId,@JsonKey(name: "SalesmanId") String? salesmanId,@JsonKey(name: "UserName") String? userName,@JsonKey(name: "CustomerKey") String? customerKey,@JsonKey(name: "MaxDeviceOrderId") int? maxDeviceOrderId,@JsonKey(name: "TenantID") String? tenantId,@JsonKey(name: "Result") String? result
+@JsonKey(name: "token") String? token
 });
 
 
@@ -276,15 +264,9 @@ class __$LoginResponseModelCopyWithImpl<$Res>
 
 /// Create a copy of LoginResponseModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = freezed,Object? salesmanId = freezed,Object? userName = freezed,Object? customerKey = freezed,Object? maxDeviceOrderId = freezed,Object? tenantId = freezed,Object? result = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? token = freezed,}) {
   return _then(_LoginResponseModel(
-userId: freezed == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as String?,salesmanId: freezed == salesmanId ? _self.salesmanId : salesmanId // ignore: cast_nullable_to_non_nullable
-as String?,userName: freezed == userName ? _self.userName : userName // ignore: cast_nullable_to_non_nullable
-as String?,customerKey: freezed == customerKey ? _self.customerKey : customerKey // ignore: cast_nullable_to_non_nullable
-as String?,maxDeviceOrderId: freezed == maxDeviceOrderId ? _self.maxDeviceOrderId : maxDeviceOrderId // ignore: cast_nullable_to_non_nullable
-as int?,tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as String?,result: freezed == result ? _self.result : result // ignore: cast_nullable_to_non_nullable
+token: freezed == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

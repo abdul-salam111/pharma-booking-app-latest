@@ -5,15 +5,8 @@ part 'login_response_model.g.dart';
 
 @freezed
 abstract class LoginResponseModel with _$LoginResponseModel {
-  const factory LoginResponseModel({
-    @JsonKey(name: "UserId") String? userId,
-    @JsonKey(name: "SalesmanId") String? salesmanId,
-    @JsonKey(name: "UserName") String? userName,
-    @JsonKey(name: "CustomerKey") String? customerKey,
-    @JsonKey(name: "MaxDeviceOrderId") int? maxDeviceOrderId,
-    @JsonKey(name: "TenantID") String? tenantId,
-    @JsonKey(name: "Result") String? result,
-  }) = _LoginResponseModel;
+  const factory LoginResponseModel({@JsonKey(name: "token") String? token}) =
+      _LoginResponseModel;
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseModelFromJson(json);

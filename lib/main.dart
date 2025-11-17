@@ -20,6 +20,8 @@ void main() async {
 
 class AppBindings extends Bindings {
   @override
+
+  
   void dependencies() {
     Get.put(DioHelper(), permanent: true);
     Get.put(PharmaDatabase()..initializeDatabase(), permanent: true);

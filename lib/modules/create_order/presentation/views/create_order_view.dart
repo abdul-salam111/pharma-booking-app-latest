@@ -1,283 +1,283 @@
-// ignore_for_file: deprecated_member_use
+// // ignore_for_file: deprecated_member_use
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:iconsax/iconsax.dart';
 
-import '../../../../core/core.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../controllers/create_order_controller.dart';
+// import '../../../../core/core.dart';
+// import '../../../../core/widgets/widgets.dart';
+// import '../controllers/create_order_controller.dart';
 
-class CreateOrderView extends GetView<CreateOrderController> {
-  const CreateOrderView({super.key});
+// class CreateOrderView extends GetView<CreateOrderController> {
+//   const CreateOrderView({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvokedWithResult: (didPop, result) => false,
-      canPop: false,
-      child: Scaffold(
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              width: double.infinity,
-              color: AppColors.appPrimaryColor,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Order Items",
-                          style: context.bodySmallStyle!.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                        heightBox(5),
-                        Text(
-                          "Order Amount",
-                          style: context.bodySmallStyle!.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Obx(
-                          () => Text(
-                            "${controller.selectedProducts.length}", // Show count of distinct products
-                            style: context.bodySmallStyle!.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        heightBox(5),
-                        Obx(
-                          () => Text(
-                            controller.totalAmount.toDouble().withCommas,
-                            style: context.bodySmallStyle!.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+//   @override
+//   Widget build(BuildContext context) {
+//     return PopScope(
+//       onPopInvokedWithResult: (didPop, result) => false,
+//       canPop: false,
+//       child: Scaffold(
+//         bottomNavigationBar: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           mainAxisAlignment: MainAxisAlignment.end,
+//           children: [
+//             Container(
+//               width: double.infinity,
+//               color: AppColors.appPrimaryColor,
+//               child: Padding(
+//                 padding: const EdgeInsets.all(8.0),
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+//                     Column(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: [
+//                         Text(
+//                           "Order Items",
+//                           style: context.bodySmallStyle!.copyWith(
+//                             color: Colors.white,
+//                           ),
+//                         ),
+//                         heightBox(5),
+//                         Text(
+//                           "Order Amount",
+//                           style: context.bodySmallStyle!.copyWith(
+//                             color: Colors.white,
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                     Column(
+//                       crossAxisAlignment: CrossAxisAlignment.center,
+//                       children: [
+//                         Obx(
+//                           () => Text(
+//                             "${controller.selectedProducts.length}", // Show count of distinct products
+//                             style: context.bodySmallStyle!.copyWith(
+//                               color: Colors.white,
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                         ),
+//                         heightBox(5),
+//                         Obx(
+//                           () => Text(
+//                             controller.totalAmount.toDouble().withCommas,
+//                             style: context.bodySmallStyle!.copyWith(
+//                               color: Colors.white,
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
 
-                    Obx(
-                      () => controller.isSaving.value
-                          ? const CircularProgressIndicator()
-                          : SizedBox(
-                              width: 80,
-                              child: CustomButton(
-                                backgroundColor:
-                                    AppColors.appLightThemeBackground,
-                                text: controller.isEditing ? "Update" : "Save",
-                                fontsize: 14,
-                                onPressed: () {
-                                  controller.isEditing
-                                      ? controller.updateOrder()
-                                      : controller.saveOrder();
-                                },
-                                textColor: AppColors.blackTextColor,
-                              ),
-                            ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: context.screenWidth / 2,
-                  height: 50,
-                  child: CustomButton(
-                    radius: 0,
-                    text: "Add Products",
-                    fontsize: 14,
-                    onPressed: () {
-                      controller.addMoreProducts();
-                    },
-                    backgroundColor: Colors.green,
-                  ),
-                ),
-                SizedBox(
-                  width: context.screenWidth / 2,
-                  height: 50,
-                  child: CustomButton(
-                    radius: 0,
-                    text: "Close",
-                    fontsize: 14,
-                    onPressed: () {
-                      controller.closeOrder();
-                    },
-                    backgroundColor: Colors.red,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Column(
-            children: [
-              Text(
-                '${controller.selectedCustomer.value!.customerName}',
-                style: context.bodyMediumStyle!.copyWith(
-                  color: AppColors.whiteTextColor,
-                ),
-              ),
-              Text(
-                '${controller.selectedSector.value?.sectorName} - ${controller.selectedTown.value?.townName}',
-                style: context.displayLargeStyle!.copyWith(
-                  color: AppColors.whiteTextColor,
-                ),
-              ),
-            ],
-          ),
-          centerTitle: true,
-        ),
-        body: Padding(
-          padding: screenPadding,
-          child: Column(
-            children: [
-              heightBox(10),
-              CustomSearchField(
-                controller: controller.searchController,
+//                     Obx(
+//                       () => controller.isSaving.value
+//                           ? const CircularProgressIndicator()
+//                           : SizedBox(
+//                               width: 80,
+//                               child: CustomButton(
+//                                 backgroundColor:
+//                                     AppColors.appLightThemeBackground,
+//                                 text: controller.isEditing ? "Update" : "Save",
+//                                 fontsize: 14,
+//                                 onPressed: () {
+//                                   controller.isEditing
+//                                       ? controller.updateOrder()
+//                                       : controller.saveOrder();
+//                                 },
+//                                 textColor: AppColors.blackTextColor,
+//                               ),
+//                             ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//             Row(
+//               children: [
+//                 SizedBox(
+//                   width: context.screenWidth / 2,
+//                   height: 50,
+//                   child: CustomButton(
+//                     radius: 0,
+//                     text: "Add Products",
+//                     fontsize: 14,
+//                     onPressed: () {
+//                       controller.addMoreProducts();
+//                     },
+//                     backgroundColor: Colors.green,
+//                   ),
+//                 ),
+//                 SizedBox(
+//                   width: context.screenWidth / 2,
+//                   height: 50,
+//                   child: CustomButton(
+//                     radius: 0,
+//                     text: "Close",
+//                     fontsize: 14,
+//                     onPressed: () {
+//                       controller.closeOrder();
+//                     },
+//                     backgroundColor: Colors.red,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//         appBar: AppBar(
+//           automaticallyImplyLeading: false,
+//           title: Column(
+//             children: [
+//               Text(
+//                 '${controller.selectedCustomer.value!.customerName}',
+//                 style: context.bodyMediumStyle!.copyWith(
+//                   color: AppColors.whiteTextColor,
+//                 ),
+//               ),
+//               Text(
+//                 '${controller.selectedSector.value?.sectorName} - ${controller.selectedTown.value?.townName}',
+//                 style: context.displayLargeStyle!.copyWith(
+//                   color: AppColors.whiteTextColor,
+//                 ),
+//               ),
+//             ],
+//           ),
+//           centerTitle: true,
+//         ),
+//         body: Padding(
+//           padding: screenPadding,
+//           child: Column(
+//             children: [
+//               heightBox(10),
+//               CustomSearchField(
+//                 controller: controller.searchController,
 
-                hintText: "Search companies...",
-                onChanged: (query) {
-                  controller.filterCompanies();
-                },
-              ),
-              heightBox(10),
-              Obx(
-                () => controller.isLoading.value
-                    ? const Center(child: CircularProgressIndicator())
-                    : controller.filteredCompanies.isEmpty
-                    ? const Expanded(
-                        child: Center(
-                          child: Text(
-                            "No companies found with orders",
-                            style: TextStyle(color: Colors.grey, fontSize: 16),
-                          ),
-                        ),
-                      )
-                    : Expanded(
-                        child: ListView.separated(
-                          itemBuilder: (context, index) {
-                            final company = controller.filteredCompanies[index];
-                            final companyId = company.id.toString();
-                            final companyName =
-                                company.companyName ?? 'Unknown Company';
+//                 hintText: "Search companies...",
+//                 onChanged: (query) {
+//                   controller.filterCompanies();
+//                 },
+//               ),
+//               heightBox(10),
+//               Obx(
+//                 () => controller.isLoading.value
+//                     ? const Center(child: CircularProgressIndicator())
+//                     : controller.filteredCompanies.isEmpty
+//                     ? const Expanded(
+//                         child: Center(
+//                           child: Text(
+//                             "No companies found with orders",
+//                             style: TextStyle(color: Colors.grey, fontSize: 16),
+//                           ),
+//                         ),
+//                       )
+//                     : Expanded(
+//                         child: ListView.separated(
+//                           itemBuilder: (context, index) {
+//                             final company = controller.filteredCompanies[index];
+//                             final companyId = company.id.toString();
+//                             final companyName =
+//                                 company.companyName ?? 'Unknown Company';
 
-                            final totalAmount = controller.getCompanyTotal(
-                              companyId,
-                            );
+//                             final totalAmount = controller.getCompanyTotal(
+//                               companyId,
+//                             );
 
-                            return InkWell(
-                              onTap: () {
-                                controller.goToAllProducts(companyId);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            companyName,
-                                            style: context.bodyMediumStyle!
-                                                .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "Items",
-                                          style: context.bodySmallStyle!
-                                              .copyWith(
-                                                color: AppColors.greyTextColor,
-                                              ),
-                                        ),
-                                        Text(
-                                          "${controller.getCompanyProducts(companyId).length}",
-                                          style: context.bodySmallStyle!
-                                              .copyWith(
-                                                color: AppColors.blackTextColor,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                    widthBox(20),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "Amount",
-                                          style: context.bodySmallStyle!
-                                              .copyWith(
-                                                color: AppColors.greyTextColor,
-                                              ),
-                                        ),
-                                        Text(
-                                          totalAmount.withCommas,
-                                          style: context.bodySmallStyle!
-                                              .copyWith(
-                                                color: AppColors.blackTextColor,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                    IconButton(
-                                      padding: EdgeInsets.zero,
-                                      constraints: const BoxConstraints(),
-                                      icon: const Icon(
-                                        Iconsax.arrow_right_3,
-                                        size: 15,
-                                      ),
-                                      onPressed: () {
-                                        controller.goToAllProducts(companyId);
-                                      },
-                                      color: AppColors.appPrimaryColor,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) => Divider(
-                            color: AppColors.greyColor.withOpacity(0.3),
-                            height: 10,
-                          ),
-                          itemCount: controller.filteredCompanies.length,
-                        ),
-                      ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//                             return InkWell(
+//                               onTap: () {
+//                                 controller.goToAllProducts(companyId);
+//                               },
+//                               child: Padding(
+//                                 padding: const EdgeInsets.symmetric(
+//                                   vertical: 8.0,
+//                                 ),
+//                                 child: Row(
+//                                   children: [
+//                                     Expanded(
+//                                       child: Column(
+//                                         crossAxisAlignment:
+//                                             CrossAxisAlignment.start,
+//                                         children: [
+//                                           Text(
+//                                             companyName,
+//                                             style: context.bodyMediumStyle!
+//                                                 .copyWith(
+//                                                   fontWeight: FontWeight.w500,
+//                                                 ),
+//                                           ),
+//                                         ],
+//                                       ),
+//                                     ),
+//                                     Column(
+//                                       children: [
+//                                         Text(
+//                                           "Items",
+//                                           style: context.bodySmallStyle!
+//                                               .copyWith(
+//                                                 color: AppColors.greyTextColor,
+//                                               ),
+//                                         ),
+//                                         Text(
+//                                           "${controller.getCompanyProducts(companyId).length}",
+//                                           style: context.bodySmallStyle!
+//                                               .copyWith(
+//                                                 color: AppColors.blackTextColor,
+//                                                 fontWeight: FontWeight.bold,
+//                                               ),
+//                                         ),
+//                                       ],
+//                                     ),
+//                                     widthBox(20),
+//                                     Column(
+//                                       children: [
+//                                         Text(
+//                                           "Amount",
+//                                           style: context.bodySmallStyle!
+//                                               .copyWith(
+//                                                 color: AppColors.greyTextColor,
+//                                               ),
+//                                         ),
+//                                         Text(
+//                                           totalAmount.withCommas,
+//                                           style: context.bodySmallStyle!
+//                                               .copyWith(
+//                                                 color: AppColors.blackTextColor,
+//                                                 fontWeight: FontWeight.bold,
+//                                               ),
+//                                         ),
+//                                       ],
+//                                     ),
+//                                     IconButton(
+//                                       padding: EdgeInsets.zero,
+//                                       constraints: const BoxConstraints(),
+//                                       icon: const Icon(
+//                                         Iconsax.arrow_right_3,
+//                                         size: 15,
+//                                       ),
+//                                       onPressed: () {
+//                                         controller.goToAllProducts(companyId);
+//                                       },
+//                                       color: AppColors.appPrimaryColor,
+//                                     ),
+//                                   ],
+//                                 ),
+//                               ),
+//                             );
+//                           },
+//                           separatorBuilder: (context, index) => Divider(
+//                             color: AppColors.greyColor.withOpacity(0.3),
+//                             height: 10,
+//                           ),
+//                           itemCount: controller.filteredCompanies.length,
+//                         ),
+//                       ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

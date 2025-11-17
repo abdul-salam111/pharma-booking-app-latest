@@ -155,18 +155,18 @@ class HomeBinding extends Bindings {
       () => RemoteProductDataSourceImpl(dioHelper: Get.find<DioHelper>()),
     );
 
-    Get.lazyPut<LocalProductDatasource>(
-      () => LocalProductDatasourceImpl(
-        databaseHelper: Get.find<PharmaDatabase>(),
-      ),
-    );
+    // Get.lazyPut<LocalProductDatasource>(
+    //   () => LocalProductDatasourceImpl(
+    //     databaseHelper: Get.find<PharmaDatabase>(),
+    //   ),
+    // );
   }
 
   void _registerProductRepository() {
     Get.lazyPut<ProductAbstractRepository>(
       () => ProductRepoImpl(
         remoteProductDataSource: Get.find<RemoteProductDatasource>(),
-        localProductDataSource: Get.find<LocalProductDatasource>(),
+        // localProductDataSource: Get.find<LocalProductDatasource>(),
       ),
     );
   }
@@ -177,21 +177,21 @@ class HomeBinding extends Bindings {
         productAbstractRepository: Get.find<ProductAbstractRepository>(),
       ),
     );
-    Get.lazyPut(
-      () => GetAllLocalProductsUsecase(
-        productAbstractRepository: Get.find<ProductAbstractRepository>(),
-      ),
-    );
-    Get.lazyPut(
-      () => InsertProductsLocallyUsecase(
-        productAbstractRepository: Get.find<ProductAbstractRepository>(),
-      ),
-    );
-    Get.lazyPut(
-      () => ClearLocalProductsUsecase(
-        productAbstractRepository: Get.find<ProductAbstractRepository>(),
-      ),
-    );
+    // Get.lazyPut(
+    //   () => GetAllLocalProductsUsecase(
+    //     productAbstractRepository: Get.find<ProductAbstractRepository>(),
+    //   ),
+    // );
+    // Get.lazyPut(
+    //   () => InsertProductsLocallyUsecase(
+    //     productAbstractRepository: Get.find<ProductAbstractRepository>(),
+    //   ),
+    // );
+    // Get.lazyPut(
+    //   () => ClearLocalProductsUsecase(
+    //     productAbstractRepository: Get.find<ProductAbstractRepository>(),
+    //   ),
+    // );
   }
 
   // ==========================================================================
@@ -209,18 +209,18 @@ class HomeBinding extends Bindings {
       () => RemoteCompaniesDatasourceImpl(dioHelper: Get.find<DioHelper>()),
     );
 
-    Get.lazyPut<LocalCompanyDatasource>(
-      () => LocalCompanyDatasourceImpl(
-        databaseHelper: Get.find<PharmaDatabase>(),
-      ),
-    );
+    // Get.lazyPut<LocalCompanyDatasource>(
+    //   () => LocalCompanyDatasourceImpl(
+    //     databaseHelper: Get.find<PharmaDatabase>(),
+    //   ),
+    // );
   }
 
   void _registerCompanyRepository() {
     Get.lazyPut<CompaniesAbstractRepository>(
       () => CompaniesRepoImpl(
         remoteCompaniesDatasource: Get.find<RemoteCompaniesDatasource>(),
-        localCompanyDatasource: Get.find<LocalCompanyDatasource>(),
+        // localCompanyDatasource: Get.find<LocalCompanyDatasource>(),
       ),
     );
   }
@@ -231,21 +231,21 @@ class HomeBinding extends Bindings {
         companiesAbstractRepository: Get.find<CompaniesAbstractRepository>(),
       ),
     );
-    Get.lazyPut(
-      () => GetAllLocalCompaniesUsecase(
-        companiesAbstractRepository: Get.find<CompaniesAbstractRepository>(),
-      ),
-    );
-    Get.lazyPut(
-      () => InsertLocalCompaniesUsecase(
-        companiesAbstractRepository: Get.find<CompaniesAbstractRepository>(),
-      ),
-    );
-    Get.lazyPut(
-      () => ClearLocalCompaniesUsecase(
-        companiesAbstractRepository: Get.find<CompaniesAbstractRepository>(),
-      ),
-    );
+    // Get.lazyPut(
+    //   () => GetAllLocalCompaniesUsecase(
+    //     companiesAbstractRepository: Get.find<CompaniesAbstractRepository>(),
+    //   ),
+    // );
+    // Get.lazyPut(
+    //   () => InsertLocalCompaniesUsecase(
+    //     companiesAbstractRepository: Get.find<CompaniesAbstractRepository>(),
+    //   ),
+    // );
+    // Get.lazyPut(
+    //   () => ClearLocalCompaniesUsecase(
+    //     companiesAbstractRepository: Get.find<CompaniesAbstractRepository>(),
+    //   ),
+    // );
   }
 
   // ==========================================================================
@@ -313,34 +313,34 @@ class HomeBinding extends Bindings {
       () => HomeController(
         // Product use cases
         getAllProductsUsecase: Get.find<GetAllProductsUsecase>(),
-        getAllLocalProductsUsecase: Get.find<GetAllLocalProductsUsecase>(),
-        insertProductsLocallyUsecase: Get.find<InsertProductsLocallyUsecase>(),
-        clearLocalProductsUsecase: Get.find<ClearLocalProductsUsecase>(),
+        // getAllLocalProductsUsecase: Get.find<GetAllLocalProductsUsecase>(),
+        // insertProductsLocallyUsecase: Get.find<InsertProductsLocallyUsecase>(),
+        // clearLocalProductsUsecase: Get.find<ClearLocalProductsUsecase>(),
         // Company use cases
         getAllCompaniesUsecase: Get.find<GetAllCompaniesUsecase>(),
-        getAllLocalCompaniesUsecase: Get.find<GetAllLocalCompaniesUsecase>(),
-        insertLocalCompaniesUsecase: Get.find<InsertLocalCompaniesUsecase>(),
-        clearLocalCompaniesUsecase: Get.find<ClearLocalCompaniesUsecase>(),
+        // getAllLocalCompaniesUsecase: Get.find<GetAllLocalCompaniesUsecase>(),
+        // insertLocalCompaniesUsecase: Get.find<InsertLocalCompaniesUsecase>(),
+        // clearLocalCompaniesUsecase: Get.find<ClearLocalCompaniesUsecase>(),
         // Customer remote use cases
         getAllCustomersUsecase: Get.find<GetAllCustomersUsecase>(),
         getAllTownsUsecase: Get.find<GetAllTownsUsecase>(),
         getAllSectorsUseCase: Get.find<GetAllSectorsUsecase>(),
         getAllSalesmanUsecase: Get.find<GetAllSalesmanUsecase>(),
         // Customer local use cases
-        getAllLocalCustomersUsecase: Get.find<GetAllLocalCustomersUsecase>(),
-        getAllLocalTownsUsecase: Get.find<GetAllLocalTownsUsecase>(),
-        getAllLocalSectorsUsecase: Get.find<GetAllLocalSectorsUsecase>(),
-        getLocalSalesmanByIdUsecase: Get.find<GetLocalSalesmanByIdUsecase>(),
-        insertAllCustomersLocalUsecase:
-            Get.find<InsertAllCustomersLocalUsecase>(),
-        insertAllTownsLocalUsecase: Get.find<InsertAllTownsLocalUsecase>(),
-        insertAllSectorsLocalUsecase: Get.find<InsertAllSectorsLocalUsecase>(),
-        insertAllSalesmansLocalUsecase:
-            Get.find<InsertAllSalesmansLocalUsecase>(),
-        clearCustomersLocalUsecase: Get.find<ClearCustomersLocalUsecase>(),
-        clearTownsLocalUsecase: Get.find<ClearTownsLocalUsecase>(),
-        clearSectorsLocalUsecase: Get.find<ClearSectorsLocalUsecase>(),
-        clearSalesmansLocalUsecase: Get.find<ClearSalesmansLocalUsecase>(),
+        // getAllLocalCustomersUsecase: Get.find<GetAllLocalCustomersUsecase>(),
+        // getAllLocalTownsUsecase: Get.find<GetAllLocalTownsUsecase>(),
+        // getAllLocalSectorsUsecase: Get.find<GetAllLocalSectorsUsecase>(),
+        // getLocalSalesmanByIdUsecase: Get.find<GetLocalSalesmanByIdUsecase>(),
+        // insertAllCustomersLocalUsecase:
+        //     Get.find<InsertAllCustomersLocalUsecase>(),
+        // insertAllTownsLocalUsecase: Get.find<InsertAllTownsLocalUsecase>(),
+        // insertAllSectorsLocalUsecase: Get.find<InsertAllSectorsLocalUsecase>(),
+        // insertAllSalesmansLocalUsecase:
+        //     Get.find<InsertAllSalesmansLocalUsecase>(),
+        // clearCustomersLocalUsecase: Get.find<ClearCustomersLocalUsecase>(),
+        // clearTownsLocalUsecase: Get.find<ClearTownsLocalUsecase>(),
+        // clearSectorsLocalUsecase: Get.find<ClearSectorsLocalUsecase>(),
+        // clearSalesmansLocalUsecase: Get.find<ClearSalesmansLocalUsecase>(),
         // Order use cases
         getCountUnsyncordersUsecase: Get.find<GetCountUnsyncordersUsecase>(),
         getUnsyncOrdersUsecase: Get.find<GetUnsyncOrdersUsecase>(),

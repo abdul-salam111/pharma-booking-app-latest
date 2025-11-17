@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../core/core.dart';
 
@@ -12,13 +13,14 @@ class CustomTextFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final void Function()? onTap;
-  final int maxLines; // For multiline support
+  final int maxLines;
   final Color fillColor;
   final Color borderColor;
   final Color labelColor;
   final bool isrequired;
   final int labelfontSize;
   final bool readonly;
+  final List<TextInputFormatter>? inputFormatters; // Added this
 
   const CustomTextFormField({
     super.key,
@@ -38,6 +40,7 @@ class CustomTextFormField extends StatefulWidget {
     this.onChanged,
     this.onTap,
     this.maxLines = 1,
+    this.inputFormatters, // Added this
   });
 
   @override
@@ -56,7 +59,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: crossAxisStart,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.label != null)
           RichText(
@@ -92,6 +95,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           obscureText: isObscure,
           keyboardType: widget.keyboardType,
           maxLines: widget.obscureText ? 1 : widget.maxLines,
+          inputFormatters: widget.inputFormatters, // Added this
           decoration: InputDecoration(
             hintStyle: context.bodySmallStyle!.copyWith(
               color: AppColors.greyTextColor,

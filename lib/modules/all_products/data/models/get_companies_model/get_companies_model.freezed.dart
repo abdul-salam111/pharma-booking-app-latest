@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GetCompaniesModel {
 
-@JsonKey(name: "CompanyId") String? get companyId;@JsonKey(name: "CompanyName") String? get companyName;@JsonKey(name: "ASMTitle") dynamic get asmTitle;@JsonKey(name: "DistributionCode") dynamic get distributionCode;@JsonKey(name: "ID") int? get id;@JsonKey(name: "TenantID") int? get tenantId;
+@JsonKey(name: "id") int? get id;@JsonKey(name: "name") String? get name;
 /// Create a copy of GetCompaniesModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $GetCompaniesModelCopyWith<GetCompaniesModel> get copyWith => _$GetCompaniesMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetCompaniesModel&&(identical(other.companyId, companyId) || other.companyId == companyId)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&const DeepCollectionEquality().equals(other.asmTitle, asmTitle)&&const DeepCollectionEquality().equals(other.distributionCode, distributionCode)&&(identical(other.id, id) || other.id == id)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetCompaniesModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,companyId,companyName,const DeepCollectionEquality().hash(asmTitle),const DeepCollectionEquality().hash(distributionCode),id,tenantId);
+int get hashCode => Object.hash(runtimeType,id,name);
 
 @override
 String toString() {
-  return 'GetCompaniesModel(companyId: $companyId, companyName: $companyName, asmTitle: $asmTitle, distributionCode: $distributionCode, id: $id, tenantId: $tenantId)';
+  return 'GetCompaniesModel(id: $id, name: $name)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $GetCompaniesModelCopyWith<$Res>  {
   factory $GetCompaniesModelCopyWith(GetCompaniesModel value, $Res Function(GetCompaniesModel) _then) = _$GetCompaniesModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: "CompanyId") String? companyId,@JsonKey(name: "CompanyName") String? companyName,@JsonKey(name: "ASMTitle") dynamic asmTitle,@JsonKey(name: "DistributionCode") dynamic distributionCode,@JsonKey(name: "ID") int? id,@JsonKey(name: "TenantID") int? tenantId
+@JsonKey(name: "id") int? id,@JsonKey(name: "name") String? name
 });
 
 
@@ -65,15 +65,11 @@ class _$GetCompaniesModelCopyWithImpl<$Res>
 
 /// Create a copy of GetCompaniesModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? companyId = freezed,Object? companyName = freezed,Object? asmTitle = freezed,Object? distributionCode = freezed,Object? id = freezed,Object? tenantId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = freezed,}) {
   return _then(_self.copyWith(
-companyId: freezed == companyId ? _self.companyId : companyId // ignore: cast_nullable_to_non_nullable
-as String?,companyName: freezed == companyName ? _self.companyName : companyName // ignore: cast_nullable_to_non_nullable
-as String?,asmTitle: freezed == asmTitle ? _self.asmTitle : asmTitle // ignore: cast_nullable_to_non_nullable
-as dynamic,distributionCode: freezed == distributionCode ? _self.distributionCode : distributionCode // ignore: cast_nullable_to_non_nullable
-as dynamic,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as int?,
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -158,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "CompanyId")  String? companyId, @JsonKey(name: "CompanyName")  String? companyName, @JsonKey(name: "ASMTitle")  dynamic asmTitle, @JsonKey(name: "DistributionCode")  dynamic distributionCode, @JsonKey(name: "ID")  int? id, @JsonKey(name: "TenantID")  int? tenantId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GetCompaniesModel() when $default != null:
-return $default(_that.companyId,_that.companyName,_that.asmTitle,_that.distributionCode,_that.id,_that.tenantId);case _:
+return $default(_that.id,_that.name);case _:
   return orElse();
 
 }
@@ -179,10 +175,10 @@ return $default(_that.companyId,_that.companyName,_that.asmTitle,_that.distribut
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "CompanyId")  String? companyId, @JsonKey(name: "CompanyName")  String? companyName, @JsonKey(name: "ASMTitle")  dynamic asmTitle, @JsonKey(name: "DistributionCode")  dynamic distributionCode, @JsonKey(name: "ID")  int? id, @JsonKey(name: "TenantID")  int? tenantId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name)  $default,) {final _that = this;
 switch (_that) {
 case _GetCompaniesModel():
-return $default(_that.companyId,_that.companyName,_that.asmTitle,_that.distributionCode,_that.id,_that.tenantId);case _:
+return $default(_that.id,_that.name);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +195,10 @@ return $default(_that.companyId,_that.companyName,_that.asmTitle,_that.distribut
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "CompanyId")  String? companyId, @JsonKey(name: "CompanyName")  String? companyName, @JsonKey(name: "ASMTitle")  dynamic asmTitle, @JsonKey(name: "DistributionCode")  dynamic distributionCode, @JsonKey(name: "ID")  int? id, @JsonKey(name: "TenantID")  int? tenantId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name)?  $default,) {final _that = this;
 switch (_that) {
 case _GetCompaniesModel() when $default != null:
-return $default(_that.companyId,_that.companyName,_that.asmTitle,_that.distributionCode,_that.id,_that.tenantId);case _:
+return $default(_that.id,_that.name);case _:
   return null;
 
 }
@@ -214,15 +210,11 @@ return $default(_that.companyId,_that.companyName,_that.asmTitle,_that.distribut
 @JsonSerializable()
 
 class _GetCompaniesModel implements GetCompaniesModel {
-  const _GetCompaniesModel({@JsonKey(name: "CompanyId") this.companyId, @JsonKey(name: "CompanyName") this.companyName, @JsonKey(name: "ASMTitle") this.asmTitle, @JsonKey(name: "DistributionCode") this.distributionCode, @JsonKey(name: "ID") this.id, @JsonKey(name: "TenantID") this.tenantId});
+  const _GetCompaniesModel({@JsonKey(name: "id") this.id, @JsonKey(name: "name") this.name});
   factory _GetCompaniesModel.fromJson(Map<String, dynamic> json) => _$GetCompaniesModelFromJson(json);
 
-@override@JsonKey(name: "CompanyId") final  String? companyId;
-@override@JsonKey(name: "CompanyName") final  String? companyName;
-@override@JsonKey(name: "ASMTitle") final  dynamic asmTitle;
-@override@JsonKey(name: "DistributionCode") final  dynamic distributionCode;
-@override@JsonKey(name: "ID") final  int? id;
-@override@JsonKey(name: "TenantID") final  int? tenantId;
+@override@JsonKey(name: "id") final  int? id;
+@override@JsonKey(name: "name") final  String? name;
 
 /// Create a copy of GetCompaniesModel
 /// with the given fields replaced by the non-null parameter values.
@@ -237,16 +229,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetCompaniesModel&&(identical(other.companyId, companyId) || other.companyId == companyId)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&const DeepCollectionEquality().equals(other.asmTitle, asmTitle)&&const DeepCollectionEquality().equals(other.distributionCode, distributionCode)&&(identical(other.id, id) || other.id == id)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetCompaniesModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,companyId,companyName,const DeepCollectionEquality().hash(asmTitle),const DeepCollectionEquality().hash(distributionCode),id,tenantId);
+int get hashCode => Object.hash(runtimeType,id,name);
 
 @override
 String toString() {
-  return 'GetCompaniesModel(companyId: $companyId, companyName: $companyName, asmTitle: $asmTitle, distributionCode: $distributionCode, id: $id, tenantId: $tenantId)';
+  return 'GetCompaniesModel(id: $id, name: $name)';
 }
 
 
@@ -257,7 +249,7 @@ abstract mixin class _$GetCompaniesModelCopyWith<$Res> implements $GetCompaniesM
   factory _$GetCompaniesModelCopyWith(_GetCompaniesModel value, $Res Function(_GetCompaniesModel) _then) = __$GetCompaniesModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: "CompanyId") String? companyId,@JsonKey(name: "CompanyName") String? companyName,@JsonKey(name: "ASMTitle") dynamic asmTitle,@JsonKey(name: "DistributionCode") dynamic distributionCode,@JsonKey(name: "ID") int? id,@JsonKey(name: "TenantID") int? tenantId
+@JsonKey(name: "id") int? id,@JsonKey(name: "name") String? name
 });
 
 
@@ -274,15 +266,11 @@ class __$GetCompaniesModelCopyWithImpl<$Res>
 
 /// Create a copy of GetCompaniesModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? companyId = freezed,Object? companyName = freezed,Object? asmTitle = freezed,Object? distributionCode = freezed,Object? id = freezed,Object? tenantId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = freezed,}) {
   return _then(_GetCompaniesModel(
-companyId: freezed == companyId ? _self.companyId : companyId // ignore: cast_nullable_to_non_nullable
-as String?,companyName: freezed == companyName ? _self.companyName : companyName // ignore: cast_nullable_to_non_nullable
-as String?,asmTitle: freezed == asmTitle ? _self.asmTitle : asmTitle // ignore: cast_nullable_to_non_nullable
-as dynamic,distributionCode: freezed == distributionCode ? _self.distributionCode : distributionCode // ignore: cast_nullable_to_non_nullable
-as dynamic,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as int?,
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

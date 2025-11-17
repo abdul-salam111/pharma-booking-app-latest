@@ -16,14 +16,14 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
   @override
   Future<List<GetCustomersModel>> getAllCustomers() async {
     try {
-      final response = await dioHelper.postApi(
+      final response = await dioHelper.getApi(
         url: ApiKeys.getCustomersUrl,
-        requestBody: LoginRequestModel(
-          tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
-          customerKey: SessionController().getUserDetails.customerKey!
-              .toString(),
-          mobileNo: await storage.readValues('phone'),
-        ),
+        // requestBody: LoginRequestModel(
+        //   tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
+        //   customerKey: SessionController().getUserDetails.customerKey!
+        //       .toString(),
+        //   mobileNo: await storage.readValues('phone'),
+        // ),
       );
 
       if (response is List) {
@@ -43,12 +43,12 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
     try {
       final response = await dioHelper.postApi(
         url: ApiKeys.getTownssUrl,
-        requestBody: LoginRequestModel(
-          tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
-          customerKey: SessionController().getUserDetails.customerKey!
-              .toString(),
-          mobileNo: await storage.readValues('phone'),
-        ),
+        // requestBody: LoginRequestModel(
+        //   tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
+        //   customerKey: SessionController().getUserDetails.customerKey!
+        //       .toString(),
+        //   mobileNo: await storage.readValues('phone'),
+        // ),
       );
 
       if (response is List) {
@@ -66,12 +66,12 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
     try {
       final response = await dioHelper.postApi(
         url: ApiKeys.getSectorsUrl,
-        requestBody: LoginRequestModel(
-          tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
-          customerKey: SessionController().getUserDetails.customerKey!
-              .toString(),
-          mobileNo: await storage.readValues('phone'),
-        ),
+        // requestBody: LoginRequestModel(
+        //   tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
+        //   customerKey: SessionController().getUserDetails.customerKey!
+        //       .toString(),
+        //   mobileNo: await storage.readValues('phone'),
+        // ),
       );
 
       if (response is List) {
@@ -89,12 +89,12 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
     try {
       final response = await dioHelper.postApi(
         url: ApiKeys.getSalesman,
-        requestBody: LoginRequestModel(
-          tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
-          customerKey: SessionController().getUserDetails.customerKey!
-              .toString(),
-          mobileNo: await storage.readValues('phone'),
-        ),
+        // requestBody: LoginRequestModel(
+        //   tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
+        //   customerKey: SessionController().getUserDetails.customerKey!
+        //       .toString(),
+        //   mobileNo: await storage.readValues('phone'),
+        // ),
       );
 
       if (response is List) {

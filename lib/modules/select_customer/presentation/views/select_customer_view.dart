@@ -106,7 +106,9 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
                   _buildDetailRow(
                     context,
                     "Address:",
-                    controller.selectedCustomerModel?.address ?? "N/A",
+                    ""
+
+                    // controller.selectedCustomerModel?.address ?? "N/A",
                   ),
                   heightBox(10),
                   _buildDetailRow(
@@ -345,7 +347,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
         // Add subtitle for customers to show additional info
         if (T == GetCustomersModel && item != null) {
           final customer = item as GetCustomersModel;
-          subtitle = customer.address;
+          // subtitle = customer.address;
         }
 
         return ListTile(

@@ -36,7 +36,11 @@ class HomeView extends GetView<HomeController> {
               ),
               heightBox(100),
               Text(
-                "Welcome, ${SessionController().getUserDetails.userName}",
+                "Welcome, ",
+                // ${
+                //   SessionController().getUserDetails.userName
+                // }
+              
                 style: context.headlineSmallStyle!.copyWith(
                   color: AppColors.blackTextColor,
                 ),

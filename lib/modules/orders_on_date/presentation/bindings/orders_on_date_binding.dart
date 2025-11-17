@@ -10,11 +10,11 @@ class OrdersOnDateBinding extends Bindings {
   void dependencies() {
     Get.lazyPut(() => Get.find<PharmaDatabase>());
     Get.lazyPut(() => Get.find<GetLocalSalesmanByIdUsecase>());
-    Get.lazyPut(
-      () => GetProductByIdUsecase(
-        productRepository: Get.find<ProductAbstractRepository>(),
-      ),
-    );
+    // Get.lazyPut(
+    //   () => GetProductByIdUsecase(
+    //     productRepository: Get.find<ProductAbstractRepository>(),
+    //   ),
+    // );
     Get.lazyPut(
       () => GetLocalCustomerByIdUsecase(
         repository: Get.find<CustomerAbstractRepository>(),
@@ -24,7 +24,7 @@ class OrdersOnDateBinding extends Bindings {
       () => OrdersOnDateController(
         getLocalSalesmanByIdUsecase: Get.find<GetLocalSalesmanByIdUsecase>(),
 
-        getProductByIdUsecase: Get.find<GetProductByIdUsecase>(),
+        // getProductByIdUsecase: Get.find<GetProductByIdUsecase>(),
         getLocalCustomerByIdUsecase: Get.find<GetLocalCustomerByIdUsecase>(),
       ),
     );

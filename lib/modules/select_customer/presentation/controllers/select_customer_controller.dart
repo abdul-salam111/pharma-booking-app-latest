@@ -112,11 +112,11 @@ class SelectCustomerController extends GetxController {
   }
 
   void _filterCustomersByTown(GetTownsModel town) {
-    customers.assignAll(
-      _allCustomers.where((c) {
-        return c.actualTownId.toString() == town.id.toString();
-      }).toList(),
-    );
+    //customers.assignAll(
+    //   _allCustomers.where((c) {
+    //     return c.actualTownId.toString() == town.id.toString();
+    //   }).toList(),
+    // );
   }
 
   // ==================== SELECTION HANDLERS ==================== //

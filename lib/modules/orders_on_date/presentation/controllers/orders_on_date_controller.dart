@@ -7,12 +7,12 @@ import '../../../select_customer/domain/usecases/local_usecases/get_local_custom
 
 class OrdersOnDateController extends GetxController {
   final GetLocalSalesmanByIdUsecase getLocalSalesmanByIdUsecase;
-  final GetProductByIdUsecase getProductByIdUsecase;
+  // final GetProductByIdUsecase getProductByIdUsecase;
   final GetLocalCustomerByIdUsecase getLocalCustomerByIdUsecase;
 
   OrdersOnDateController({
     required this.getLocalSalesmanByIdUsecase,
-    required this.getProductByIdUsecase,
+    // required this.getProductByIdUsecase,
     required this.getLocalCustomerByIdUsecase,
   });
   // Observable variables
@@ -88,7 +88,8 @@ class OrdersOnDateController extends GetxController {
     try {
       // Get salesman details
       final salesman = await getLocalSalesmanByIdUsecase.call(
-        SessionController().getUserDetails.salesmanId!,
+        ""
+        // SessionController().getUserDetails.salesmanId!,
       );
       await salesman.fold(
         (erorr) {
@@ -103,30 +104,31 @@ class OrdersOnDateController extends GetxController {
             // Process each company and product in the order
             for (var company in ordersForDate[i].companies) {
               for (var product in company.products) {
-                final getProductByIdResponse = await getProductByIdUsecase.call(
-                  product.productId,
-                );
-                await getProductByIdResponse.fold(
-                  (error) {
-                    print('Error fetching product by ID: $error');
-                  },
-                  (productModel) {
-                    orderRows.add(
-                      OrderRowForSync(
-                        productId: product.productId,
-                        qty: product.quantity,
-                        bonus: product.bonus,
-                        discRatio: product.discRatio,
-                        price: product.price,
-                        tenantProdId: productModel?.productId.toString(),
-                        tenantId: SessionController()
-                            .getUserDetails
-                            .tenantId!
-                            .toIntOrNull,
-                      ),
-                    );
-                  },
-                );
+                // final getProductByIdResponse = await getProductByIdUsecase.call(
+                //   product.productId,
+                // );
+                // await getProductByIdResponse.fold(
+                //   (error) {
+                //     print('Error fetching product by ID: $error');
+                //   },
+                //   (productModel) {
+                //     orderRows.add(
+                //       OrderRowForSync(
+                //         productId: product.productId,
+                //         qty: product.quantity,
+                //         bonus: product.bonus,
+                //         discRatio: product.discRatio,
+                //         price: product.price,
+                //         // tenantProdId: productModel?.productId.toString(),
+                //         tenantId:7
+                //         //  SessionController()
+                //         //     .getUserDetails
+                //         //     .tenantId!
+                //         //     .toIntOrNull,
+                //       ),
+                //     );
+                //   },
+                // );
               }
             }
             final getCustomersModel = await getLocalCustomerByIdUsecase.call(
@@ -143,21 +145,22 @@ class OrdersOnDateController extends GetxController {
                   DataList(
                     tenantOrderId: null,
                     salesmanOrderId: null,
-                    deviceOrderId:
-                        ((SessionController().getUserDetails.maxDeviceOrderId! +
-                            i) +
-                        1),
-                    customerId: getCustomersModel?.customerId?.toIntOrNull,
+                    deviceOrderId:8,
+                        // ((SessionController().getUserDetails.maxDeviceOrderId! +
+                        //     i) +
+                        // 1),
+                    // customerId: getCustomersModel?.customerId?.toIntOrNull,
                     salesmanId: salesman?.salesmanId?.toIntOrNull,
                     orderTime: ordersForDate[i].orderDate,
                     syncDate: ordersForDate[i].syncDate,
                     guid: ordersForDate[i].guid,
                     orderRows: orderRows,
                     id: null,
-                    tenantId: SessionController()
-                        .getUserDetails
-                        .tenantId!
-                        .toIntOrNull,
+                    tenantId: 8
+                    // SessionController()
+                    //     .getUserDetails
+                    //     .tenantId!
+                    //     .toIntOrNull,
                   ),
                 );
               },

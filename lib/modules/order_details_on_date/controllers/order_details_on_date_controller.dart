@@ -3,13 +3,13 @@ import '../../home/presentation/barrel.dart';
 
 
 class OrderDetailsOnDateController extends GetxController {
-  final GetAllLocalProductsUsecase getAllLocalProductsUsecase;
-  final GetAllLocalCompaniesUsecase getAllLocalCompaniesUsecase;
+  // final GetAllLocalProductsUsecase getAllLocalProductsUsecase;
+  // final GetAllLocalCompaniesUsecase getAllLocalCompaniesUsecase;
   final GetAllLocalSectorsUsecase getAllLocalSectorsUsecase;
   final GetAllLocalTownsUsecase getAllLocalTownsUsecase;
   OrderDetailsOnDateController({
-    required this.getAllLocalProductsUsecase,
-    required this.getAllLocalCompaniesUsecase,
+    // required this.getAllLocalProductsUsecase,
+    // required this.getAllLocalCompaniesUsecase,
     required this.getAllLocalSectorsUsecase,
     required this.getAllLocalTownsUsecase,
   });
@@ -79,13 +79,13 @@ class OrderDetailsOnDateController extends GetxController {
     try {
       // Get all products and companies for the order
       List<GetAllProductsModel> allProducts = [];
-      final productresponse = await getAllLocalProductsUsecase.call(NoParams());
-      productresponse.fold((l) => allProducts = [], (r) => allProducts = r);
+      // final productresponse = await getAllLocalProductsUsecase.call(NoParams());
+      // productresponse.fold((l) => allProducts = [], (r) => allProducts = r);
       List<GetCompaniesModel> allCompanies = [];
-      final companyResponse = await getAllLocalCompaniesUsecase.call(
-        NoParams(),
-      );
-      companyResponse.fold((l) => allCompanies = [], (r) => allCompanies = r);
+      // final companyResponse = await getAllLocalCompaniesUsecase.call(
+      //   NoParams(),
+      // );
+      // companyResponse.fold((l) => allCompanies = [], (r) => allCompanies = r);
 
       // Create selected products list with proper companyOrderId mapping
       final selectedProducts = <OrderProducts>[];
@@ -94,13 +94,13 @@ class OrderDetailsOnDateController extends GetxController {
         for (final product in company.products) {
           // Find the actual product to get the correct companyId
           GetAllProductsModel? actualProduct;
-          try {
-            actualProduct = allProducts.firstWhere(
-              (p) => p.productId == product.productId,
-            );
-          } catch (e) {
-            actualProduct = null;
-          }
+          // try {
+          //   actualProduct = allProducts.firstWhere(
+          //     (p) => p.productId == product.productId,
+          //   );
+          // } catch (e) {
+          //   actualProduct = null;
+          // }
 
           // Use the company ID from the order company or find it from the actual product
           String companyId = company.companyId;
@@ -150,8 +150,8 @@ class OrderDetailsOnDateController extends GetxController {
       // Create customer model
       final selectedCustomer = GetCustomersModel(
         customerName: order.value!.customerName,
-        customerId: order.value!.customerId,
-        address: order.value!.customerAddress,
+        // customerId: order.value!.customerId,
+        // address: order.value!.customerAddress,
         id: order.value!.customerId.toIntOrNull,
       );
 

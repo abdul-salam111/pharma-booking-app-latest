@@ -8,20 +8,9 @@ part of 'get_companies_model.dart';
 
 _GetCompaniesModel _$GetCompaniesModelFromJson(Map<String, dynamic> json) =>
     _GetCompaniesModel(
-      companyId: json['CompanyId'] as String?,
-      companyName: json['CompanyName'] as String?,
-      asmTitle: json['ASMTitle'],
-      distributionCode: json['DistributionCode'],
-      id: (json['ID'] as num?)?.toInt(),
-      tenantId: (json['TenantID'] as num?)?.toInt(),
+      id: (json['id'] as num?)?.toInt(),
+      name: json['name'] as String?,
     );
 
 Map<String, dynamic> _$GetCompaniesModelToJson(_GetCompaniesModel instance) =>
-    <String, dynamic>{
-      'CompanyId': instance.companyId,
-      'CompanyName': instance.companyName,
-      'ASMTitle': instance.asmTitle,
-      'DistributionCode': instance.distributionCode,
-      'ID': instance.id,
-      'TenantID': instance.tenantId,
-    };
+    <String, dynamic>{'id': instance.id, 'name': instance.name};

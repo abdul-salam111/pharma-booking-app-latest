@@ -60,18 +60,27 @@ class LocalProductDatasourceImpl implements LocalProductDatasource {
         final products = maps
             .map(
               (map) => GetAllProductsModel.fromJson({
-                'CompanyId': map['CompanyId'],
-                'StrCompanyId': map['StrCompanyId'],
-                'ProductId': map['ProductId'],
-                'GroupId': map['GroupId'],
-                'ProductName': map['ProductName'],
-                'Packing': map['Packing'],
-                'TradePrice': map['TradePrice'],
-                'SaleDiscRatio': map['SaleDiscRatio'],
-                'CurrentStock': map['CurrentStock'],
-                'IsInActive': map['IsInActive'] == 1,
-                'ID': map['ID'],
-                'TenantID': map['TenantID'],
+                'id': map['id'],
+                'productName': map['productName'],
+                'companyId': map['companyId'],
+                'pricePackPur': map['pricePackPur'],
+                'retailPrice': map['retailPrice'],
+                'discRatioPur': map['discRatioPur'],
+                'saleDiscRatio': map['saleDiscRatio'],
+                'pricePackSal1': map['pricePackSal1'],
+                'pricePackSal2': map['pricePackSal2'],
+                'pricePackSal3': map['pricePackSal3'],
+                'discRatioSal1': map['discRatioSal1'],
+                'discRatioSal2': map['discRatioSal2'],
+                'discRatioSal3': map['discRatioSal3'],
+                'sTaxRatio': map['sTaxRatio'],
+                'sTaxValPack': map['sTaxValPack'],
+                'isSTaxOnBnsSal': map['isSTaxOnBnsSal'] == 1,
+                'displayOrder': map['displayOrder'],
+                'tradePrice': map['tradePrice'],
+                'packings': map['packings'] != null
+                    ? (map['packings'] as String).split(',') // Example parsing
+                    : [],
               }),
             )
             .toList();
@@ -104,18 +113,25 @@ class LocalProductDatasourceImpl implements LocalProductDatasource {
   /// Note: Converts boolean IsInActive to integer (0/1)
   Map<String, dynamic> _convertProductToDbFormat(GetAllProductsModel product) {
     return {
-      'CompanyId': product.companyId,
-      'StrCompanyId': product.strCompanyId,
-      'ProductId': product.productId,
-      'GroupId': product.groupId,
-      'ProductName': product.productName,
-      'Packing': product.packing,
-      'TradePrice': product.tradePrice,
-      'SaleDiscRatio': product.saleDiscRatio,
-      'CurrentStock': product.currentStock,
-      'IsInActive': product.isInActive == true ? 1 : 0,
-      'ID': product.id,
-      'TenantID': product.tenantId,
+      'id': product.id,
+      'productName': product.productName,
+      'companyId': product.companyId,
+      'pricePackPur': product.pricePackPur,
+      'retailPrice': product.retailPrice,
+      'discRatioPur': product.discRatioPur,
+      'saleDiscRatio': product.saleDiscRatio,
+      'pricePackSal1': product.pricePackSal1,
+      'pricePackSal2': product.pricePackSal2,
+      'pricePackSal3': product.pricePackSal3,
+      'discRatioSal1': product.discRatioSal1,
+      'discRatioSal2': product.discRatioSal2,
+      'discRatioSal3': product.discRatioSal3,
+      'sTaxRatio': product.sTaxRatio,
+      'sTaxValPack': product.sTaxValPack,
+      'isSTaxOnBnsSal': product.isSTaxOnBnsSal == true ? 1 : 0,
+      'displayOrder': product.displayOrder,
+      'tradePrice': product.tradePrice,
+      'packings': product.packings?.join(','),
     };
   }
 
@@ -129,26 +145,34 @@ class LocalProductDatasourceImpl implements LocalProductDatasource {
       return await dbClient!.transaction((txn) async {
         List<Map<String, dynamic>> maps = await txn.query(
           'products',
-          where: 'ID = ?',
+          where: 'id = ?',
           whereArgs: [productId],
           limit: 1,
         );
 
         if (maps.isNotEmpty) {
           return GetAllProductsModel.fromJson({
-            'CompanyId': maps[0]['CompanyId'],
-            'StrCompanyId': maps[0]['StrCompanyId'],
-            'ProductId': maps[0]['ProductId'],
-            'GroupId': maps[0]['GroupId'],
-            'ProductName': maps[0]['ProductName'],
-            'Packing': maps[0]['Packing'],
-            'TradePrice': maps[0]['TradePrice'],
-            'SaleDiscRatio': maps[0]['SaleDiscRatio'],
-            'CurrentStock': maps[0]['CurrentStock'],
-            'IsInActive':
-                maps[0]['IsInActive'] == 1, // Convert integer back to boolean
-            'ID': maps[0]['ID'],
-            'TenantID': maps[0]['TenantID'],
+            'id': maps.first['id'],
+            'productName': maps.first['productName'],
+            'companyId': maps.first['companyId'],
+            'pricePackPur': maps.first['pricePackPur'],
+            'retailPrice': maps.first['retailPrice'],
+            'discRatioPur': maps.first['discRatioPur'],
+            'saleDiscRatio': maps.first['saleDiscRatio'],
+            'pricePackSal1': maps.first['pricePackSal1'],
+            'pricePackSal2': maps.first['pricePackSal2'],
+            'pricePackSal3': maps.first['pricePackSal3'],
+            'discRatioSal1': maps.first['discRatioSal1'],
+            'discRatioSal2': maps.first['discRatioSal2'],
+            'discRatioSal3': maps.first['discRatioSal3'],
+            'sTaxRatio': maps.first['sTaxRatio'],
+            'sTaxValPack': maps.first['sTaxValPack'],
+            'isSTaxOnBnsSal': maps.first['isSTaxOnBnsSal'] == 1,
+            'displayOrder': maps.first['displayOrder'],
+            'tradePrice': maps.first['tradePrice'],
+            'packings': maps.first['packings'] != null
+                ? (maps.first['packings'] as String).split(',')
+                : [],
           });
         }
         return null;

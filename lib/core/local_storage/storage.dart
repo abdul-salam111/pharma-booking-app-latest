@@ -36,6 +36,8 @@ class StorageKeys {
    static const String selectedSector = 'selected_sector';
   static const String selectedTown = 'selected_town';
   static const String salesmanInfo = 'salesmanInfo';
+  static const String loginId = 'loginId';
+  static const String password = 'password';
 }
 
 

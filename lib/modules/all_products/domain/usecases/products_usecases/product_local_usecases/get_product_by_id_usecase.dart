@@ -1,18 +1,18 @@
-import 'package:fpdart/fpdart.dart';
-import '../../../../../../core/networks/exceptions/app_exceptions.dart';
-import '../../../../../../core/shared/domain/usecases/usecase.dart';
-import '../../../../data/models/get_products_model/get_all_products_model.dart';
-import '../../../repository/product_repository/product_repository.dart';
+// import 'package:fpdart/fpdart.dart';
+// import '../../../../../../core/networks/exceptions/app_exceptions.dart';
+// import '../../../../../../core/shared/domain/usecases/usecase.dart';
+// import '../../../../data/models/get_products_model/get_all_products_model.dart';
+// import '../../../repository/product_repository/product_repository.dart';
 
-class GetProductByIdUsecase implements Usecase<GetAllProductsModel?, String> {
-  final ProductAbstractRepository productRepository;
+// class GetProductByIdUsecase implements Usecase<GetAllProductsModel?, String> {
+//   final ProductAbstractRepository productRepository;
 
-  GetProductByIdUsecase({required this.productRepository});
+//   GetProductByIdUsecase({required this.productRepository});
 
-  @override
-  Future<Either<AppException, GetAllProductsModel?>> call(
-    String productId,
-  ) async {
-    return await productRepository.getLocalProductById(productId: productId);
-  }
-}
+//   @override
+//   Future<Either<AppException, GetAllProductsModel?>> call(
+//     String productId,
+//   ) async {
+//     return await productRepository.getLocalProductById(productId: productId);
+//   }
+// }

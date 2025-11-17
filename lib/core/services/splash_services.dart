@@ -18,7 +18,7 @@ class SplashServices {
       if (SessionController().islogin == true) {
         Get.offAllNamed(Routes.HOME);
       } else {
-        Get.offAllNamed(Routes.LOGIN_SCREEN);
+        Get.offAllNamed(Routes.HOME);
       }
     } catch (e) {
       debugPrint('Error in checkLoginStatus: $e');

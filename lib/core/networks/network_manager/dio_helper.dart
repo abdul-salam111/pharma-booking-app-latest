@@ -17,7 +17,7 @@ class DioHelper {
     contentType: "application/json",
     responseType: ResponseType.json,
     sendTimeout: const Duration(seconds: 30),
-    receiveTimeout: const Duration(seconds: 30), 
+    receiveTimeout: const Duration(seconds: 30),
   );
 
   Future<dynamic> getApi({
@@ -193,12 +193,10 @@ class DioHelper {
           "Please, check your internet connection.",
         );
       case DioExceptionType.badResponse:
-        final statusCode = error.response?.data['Result'];
+        final statusCode = error.response?.statusCode;
         switch (statusCode) {
           case 401:
-            throw UnauthorizedException(
-              "Session expired. Please log in again to continue.",
-            );
+            throw UnauthorizedException("${error.response?.data}");
           case 4012:
             throw InvalidInputException("InValid Order");
           default:

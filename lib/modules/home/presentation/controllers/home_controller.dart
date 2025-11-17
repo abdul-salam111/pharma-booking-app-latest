@@ -13,18 +13,18 @@ class HomeController extends GetxController {
   // PRODUCT USECASES
   // ==========================================================================
   final GetAllProductsUsecase getAllProductsUsecase;
-  final GetAllLocalProductsUsecase getAllLocalProductsUsecase;
-  final InsertProductsLocallyUsecase insertProductsLocallyUsecase;
-  final ClearLocalProductsUsecase clearLocalProductsUsecase;
+  // final GetAllLocalProductsUsecase getAllLocalProductsUsecase;
+  // final InsertProductsLocallyUsecase insertProductsLocallyUsecase;
+  // final ClearLocalProductsUsecase clearLocalProductsUsecase;
 
   // ==========================================================================
   // COMPANY USECASES
   // ==========================================================================
 
   final GetAllCompaniesUsecase getAllCompaniesUsecase;
-  final GetAllLocalCompaniesUsecase getAllLocalCompaniesUsecase;
-  final InsertLocalCompaniesUsecase insertLocalCompaniesUsecase;
-  final ClearLocalCompaniesUsecase clearLocalCompaniesUsecase;
+  // final GetAllLocalCompaniesUsecase getAllLocalCompaniesUsecase;
+  // final InsertLocalCompaniesUsecase insertLocalCompaniesUsecase;
+  // final ClearLocalCompaniesUsecase clearLocalCompaniesUsecase;
 
   // ==========================================================================
   // CUSTOMER REMOTE USECASES
@@ -39,20 +39,20 @@ class HomeController extends GetxController {
   // CUSTOMER LOCAL USECASES
   // ==========================================================================
 
-  final GetAllLocalCustomersUsecase getAllLocalCustomersUsecase;
-  final GetAllLocalTownsUsecase getAllLocalTownsUsecase;
-  final GetAllLocalSectorsUsecase getAllLocalSectorsUsecase;
-  final GetLocalSalesmanByIdUsecase getLocalSalesmanByIdUsecase;
+  // final GetAllLocalCustomersUsecase getAllLocalCustomersUsecase;
+  // final GetAllLocalTownsUsecase getAllLocalTownsUsecase;
+  // final GetAllLocalSectorsUsecase getAllLocalSectorsUsecase;
+  // final GetLocalSalesmanByIdUsecase getLocalSalesmanByIdUsecase;
 
-  final InsertAllCustomersLocalUsecase insertAllCustomersLocalUsecase;
-  final InsertAllTownsLocalUsecase insertAllTownsLocalUsecase;
-  final InsertAllSectorsLocalUsecase insertAllSectorsLocalUsecase;
-  final InsertAllSalesmansLocalUsecase insertAllSalesmansLocalUsecase;
+  // final InsertAllCustomersLocalUsecase insertAllCustomersLocalUsecase;
+  // final InsertAllTownsLocalUsecase insertAllTownsLocalUsecase;
+  // final InsertAllSectorsLocalUsecase insertAllSectorsLocalUsecase;
+  // final InsertAllSalesmansLocalUsecase insertAllSalesmansLocalUsecase;
 
-  final ClearCustomersLocalUsecase clearCustomersLocalUsecase;
-  final ClearTownsLocalUsecase clearTownsLocalUsecase;
-  final ClearSectorsLocalUsecase clearSectorsLocalUsecase;
-  final ClearSalesmansLocalUsecase clearSalesmansLocalUsecase;
+  // final ClearCustomersLocalUsecase clearCustomersLocalUsecase;
+  // final ClearTownsLocalUsecase clearTownsLocalUsecase;
+  // final ClearSectorsLocalUsecase clearSectorsLocalUsecase;
+  // final ClearSalesmansLocalUsecase clearSalesmansLocalUsecase;
 
   // ==========================================================================
   // Orders LOCAL USECASES
@@ -67,32 +67,32 @@ class HomeController extends GetxController {
   HomeController({
     // Product usecases
     required this.getAllProductsUsecase,
-    required this.getAllLocalProductsUsecase,
-    required this.insertProductsLocallyUsecase,
-    required this.clearLocalProductsUsecase,
+    // required this.getAllLocalProductsUsecase,
+    // required this.insertProductsLocallyUsecase,
+    // required this.clearLocalProductsUsecase,
     // Company usecases
     required this.getAllCompaniesUsecase,
-    required this.getAllLocalCompaniesUsecase,
-    required this.insertLocalCompaniesUsecase,
-    required this.clearLocalCompaniesUsecase,
+    // required this.getAllLocalCompaniesUsecase,
+    // required this.insertLocalCompaniesUsecase,
+    // required this.clearLocalCompaniesUsecase,
     // Customer remote usecases
     required this.getAllCustomersUsecase,
     required this.getAllTownsUsecase,
     required this.getAllSectorsUseCase,
     required this.getAllSalesmanUsecase,
     // Customer local usecases
-    required this.getAllLocalCustomersUsecase,
-    required this.getAllLocalTownsUsecase,
-    required this.getAllLocalSectorsUsecase,
-    required this.getLocalSalesmanByIdUsecase,
-    required this.insertAllCustomersLocalUsecase,
-    required this.insertAllTownsLocalUsecase,
-    required this.insertAllSectorsLocalUsecase,
-    required this.insertAllSalesmansLocalUsecase,
-    required this.clearCustomersLocalUsecase,
-    required this.clearTownsLocalUsecase,
-    required this.clearSectorsLocalUsecase,
-    required this.clearSalesmansLocalUsecase,
+    // required this.getAllLocalCustomersUsecase,
+    // required this.getAllLocalTownsUsecase,
+    // required this.getAllLocalSectorsUsecase,
+    // required this.getLocalSalesmanByIdUsecase,
+    // required this.insertAllCustomersLocalUsecase,
+    // required this.insertAllTownsLocalUsecase,
+    // required this.insertAllSectorsLocalUsecase,
+    // required this.insertAllSalesmansLocalUsecase,
+    // required this.clearCustomersLocalUsecase,
+    // required this.clearTownsLocalUsecase,
+    // required this.clearSectorsLocalUsecase,
+    // required this.clearSalesmansLocalUsecase,
     // Orders usecases
     required this.getUnsyncOrdersUsecase,
     required this.getCountUnsyncordersUsecase,
@@ -194,40 +194,40 @@ class HomeController extends GetxController {
 
     try {
       isSyncingData.value = true;
-      AppToasts.showLoaderDialog(Get.context!,'Syncing data...');
+      AppToasts.showLoaderDialog(Get.context!, 'Syncing data...');
 
       // Phase 1: Fetch all remote data in parallel (PERFORMANCE BOOST)
       final results = await Future.wait([
         getAllCompaniesUsecase.call(NoParams()),
         getAllProductsUsecase.call(NoParams()),
         getAllCustomersUsecase.call(NoParams()),
-        getAllSectorsUseCase.call(NoParams()),
-        getAllTownsUsecase.call(NoParams()),
-        getAllSalesmanUsecase.call(NoParams()),
+        // getAllSectorsUseCase.call(NoParams()),
+        // getAllTownsUsecase.call(NoParams()),
+        // getAllSalesmanUsecase.call(NoParams()),
       ]);
 
-      // Phase 2: Clear all local data in parallel (PERFORMANCE BOOST)
-      await Future.wait([
-        clearLocalCompaniesUsecase.call(NoParams()),
-        clearLocalProductsUsecase.call(NoParams()),
-        clearCustomersLocalUsecase.call(NoParams()),
-        clearSectorsLocalUsecase.call(NoParams()),
-        clearTownsLocalUsecase.call(NoParams()),
-        clearSalesmansLocalUsecase.call(NoParams()),
-      ]);
+      // // Phase 2: Clear all local data in parallel (PERFORMANCE BOOST)
+      // await Future.wait([
+      //   clearLocalCompaniesUsecase.call(NoParams()),
+      //   clearLocalProductsUsecase.call(NoParams()),
+      //   clearCustomersLocalUsecase.call(NoParams()),
+      //   clearSectorsLocalUsecase.call(NoParams()),
+      //   clearTownsLocalUsecase.call(NoParams()),
+      //   clearSalesmansLocalUsecase.call(NoParams()),
+      // ]);
 
       // Phase 3: Insert all data in parallel (PERFORMANCE BOOST)
-      await _insertAllDataInParallel(results);
+      // await _insertAllDataInParallel(results);
 
       // Phase 4: Reload local data
-      await loadLocalData();
+      // await loadLocalData();
 
-      await storage.setValues(StorageKeys.isDatasynced, 'true');
+      //  await storage.setValues(StorageKeys.isDatasynced, 'true');
 
-         AppToasts.dismiss(Get.context!);
+      AppToasts.dismiss(Get.context!);
       AppToasts.showSuccessToast(Get.context!, 'Data synced successfully!');
     } catch (error) {
-         AppToasts.dismiss(Get.context!);
+      AppToasts.dismiss(Get.context!);
       AppToasts.showErrorToast(Get.context!, 'Sync failed: $error');
     } finally {
       isSyncingData.value = false;
@@ -238,53 +238,53 @@ class HomeController extends GetxController {
     final insertOperations = <Future>[];
 
     // Companies
-    results[0].fold(
-      (error) =>
-          throw Exception('Failed to fetch companies: ${error.toString()}'),
-      (companies) =>
-          insertOperations.add(insertLocalCompaniesUsecase.call(companies)),
-    );
+    // results[0].fold(
+    //   (error) =>
+    //       throw Exception('Failed to fetch companies: ${error.toString()}'),
+    //   (companies) =>
+    //       insertOperations.add(insertLocalCompaniesUsecase.call(companies)),
+    // );
 
     // Products
-    results[1].fold(
-      (error) =>
-          throw Exception('Failed to fetch products: ${error.toString()}'),
-      (products) =>
-          insertOperations.add(insertProductsLocallyUsecase.call(products)),
-    );
+    // results[1].fold(
+    //   (error) =>
+    //       throw Exception('Failed to fetch products: ${error.toString()}'),
+    //   (products) =>
+    //       insertOperations.add(insertProductsLocallyUsecase.call(products)),
+    // );
 
     // Customers
-    results[2].fold(
-      (error) =>
-          throw Exception('Failed to fetch customers: ${error.toString()}'),
-      (customers) =>
-          insertOperations.add(insertAllCustomersLocalUsecase.call(customers)),
-    );
+    // results[2].fold(
+    //   (error) =>
+    //       throw Exception('Failed to fetch customers: ${error.toString()}'),
+    //   (customers) =>
+    //       insertOperations.add(insertAllCustomersLocalUsecase.call(customers)),
+    // );
 
-    // Sectors
-    results[3].fold(
-      (error) =>
-          throw Exception('Failed to fetch sectors: ${error.toString()}'),
-      (sectors) =>
-          insertOperations.add(insertAllSectorsLocalUsecase.call(sectors)),
-    );
+    // // Sectors
+    // results[3].fold(
+    //   (error) =>
+    //       throw Exception('Failed to fetch sectors: ${error.toString()}'),
+    //   (sectors) =>
+    //       insertOperations.add(insertAllSectorsLocalUsecase.call(sectors)),
+    // );
 
-    // Towns
-    results[4].fold(
-      (error) => throw Exception('Failed to fetch towns: ${error.toString()}'),
-      (towns) => insertOperations.add(insertAllTownsLocalUsecase.call(towns)),
-    );
+    // // Towns
+    // results[4].fold(
+    //   (error) => throw Exception('Failed to fetch towns: ${error.toString()}'),
+    //   (towns) => insertOperations.add(insertAllTownsLocalUsecase.call(towns)),
+    // );
 
-    // Salesmans
-    results[5].fold(
-      (error) =>
-          throw Exception('Failed to fetch salesmans: ${error.toString()}'),
-      (salesmans) =>
-          insertOperations.add(insertAllSalesmansLocalUsecase.call(salesmans)),
-    );
+    // // Salesmans
+    // results[5].fold(
+    //   (error) =>
+    //       throw Exception('Failed to fetch salesmans: ${error.toString()}'),
+    //   (salesmans) =>
+    //       insertOperations.add(insertAllSalesmansLocalUsecase.call(salesmans)),
+    // );
 
-    // Execute all inserts in parallel
-    await Future.wait(insertOperations);
+    // // Execute all inserts in parallel
+    // await Future.wait(insertOperations);
   }
 
   // ==========================================================================
@@ -297,12 +297,12 @@ class HomeController extends GetxController {
       isLoadingData.value = true;
       // Fetch all local data in parallel for maximum performance
       final results = await Future.wait([
-        getAllLocalCompaniesUsecase.call(NoParams()),
-        getAllLocalProductsUsecase.call(NoParams()),
-        getAllLocalCustomersUsecase.call(NoParams()),
-        getAllLocalSectorsUsecase.call(NoParams()),
-        getAllLocalTownsUsecase.call(NoParams()),
-        getCountUnsyncordersUsecase.call(NoParams()),
+        // getAllLocalCompaniesUsecase.call(NoParams()),
+        // getAllLocalProductsUsecase.call(NoParams()),
+        // getAllLocalCustomersUsecase.call(NoParams()),
+        // getAllLocalSectorsUsecase.call(NoParams()),
+        // getAllLocalTownsUsecase.call(NoParams()),
+        // getCountUnsyncordersUsecase.call(NoParams()),
       ]);
       // Update all data lists
       _updateDataLists(results);
@@ -318,45 +318,45 @@ class HomeController extends GetxController {
 
   void _updateDataLists(List<dynamic> results) {
     // Companies
-    results[0].fold(
-      (error) =>
-          throw Exception('Failed to load companies: ${error.toString()}'),
-      (companies) => getCompaniesModel.value = companies,
-    );
+    // results[0].fold(
+    //   (error) =>
+    //       throw Exception('Failed to load companies: ${error.toString()}'),
+    //   (companies) => getCompaniesModel.value = companies,
+    // );
 
-    // Products
-    results[1].fold(
-      (error) =>
-          throw Exception('Failed to load products: ${error.toString()}'),
-      (products) => getAllProducts.value = products,
-    );
+    // // Products
+    // results[1].fold(
+    //   (error) =>
+    //       throw Exception('Failed to load products: ${error.toString()}'),
+    //   (products) => getAllProducts.value = products,
+    // );
 
     // Customers
-    results[2].fold(
-      (error) =>
-          throw Exception('Failed to load customers: ${error.toString()}'),
-      (customers) => getAllCustomers.value = customers,
-    );
+    // results[2].fold(
+    //   (error) =>
+    //       throw Exception('Failed to load customers: ${error.toString()}'),
+    //   (customers) => getAllCustomers.value = customers,
+    // );
 
-    // Sectors
-    results[3].fold(
-      (error) => throw Exception('Failed to load sectors: ${error.toString()}'),
-      (sectors) => getAllSectors.value = sectors,
-    );
+    // // Sectors
+    // results[3].fold(
+    //   (error) => throw Exception('Failed to load sectors: ${error.toString()}'),
+    //   (sectors) => getAllSectors.value = sectors,
+    // );
 
-    // Towns
-    results[4].fold(
-      (error) => throw Exception('Failed to load towns: ${error.toString()}'),
-      (towns) => getAllTowns.value = towns,
-    );
+    // // Towns
+    // results[4].fold(
+    //   (error) => throw Exception('Failed to load towns: ${error.toString()}'),
+    //   (towns) => getAllTowns.value = towns,
+    // );
 
-    // unsync orders count
-    results[5].fold(
-      (error) => throw Exception(
-        'Failed to load unsync orders count: ${error.toString()}',
-      ),
-      (count) => unsyncedOrdersCount.value = count,
-    );
+    // // unsync orders count
+    // results[5].fold(
+    //   (error) => throw Exception(
+    //     'Failed to load unsync orders count: ${error.toString()}',
+    //   ),
+    //   (count) => unsyncedOrdersCount.value = count,
+    // );
   }
 
   // ================= ORDER SYNCHRONIZATION =================
@@ -380,64 +380,65 @@ class HomeController extends GetxController {
           }
           // Show loader only once at the beginning
 
-          late GetSalesmanModel getSalesman;
-          final salesmanResponse = await getLocalSalesmanByIdUsecase.call(
-            SessionController().getUserDetails.salesmanId!,
-          );
-          await salesmanResponse.fold(
-            (error) {
-                 AppToasts.dismiss(Get.context!);
-            },
-            (salesman) {
-              AppToasts.dismiss(Get.context!);
-              getSalesman = salesman!;
-              return;
-            },
-          );
-          AppToasts.showLoaderDialog(Get.context!,'Syncing orders...');
-          final syncModel = await _prepareSyncModel(orders, getSalesman);
+          //late GetSalesmanModel getSalesman;
+         // final salesmanResponse = await getLocalSalesmanByIdUsecase.call(
+            // SessionController().getUserDetails.salesmanId!,
+          //   "",
+          // );
+          // await salesmanResponse.fold(
+          //   (error) {
+          //     AppToasts.dismiss(Get.context!);
+          //   },
+          //   (salesman) {
+          //     AppToasts.dismiss(Get.context!);
+          //     getSalesman = salesman!;
+          //     return;
+          //   },
+          // );
+          // AppToasts.showLoaderDialog(Get.context!, 'Syncing orders...');
+          // final syncModel = await _prepareSyncModel(orders, getSalesman);
 
-          late List<GetOrderResponse> bookedOrdersResponse;
-          final remoteOrdersResponse = await createOrdersRemotelyUsecase.call(
-            syncModel,
-          );
-          remoteOrdersResponse.fold(
-            (error) {
-                 AppToasts.dismiss(Get.context!);
-              AppToasts.showErrorToast(
-                Get.context!,
-                "Error syncing orders. ${error.toString()}",
-              );
-            },
-            (bookedOrders) {
-              if (bookedOrders.isNotEmpty) {
-                bookedOrdersResponse = bookedOrders;
-                return;
-              } else {
-                   AppToasts.dismiss(Get.context!);
-                AppToasts.showErrorToast(Get.context!, 'Orders did not sync.');
-              }
-            },
-          );
+          // late List<GetOrderResponse> bookedOrdersResponse;
+          // final remoteOrdersResponse = await createOrdersRemotelyUsecase.call(
+          //   syncModel,
+          // );
+          // remoteOrdersResponse.fold(
+          //   (error) {
+          //     AppToasts.dismiss(Get.context!);
+          //     AppToasts.showErrorToast(
+          //       Get.context!,
+          //       "Error syncing orders. ${error.toString()}",
+          //     );
+          //   },
+          //   (bookedOrders) {
+          //     if (bookedOrders.isNotEmpty) {
+          //       bookedOrdersResponse = bookedOrders;
+          //       return;
+          //     } else {
+          //       AppToasts.dismiss(Get.context!);
+          //       AppToasts.showErrorToast(Get.context!, 'Orders did not sync.');
+          //     }
+          //   },
+          // );
 
-          await _updateSyncedOrders(orders, bookedOrdersResponse);
+          // await _updateSyncedOrders(orders, bookedOrdersResponse);
 
-          final updateUnsynccount = await getCountUnsyncordersUsecase.call(
-            NoParams(),
-          );
-          await updateUnsynccount.fold((error) {}, (count) {
-            unsyncedOrdersCount.value = count;
-          });
+          // final updateUnsynccount = await getCountUnsyncordersUsecase.call(
+          //   NoParams(),
+          // );
+          // await updateUnsynccount.fold((error) {}, (count) {
+          //   unsyncedOrdersCount.value = count;
+          // });
 
-             AppToasts.dismiss(Get.context!);
-          AppToasts.showSuccessToast(
-            Get.context!,
-            '${bookedOrdersResponse.length} orders synced successfully.',
-          );
+          // AppToasts.dismiss(Get.context!);
+          // AppToasts.showSuccessToast(
+          //   Get.context!,
+          //   '${bookedOrdersResponse.length} orders synced successfully.',
+          // );
         },
       );
     } catch (error) {
-         AppToasts.dismiss(Get.context!);
+      AppToasts.dismiss(Get.context!);
       AppToasts.showErrorToast(Get.context!, 'Sync failed: $error');
     } finally {
       isSyncingData.value = false;
@@ -458,15 +459,16 @@ class HomeController extends GetxController {
           guid: orders[i].guid,
           tenantOrderId: null,
           salesmanOrderId: null,
-          deviceOrderId:
-              ((SessionController().getUserDetails.maxDeviceOrderId! + i) + 1),
+          deviceOrderId: 0,
+          // ((SessionController().getUserDetails.maxDeviceOrderId! + i) + 1),
           customerId: int.tryParse(orders[i].customerId),
           salesmanId: salesman.id,
           orderTime: orders[i].orderDate,
           syncDate: DateTime.now(),
           orderRows: orderRows,
           id: null,
-          tenantId: SessionController().getUserDetails.tenantId!.toIntOrNull,
+          tenantId: 6,
+          // SessionController().getUserDetails.tenantId!.toIntOrNull,
         ),
       );
     }
@@ -474,8 +476,6 @@ class HomeController extends GetxController {
       security: Security(
         mobileNo: await storage.readValues('phone'),
         password: "",
-        customerKey: SessionController().getUserDetails.customerKey,
-        tenantId: SessionController().getUserDetails.tenantId!.toIntOrNull,
       ),
       dataList: dataList,
     );
@@ -493,7 +493,8 @@ class HomeController extends GetxController {
             bonus: product.bonus,
             discRatio: product.discRatio,
             price: product.price,
-            tenantId: SessionController().getUserDetails.tenantId!.toIntOrNull,
+            tenantId: 6,
+            // SessionController().getUserDetails.tenantId!.toIntOrNull,
           ),
         );
       }

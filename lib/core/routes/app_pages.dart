@@ -49,16 +49,16 @@ class AppPages {
       page: () => const SelectCustomerView(),
       binding: SelectCustomerBinding(),
     ),
-    GetPage(
-      name: _Paths.ALL_PRODUCTS,
-      page: () => const AllProductsView(),
-      binding: AllProductsBinding(),
-    ),
-    GetPage(
-      name: _Paths.CREATE_ORDER,
-      page: () => const CreateOrderView(),
-      binding: CreateOrderBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.ALL_PRODUCTS,
+    //   page: () => const AllProductsView(),
+    //   binding: AllProductsBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.CREATE_ORDER,
+    //   page: () => const CreateOrderView(),
+    //   binding: CreateOrderBinding(),
+    // ),
     GetPage(
       name: _Paths.ORDERS_SUMMARY,
       page: () => const OrdersSummaryView(),
