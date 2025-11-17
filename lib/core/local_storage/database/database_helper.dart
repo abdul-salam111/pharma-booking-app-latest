@@ -59,28 +59,27 @@ class PharmaDatabase {
 
   /// Create database tables when database is first created
   /// This method is called only once when the database is created
- Future<void> _onCreate(Database db, int version) async {
-  try {
-    await db.transaction((txn) async {
-
-      // ============== COMPANIES TABLE ==============
-      await txn.execute('''
+  Future<void> _onCreate(Database db, int version) async {
+    try {
+      await db.transaction((txn) async {
+        // ============== COMPANIES TABLE ==============
+        await txn.execute('''
         CREATE TABLE companies(
           id INTEGER,
           name TEXT
         )
       ''');
 
-      // ============== AREAS TABLE ==============
-      await txn.execute('''
+        // ============== AREAS TABLE ==============
+        await txn.execute('''
         CREATE TABLE areas(
           id INTEGER,
           name TEXT
         )
       ''');
 
-      // ============== SUBAREAS TABLE ==============
-      await txn.execute('''
+        // ============== SUBAREAS TABLE ==============
+        await txn.execute('''
         CREATE TABLE subareas(
           id INTEGER,
           name TEXT,
@@ -88,8 +87,8 @@ class PharmaDatabase {
         )
       ''');
 
-      // ============== CUSTOMERS TABLE ==============
-      await txn.execute('''
+        // ============== CUSTOMERS TABLE ==============
+        await txn.execute('''
         CREATE TABLE customers(
           id INTEGER,
           customerName TEXT,
@@ -108,8 +107,8 @@ class PharmaDatabase {
         )
       ''');
 
-      // ============== PRODUCTS TABLE ==============
-      await txn.execute('''
+        // ============== PRODUCTS TABLE ==============
+        await txn.execute('''
         CREATE TABLE products(
           id INTEGER,
           productName TEXT,
@@ -132,16 +131,58 @@ class PharmaDatabase {
           packings TEXT
         )
       ''');
+        // Create orders table
+        await txn.execute('''
+          CREATE TABLE orders(
+            orderId INTEGER PRIMARY KEY AUTOINCREMENT,
+            customerId TEXT,
+            customerName TEXT,
+            customerAddress TEXT,
+            orderDate TEXT,
+            syncDate TEXT,
+            synced TEXT DEFAULT 'No',
+            grandTotalProducts INTEGER DEFAULT 0,
+            grandTotalAmount REAL DEFAULT 0,
+            guid TEXT
+          )
+          
+        ''');
 
-    });
+        // Create order companies table (junction table for orders and companies)
+        await txn.execute('''
+          CREATE TABLE order_companies(
+            companyOrderId INTEGER PRIMARY KEY AUTOINCREMENT,
+            orderId INTEGER,
+            companyId TEXT,
+            companyName TEXT,
+            totalCompanyProducts INTEGER DEFAULT 0,
+            totalCompanyAmount REAL DEFAULT 0,
+            FOREIGN KEY (orderId) REFERENCES orders(orderId) ON DELETE CASCADE
+          )
+        ''');
 
-    if (kDebugMode) print("All database tables created successfully");
-  } catch (e) {
-    if (kDebugMode) print("Error creating tables: $e");
-    rethrow;
+        // Create order products table (stores individual products in each order)
+        await txn.execute('''
+          CREATE TABLE order_products(
+            orderProductId INTEGER PRIMARY KEY AUTOINCREMENT,
+            companyOrderId INTEGER,
+            productId TEXT,
+            productName TEXT,
+            quantity INTEGER,
+            bonus INTEGER DEFAULT 0,
+            discRatio REAL DEFAULT 0,
+            price REAL,
+            FOREIGN KEY (companyOrderId) REFERENCES order_companies(companyOrderId) ON DELETE CASCADE
+          )
+''');
+      });
+
+      if (kDebugMode) print("All database tables created successfully");
+    } catch (e) {
+      if (kDebugMode) print("Error creating tables: $e");
+      rethrow;
+    }
   }
-}
-
 
   /// Handle database upgrades when version changes
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {

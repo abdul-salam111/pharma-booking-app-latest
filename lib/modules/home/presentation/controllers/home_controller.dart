@@ -1,12 +1,9 @@
 // ============================================================================
 // HOME CONTROLLER
 // ============================================================================
-
 import 'dart:async';
-import 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/insert_sub_areas_local_usecase.dart';
-
-import '../../../all_products/data/models/get_companies_model/companies_model.dart';
 import '../../../create_order/data/models/get_order_response/get_order_response.dart';
+import '../../../select_customer/domain/usecases/local_usecases/insert_sub_areas_local_usecase.dart';
 import '../barrel.dart';
 
 /// Controller to manage HomeScreen state and data synchronization.

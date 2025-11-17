@@ -180,7 +180,6 @@ class CreateOrderView extends GetView<CreateOrderController> {
                             final companyId = company.id.toString();
                             final companyName =
                                 company.name ?? 'Unknown Company';
-
                             final totalAmount = controller.getCompanyTotal(
                               companyId,
                             );

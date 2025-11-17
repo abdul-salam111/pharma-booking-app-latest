@@ -1,11 +1,6 @@
 import 'package:flutter/foundation.dart';
-import '../../../../core/core.dart';
-import '../../../../core/shared/models/post_models/create_order_for_local.dart';
-import '../../../create_order/presentation/controllers/create_order_controller.dart';
 import '../../../home/presentation/barrel.dart';
-import '../../../select_customer/data/models/get_customers_model/get_customers_model.dart';
 
-import '../../data/models/get_products_model/get_all_products_model.dart';
 
 /// Controller for managing product selection and order creation in the pharma app
 /// Handles product filtering, company selection, and order management
