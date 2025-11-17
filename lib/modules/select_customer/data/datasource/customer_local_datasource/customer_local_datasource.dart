@@ -3,10 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../../../home/presentation/barrel.dart';
-import '../../models/get_customers_model/get_customers_model.dart';
-import '../../models/get_salesman_model/get_salesman_model.dart';
-import '../../models/get_sectors_model/get_sectors_model.dart';
-import '../../models/get_towns_model/get_towns_model.dart';
 
 // ============================================================================
 // ABSTRACT INTERFACE
@@ -15,22 +11,19 @@ import '../../models/get_towns_model/get_towns_model.dart';
 abstract interface class CustomerLocalDataSource {
   // Read operations
   Future<List<GetCustomersModel>> getAllLocalCustomers();
-  Future<List<GetTownsModel>> getAllLocalTowns();
-  Future<List<GetSectorsModel>> getAllLocalSectors();
-  Future<GetSalesmanModel?> getLocalSalesmanById({required String salesmanId});
+  Future<List<GetSubAreaListModel>> getAllLocalTowns();
+  Future<List<GetAreaListModel>> getAllLocalSectors();
   Future<GetCustomersModel?> getLocalCustomerById({required String customerId});
 
   // Insert operations
   Future<List<int>> insertLocalCustomers(List<GetCustomersModel> customers);
-  Future<List<int>> insertLocalTowns(List<GetTownsModel> towns);
-  Future<List<int>> insertLocalSectors(List<GetSectorsModel> sectors);
-  Future<List<int>> insertLocalSalesmans(List<GetSalesmanModel> salesmans);
+  Future<List<int>> insertLocalTowns(List<GetSubAreaListModel> towns);
+  Future<List<int>> insertLocalSectors(List<GetAreaListModel> sectors);
 
   // Clear operations
   Future<bool> clearLocalCustomers();
   Future<bool> clearLocalTowns();
   Future<bool> clearLocalSectors();
-  Future<bool> clearLocalSalesmans();
 }
 
 // ============================================================================
@@ -44,9 +37,8 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
 
   // Table names
   static const String customerTable = 'customers';
-  static const String townTable = 'towns';
-  static const String sectorTable = 'sectors';
-  static const String salesmanTable = 'salesman';
+  static const String townTable = 'subareas';
+  static const String sectorTable = 'areas';
 
   // ==========================================================================
   // CLEAR OPERATIONS
@@ -67,11 +59,6 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
     return await databaseHelper.clearTable(sectorTable);
   }
 
-  @override
-  Future<bool> clearLocalSalesmans() async {
-    return await databaseHelper.clearTable(salesmanTable);
-  }
-
   // ==========================================================================
   // READ OPERATIONS
   // ==========================================================================
@@ -82,28 +69,10 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
       final dbClient = await databaseHelper.database;
 
       return await dbClient!.transaction((txn) async {
-        final maps = await txn.query(customerTable);
+        final customerData = await txn.query(customerTable);
 
-        final customers = maps.map((map) {
-          return GetCustomersModel.fromJson({
-            'CustomerId': map['CustomerId'],
-            'ActualTownId': map['ActualTownId'],
-            'CustomerName': map['CustomerName'],
-            'Address': map['Address'],
-            'City': map['City'],
-            'ContactPerson': map['ContactPerson'],
-            'Phone1': map['Phone1'],
-            'Phone2': map['Phone2'],
-            'Phone3': map['Phone3'],
-            'GSM': map['GSM'],
-            'Email': map['Email'],
-            'NTN': map['NTN'],
-            'STN': map['STN'],
-            'CustomerType': map['CustomerType'],
-            'CNIC': map['CNIC'],
-            'ID': map['ID'],
-            'TenantID': map['TenantID'],
-          });
+        final customers = customerData.map((customer) {
+          return GetCustomersModelDbX.fromDbJson(customer);
         }).toList();
 
         if (kDebugMode) {
@@ -121,7 +90,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   }
 
   @override
-  Future<List<GetTownsModel>> getAllLocalTowns() async {
+  Future<List<GetSubAreaListModel>> getAllLocalTowns() async {
     try {
       final dbClient = await databaseHelper.database;
 
@@ -129,13 +98,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
         final maps = await txn.query(townTable);
 
         final towns = maps.map((map) {
-          return GetTownsModel.fromJson({
-            'ActualSectorId': map['ActualSectorId'],
-            'ActualTownId': map['ActualTownId'],
-            'TownName': map['TownName'],
-            'ID': map['ID'],
-            'TenantID': map['TenantID'],
-          });
+          return GetSubAreaListModel.fromJson(map);
         }).toList();
 
         if (kDebugMode) {
@@ -153,7 +116,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   }
 
   @override
-  Future<List<GetSectorsModel>> getAllLocalSectors() async {
+  Future<List<GetAreaListModel>> getAllLocalSectors() async {
     try {
       final dbClient = await databaseHelper.database;
 
@@ -161,12 +124,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
         final maps = await txn.query(sectorTable);
 
         final sectors = maps.map((map) {
-          return GetSectorsModel.fromJson({
-            'ActualSectorId': map['ActualSectorId'],
-            'SectorName': map['SectorName'],
-            'ID': map['ID'],
-            'TenantID': map['TenantID'],
-          });
+          return GetAreaListModel.fromJson(map);
         }).toList();
 
         if (kDebugMode) {
@@ -180,51 +138,6 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
         print('Error getting sectors from database: $e');
       }
       return [];
-    }
-  }
-
-  @override
-  Future<GetSalesmanModel?> getLocalSalesmanById({
-    required String salesmanId,
-  }) async {
-    try {
-      var dbClient = await databaseHelper.database;
-
-      return await dbClient!.transaction((txn) async {
-        List<Map<String, dynamic>> maps = await txn.query(
-          salesmanTable,
-          where: 'SalesmanId = ?',
-          whereArgs: [salesmanId],
-          limit: 1,
-        );
-
-        if (maps.isNotEmpty) {
-          return GetSalesmanModel(
-            allowChangeBonus: maps[0]['AllowChangeBonus'] == "false"
-                ? false
-                : true,
-            allowChangePrice: maps[0]['AllowChangePrice'] == "false"
-                ? false
-                : true,
-            allowChangeDiscount: maps[0]['AllowChangeDiscount'] == "false"
-                ? false
-                : true,
-            id: maps[0]['ID'],
-            password: maps[0]['Password'],
-            salesmanId: maps[0]['SalesmanId'],
-            salesmanName: maps[0]['SalesmanName'],
-            tenantId: maps[0]['TenantID'],
-            city: maps[0]['City'],
-            mobileNumber: maps[0]['MobileNumber'],
-          );
-        }
-        return null;
-      });
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error getting salesman by ID: $e');
-      }
-      return null;
     }
   }
 
@@ -245,7 +158,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
           try {
             final result = await txn.insert(
               customerTable,
-              _convertCustomerToDbFormat(customer),
+              customer.toDbJson(),
               conflictAlgorithm: ConflictAlgorithm.replace,
             );
             results.add(result);
@@ -274,7 +187,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   }
 
   @override
-  Future<List<int>> insertLocalTowns(List<GetTownsModel> towns) async {
+  Future<List<int>> insertLocalTowns(List<GetSubAreaListModel> towns) async {
     try {
       final dbClient = await databaseHelper.database;
       final results = <int>[];
@@ -284,7 +197,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
           try {
             final result = await txn.insert(
               townTable,
-              _convertTownToDbFormat(town),
+              town.toJson(),
               conflictAlgorithm: ConflictAlgorithm.replace,
             );
             results.add(result);
@@ -313,7 +226,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   }
 
   @override
-  Future<List<int>> insertLocalSectors(List<GetSectorsModel> sectors) async {
+  Future<List<int>> insertLocalSectors(List<GetAreaListModel> sectors) async {
     try {
       final dbClient = await databaseHelper.database;
       final results = <int>[];
@@ -323,7 +236,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
           try {
             final result = await txn.insert(
               sectorTable,
-              _convertSectorToDbFormat(sector),
+              sector.toJson(),
               conflictAlgorithm: ConflictAlgorithm.replace,
             );
             results.add(result);
@@ -352,47 +265,6 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   }
 
   @override
-  Future<List<int>> insertLocalSalesmans(
-    List<GetSalesmanModel> salesmans,
-  ) async {
-    try {
-      final dbClient = await databaseHelper.database;
-      final results = <int>[];
-
-      await dbClient!.transaction((txn) async {
-        for (final salesman in salesmans) {
-          try {
-            final result = await txn.insert(
-              salesmanTable,
-              _convertSalesmanToDbFormat(salesman),
-              conflictAlgorithm: ConflictAlgorithm.replace,
-            );
-            results.add(result);
-          } catch (e) {
-            if (kDebugMode) {
-              print('Error inserting individual salesman: $e');
-              print('Salesman data: ${salesman.toJson()}');
-            }
-          }
-        }
-      });
-
-      if (kDebugMode) {
-        print(
-          'Successfully inserted ${results.length} salesmen out of ${salesmans.length}',
-        );
-      }
-
-      return results;
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error inserting salesmen: $e');
-      }
-      return [];
-    }
-  }
-
-  @override
   Future<GetCustomersModel?> getLocalCustomerById({
     required String customerId,
   }) async {
@@ -408,25 +280,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
         );
 
         if (maps.isNotEmpty) {
-          return GetCustomersModel.fromJson({
-            'CustomerId': maps[0]['CustomerId'],
-            'ActualTownId': maps[0]['ActualTownId'],
-            'CustomerName': maps[0]['CustomerName'],
-            'Address': maps[0]['Address'],
-            'City': maps[0]['City'],
-            'ContactPerson': maps[0]['ContactPerson'],
-            'Phone1': maps[0]['Phone1'],
-            'Phone2': maps[0]['Phone2'],
-            'Phone3': maps[0]['Phone3'],
-            'GSM': maps[0]['GSM'],
-            'Email': maps[0]['Email'],
-            'NTN': maps[0]['NTN'],
-            'STN': maps[0]['STN'],
-            'CustomerType': maps[0]['CustomerType'],
-            'CNIC': maps[0]['CNIC'],
-            'ID': maps[0]['ID'],
-            'TenantID': maps[0]['TenantID'],
-          });
+          return GetCustomersModelDbX.fromDbJson(maps.first);
         }
         return null;
       });
@@ -437,65 +291,46 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
       return null;
     }
   }
+}
 
-  // ==========================================================================
-  // PRIVATE CONVERSION METHODS
-  // ==========================================================================
-
-  Map<String, dynamic> _convertCustomerToDbFormat(GetCustomersModel customer) {
+extension GetCustomersModelDbX on GetCustomersModel {
+  /// Convert model to SQLite map
+  Map<String, dynamic> toDbJson() {
     return {
-      // 'CustomerId': customer.customerId,
-      // 'ActualTownId': customer.actualTownId,
-      // 'companyName': null,
-      // 'CustomerName': customer.customerName,
-      // 'Address': customer.address,
-      // 'City': customer.city,
-      // 'ContactPerson': customer.contactPerson,
-      // 'Phone1': customer.phone1,
-      // 'Phone2': customer.phone2,
-      // 'Phone3': customer.phone3,
-      // 'GSM': customer.gsm,
-      // 'Email': customer.email,
-      // 'NTN': customer.ntn,
-      // 'STN': customer.stn,
-      // 'CustomerType': customer.customerType,
-      // 'CNIC': customer.cnic,
-      // 'ID': customer.id,
-      // 'TenantID': customer.tenantId,
+      'id': id,
+      'customerName': customerName,
+      'ordSubAreaId': ordSubAreaId ?? 0,
+      'city': city,
+      'contactPerson': contactPerson,
+      'phone1': phone1,
+      'email': email,
+      'customerType': customerType,
+      'ordersCount': ordersCount ?? 0,
+      'isActive': (isActive ?? false) ? 1 : 0,
+      'creditLimit': creditLimit ?? 0,
+      'openingBalance': openingBalance ?? 0,
+      'currentBalance': currentBalance ?? 0,
+      'isFiler': (isFiler ?? false) ? 1 : 0,
     };
   }
 
-  Map<String, dynamic> _convertTownToDbFormat(GetTownsModel town) {
-    return {
-      'ActualSectorId': town.actualSectorId,
-      'ActualTownId': town.actualTownId,
-      'TownName': town.townName,
-      'ID': town.id,
-      'TenantID': town.tenantId,
-    };
-  }
-
-  Map<String, dynamic> _convertSectorToDbFormat(GetSectorsModel sector) {
-    return {
-      'ActualSectorId': sector.actualSectorId,
-      'SectorName': sector.sectorName,
-      'ID': sector.id,
-      'TenantID': sector.tenantId,
-    };
-  }
-
-  Map<String, dynamic> _convertSalesmanToDbFormat(GetSalesmanModel salesman) {
-    return {
-      'SalesmanId': salesman.salesmanId,
-      'SalesmanName': salesman.salesmanName,
-      'City': salesman.city,
-      'MobileNumber': salesman.mobileNumber,
-      'Password': salesman.password,
-      'AllowChangePrice': salesman.allowChangePrice == true ? "1" : "0",
-      'AllowChangeDiscount': salesman.allowChangeDiscount == true ? "1" : "0",
-      'AllowChangeBonus': salesman.allowChangeBonus == true ? "1" : "0",
-      'ID': salesman.id,
-      'TenantID': salesman.tenantId,
-    };
+  /// Static helper to create a model from SQLite map
+  static GetCustomersModel fromDbJson(Map<String, dynamic> json) {
+    return GetCustomersModel(
+      id: json['id'] as int?,
+      customerName: json['customerName'] as String?,
+      ordSubAreaId: json['ordSubAreaId'] as int?,
+      city: json['city'] as String?,
+      contactPerson: json['contactPerson'] as String?,
+      phone1: json['phone1'] as String?,
+      email: json['email'] as String?,
+      customerType: json['customerType'] as String?,
+      ordersCount: json['ordersCount'] as int? ?? 0,
+      isActive: (json['isActive'] as int? ?? 0) == 1,
+      creditLimit: (json['creditLimit'] as num?)?.toDouble() ?? 0.0,
+      openingBalance: (json['openingBalance'] as num?)?.toDouble() ?? 0.0,
+      currentBalance: (json['currentBalance'] as num?)?.toDouble() ?? 0.0,
+      isFiler: (json['isFiler'] as int? ?? 0) == 1,
+    );
   }
 }

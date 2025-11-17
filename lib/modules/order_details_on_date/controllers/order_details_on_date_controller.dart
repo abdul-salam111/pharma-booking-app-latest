@@ -5,8 +5,8 @@ import '../../home/presentation/barrel.dart';
 class OrderDetailsOnDateController extends GetxController {
   // final GetAllLocalProductsUsecase getAllLocalProductsUsecase;
   // final GetAllLocalCompaniesUsecase getAllLocalCompaniesUsecase;
-  final GetAllLocalSectorsUsecase getAllLocalSectorsUsecase;
-  final GetAllLocalTownsUsecase getAllLocalTownsUsecase;
+  final GetAllLocalAreasUsecase getAllLocalSectorsUsecase;
+  final GetAllLocalSubAreasUsecase getAllLocalTownsUsecase;
   OrderDetailsOnDateController({
     // required this.getAllLocalProductsUsecase,
     // required this.getAllLocalCompaniesUsecase,
@@ -81,7 +81,7 @@ class OrderDetailsOnDateController extends GetxController {
       List<GetAllProductsModel> allProducts = [];
       // final productresponse = await getAllLocalProductsUsecase.call(NoParams());
       // productresponse.fold((l) => allProducts = [], (r) => allProducts = r);
-      List<GetCompaniesModel> allCompanies = [];
+      List<CompaniesModel> allCompanies = [];
       // final companyResponse = await getAllLocalCompaniesUsecase.call(
       //   NoParams(),
       // );
@@ -128,23 +128,23 @@ class OrderDetailsOnDateController extends GetxController {
       final townName = addressParts.last.trim();
 
       // Fetch sector and town from database
-      List<GetSectorsModel> allSectors = [];
-      List<GetTownsModel> allTowns = [];
+      List<GetAreaListModel> allSectors = [];
+      List<GetSubAreaListModel> allTowns = [];
       final allSectorsResponse = await getAllLocalSectorsUsecase.call(
         NoParams(),
       );
-      allSectorsResponse.fold((l) => allSectors = [], (r) => allSectors = r);
+      // allSectorsResponse.fold((l) => allSectors = [], (r) => allSectors = r);
       final allTownsResponse = await getAllLocalTownsUsecase.call(NoParams());
       allTownsResponse.fold((l) => allTowns = [], (r) => allTowns = r);
 
       final selectedSector = allSectors.firstWhere(
-        (sector) => sector.sectorName == sectorName,
-        orElse: () => GetSectorsModel(sectorName: sectorName),
+        (sector) => sector.name == sectorName,
+        orElse: () => GetAreaListModel(name: sectorName),
       );
 
       final selectedTown = allTowns.firstWhere(
-        (town) => town.townName == townName,
-        orElse: () => GetTownsModel(townName: townName),
+        (town) => town.name == townName,
+        orElse: () => GetSubAreaListModel(name: townName),
       );
 
       // Create customer model

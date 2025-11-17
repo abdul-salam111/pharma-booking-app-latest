@@ -59,156 +59,89 @@ class PharmaDatabase {
 
   /// Create database tables when database is first created
   /// This method is called only once when the database is created
-  Future<void> _onCreate(Database db, int version) async {
-    try {
-      // Execute all table creation in a single transaction
-      await db.transaction((txn) async {
-        // Create companies table
-        await txn.execute('''
-          CREATE TABLE companies(
-            CompanyId TEXT,
-            CompanyName TEXT,
-            ASMTitle TEXT,
-            DistributionCode TEXT,
-            ID INTEGER,
-            TenantID INTEGER
-          )
-        ''');
+ Future<void> _onCreate(Database db, int version) async {
+  try {
+    await db.transaction((txn) async {
 
-        // Create sectors table
-        await txn.execute('''
-          CREATE TABLE sectors(
-            ActualSectorId INTEGER,
-            SectorName TEXT,
-            ID INTEGER,
-            TenantID INTEGER
-          )
-        ''');
+      // ============== COMPANIES TABLE ==============
+      await txn.execute('''
+        CREATE TABLE companies(
+          id INTEGER,
+          name TEXT
+        )
+      ''');
 
-        // Create towns table
-        await txn.execute('''
-          CREATE TABLE towns(
-            ActualSectorId INTEGER,
-            ActualTownId INTEGER,
-            TownName TEXT,
-            ID INTEGER,
-            TenantID INTEGER
-          )
-        ''');
+      // ============== AREAS TABLE ==============
+      await txn.execute('''
+        CREATE TABLE areas(
+          id INTEGER,
+          name TEXT
+        )
+      ''');
 
-        // Create customers table
-        await txn.execute('''
-          CREATE TABLE customers(
-            CustomerId TEXT,
-            ActualTownId INTEGER,
-            companyName TEXT,
-            CustomerName TEXT,
-            Address TEXT,
-            City TEXT,
-            ContactPerson TEXT,
-            Phone1 TEXT,
-            Phone2 TEXT,
-            Phone3 TEXT,
-            GSM TEXT,
-            Email TEXT,
-            NTN TEXT,
-            STN TEXT,
-            CustomerType TEXT,
-            CNIC TEXT,
-            ID INTEGER,
-            TenantID INTEGER
-          )
-        ''');
+      // ============== SUBAREAS TABLE ==============
+      await txn.execute('''
+        CREATE TABLE subareas(
+          id INTEGER,
+          name TEXT,
+          ordAreaId INTEGER
+        )
+      ''');
 
-        // Create salesman table
-        await txn.execute('''
-          CREATE TABLE salesman(
-            SalesmanId TEXT,
-            SalesmanName TEXT,
-            City TEXT,
-            MobileNumber TEXT,
-            Password TEXT,
-            AllowChangePrice TEXT,
-            AllowChangeDiscount TEXT,
-            AllowChangeBonus TEXT,
-            ID INTEGER,
-            TenantID INTEGER
-          )
-        ''');
+      // ============== CUSTOMERS TABLE ==============
+      await txn.execute('''
+        CREATE TABLE customers(
+          id INTEGER,
+          customerName TEXT,
+          ordSubAreaId INTEGER,
+          city TEXT,
+          contactPerson TEXT,
+          phone1 TEXT,
+          email TEXT,
+          customerType TEXT,
+          ordersCount INTEGER,
+          isActive INTEGER,
+          creditLimit REAL,
+          openingBalance REAL,
+          currentBalance REAL,
+          isFiler INTEGER
+        )
+      ''');
 
-        // Create products table
-        await txn.execute('''
-          CREATE TABLE products(
-            CompanyId INTEGER,
-            StrCompanyId TEXT,
-            ProductId TEXT,
-            GroupId INTEGER,
-            ProductName TEXT,
-            Packing TEXT,
-            TradePrice REAL,
-            SaleDiscRatio REAL,
-            CurrentStock INTEGER,
-            IsInActive INTEGER,
-            ID INTEGER,
-            TenantID INTEGER
-          )
-        ''');
+      // ============== PRODUCTS TABLE ==============
+      await txn.execute('''
+        CREATE TABLE products(
+          id INTEGER,
+          productName TEXT,
+          companyId INTEGER,
+          pricePackPur REAL,
+          retailPrice REAL,
+          discRatioPur REAL,
+          saleDiscRatio REAL,
+          pricePackSal1 REAL,
+          pricePackSal2 REAL,
+          pricePackSal3 REAL,
+          discRatioSal1 REAL,
+          discRatioSal2 REAL,
+          discRatioSal3 REAL,
+          sTaxRatio REAL,
+          sTaxValPack REAL,
+          isSTaxOnBnsSal INTEGER,
+          displayOrder INTEGER,
+          tradePrice REAL,
+          packings TEXT
+        )
+      ''');
 
-        // Create orders table
-        await txn.execute('''
-          CREATE TABLE orders(
-            orderId INTEGER PRIMARY KEY AUTOINCREMENT,
-            customerId TEXT,
-            customerName TEXT,
-            customerAddress TEXT,
-            orderDate TEXT,
-            syncDate TEXT,
-            synced TEXT DEFAULT 'No',
-            grandTotalProducts INTEGER DEFAULT 0,
-            grandTotalAmount REAL DEFAULT 0,
-            guid TEXT
-          )
-        ''');
+    });
 
-        // Create order companies table (junction table for orders and companies)
-        await txn.execute('''
-          CREATE TABLE order_companies(
-            companyOrderId INTEGER PRIMARY KEY AUTOINCREMENT,
-            orderId INTEGER,
-            companyId TEXT,
-            companyName TEXT,
-            totalCompanyProducts INTEGER DEFAULT 0,
-            totalCompanyAmount REAL DEFAULT 0,
-            FOREIGN KEY (orderId) REFERENCES orders(orderId) ON DELETE CASCADE
-          )
-        ''');
-
-        // Create order products table (stores individual products in each order)
-        await txn.execute('''
-          CREATE TABLE order_products(
-            orderProductId INTEGER PRIMARY KEY AUTOINCREMENT,
-            companyOrderId INTEGER,
-            productId TEXT,
-            productName TEXT,
-            quantity INTEGER,
-            bonus INTEGER DEFAULT 0,
-            discRatio REAL DEFAULT 0,
-            price REAL,
-            FOREIGN KEY (companyOrderId) REFERENCES order_companies(companyOrderId) ON DELETE CASCADE
-          )
-        ''');
-      });
-
-      if (kDebugMode) {
-        print('All database tables created successfully');
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error creating database tables: $e');
-      }
-      rethrow;
-    }
+    if (kDebugMode) print("All database tables created successfully");
+  } catch (e) {
+    if (kDebugMode) print("Error creating tables: $e");
+    rethrow;
   }
+}
+
 
   /// Handle database upgrades when version changes
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {

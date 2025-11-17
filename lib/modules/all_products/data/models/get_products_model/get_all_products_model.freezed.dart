@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GetAllProductsModel {
 
-@JsonKey(name: "id") int? get id;@JsonKey(name: "productName") String? get productName;@JsonKey(name: "companyId") int? get companyId;@JsonKey(name: "pricePackPur") int? get pricePackPur;@JsonKey(name: "retailPrice") int? get retailPrice;@JsonKey(name: "discRatioPur") int? get discRatioPur;@JsonKey(name: "saleDiscRatio") int? get saleDiscRatio;@JsonKey(name: "pricePackSal1") int? get pricePackSal1;@JsonKey(name: "pricePackSal2") int? get pricePackSal2;@JsonKey(name: "pricePackSal3") int? get pricePackSal3;@JsonKey(name: "discRatioSal1") int? get discRatioSal1;@JsonKey(name: "discRatioSal2") int? get discRatioSal2;@JsonKey(name: "discRatioSal3") int? get discRatioSal3;@JsonKey(name: "sTaxRatio") int? get sTaxRatio;@JsonKey(name: "sTaxValPack") int? get sTaxValPack;@JsonKey(name: "isSTaxOnBnsSal") bool? get isSTaxOnBnsSal;@JsonKey(name: "displayOrder") int? get displayOrder;@JsonKey(name: "tradePrice") int? get tradePrice;@JsonKey(name: "packings") List<dynamic>? get packings;
+@JsonKey(name: "id") int? get id;@JsonKey(name: "productName") String? get productName;@JsonKey(name: "companyId") int? get companyId;@JsonKey(name: "pricePackPur") num? get pricePackPur;@JsonKey(name: "retailPrice") num? get retailPrice;@JsonKey(name: "discRatioPur") num? get discRatioPur;@JsonKey(name: "saleDiscRatio") num? get saleDiscRatio;@JsonKey(name: "pricePackSal1") num? get pricePackSal1;@JsonKey(name: "pricePackSal2") num? get pricePackSal2;@JsonKey(name: "pricePackSal3") num? get pricePackSal3;@JsonKey(name: "discRatioSal1") num? get discRatioSal1;@JsonKey(name: "discRatioSal2") num? get discRatioSal2;@JsonKey(name: "discRatioSal3") num? get discRatioSal3;@JsonKey(name: "sTaxRatio") num? get sTaxRatio;@JsonKey(name: "sTaxValPack") num? get sTaxValPack;/// Handles both API bool and SQLite integer (0/1)
+@JsonKey(name: "isSTaxOnBnsSal", fromJson: _boolFromJson, toJson: _boolToJson) bool? get isSTaxOnBnsSal;@JsonKey(name: "displayOrder") int? get displayOrder;@JsonKey(name: "tradePrice") num? get tradePrice;/// packings can be list (API) or JSON string (SQLite)
+@JsonKey(name: "packings", fromJson: _packingsFromJson, toJson: _packingsToJson) List<dynamic>? get packings;
 /// Create a copy of GetAllProductsModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +50,7 @@ abstract mixin class $GetAllProductsModelCopyWith<$Res>  {
   factory $GetAllProductsModelCopyWith(GetAllProductsModel value, $Res Function(GetAllProductsModel) _then) = _$GetAllProductsModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: "id") int? id,@JsonKey(name: "productName") String? productName,@JsonKey(name: "companyId") int? companyId,@JsonKey(name: "pricePackPur") int? pricePackPur,@JsonKey(name: "retailPrice") int? retailPrice,@JsonKey(name: "discRatioPur") int? discRatioPur,@JsonKey(name: "saleDiscRatio") int? saleDiscRatio,@JsonKey(name: "pricePackSal1") int? pricePackSal1,@JsonKey(name: "pricePackSal2") int? pricePackSal2,@JsonKey(name: "pricePackSal3") int? pricePackSal3,@JsonKey(name: "discRatioSal1") int? discRatioSal1,@JsonKey(name: "discRatioSal2") int? discRatioSal2,@JsonKey(name: "discRatioSal3") int? discRatioSal3,@JsonKey(name: "sTaxRatio") int? sTaxRatio,@JsonKey(name: "sTaxValPack") int? sTaxValPack,@JsonKey(name: "isSTaxOnBnsSal") bool? isSTaxOnBnsSal,@JsonKey(name: "displayOrder") int? displayOrder,@JsonKey(name: "tradePrice") int? tradePrice,@JsonKey(name: "packings") List<dynamic>? packings
+@JsonKey(name: "id") int? id,@JsonKey(name: "productName") String? productName,@JsonKey(name: "companyId") int? companyId,@JsonKey(name: "pricePackPur") num? pricePackPur,@JsonKey(name: "retailPrice") num? retailPrice,@JsonKey(name: "discRatioPur") num? discRatioPur,@JsonKey(name: "saleDiscRatio") num? saleDiscRatio,@JsonKey(name: "pricePackSal1") num? pricePackSal1,@JsonKey(name: "pricePackSal2") num? pricePackSal2,@JsonKey(name: "pricePackSal3") num? pricePackSal3,@JsonKey(name: "discRatioSal1") num? discRatioSal1,@JsonKey(name: "discRatioSal2") num? discRatioSal2,@JsonKey(name: "discRatioSal3") num? discRatioSal3,@JsonKey(name: "sTaxRatio") num? sTaxRatio,@JsonKey(name: "sTaxValPack") num? sTaxValPack,@JsonKey(name: "isSTaxOnBnsSal", fromJson: _boolFromJson, toJson: _boolToJson) bool? isSTaxOnBnsSal,@JsonKey(name: "displayOrder") int? displayOrder,@JsonKey(name: "tradePrice") num? tradePrice,@JsonKey(name: "packings", fromJson: _packingsFromJson, toJson: _packingsToJson) List<dynamic>? packings
 });
 
 
@@ -71,21 +73,21 @@ id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String?,companyId: freezed == companyId ? _self.companyId : companyId // ignore: cast_nullable_to_non_nullable
 as int?,pricePackPur: freezed == pricePackPur ? _self.pricePackPur : pricePackPur // ignore: cast_nullable_to_non_nullable
-as int?,retailPrice: freezed == retailPrice ? _self.retailPrice : retailPrice // ignore: cast_nullable_to_non_nullable
-as int?,discRatioPur: freezed == discRatioPur ? _self.discRatioPur : discRatioPur // ignore: cast_nullable_to_non_nullable
-as int?,saleDiscRatio: freezed == saleDiscRatio ? _self.saleDiscRatio : saleDiscRatio // ignore: cast_nullable_to_non_nullable
-as int?,pricePackSal1: freezed == pricePackSal1 ? _self.pricePackSal1 : pricePackSal1 // ignore: cast_nullable_to_non_nullable
-as int?,pricePackSal2: freezed == pricePackSal2 ? _self.pricePackSal2 : pricePackSal2 // ignore: cast_nullable_to_non_nullable
-as int?,pricePackSal3: freezed == pricePackSal3 ? _self.pricePackSal3 : pricePackSal3 // ignore: cast_nullable_to_non_nullable
-as int?,discRatioSal1: freezed == discRatioSal1 ? _self.discRatioSal1 : discRatioSal1 // ignore: cast_nullable_to_non_nullable
-as int?,discRatioSal2: freezed == discRatioSal2 ? _self.discRatioSal2 : discRatioSal2 // ignore: cast_nullable_to_non_nullable
-as int?,discRatioSal3: freezed == discRatioSal3 ? _self.discRatioSal3 : discRatioSal3 // ignore: cast_nullable_to_non_nullable
-as int?,sTaxRatio: freezed == sTaxRatio ? _self.sTaxRatio : sTaxRatio // ignore: cast_nullable_to_non_nullable
-as int?,sTaxValPack: freezed == sTaxValPack ? _self.sTaxValPack : sTaxValPack // ignore: cast_nullable_to_non_nullable
-as int?,isSTaxOnBnsSal: freezed == isSTaxOnBnsSal ? _self.isSTaxOnBnsSal : isSTaxOnBnsSal // ignore: cast_nullable_to_non_nullable
+as num?,retailPrice: freezed == retailPrice ? _self.retailPrice : retailPrice // ignore: cast_nullable_to_non_nullable
+as num?,discRatioPur: freezed == discRatioPur ? _self.discRatioPur : discRatioPur // ignore: cast_nullable_to_non_nullable
+as num?,saleDiscRatio: freezed == saleDiscRatio ? _self.saleDiscRatio : saleDiscRatio // ignore: cast_nullable_to_non_nullable
+as num?,pricePackSal1: freezed == pricePackSal1 ? _self.pricePackSal1 : pricePackSal1 // ignore: cast_nullable_to_non_nullable
+as num?,pricePackSal2: freezed == pricePackSal2 ? _self.pricePackSal2 : pricePackSal2 // ignore: cast_nullable_to_non_nullable
+as num?,pricePackSal3: freezed == pricePackSal3 ? _self.pricePackSal3 : pricePackSal3 // ignore: cast_nullable_to_non_nullable
+as num?,discRatioSal1: freezed == discRatioSal1 ? _self.discRatioSal1 : discRatioSal1 // ignore: cast_nullable_to_non_nullable
+as num?,discRatioSal2: freezed == discRatioSal2 ? _self.discRatioSal2 : discRatioSal2 // ignore: cast_nullable_to_non_nullable
+as num?,discRatioSal3: freezed == discRatioSal3 ? _self.discRatioSal3 : discRatioSal3 // ignore: cast_nullable_to_non_nullable
+as num?,sTaxRatio: freezed == sTaxRatio ? _self.sTaxRatio : sTaxRatio // ignore: cast_nullable_to_non_nullable
+as num?,sTaxValPack: freezed == sTaxValPack ? _self.sTaxValPack : sTaxValPack // ignore: cast_nullable_to_non_nullable
+as num?,isSTaxOnBnsSal: freezed == isSTaxOnBnsSal ? _self.isSTaxOnBnsSal : isSTaxOnBnsSal // ignore: cast_nullable_to_non_nullable
 as bool?,displayOrder: freezed == displayOrder ? _self.displayOrder : displayOrder // ignore: cast_nullable_to_non_nullable
 as int?,tradePrice: freezed == tradePrice ? _self.tradePrice : tradePrice // ignore: cast_nullable_to_non_nullable
-as int?,packings: freezed == packings ? _self.packings : packings // ignore: cast_nullable_to_non_nullable
+as num?,packings: freezed == packings ? _self.packings : packings // ignore: cast_nullable_to_non_nullable
 as List<dynamic>?,
   ));
 }
@@ -171,7 +173,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "productName")  String? productName, @JsonKey(name: "companyId")  int? companyId, @JsonKey(name: "pricePackPur")  int? pricePackPur, @JsonKey(name: "retailPrice")  int? retailPrice, @JsonKey(name: "discRatioPur")  int? discRatioPur, @JsonKey(name: "saleDiscRatio")  int? saleDiscRatio, @JsonKey(name: "pricePackSal1")  int? pricePackSal1, @JsonKey(name: "pricePackSal2")  int? pricePackSal2, @JsonKey(name: "pricePackSal3")  int? pricePackSal3, @JsonKey(name: "discRatioSal1")  int? discRatioSal1, @JsonKey(name: "discRatioSal2")  int? discRatioSal2, @JsonKey(name: "discRatioSal3")  int? discRatioSal3, @JsonKey(name: "sTaxRatio")  int? sTaxRatio, @JsonKey(name: "sTaxValPack")  int? sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal")  bool? isSTaxOnBnsSal, @JsonKey(name: "displayOrder")  int? displayOrder, @JsonKey(name: "tradePrice")  int? tradePrice, @JsonKey(name: "packings")  List<dynamic>? packings)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "productName")  String? productName, @JsonKey(name: "companyId")  int? companyId, @JsonKey(name: "pricePackPur")  num? pricePackPur, @JsonKey(name: "retailPrice")  num? retailPrice, @JsonKey(name: "discRatioPur")  num? discRatioPur, @JsonKey(name: "saleDiscRatio")  num? saleDiscRatio, @JsonKey(name: "pricePackSal1")  num? pricePackSal1, @JsonKey(name: "pricePackSal2")  num? pricePackSal2, @JsonKey(name: "pricePackSal3")  num? pricePackSal3, @JsonKey(name: "discRatioSal1")  num? discRatioSal1, @JsonKey(name: "discRatioSal2")  num? discRatioSal2, @JsonKey(name: "discRatioSal3")  num? discRatioSal3, @JsonKey(name: "sTaxRatio")  num? sTaxRatio, @JsonKey(name: "sTaxValPack")  num? sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal", fromJson: _boolFromJson, toJson: _boolToJson)  bool? isSTaxOnBnsSal, @JsonKey(name: "displayOrder")  int? displayOrder, @JsonKey(name: "tradePrice")  num? tradePrice, @JsonKey(name: "packings", fromJson: _packingsFromJson, toJson: _packingsToJson)  List<dynamic>? packings)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GetAllProductsModel() when $default != null:
 return $default(_that.id,_that.productName,_that.companyId,_that.pricePackPur,_that.retailPrice,_that.discRatioPur,_that.saleDiscRatio,_that.pricePackSal1,_that.pricePackSal2,_that.pricePackSal3,_that.discRatioSal1,_that.discRatioSal2,_that.discRatioSal3,_that.sTaxRatio,_that.sTaxValPack,_that.isSTaxOnBnsSal,_that.displayOrder,_that.tradePrice,_that.packings);case _:
@@ -192,7 +194,7 @@ return $default(_that.id,_that.productName,_that.companyId,_that.pricePackPur,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "productName")  String? productName, @JsonKey(name: "companyId")  int? companyId, @JsonKey(name: "pricePackPur")  int? pricePackPur, @JsonKey(name: "retailPrice")  int? retailPrice, @JsonKey(name: "discRatioPur")  int? discRatioPur, @JsonKey(name: "saleDiscRatio")  int? saleDiscRatio, @JsonKey(name: "pricePackSal1")  int? pricePackSal1, @JsonKey(name: "pricePackSal2")  int? pricePackSal2, @JsonKey(name: "pricePackSal3")  int? pricePackSal3, @JsonKey(name: "discRatioSal1")  int? discRatioSal1, @JsonKey(name: "discRatioSal2")  int? discRatioSal2, @JsonKey(name: "discRatioSal3")  int? discRatioSal3, @JsonKey(name: "sTaxRatio")  int? sTaxRatio, @JsonKey(name: "sTaxValPack")  int? sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal")  bool? isSTaxOnBnsSal, @JsonKey(name: "displayOrder")  int? displayOrder, @JsonKey(name: "tradePrice")  int? tradePrice, @JsonKey(name: "packings")  List<dynamic>? packings)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "productName")  String? productName, @JsonKey(name: "companyId")  int? companyId, @JsonKey(name: "pricePackPur")  num? pricePackPur, @JsonKey(name: "retailPrice")  num? retailPrice, @JsonKey(name: "discRatioPur")  num? discRatioPur, @JsonKey(name: "saleDiscRatio")  num? saleDiscRatio, @JsonKey(name: "pricePackSal1")  num? pricePackSal1, @JsonKey(name: "pricePackSal2")  num? pricePackSal2, @JsonKey(name: "pricePackSal3")  num? pricePackSal3, @JsonKey(name: "discRatioSal1")  num? discRatioSal1, @JsonKey(name: "discRatioSal2")  num? discRatioSal2, @JsonKey(name: "discRatioSal3")  num? discRatioSal3, @JsonKey(name: "sTaxRatio")  num? sTaxRatio, @JsonKey(name: "sTaxValPack")  num? sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal", fromJson: _boolFromJson, toJson: _boolToJson)  bool? isSTaxOnBnsSal, @JsonKey(name: "displayOrder")  int? displayOrder, @JsonKey(name: "tradePrice")  num? tradePrice, @JsonKey(name: "packings", fromJson: _packingsFromJson, toJson: _packingsToJson)  List<dynamic>? packings)  $default,) {final _that = this;
 switch (_that) {
 case _GetAllProductsModel():
 return $default(_that.id,_that.productName,_that.companyId,_that.pricePackPur,_that.retailPrice,_that.discRatioPur,_that.saleDiscRatio,_that.pricePackSal1,_that.pricePackSal2,_that.pricePackSal3,_that.discRatioSal1,_that.discRatioSal2,_that.discRatioSal3,_that.sTaxRatio,_that.sTaxValPack,_that.isSTaxOnBnsSal,_that.displayOrder,_that.tradePrice,_that.packings);case _:
@@ -212,7 +214,7 @@ return $default(_that.id,_that.productName,_that.companyId,_that.pricePackPur,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "productName")  String? productName, @JsonKey(name: "companyId")  int? companyId, @JsonKey(name: "pricePackPur")  int? pricePackPur, @JsonKey(name: "retailPrice")  int? retailPrice, @JsonKey(name: "discRatioPur")  int? discRatioPur, @JsonKey(name: "saleDiscRatio")  int? saleDiscRatio, @JsonKey(name: "pricePackSal1")  int? pricePackSal1, @JsonKey(name: "pricePackSal2")  int? pricePackSal2, @JsonKey(name: "pricePackSal3")  int? pricePackSal3, @JsonKey(name: "discRatioSal1")  int? discRatioSal1, @JsonKey(name: "discRatioSal2")  int? discRatioSal2, @JsonKey(name: "discRatioSal3")  int? discRatioSal3, @JsonKey(name: "sTaxRatio")  int? sTaxRatio, @JsonKey(name: "sTaxValPack")  int? sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal")  bool? isSTaxOnBnsSal, @JsonKey(name: "displayOrder")  int? displayOrder, @JsonKey(name: "tradePrice")  int? tradePrice, @JsonKey(name: "packings")  List<dynamic>? packings)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "productName")  String? productName, @JsonKey(name: "companyId")  int? companyId, @JsonKey(name: "pricePackPur")  num? pricePackPur, @JsonKey(name: "retailPrice")  num? retailPrice, @JsonKey(name: "discRatioPur")  num? discRatioPur, @JsonKey(name: "saleDiscRatio")  num? saleDiscRatio, @JsonKey(name: "pricePackSal1")  num? pricePackSal1, @JsonKey(name: "pricePackSal2")  num? pricePackSal2, @JsonKey(name: "pricePackSal3")  num? pricePackSal3, @JsonKey(name: "discRatioSal1")  num? discRatioSal1, @JsonKey(name: "discRatioSal2")  num? discRatioSal2, @JsonKey(name: "discRatioSal3")  num? discRatioSal3, @JsonKey(name: "sTaxRatio")  num? sTaxRatio, @JsonKey(name: "sTaxValPack")  num? sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal", fromJson: _boolFromJson, toJson: _boolToJson)  bool? isSTaxOnBnsSal, @JsonKey(name: "displayOrder")  int? displayOrder, @JsonKey(name: "tradePrice")  num? tradePrice, @JsonKey(name: "packings", fromJson: _packingsFromJson, toJson: _packingsToJson)  List<dynamic>? packings)?  $default,) {final _that = this;
 switch (_that) {
 case _GetAllProductsModel() when $default != null:
 return $default(_that.id,_that.productName,_that.companyId,_that.pricePackPur,_that.retailPrice,_that.discRatioPur,_that.saleDiscRatio,_that.pricePackSal1,_that.pricePackSal2,_that.pricePackSal3,_that.discRatioSal1,_that.discRatioSal2,_that.discRatioSal3,_that.sTaxRatio,_that.sTaxValPack,_that.isSTaxOnBnsSal,_that.displayOrder,_that.tradePrice,_that.packings);case _:
@@ -227,29 +229,32 @@ return $default(_that.id,_that.productName,_that.companyId,_that.pricePackPur,_t
 @JsonSerializable()
 
 class _GetAllProductsModel implements GetAllProductsModel {
-  const _GetAllProductsModel({@JsonKey(name: "id") this.id, @JsonKey(name: "productName") this.productName, @JsonKey(name: "companyId") this.companyId, @JsonKey(name: "pricePackPur") this.pricePackPur, @JsonKey(name: "retailPrice") this.retailPrice, @JsonKey(name: "discRatioPur") this.discRatioPur, @JsonKey(name: "saleDiscRatio") this.saleDiscRatio, @JsonKey(name: "pricePackSal1") this.pricePackSal1, @JsonKey(name: "pricePackSal2") this.pricePackSal2, @JsonKey(name: "pricePackSal3") this.pricePackSal3, @JsonKey(name: "discRatioSal1") this.discRatioSal1, @JsonKey(name: "discRatioSal2") this.discRatioSal2, @JsonKey(name: "discRatioSal3") this.discRatioSal3, @JsonKey(name: "sTaxRatio") this.sTaxRatio, @JsonKey(name: "sTaxValPack") this.sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal") this.isSTaxOnBnsSal, @JsonKey(name: "displayOrder") this.displayOrder, @JsonKey(name: "tradePrice") this.tradePrice, @JsonKey(name: "packings") final  List<dynamic>? packings}): _packings = packings;
+  const _GetAllProductsModel({@JsonKey(name: "id") this.id, @JsonKey(name: "productName") this.productName, @JsonKey(name: "companyId") this.companyId, @JsonKey(name: "pricePackPur") this.pricePackPur, @JsonKey(name: "retailPrice") this.retailPrice, @JsonKey(name: "discRatioPur") this.discRatioPur, @JsonKey(name: "saleDiscRatio") this.saleDiscRatio, @JsonKey(name: "pricePackSal1") this.pricePackSal1, @JsonKey(name: "pricePackSal2") this.pricePackSal2, @JsonKey(name: "pricePackSal3") this.pricePackSal3, @JsonKey(name: "discRatioSal1") this.discRatioSal1, @JsonKey(name: "discRatioSal2") this.discRatioSal2, @JsonKey(name: "discRatioSal3") this.discRatioSal3, @JsonKey(name: "sTaxRatio") this.sTaxRatio, @JsonKey(name: "sTaxValPack") this.sTaxValPack, @JsonKey(name: "isSTaxOnBnsSal", fromJson: _boolFromJson, toJson: _boolToJson) this.isSTaxOnBnsSal, @JsonKey(name: "displayOrder") this.displayOrder, @JsonKey(name: "tradePrice") this.tradePrice, @JsonKey(name: "packings", fromJson: _packingsFromJson, toJson: _packingsToJson) final  List<dynamic>? packings}): _packings = packings;
   factory _GetAllProductsModel.fromJson(Map<String, dynamic> json) => _$GetAllProductsModelFromJson(json);
 
 @override@JsonKey(name: "id") final  int? id;
 @override@JsonKey(name: "productName") final  String? productName;
 @override@JsonKey(name: "companyId") final  int? companyId;
-@override@JsonKey(name: "pricePackPur") final  int? pricePackPur;
-@override@JsonKey(name: "retailPrice") final  int? retailPrice;
-@override@JsonKey(name: "discRatioPur") final  int? discRatioPur;
-@override@JsonKey(name: "saleDiscRatio") final  int? saleDiscRatio;
-@override@JsonKey(name: "pricePackSal1") final  int? pricePackSal1;
-@override@JsonKey(name: "pricePackSal2") final  int? pricePackSal2;
-@override@JsonKey(name: "pricePackSal3") final  int? pricePackSal3;
-@override@JsonKey(name: "discRatioSal1") final  int? discRatioSal1;
-@override@JsonKey(name: "discRatioSal2") final  int? discRatioSal2;
-@override@JsonKey(name: "discRatioSal3") final  int? discRatioSal3;
-@override@JsonKey(name: "sTaxRatio") final  int? sTaxRatio;
-@override@JsonKey(name: "sTaxValPack") final  int? sTaxValPack;
-@override@JsonKey(name: "isSTaxOnBnsSal") final  bool? isSTaxOnBnsSal;
+@override@JsonKey(name: "pricePackPur") final  num? pricePackPur;
+@override@JsonKey(name: "retailPrice") final  num? retailPrice;
+@override@JsonKey(name: "discRatioPur") final  num? discRatioPur;
+@override@JsonKey(name: "saleDiscRatio") final  num? saleDiscRatio;
+@override@JsonKey(name: "pricePackSal1") final  num? pricePackSal1;
+@override@JsonKey(name: "pricePackSal2") final  num? pricePackSal2;
+@override@JsonKey(name: "pricePackSal3") final  num? pricePackSal3;
+@override@JsonKey(name: "discRatioSal1") final  num? discRatioSal1;
+@override@JsonKey(name: "discRatioSal2") final  num? discRatioSal2;
+@override@JsonKey(name: "discRatioSal3") final  num? discRatioSal3;
+@override@JsonKey(name: "sTaxRatio") final  num? sTaxRatio;
+@override@JsonKey(name: "sTaxValPack") final  num? sTaxValPack;
+/// Handles both API bool and SQLite integer (0/1)
+@override@JsonKey(name: "isSTaxOnBnsSal", fromJson: _boolFromJson, toJson: _boolToJson) final  bool? isSTaxOnBnsSal;
 @override@JsonKey(name: "displayOrder") final  int? displayOrder;
-@override@JsonKey(name: "tradePrice") final  int? tradePrice;
+@override@JsonKey(name: "tradePrice") final  num? tradePrice;
+/// packings can be list (API) or JSON string (SQLite)
  final  List<dynamic>? _packings;
-@override@JsonKey(name: "packings") List<dynamic>? get packings {
+/// packings can be list (API) or JSON string (SQLite)
+@override@JsonKey(name: "packings", fromJson: _packingsFromJson, toJson: _packingsToJson) List<dynamic>? get packings {
   final value = _packings;
   if (value == null) return null;
   if (_packings is EqualUnmodifiableListView) return _packings;
@@ -291,7 +296,7 @@ abstract mixin class _$GetAllProductsModelCopyWith<$Res> implements $GetAllProdu
   factory _$GetAllProductsModelCopyWith(_GetAllProductsModel value, $Res Function(_GetAllProductsModel) _then) = __$GetAllProductsModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: "id") int? id,@JsonKey(name: "productName") String? productName,@JsonKey(name: "companyId") int? companyId,@JsonKey(name: "pricePackPur") int? pricePackPur,@JsonKey(name: "retailPrice") int? retailPrice,@JsonKey(name: "discRatioPur") int? discRatioPur,@JsonKey(name: "saleDiscRatio") int? saleDiscRatio,@JsonKey(name: "pricePackSal1") int? pricePackSal1,@JsonKey(name: "pricePackSal2") int? pricePackSal2,@JsonKey(name: "pricePackSal3") int? pricePackSal3,@JsonKey(name: "discRatioSal1") int? discRatioSal1,@JsonKey(name: "discRatioSal2") int? discRatioSal2,@JsonKey(name: "discRatioSal3") int? discRatioSal3,@JsonKey(name: "sTaxRatio") int? sTaxRatio,@JsonKey(name: "sTaxValPack") int? sTaxValPack,@JsonKey(name: "isSTaxOnBnsSal") bool? isSTaxOnBnsSal,@JsonKey(name: "displayOrder") int? displayOrder,@JsonKey(name: "tradePrice") int? tradePrice,@JsonKey(name: "packings") List<dynamic>? packings
+@JsonKey(name: "id") int? id,@JsonKey(name: "productName") String? productName,@JsonKey(name: "companyId") int? companyId,@JsonKey(name: "pricePackPur") num? pricePackPur,@JsonKey(name: "retailPrice") num? retailPrice,@JsonKey(name: "discRatioPur") num? discRatioPur,@JsonKey(name: "saleDiscRatio") num? saleDiscRatio,@JsonKey(name: "pricePackSal1") num? pricePackSal1,@JsonKey(name: "pricePackSal2") num? pricePackSal2,@JsonKey(name: "pricePackSal3") num? pricePackSal3,@JsonKey(name: "discRatioSal1") num? discRatioSal1,@JsonKey(name: "discRatioSal2") num? discRatioSal2,@JsonKey(name: "discRatioSal3") num? discRatioSal3,@JsonKey(name: "sTaxRatio") num? sTaxRatio,@JsonKey(name: "sTaxValPack") num? sTaxValPack,@JsonKey(name: "isSTaxOnBnsSal", fromJson: _boolFromJson, toJson: _boolToJson) bool? isSTaxOnBnsSal,@JsonKey(name: "displayOrder") int? displayOrder,@JsonKey(name: "tradePrice") num? tradePrice,@JsonKey(name: "packings", fromJson: _packingsFromJson, toJson: _packingsToJson) List<dynamic>? packings
 });
 
 
@@ -314,21 +319,21 @@ id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String?,companyId: freezed == companyId ? _self.companyId : companyId // ignore: cast_nullable_to_non_nullable
 as int?,pricePackPur: freezed == pricePackPur ? _self.pricePackPur : pricePackPur // ignore: cast_nullable_to_non_nullable
-as int?,retailPrice: freezed == retailPrice ? _self.retailPrice : retailPrice // ignore: cast_nullable_to_non_nullable
-as int?,discRatioPur: freezed == discRatioPur ? _self.discRatioPur : discRatioPur // ignore: cast_nullable_to_non_nullable
-as int?,saleDiscRatio: freezed == saleDiscRatio ? _self.saleDiscRatio : saleDiscRatio // ignore: cast_nullable_to_non_nullable
-as int?,pricePackSal1: freezed == pricePackSal1 ? _self.pricePackSal1 : pricePackSal1 // ignore: cast_nullable_to_non_nullable
-as int?,pricePackSal2: freezed == pricePackSal2 ? _self.pricePackSal2 : pricePackSal2 // ignore: cast_nullable_to_non_nullable
-as int?,pricePackSal3: freezed == pricePackSal3 ? _self.pricePackSal3 : pricePackSal3 // ignore: cast_nullable_to_non_nullable
-as int?,discRatioSal1: freezed == discRatioSal1 ? _self.discRatioSal1 : discRatioSal1 // ignore: cast_nullable_to_non_nullable
-as int?,discRatioSal2: freezed == discRatioSal2 ? _self.discRatioSal2 : discRatioSal2 // ignore: cast_nullable_to_non_nullable
-as int?,discRatioSal3: freezed == discRatioSal3 ? _self.discRatioSal3 : discRatioSal3 // ignore: cast_nullable_to_non_nullable
-as int?,sTaxRatio: freezed == sTaxRatio ? _self.sTaxRatio : sTaxRatio // ignore: cast_nullable_to_non_nullable
-as int?,sTaxValPack: freezed == sTaxValPack ? _self.sTaxValPack : sTaxValPack // ignore: cast_nullable_to_non_nullable
-as int?,isSTaxOnBnsSal: freezed == isSTaxOnBnsSal ? _self.isSTaxOnBnsSal : isSTaxOnBnsSal // ignore: cast_nullable_to_non_nullable
+as num?,retailPrice: freezed == retailPrice ? _self.retailPrice : retailPrice // ignore: cast_nullable_to_non_nullable
+as num?,discRatioPur: freezed == discRatioPur ? _self.discRatioPur : discRatioPur // ignore: cast_nullable_to_non_nullable
+as num?,saleDiscRatio: freezed == saleDiscRatio ? _self.saleDiscRatio : saleDiscRatio // ignore: cast_nullable_to_non_nullable
+as num?,pricePackSal1: freezed == pricePackSal1 ? _self.pricePackSal1 : pricePackSal1 // ignore: cast_nullable_to_non_nullable
+as num?,pricePackSal2: freezed == pricePackSal2 ? _self.pricePackSal2 : pricePackSal2 // ignore: cast_nullable_to_non_nullable
+as num?,pricePackSal3: freezed == pricePackSal3 ? _self.pricePackSal3 : pricePackSal3 // ignore: cast_nullable_to_non_nullable
+as num?,discRatioSal1: freezed == discRatioSal1 ? _self.discRatioSal1 : discRatioSal1 // ignore: cast_nullable_to_non_nullable
+as num?,discRatioSal2: freezed == discRatioSal2 ? _self.discRatioSal2 : discRatioSal2 // ignore: cast_nullable_to_non_nullable
+as num?,discRatioSal3: freezed == discRatioSal3 ? _self.discRatioSal3 : discRatioSal3 // ignore: cast_nullable_to_non_nullable
+as num?,sTaxRatio: freezed == sTaxRatio ? _self.sTaxRatio : sTaxRatio // ignore: cast_nullable_to_non_nullable
+as num?,sTaxValPack: freezed == sTaxValPack ? _self.sTaxValPack : sTaxValPack // ignore: cast_nullable_to_non_nullable
+as num?,isSTaxOnBnsSal: freezed == isSTaxOnBnsSal ? _self.isSTaxOnBnsSal : isSTaxOnBnsSal // ignore: cast_nullable_to_non_nullable
 as bool?,displayOrder: freezed == displayOrder ? _self.displayOrder : displayOrder // ignore: cast_nullable_to_non_nullable
 as int?,tradePrice: freezed == tradePrice ? _self.tradePrice : tradePrice // ignore: cast_nullable_to_non_nullable
-as int?,packings: freezed == packings ? _self._packings : packings // ignore: cast_nullable_to_non_nullable
+as num?,packings: freezed == packings ? _self._packings : packings // ignore: cast_nullable_to_non_nullable
 as List<dynamic>?,
   ));
 }

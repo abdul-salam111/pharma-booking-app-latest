@@ -1,12 +1,9 @@
-
 import '../../../../home/presentation/barrel.dart';
-import '../../../../login_screen/data/models/login_request_model/login_request_model.dart';
-
 
 abstract interface class CustomerRemoteDatasource {
   Future<List<GetCustomersModel>> getAllCustomers();
-  Future<List<GetTownsModel>> getAllTowns();
-  Future<List<GetSectorsModel>> getAllSectors();
+  Future<List<GetSubAreaListModel>> getSubAreaList();
+  Future<List<GetAreaListModel>> getAreaList();
   Future<List<GetSalesmanModel>> getAllSalesmans();
 }
 
@@ -16,15 +13,7 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
   @override
   Future<List<GetCustomersModel>> getAllCustomers() async {
     try {
-      final response = await dioHelper.getApi(
-        url: ApiKeys.getCustomersUrl,
-        // requestBody: LoginRequestModel(
-        //   tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
-        //   customerKey: SessionController().getUserDetails.customerKey!
-        //       .toString(),
-        //   mobileNo: await storage.readValues('phone'),
-        // ),
-      );
+      final response = await dioHelper.getApi(url: ApiKeys.getCustomersUrl);
 
       if (response is List) {
         return response
@@ -39,20 +28,14 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
   }
 
   @override
-  Future<List<GetTownsModel>> getAllTowns() async {
+  Future<List<GetSubAreaListModel>> getSubAreaList() async {
     try {
-      final response = await dioHelper.postApi(
-        url: ApiKeys.getTownssUrl,
-        // requestBody: LoginRequestModel(
-        //   tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
-        //   customerKey: SessionController().getUserDetails.customerKey!
-        //       .toString(),
-        //   mobileNo: await storage.readValues('phone'),
-        // ),
-      );
+      final response = await dioHelper.getApi(url: ApiKeys.getTownssUrl);
 
       if (response is List) {
-        return response.map((item) => GetTownsModel.fromJson(item)).toList();
+        return response
+            .map((item) => GetSubAreaListModel.fromJson(item))
+            .toList();
       } else {
         return [];
       }
@@ -62,20 +45,12 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
   }
 
   @override
-  Future<List<GetSectorsModel>> getAllSectors() async {
+  Future<List<GetAreaListModel>> getAreaList() async {
     try {
-      final response = await dioHelper.postApi(
-        url: ApiKeys.getSectorsUrl,
-        // requestBody: LoginRequestModel(
-        //   tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
-        //   customerKey: SessionController().getUserDetails.customerKey!
-        //       .toString(),
-        //   mobileNo: await storage.readValues('phone'),
-        // ),
-      );
+      final response = await dioHelper.getApi(url: ApiKeys.getSectorsUrl);
 
       if (response is List) {
-        return response.map((item) => GetSectorsModel.fromJson(item)).toList();
+        return response.map((item) => GetAreaListModel.fromJson(item)).toList();
       } else {
         return [];
       }
@@ -87,15 +62,7 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
   @override
   Future<List<GetSalesmanModel>> getAllSalesmans() async {
     try {
-      final response = await dioHelper.postApi(
-        url: ApiKeys.getSalesman,
-        // requestBody: LoginRequestModel(
-        //   tenantId: SessionController().getUserDetails.tenantId?.toIntOrNull,
-        //   customerKey: SessionController().getUserDetails.customerKey!
-        //       .toString(),
-        //   mobileNo: await storage.readValues('phone'),
-        // ),
-      );
+      final response = await dioHelper.postApi(url: ApiKeys.getSalesman);
 
       if (response is List) {
         return response.map((item) => GetSalesmanModel.fromJson(item)).toList();

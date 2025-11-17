@@ -1,19 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../../../../../core/local_storage/database/database_helper.dart';
-import '../../../models/get_companies_model/get_companies_model.dart';
+import '../../../models/get_companies_model/companies_model.dart';
+
 
 // ==================== ABSTRACT INTERFACE ====================
 
 abstract interface class LocalCompanyDatasource {
   /// Insert multiple companies into local database
-  Future<List<int>> insertCompanies(List<GetCompaniesModel> companies);
+  Future<List<int>> insertCompanies(List<CompaniesModel> companies);
 
   /// Retrieve all companies from local database
-  Future<List<GetCompaniesModel>> getAllCompanies();
+  Future<List<CompaniesModel>> getAllCompanies();
 
   /// Get a specific company by ID
-  Future<GetCompaniesModel?> getCompanyById(String companyId);
+  Future<CompaniesModel?> getCompanyById(String companyId);
 
   /// Clear all companies from local database
   Future<bool> clearCompanies();
@@ -34,7 +35,7 @@ class LocalCompanyDatasourceImpl implements LocalCompanyDatasource {
   // ==================== CREATE OPERATIONS ====================
 
   @override
-  Future<List<int>> insertCompanies(List<GetCompaniesModel> companies) async {
+  Future<List<int>> insertCompanies(List<CompaniesModel> companies) async {
     try {
       final dbClient = await _databaseHelper.database;
       if (dbClient == null) {
@@ -48,7 +49,7 @@ class LocalCompanyDatasourceImpl implements LocalCompanyDatasource {
           try {
             final result = await txn.insert(
               _tableName,
-              _convertCompanyToDbFormat(company),
+              company.toJson(),
               conflictAlgorithm: ConflictAlgorithm.replace,
             );
             results.add(result);
@@ -79,7 +80,7 @@ class LocalCompanyDatasourceImpl implements LocalCompanyDatasource {
   // ==================== READ OPERATIONS ====================
 
   @override
-  Future<List<GetCompaniesModel>> getAllCompanies() async {
+  Future<List<CompaniesModel>> getAllCompanies() async {
     try {
       final dbClient = await _databaseHelper.database;
       if (dbClient == null) {
@@ -90,7 +91,7 @@ class LocalCompanyDatasourceImpl implements LocalCompanyDatasource {
         final maps = await txn.query(_tableName);
 
         final companies = maps
-            .map((map) => GetCompaniesModel.fromJson(_mapToJson(map)))
+            .map((company) => CompaniesModel.fromJson(company))
             .toList();
 
         if (kDebugMode) {
@@ -108,7 +109,7 @@ class LocalCompanyDatasourceImpl implements LocalCompanyDatasource {
   }
 
   @override
-  Future<GetCompaniesModel?> getCompanyById(String companyId) async {
+  Future<CompaniesModel?> getCompanyById(String companyId) async {
     try {
       final dbClient = await _databaseHelper.database;
       if (dbClient == null) {
@@ -116,21 +117,21 @@ class LocalCompanyDatasourceImpl implements LocalCompanyDatasource {
       }
 
       return await dbClient.transaction((txn) async {
-        final maps = await txn.query(
+        final companies = await txn.query(
           _tableName,
           where: 'id = ?',
           whereArgs: [companyId],
           limit: 1,
         );
 
-        if (maps.isEmpty) {
+        if (companies.isEmpty) {
           if (kDebugMode) {
             print('No company found with ID: $companyId');
           }
           return null;
         }
 
-        final company = GetCompaniesModel.fromJson(_mapToJson(maps.first));
+        final company = CompaniesModel.fromJson(companies.first);
 
         if (kDebugMode) {
           print('Retrieved company: ${company.name}');
@@ -169,17 +170,5 @@ class LocalCompanyDatasourceImpl implements LocalCompanyDatasource {
       }
       rethrow;
     }
-  }
-
-  // ==================== HELPER METHODS ====================
-
-  /// Convert GetCompaniesModel to database format
-  Map<String, dynamic> _convertCompanyToDbFormat(GetCompaniesModel company) {
-    return {'id': company.id, 'name': company.name};
-  }
-
-  /// Convert database map to JSON format for model
-  Map<String, dynamic> _mapToJson(Map<String, dynamic> map) {
-    return {'id': map['id'], 'name': map['name']};
   }
 }

@@ -10,6 +10,6 @@ class ClearSectorsLocalUsecase implements Usecase<bool, NoParams> {
   ClearSectorsLocalUsecase({required this.customerRepository});
   @override
   Future<Either<AppException, bool>> call(NoParams params)async {
-    return await customerRepository.clearLocalSectors();
+    return await customerRepository.clearAreasLocally();
   }
 }

@@ -21,7 +21,7 @@ export 'package:pharma_booking_app/modules/create_order/domain/usecases/remote_u
 export 'package:pharma_booking_app/modules/all_products/domain/usecases/products_usecases/product_local_usecases/get_all_local_products_usecase.dart';
 export 'package:pharma_booking_app/modules/all_products/domain/usecases/products_usecases/product_local_usecases/insert_products_locally_usecase.dart';
 export 'package:pharma_booking_app/modules/all_products/domain/usecases/products_usecases/product_local_usecases/clear_local_products_usecase.dart';
-export 'package:pharma_booking_app/modules/all_products/domain/usecases/products_usecases/product_remote_usecases/get_all_products_usecase.dart';
+export 'package:pharma_booking_app/modules/all_products/domain/usecases/products_usecases/product_remote_usecases/get_all_remote_products_usecase.dart';
 
 // 🏢 Company Usecases
 export 'package:pharma_booking_app/modules/all_products/domain/usecases/companies_usecases/company_local_usecases/get_all_local_companies_usecase.dart';
@@ -31,33 +31,33 @@ export 'package:pharma_booking_app/modules/all_products/domain/usecases/companie
 
 // 👥 Customer Remote Usecases
 export 'package:pharma_booking_app/modules/select_customer/domain/usecases/remote_usecases/get_all_customers_usecase.dart';
-export 'package:pharma_booking_app/modules/select_customer/domain/usecases/remote_usecases/get_all_salesman_usecase.dart';
+
 export 'package:pharma_booking_app/modules/select_customer/domain/usecases/remote_usecases/get_all_sectors_usecase.dart';
 export 'package:pharma_booking_app/modules/select_customer/domain/usecases/remote_usecases/get_all_towns_usecase.dart';
 
 // 👥 Customer Local Usecases
 export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/get_all_local_customers_usecase.dart';
-export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/get_salesman_by_id_usecase.dart';
-export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/get_all_local_sectors_usecase.dart';
-export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/get_all_local_town_usecase.dart';
+
+export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/get_all_local_areas_usecase.dart';
+export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/get_all_local_sub_areas_usecase.dart';
 export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/insert_customers_local_usecase.dart';
-export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/insert_salesmans_local_usecase.dart';
-export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/insert_sectors_local_usecase.dart';
-export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/insert_towns_local_usecase.dart';
+
+export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/insert_areas_local_usecase.dart';
+
 export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/clear_customers_local_usecase.dart';
-export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/clear_salesman_local_usecase.dart';
+
 export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/clear_sectors_local_usecase.dart';
 export 'package:pharma_booking_app/modules/select_customer/domain/usecases/local_usecases/clear_towns_local_usecase.dart';
 
 export 'package:pharma_booking_app/core/shared/models/post_models/create_order_for_local.dart';
 export 'package:pharma_booking_app/core/shared/models/post_models/sync_orders_model.dart';
 
-export 'package:pharma_booking_app/modules/all_products/data/models/get_companies_model/get_companies_model.dart';
+export 'package:pharma_booking_app/modules/all_products/data/models/get_companies_model/companies_model.dart';
 export 'package:pharma_booking_app/modules/all_products/data/models/get_products_model/get_all_products_model.dart';
 export 'package:pharma_booking_app/modules/select_customer/data/models/get_customers_model/get_customers_model.dart';
 export 'package:pharma_booking_app/modules/select_customer/data/models/get_salesman_model/get_salesman_model.dart';
-export 'package:pharma_booking_app/modules/select_customer/data/models/get_sectors_model/get_sectors_model.dart';
-export 'package:pharma_booking_app/modules/select_customer/data/models/get_towns_model/get_towns_model.dart';
+export 'package:pharma_booking_app/modules/select_customer/data/models/get_area_list_model/get_area_list_model.dart';
+export 'package:pharma_booking_app/modules/select_customer/data/models/get_sub_area_list_model/get_sub_area_list_model.dart';
 
 // 📦 Barrel file for Home Module Dependency Injection
 // Exports all repositories, datasources, and usecases required by HomeController

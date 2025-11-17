@@ -8,8 +8,8 @@ import 'package:iconsax/iconsax.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../home/presentation/barrel.dart';
 import '../../data/models/get_customers_model/get_customers_model.dart';
-import '../../data/models/get_sectors_model/get_sectors_model.dart';
-import '../../data/models/get_towns_model/get_towns_model.dart';
+import '../../data/models/get_area_list_model/get_area_list_model.dart';
+import '../../data/models/get_sub_area_list_model/get_sub_area_list_model.dart';
 import '../controllers/select_customer_controller.dart';
 
 class SelectCustomerView extends GetView<SelectCustomerController> {
@@ -28,8 +28,8 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
             icon: const Icon(Iconsax.refresh),
             tooltip: 'Refresh Data',
           ),
+
           // Clear saved selections button
-        
         ],
       ),
       body: Obx(() {
@@ -40,10 +40,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
         return Padding(
           padding: padding14,
           child: Column(
-            children: [
-              heightBox(20),
-              _buildCustomerSelectionCard(context),
-            ],
+            children: [heightBox(20), _buildCustomerSelectionCard(context)],
           ),
         );
       }),
@@ -106,9 +103,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
                   _buildDetailRow(
                     context,
                     "Address:",
-                    ""
-
-                    // controller.selectedCustomerModel?.address ?? "N/A",
+                    controller.selectedCustomerModel?.city ?? "N/A",
                   ),
                   heightBox(10),
                   _buildDetailRow(
@@ -188,7 +183,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
     return SizedBox(
       height: context.screenHeight * 0.05,
       child: Obx(
-        () => _buildDropdownSearch<GetSectorsModel>(
+        () => _buildDropdownSearch<GetAreaListModel>(
           items: controller.sectors,
           selectedItem: controller.selectedSector.value,
           hintText: "Select Sector",
@@ -196,7 +191,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
           enabled: controller.sectors.isNotEmpty,
           onChanged: (value) => controller.onSectorChanged(value),
           context: context,
-          itemAsString: (item) => item?.sectorName ?? "",
+          itemAsString: (item) => item?.name ?? "",
           isLoading: controller.isLoadingSectors.value,
         ),
       ),
@@ -208,7 +203,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
     return SizedBox(
       height: context.screenHeight * 0.05,
       child: Obx(
-        () => _buildDropdownSearch<GetTownsModel>(
+        () => _buildDropdownSearch<GetSubAreaListModel>(
           items: controller.towns,
           selectedItem: controller.selectedTown.value,
           hintText: "Select Town",
@@ -218,7 +213,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
               controller.towns.isNotEmpty,
           onChanged: (value) => controller.onTownChanged(value),
           context: context,
-          itemAsString: (item) => item?.townName ?? "",
+          itemAsString: (item) => item?.name ?? "",
         ),
       ),
     );
@@ -347,7 +342,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
         // Add subtitle for customers to show additional info
         if (T == GetCustomersModel && item != null) {
           final customer = item as GetCustomersModel;
-          // subtitle = customer.address;
+          subtitle = customer.city;
         }
 
         return ListTile(

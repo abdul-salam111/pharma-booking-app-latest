@@ -31,9 +31,9 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   }
 
   @override
-  Future<Either<AppException, List<GetTownsModel>>> getAllTowns() async {
+  Future<Either<AppException, List<GetSubAreaListModel>>> getAllSubAreas() async {
     try {
-      final response = await customerRemoteDatasource.getAllTowns();
+      final response = await customerRemoteDatasource.getSubAreaList();
       return right(response);
     } catch (error) {
       return left(AppException(error.toString()));
@@ -41,19 +41,9 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   }
 
   @override
-  Future<Either<AppException, List<GetSectorsModel>>> getAllSectors() async {
+  Future<Either<AppException, List<GetAreaListModel>>> getAllAreas() async {
     try {
-      final response = await customerRemoteDatasource.getAllSectors();
-      return right(response);
-    } catch (error) {
-      return left(AppException(error.toString()));
-    }
-  }
-
-  @override
-  Future<Either<AppException, List<GetSalesmanModel>>> getAllSalesman() async {
-    try {
-      final response = await customerRemoteDatasource.getAllSalesmans();
+      final response = await customerRemoteDatasource.getAreaList();
       return right(response);
     } catch (error) {
       return left(AppException(error.toString()));
@@ -76,7 +66,7 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   }
 
   @override
-  Future<Either<AppException, List<GetTownsModel>>> getAllLocalTowns() async {
+  Future<Either<AppException, List<GetSubAreaListModel>>> getAllLocalSubAreas() async {
     try {
       final response = await customerLocalDataSource.getAllLocalTowns();
       return right(response);
@@ -86,8 +76,8 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   }
 
   @override
-  Future<Either<AppException, List<GetSectorsModel>>>
-  getAllLocalSectors() async {
+  Future<Either<AppException, List<GetAreaListModel>>>
+  getAllLocalAreas() async {
     try {
       final response = await customerLocalDataSource.getAllLocalSectors();
       return right(response);
@@ -96,19 +86,6 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
     }
   }
 
-  @override
-  Future<Either<AppException, GetSalesmanModel?>> getLocalSalesmanById({
-    required String salesmanId,
-  }) async {
-    try {
-      final response = await customerLocalDataSource.getLocalSalesmanById(
-        salesmanId: salesmanId,
-      );
-      return right(response);
-    } catch (error) {
-      return left(AppException(error.toString()));
-    }
-  }
 
   // ==========================================================================
   // LOCAL INSERT OPERATIONS (DATABASE)
@@ -129,8 +106,8 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   }
 
   @override
-  Future<Either<AppException, List<int>>> insertLocalTowns(
-    List<GetTownsModel> towns,
+  Future<Either<AppException, List<int>>> insertSubAreasLocally(
+    List<GetSubAreaListModel> towns,
   ) async {
     try {
       final response = await customerLocalDataSource.insertLocalTowns(towns);
@@ -141,8 +118,8 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   }
 
   @override
-  Future<Either<AppException, List<int>>> insertLocalSectors(
-    List<GetSectorsModel> sectors,
+  Future<Either<AppException, List<int>>> insertAreasLocally(
+    List<GetAreaListModel> sectors,
   ) async {
     try {
       final response = await customerLocalDataSource.insertLocalSectors(
@@ -154,19 +131,6 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
     }
   }
 
-  @override
-  Future<Either<AppException, List<int>>> insertLocalSalesmans(
-    List<GetSalesmanModel> salesmans,
-  ) async {
-    try {
-      final response = await customerLocalDataSource.insertLocalSalesmans(
-        salesmans,
-      );
-      return right(response);
-    } catch (error) {
-      return left(AppException(error.toString()));
-    }
-  }
 
   // ==========================================================================
   // LOCAL CLEAR OPERATIONS (DATABASE)
@@ -183,7 +147,7 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   }
 
   @override
-  Future<Either<AppException, bool>> clearLocalTowns() async {
+  Future<Either<AppException, bool>> clearSubAreasLocally() async {
     try {
       final response = await customerLocalDataSource.clearLocalTowns();
       return right(response);
@@ -193,7 +157,7 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   }
 
   @override
-  Future<Either<AppException, bool>> clearLocalSectors() async {
+  Future<Either<AppException, bool>> clearAreasLocally() async {
     try {
       final response = await customerLocalDataSource.clearLocalSectors();
       return right(response);
@@ -202,15 +166,7 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
     }
   }
 
-  @override
-  Future<Either<AppException, bool>> clearLocalSalesmans() async {
-    try {
-      final response = await customerLocalDataSource.clearLocalSalesmans();
-      return right(response);
-    } catch (error) {
-      return left(AppException(error.toString()));
-    }
-  }
+  
 
   @override
   Future<Either<AppException, GetCustomersModel?>> getLocalCustomerById({

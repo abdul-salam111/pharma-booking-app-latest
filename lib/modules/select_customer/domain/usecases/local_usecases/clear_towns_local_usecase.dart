@@ -11,6 +11,6 @@ class ClearTownsLocalUsecase implements Usecase<bool, NoParams> {
   ClearTownsLocalUsecase({required this.customerRepository});
   @override
   Future<Either<AppException, bool>> call(NoParams params) async{
-    return await customerRepository.clearLocalTowns();
+    return await customerRepository.clearSubAreasLocally();
   }
 }

@@ -1,13 +1,11 @@
-
 import 'modules/home/presentation/barrel.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Pharma App Production",
+      title: "Pharma App Latest",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       theme: AppThemes.lightTheme,
@@ -17,11 +15,8 @@ void main() async {
   );
 }
 
-
 class AppBindings extends Bindings {
   @override
-
-  
   void dependencies() {
     Get.put(DioHelper(), permanent: true);
     Get.put(PharmaDatabase()..initializeDatabase(), permanent: true);

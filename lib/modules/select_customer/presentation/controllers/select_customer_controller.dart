@@ -1,26 +1,22 @@
-
-
-
 import '../../../home/presentation/barrel.dart';
-
 
 /// Controller to manage the selection of Sector → Town → Customer
 /// with SharedPreferences integration for persistent storage
 class SelectCustomerController extends GetxController {
   // ==================== INTERNAL DATA ==================== //
 
-  final List<GetSectorsModel> _allSectors = [];
-  final List<GetTownsModel> _allTowns = [];
+  final List<GetAreaListModel> _allSectors = [];
+  final List<GetSubAreaListModel> _allTowns = [];
   final List<GetCustomersModel> _allCustomers = [];
 
   // ==================== OBSERVABLES ==================== //
 
-  final sectors = <GetSectorsModel>[].obs;
-  final towns = <GetTownsModel>[].obs;
+  final sectors = <GetAreaListModel>[].obs;
+  final towns = <GetSubAreaListModel>[].obs;
   final customers = <GetCustomersModel>[].obs;
 
-  final Rx<GetSectorsModel?> selectedSector = Rx<GetSectorsModel?>(null);
-  final Rx<GetTownsModel?> selectedTown = Rx<GetTownsModel?>(null);
+  final Rx<GetAreaListModel?> selectedSector = Rx<GetAreaListModel?>(null);
+  final Rx<GetSubAreaListModel?> selectedTown = Rx<GetSubAreaListModel?>(null);
   final Rx<GetCustomersModel?> selectedCustomer = Rx<GetCustomersModel?>(null);
 
   final isLoadingSectors = false.obs;
@@ -59,7 +55,7 @@ class SelectCustomerController extends GetxController {
     try {
       isLoadingSectors.value = true;
       final data = _args['getAllSectors'];
-      if (data is List<GetSectorsModel>) {
+      if (data is List<GetAreaListModel>) {
         _allSectors
           ..clear()
           ..addAll(data);
@@ -75,7 +71,7 @@ class SelectCustomerController extends GetxController {
     try {
       isLoadingTowns.value = true;
       final data = _args['getAllTowns'];
-      if (data is List<GetTownsModel>) {
+      if (data is List<GetSubAreaListModel>) {
         _allTowns
           ..clear()
           ..addAll(data);
@@ -105,23 +101,22 @@ class SelectCustomerController extends GetxController {
 
   // ==================== FILTERING ==================== //
 
-  void _filterTownsBySector(GetSectorsModel sector) {
-    towns.assignAll(
-      _allTowns.where((t) => t.actualSectorId == sector.id).toList(),
-    );
+  void _filterTownsBySector(GetAreaListModel sector) {
+    towns.assignAll(_allTowns.where((t) => t.ordAreaId == sector.id).toList());
   }
 
-  void _filterCustomersByTown(GetTownsModel town) {
-    //customers.assignAll(
-    //   _allCustomers.where((c) {
-    //     return c.actualTownId.toString() == town.id.toString();
-    //   }).toList(),
-    // );
+  void _filterCustomersByTown(GetSubAreaListModel town) {
+    customers.assignAll(
+      _allCustomers.where((c) {
+        //return c.ordSubAreaId.toString() == town.id.toString();
+        return "4" == town.id.toString();
+      }).toList(),
+    );
   }
 
   // ==================== SELECTION HANDLERS ==================== //
 
-  void onSectorChanged(GetSectorsModel? sector) async {
+  void onSectorChanged(GetAreaListModel? sector) async {
     selectedSector.value = sector;
     selectedTown.value = null;
     selectedCustomer.value = null;
@@ -137,7 +132,7 @@ class SelectCustomerController extends GetxController {
     customers.clear();
   }
 
-  void onTownChanged(GetTownsModel? town) async {
+  void onTownChanged(GetSubAreaListModel? town) async {
     selectedTown.value = town;
     selectedCustomer.value = null;
 
@@ -191,7 +186,7 @@ class SelectCustomerController extends GetxController {
 
   // ==================== PERSISTENCE ==================== //
 
-  Future<void> _saveSelectedSector(GetSectorsModel? sector) async {
+  Future<void> _saveSelectedSector(GetAreaListModel? sector) async {
     if (sector != null) {
       await storage.setValues(StorageKeys.selectedSector, sector.id.toString());
     } else {
@@ -199,7 +194,7 @@ class SelectCustomerController extends GetxController {
     }
   }
 
-  Future<void> _saveSelectedTown(GetTownsModel? town) async {
+  Future<void> _saveSelectedTown(GetSubAreaListModel? town) async {
     if (town != null) {
       await storage.setValues(StorageKeys.selectedTown, town.id.toString());
     } else {
@@ -264,8 +259,8 @@ class SelectCustomerController extends GetxController {
       selectedTown.value != null &&
       selectedCustomer.value != null;
 
-  String get selectedSectorName => selectedSector.value?.sectorName ?? "";
-  String get selectedTownName => selectedTown.value?.townName ?? "";
+  String get selectedSectorName => selectedSector.value?.name ?? "";
+  String get selectedTownName => selectedTown.value?.name ?? "";
   GetCustomersModel? get selectedCustomerModel => selectedCustomer.value;
 
   bool get isAnyLoading =>

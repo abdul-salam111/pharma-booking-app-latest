@@ -6,12 +6,12 @@ class OrderDetailsOnDateBinding extends Bindings {
   void dependencies() {
     // Get.lazyPut(() => Get.find<GetAllLocalProductsUsecase>());
     // Get.lazyPut(() => Get.find<GetAllLocalCompaniesUsecase>());
-    Get.lazyPut(() => Get.find<GetAllLocalSectorsUsecase>());
-    Get.lazyPut(() => Get.find<GetAllLocalTownsUsecase>());
+    Get.lazyPut(() => Get.find<GetAllLocalAreasUsecase>());
+    Get.lazyPut(() => Get.find<GetAllLocalSubAreasUsecase>());
     Get.lazyPut<OrderDetailsOnDateController>(
       () => OrderDetailsOnDateController(
-        getAllLocalSectorsUsecase: Get.find<GetAllLocalSectorsUsecase>(),
-        getAllLocalTownsUsecase: Get.find<GetAllLocalTownsUsecase>(),
+        getAllLocalSectorsUsecase: Get.find<GetAllLocalAreasUsecase>(),
+        getAllLocalTownsUsecase: Get.find<GetAllLocalSubAreasUsecase>(),
         // getAllLocalProductsUsecase: Get.find<GetAllLocalProductsUsecase>(),
         //getAllLocalCompaniesUsecase: Get.find<GetAllLocalCompaniesUsecase>(),
       ),

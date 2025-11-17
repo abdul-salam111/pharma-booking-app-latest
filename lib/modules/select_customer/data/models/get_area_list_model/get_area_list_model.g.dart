@@ -1,16 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'get_companies_model.dart';
+part of 'get_area_list_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetCompaniesModel _$GetCompaniesModelFromJson(Map<String, dynamic> json) =>
-    _GetCompaniesModel(
+_GetAreaListModel _$GetAreaListModelFromJson(Map<String, dynamic> json) =>
+    _GetAreaListModel(
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$GetCompaniesModelToJson(_GetCompaniesModel instance) =>
+Map<String, dynamic> _$GetAreaListModelToJson(_GetAreaListModel instance) =>
     <String, dynamic>{'id': instance.id, 'name': instance.name};

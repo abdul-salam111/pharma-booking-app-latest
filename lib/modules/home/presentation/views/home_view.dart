@@ -8,7 +8,6 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Container(
       width: double.infinity,
       height: double.infinity,

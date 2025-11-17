@@ -9,11 +9,11 @@ import '../../models/get_products_model/get_all_products_model.dart';
 
 class ProductRepoImpl implements ProductAbstractRepository {
   final RemoteProductDatasource remoteProductDataSource;
-  // final LocalProductDatasource localProductDataSource;
+  final LocalProductDatasource localProductDataSource;
 
   const ProductRepoImpl({
     required this.remoteProductDataSource,
-   // required this.localProductDataSource,
+   required this.localProductDataSource,
   });
 
   //╔══════════════════════════════════════════════════════════════════════════════╗
@@ -35,52 +35,52 @@ class ProductRepoImpl implements ProductAbstractRepository {
   //║                            Local Products Management                         ║
   //╚══════════════════════════════════════════════════════════════════════════════╝
 
-  // @override
-  // Future<Either<AppException, List<GetAllProductsModel>>>
-  // getAllLocalProducts() async {
-  //   try {
-  //     final response = await localProductDataSource.getAllLocalProducts();
-  //     return Right(response);
-  //   } catch (error) {
-  //     return Left(AppException(error.toString()));
-  //   }
-  // }
+  @override
+  Future<Either<AppException, List<GetAllProductsModel>>>
+  getAllLocalProducts() async {
+    try {
+      final response = await localProductDataSource.getAllLocalProducts();
+      return Right(response);
+    } catch (error) {
+      return Left(AppException(error.toString()));
+    }
+  }
 
-  // @override
-  // Future<Either<AppException, List<int>>> insertProductsLocal(
-  //   List<GetAllProductsModel> products,
-  // ) async {
-  //   try {
-  //     final response = await localProductDataSource.insertProductsLocal(
-  //       products,
-  //     );
-  //     return Right(response);
-  //   } catch (error) {
-  //     return Left(AppException(error.toString()));
-  //   }
-  // }
+  @override
+  Future<Either<AppException, List<int>>> insertProductsLocal(
+    List<GetAllProductsModel> products,
+  ) async {
+    try {
+      final response = await localProductDataSource.insertProductsLocal(
+        products,
+      );
+      return Right(response);
+    } catch (error) {
+      return Left(AppException(error.toString()));
+    }
+  }
 
-  // @override
-  // Future<Either<AppException, bool>> clearLocalProducts() async {
-  //   try {
-  //     final response = await localProductDataSource.clearLocalProducts();
-  //     return Right(response);
-  //   } catch (error) {
-  //     return Left(AppException(error.toString()));
-  //   }
-  // }
+  @override
+  Future<Either<AppException, bool>> clearLocalProducts() async {
+    try {
+      final response = await localProductDataSource.clearLocalProducts();
+      return Right(response);
+    } catch (error) {
+      return Left(AppException(error.toString()));
+    }
+  }
 
-  // @override
-  // Future<Either<AppException, GetAllProductsModel?>> getLocalProductById({
-  //   required String productId,
-  // }) async {
-  //   try {
-  //     final response = await localProductDataSource.getLocalProductById(
-  //       productId: productId,
-  //     );
-  //     return Right(response);
-  //   } catch (error) {
-  //     return Left(AppException(error.toString()));
-  //   }
-  // }
+  @override
+  Future<Either<AppException, GetAllProductsModel?>> getLocalProductById({
+    required int productId,
+  }) async {
+    try {
+      final response = await localProductDataSource.getLocalProductById(
+        productId: productId,
+      );
+      return Right(response);
+    } catch (error) {
+      return Left(AppException(error.toString()));
+    }
+  }
 }

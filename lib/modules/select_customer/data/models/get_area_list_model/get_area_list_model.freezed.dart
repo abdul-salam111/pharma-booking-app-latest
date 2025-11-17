@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'get_companies_model.dart';
+part of 'get_area_list_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,22 +13,22 @@ part of 'get_companies_model.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$GetCompaniesModel {
+mixin _$GetAreaListModel {
 
 @JsonKey(name: "id") int? get id;@JsonKey(name: "name") String? get name;
-/// Create a copy of GetCompaniesModel
+/// Create a copy of GetAreaListModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$GetCompaniesModelCopyWith<GetCompaniesModel> get copyWith => _$GetCompaniesModelCopyWithImpl<GetCompaniesModel>(this as GetCompaniesModel, _$identity);
+$GetAreaListModelCopyWith<GetAreaListModel> get copyWith => _$GetAreaListModelCopyWithImpl<GetAreaListModel>(this as GetAreaListModel, _$identity);
 
-  /// Serializes this GetCompaniesModel to a JSON map.
+  /// Serializes this GetAreaListModel to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetCompaniesModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetAreaListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -37,15 +37,15 @@ int get hashCode => Object.hash(runtimeType,id,name);
 
 @override
 String toString() {
-  return 'GetCompaniesModel(id: $id, name: $name)';
+  return 'GetAreaListModel(id: $id, name: $name)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $GetCompaniesModelCopyWith<$Res>  {
-  factory $GetCompaniesModelCopyWith(GetCompaniesModel value, $Res Function(GetCompaniesModel) _then) = _$GetCompaniesModelCopyWithImpl;
+abstract mixin class $GetAreaListModelCopyWith<$Res>  {
+  factory $GetAreaListModelCopyWith(GetAreaListModel value, $Res Function(GetAreaListModel) _then) = _$GetAreaListModelCopyWithImpl;
 @useResult
 $Res call({
 @JsonKey(name: "id") int? id,@JsonKey(name: "name") String? name
@@ -56,14 +56,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$GetCompaniesModelCopyWithImpl<$Res>
-    implements $GetCompaniesModelCopyWith<$Res> {
-  _$GetCompaniesModelCopyWithImpl(this._self, this._then);
+class _$GetAreaListModelCopyWithImpl<$Res>
+    implements $GetAreaListModelCopyWith<$Res> {
+  _$GetAreaListModelCopyWithImpl(this._self, this._then);
 
-  final GetCompaniesModel _self;
-  final $Res Function(GetCompaniesModel) _then;
+  final GetAreaListModel _self;
+  final $Res Function(GetAreaListModel) _then;
 
-/// Create a copy of GetCompaniesModel
+/// Create a copy of GetAreaListModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = freezed,}) {
   return _then(_self.copyWith(
@@ -76,8 +76,8 @@ as String?,
 }
 
 
-/// Adds pattern-matching-related methods to [GetCompaniesModel].
-extension GetCompaniesModelPatterns on GetCompaniesModel {
+/// Adds pattern-matching-related methods to [GetAreaListModel].
+extension GetAreaListModelPatterns on GetAreaListModel {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -90,10 +90,10 @@ extension GetCompaniesModelPatterns on GetCompaniesModel {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _GetCompaniesModel value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _GetAreaListModel value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _GetCompaniesModel() when $default != null:
+case _GetAreaListModel() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -112,10 +112,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _GetCompaniesModel value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _GetAreaListModel value)  $default,){
 final _that = this;
 switch (_that) {
-case _GetCompaniesModel():
+case _GetAreaListModel():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -133,10 +133,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _GetCompaniesModel value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _GetAreaListModel value)?  $default,){
 final _that = this;
 switch (_that) {
-case _GetCompaniesModel() when $default != null:
+case _GetAreaListModel() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -156,7 +156,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _GetCompaniesModel() when $default != null:
+case _GetAreaListModel() when $default != null:
 return $default(_that.id,_that.name);case _:
   return orElse();
 
@@ -177,7 +177,7 @@ return $default(_that.id,_that.name);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name)  $default,) {final _that = this;
 switch (_that) {
-case _GetCompaniesModel():
+case _GetAreaListModel():
 return $default(_that.id,_that.name);case _:
   throw StateError('Unexpected subclass');
 
@@ -197,7 +197,7 @@ return $default(_that.id,_that.name);case _:
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name)?  $default,) {final _that = this;
 switch (_that) {
-case _GetCompaniesModel() when $default != null:
+case _GetAreaListModel() when $default != null:
 return $default(_that.id,_that.name);case _:
   return null;
 
@@ -209,27 +209,27 @@ return $default(_that.id,_that.name);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _GetCompaniesModel implements GetCompaniesModel {
-  const _GetCompaniesModel({@JsonKey(name: "id") this.id, @JsonKey(name: "name") this.name});
-  factory _GetCompaniesModel.fromJson(Map<String, dynamic> json) => _$GetCompaniesModelFromJson(json);
+class _GetAreaListModel implements GetAreaListModel {
+  const _GetAreaListModel({@JsonKey(name: "id") this.id, @JsonKey(name: "name") this.name});
+  factory _GetAreaListModel.fromJson(Map<String, dynamic> json) => _$GetAreaListModelFromJson(json);
 
 @override@JsonKey(name: "id") final  int? id;
 @override@JsonKey(name: "name") final  String? name;
 
-/// Create a copy of GetCompaniesModel
+/// Create a copy of GetAreaListModel
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$GetCompaniesModelCopyWith<_GetCompaniesModel> get copyWith => __$GetCompaniesModelCopyWithImpl<_GetCompaniesModel>(this, _$identity);
+_$GetAreaListModelCopyWith<_GetAreaListModel> get copyWith => __$GetAreaListModelCopyWithImpl<_GetAreaListModel>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$GetCompaniesModelToJson(this, );
+  return _$GetAreaListModelToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetCompaniesModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetAreaListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -238,15 +238,15 @@ int get hashCode => Object.hash(runtimeType,id,name);
 
 @override
 String toString() {
-  return 'GetCompaniesModel(id: $id, name: $name)';
+  return 'GetAreaListModel(id: $id, name: $name)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$GetCompaniesModelCopyWith<$Res> implements $GetCompaniesModelCopyWith<$Res> {
-  factory _$GetCompaniesModelCopyWith(_GetCompaniesModel value, $Res Function(_GetCompaniesModel) _then) = __$GetCompaniesModelCopyWithImpl;
+abstract mixin class _$GetAreaListModelCopyWith<$Res> implements $GetAreaListModelCopyWith<$Res> {
+  factory _$GetAreaListModelCopyWith(_GetAreaListModel value, $Res Function(_GetAreaListModel) _then) = __$GetAreaListModelCopyWithImpl;
 @override @useResult
 $Res call({
 @JsonKey(name: "id") int? id,@JsonKey(name: "name") String? name
@@ -257,17 +257,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$GetCompaniesModelCopyWithImpl<$Res>
-    implements _$GetCompaniesModelCopyWith<$Res> {
-  __$GetCompaniesModelCopyWithImpl(this._self, this._then);
+class __$GetAreaListModelCopyWithImpl<$Res>
+    implements _$GetAreaListModelCopyWith<$Res> {
+  __$GetAreaListModelCopyWithImpl(this._self, this._then);
 
-  final _GetCompaniesModel _self;
-  final $Res Function(_GetCompaniesModel) _then;
+  final _GetAreaListModel _self;
+  final $Res Function(_GetAreaListModel) _then;
 
-/// Create a copy of GetCompaniesModel
+/// Create a copy of GetAreaListModel
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = freezed,}) {
-  return _then(_GetCompaniesModel(
+  return _then(_GetAreaListModel(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,
