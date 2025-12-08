@@ -174,7 +174,7 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   }) async {
     try {
       final response = await customerLocalDataSource.getLocalCustomerById(
-        customerId: customerId,
+        customerId: int.parse(customerId),
       );
       return right(response);
     } catch (error) {

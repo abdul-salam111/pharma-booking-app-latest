@@ -5,13 +5,13 @@ import '../../../data/models/get_order_response/get_order_response.dart';
 import '../../repository/create_orders_repository.dart';
 
 class CreateOrdersRemotelyUsecase
-    implements Usecase<List<GetOrderResponse>, SyncOrdersModel> {
+    implements Usecase<List<GetOrderResponse>, List<SyncOrdersModel>> {
   final CreateOrdersRepository createOrdersRepository;
 
   CreateOrdersRemotelyUsecase({required this.createOrdersRepository});
   @override
   Future<Either<AppException, List<GetOrderResponse>>> call(
-    SyncOrdersModel ordersData,
+    List<SyncOrdersModel> ordersData,
   ) async {
     return await createOrdersRepository.syncOrdersRemotely(
       orderdata: ordersData,

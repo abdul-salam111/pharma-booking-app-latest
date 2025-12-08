@@ -102,14 +102,14 @@ class SelectCustomerController extends GetxController {
   // ==================== FILTERING ==================== //
 
   void _filterTownsBySector(GetAreaListModel sector) {
-    towns.assignAll(_allTowns.where((t) => t.ordAreaId == sector.id).toList());
+    towns.assignAll(_allTowns.where((t) => 1 == sector.id).toList());
   }
 
   void _filterCustomersByTown(GetSubAreaListModel town) {
     customers.assignAll(
       _allCustomers.where((c) {
-        //return c.ordSubAreaId.toString() == town.id.toString();
-        return "4" == town.id.toString();
+     
+        return c.subArea!.id.toString() == town.id.toString();
       }).toList(),
     );
   }

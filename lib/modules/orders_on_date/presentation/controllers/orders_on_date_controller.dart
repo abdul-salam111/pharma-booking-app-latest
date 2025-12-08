@@ -1,14 +1,18 @@
+import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
+
+import '../../../../core/utils/export_file.dart';
 import '../../../../core/utils/type_conversion.dart';
 
+import '../../../all_products/domain/usecases/products_usecases/product_local_usecases/get_product_by_id_usecase.dart';
 import '../../../home/presentation/barrel.dart';
 import '../../../select_customer/domain/usecases/local_usecases/get_local_customer_by_id_usecase.dart';
 
 class OrdersOnDateController extends GetxController {
-  // final GetProductByIdUsecase getProductByIdUsecase;
+  final GetProductByIdUsecase getProductByIdUsecase;
   final GetLocalCustomerByIdUsecase getLocalCustomerByIdUsecase;
 
   OrdersOnDateController({
-    // required this.getProductByIdUsecase,
+    required this.getProductByIdUsecase,
     required this.getLocalCustomerByIdUsecase,
   });
   // Observable variables
@@ -82,95 +86,65 @@ class OrdersOnDateController extends GetxController {
     }
 
     try {
-      // Get salesman details
-      // final salesman = await getLocalSalesmanByIdUsecase.call(
-      //   ""
-      //   // SessionController().getUserDetails.salesmanId!,
-      // );
-      // await salesman.fold(
-      //   (erorr) {
-      //     print(erorr);
-      //   },
-      //   (salesman) async {
-      //     List<DataList> dataList = [];
+      List<SyncOrdersModel> ordersList = [];
 
-      //     for (int i = 0; i < ordersForDate.length; i++) {
-      //       List<OrderRowForSync> orderRows = [];
+      for (int i = 0; i < ordersForDate.length; i++) {
+        List<OrderRow> orderRows = [];
 
-      //       // Process each company and product in the order
-      //       for (var company in ordersForDate[i].companies) {
-      //         for (var product in company.products) {
-      //           // final getProductByIdResponse = await getProductByIdUsecase.call(
-      //           //   product.productId,
-      //           // );
-      //           // await getProductByIdResponse.fold(
-      //           //   (error) {
-      //           //     print('Error fetching product by ID: $error');
-      //           //   },
-      //           //   (productModel) {
-      //           //     orderRows.add(
-      //           //       OrderRowForSync(
-      //           //         productId: product.productId,
-      //           //         qty: product.quantity,
-      //           //         bonus: product.bonus,
-      //           //         discRatio: product.discRatio,
-      //           //         price: product.price,
-      //           //         // tenantProdId: productModel?.productId.toString(),
-      //           //         tenantId:7
-      //           //         //  SessionController()
-      //           //         //     .getUserDetails
-      //           //         //     .tenantId!
-      //           //         //     .toIntOrNull,
-      //           //       ),
-      //           //     );
-      //           //   },
-      //           // );
-      //         }
-      //       }
-      //       final getCustomersModel = await getLocalCustomerByIdUsecase.call(
-      //         ordersForDate[i].customerId,
-      //       );
+        // Process each company and product in the order
+        for (var company in ordersForDate[i].companies) {
+          for (var product in company.products) {
+            final getProductByIdResponse = await getProductByIdUsecase.call(
+              product.productId.toIntOrNull!,
+            );
+            await getProductByIdResponse.fold(
+              (error) {
+                print('Error fetching product by ID: $error');
+              },
+              (productModel) {
+                orderRows.add(
+                  OrderRow(
+                    orderId: ordersForDate[i].orderId,
+                    productId: product.productId.toIntOrNull,
+                    qty: product.quantity,
+                    bonus: product.bonus,
+                    discRatio: product.discRatio,
+                    price: product.price,
+                  ),
+                );
+              },
+            );
+          }
+        }
+        final getCustomersModel = await getLocalCustomerByIdUsecase.call(
+          ordersForDate[i].customerId,
+        );
 
-      //       getCustomersModel.fold(
-      //         (error) {
-      //           print('Error fetching customer by ID: $error');
-      //         },
-      //         (getCustomersModel) {
-      //           // Add order to data list
-      //           dataList.add(
-      //             DataList(
-      //               tenantOrderId: null,
-      //               salesmanOrderId: null,
-      //               deviceOrderId:8,
-      //                   // ((SessionController().getUserDetails.maxDeviceOrderId! +
-      //                   //     i) +
-      //                   // 1),
-      //               // customerId: getCustomersModel?.customerId?.toIntOrNull,
-      //               salesmanId: salesman?.salesmanId?.toIntOrNull,
-      //               orderTime: ordersForDate[i].orderDate,
-      //               syncDate: ordersForDate[i].syncDate,
-      //               guid: ordersForDate[i].guid,
-      //               orderRows: orderRows,
-      //               id: null,
-      //               tenantId: 8
-      //               // SessionController()
-      //               //     .getUserDetails
-      //               //     .tenantId!
-      //               //     .toIntOrNull,
-      //             ),
-      //           );
-      //         },
-      //       );
-      //     }
+        getCustomersModel.fold(
+          (error) {
+            print('Error fetching customer by ID: $error');
+          },
+          (getCustomersModel) {
+            // Add order to data list
+            ordersList.add(
+              SyncOrdersModel(
+                salesmanOrderId: null,
+                deviceOrderId: ordersForDate[i].orderId,
+                customerId: getCustomersModel?.id,
+                salesmanId: CurrentUserHelper.salesmanId,
+                deviceOrderDateTime: ordersForDate[i].orderDate,
+                deviceOrderTime: ordersForDate[i].syncDate,
+                orderRows: orderRows,
+              ),
+            );
+          },
+        );
+      }
 
-      // Create sync model
-      //     SyncOrdersModel syncOrdersModel = SyncOrdersModel(dataList: dataList);
-      //     await saveTextFile(
-      //       "${selectedDate.value} orders",
-      //       "${syncOrdersModel.dataList!.map((orders) => orders.toJson()).toList()}",
-      //     );
-      //   },
-      // );
+      await saveTextFile(
+        "${selectedDate.value} orders",
+        "${ordersList.map((orders) => orders.toJson()).toList()}",
+      );
     } catch (e) {
       AppToasts.showErrorToast(Get.context!, 'Sync error: $e');
     }

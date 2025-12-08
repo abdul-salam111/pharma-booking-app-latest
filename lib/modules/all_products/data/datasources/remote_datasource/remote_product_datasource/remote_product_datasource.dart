@@ -13,7 +13,11 @@ class RemoteProductDataSourceImpl implements RemoteProductDatasource {
   @override
   Future<List<GetAllProductsModel>> getAllProducts() async {
     try {
-      final response = await dioHelper.getApi(url: ApiKeys.getProductsUrl);
+      final response = await dioHelper.getApi(
+        url: ApiKeys.getProductsUrl,
+        isAuthRequired: true,
+        authToken: await storage.readValues(StorageKeys.token),
+      );
 
       if (response is List) {
         return response

@@ -23,6 +23,6 @@ abstract interface class CreateOrdersRepository {
 
   //remote orders management
   Future<Either<AppException, List<GetOrderResponse>>> syncOrdersRemotely({
-    required SyncOrdersModel orderdata,
+    required List<SyncOrdersModel> orderdata,
   });
 }

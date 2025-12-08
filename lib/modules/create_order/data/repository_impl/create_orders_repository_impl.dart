@@ -55,7 +55,7 @@ class CreateOrdersRepositoryImpl implements CreateOrdersRepository {
 
   @override
   Future<Either<AppException, List<GetOrderResponse>>> syncOrdersRemotely({
-    required SyncOrdersModel orderdata,
+    required List<SyncOrdersModel> orderdata,
   }) async {
     try {
       return Right(

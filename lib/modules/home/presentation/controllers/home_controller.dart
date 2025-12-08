@@ -2,7 +2,10 @@
 // HOME CONTROLLER
 // ============================================================================
 import 'dart:async';
-import '../../../create_order/data/models/get_order_response/get_order_response.dart';
+import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
+import 'package:pharma_booking_app/modules/create_order/data/models/get_order_response/get_order_response.dart'
+    show GetOrderResponse;
+
 import '../../../select_customer/domain/usecases/local_usecases/insert_sub_areas_local_usecase.dart';
 import '../barrel.dart';
 
@@ -265,11 +268,12 @@ class HomeController extends GetxController {
     // // // Towns
     results[4].fold(
       (error) => throw Exception('Failed to fetch towns: ${error.toString()}'),
-      (towns) => insertOperations.add(insertAllSubAreasLocalUsecase.call(towns)),
+      (towns) =>
+          insertOperations.add(insertAllSubAreasLocalUsecase.call(towns)),
     );
 
     // // Execute all inserts in parallel
-     await Future.wait(insertOperations);
+    await Future.wait(insertOperations);
   }
 
   // ==========================================================================
@@ -287,7 +291,7 @@ class HomeController extends GetxController {
         getAllLocalCustomersUsecase.call(NoParams()),
         getAllLocalAreasUsecase.call(NoParams()),
         getAllLocalSubAreasUsecase.call(NoParams()),
-        // getCountUnsyncordersUsecase.call(NoParams()),
+        getCountUnsyncordersUsecase.call(NoParams()),
       ]);
       // Update all data lists
       _updateDataLists(results);
@@ -336,12 +340,12 @@ class HomeController extends GetxController {
     );
 
     // // unsync orders count
-    // results[5].fold(
-    //   (error) => throw Exception(
-    //     'Failed to load unsync orders count: ${error.toString()}',
-    //   ),
-    //   (count) => unsyncedOrdersCount.value = count,
-    // );
+    results[5].fold(
+      (error) => throw Exception(
+        'Failed to load unsync orders count: ${error.toString()}',
+      ),
+      (count) => unsyncedOrdersCount.value = count,
+    );
   }
 
   // ================= ORDER SYNCHRONIZATION =================
@@ -363,63 +367,48 @@ class HomeController extends GetxController {
             AppToasts.showWarningToast(Get.context!, 'No orders found.');
             return;
           }
-          // Show loader only once at the beginning
 
-          //late GetSalesmanModel getSalesman;
-          // final salesmanResponse = await getLocalSalesmanByIdUsecase.call(
-          // SessionController().getUserDetails.salesmanId!,
-          //   "",
-          // );
-          // await salesmanResponse.fold(
-          //   (error) {
-          //     AppToasts.dismiss(Get.context!);
-          //   },
-          //   (salesman) {
-          //     AppToasts.dismiss(Get.context!);
-          //     getSalesman = salesman!;
-          //     return;
-          //   },
-          // );
-          // AppToasts.showLoaderDialog(Get.context!, 'Syncing orders...');
-          // final syncModel = await _prepareSyncModel(orders, getSalesman);
+          AppToasts.showLoaderDialog(Get.context!, 'Syncing orders...');
+          final syncModel = await _prepareSyncModel(orders);
+          print(syncModel.map((e) => e.toJson()).toList());
 
-          // late List<GetOrderResponse> bookedOrdersResponse;
-          // final remoteOrdersResponse = await createOrdersRemotelyUsecase.call(
-          //   syncModel,
-          // );
-          // remoteOrdersResponse.fold(
-          //   (error) {
-          //     AppToasts.dismiss(Get.context!);
-          //     AppToasts.showErrorToast(
-          //       Get.context!,
-          //       "Error syncing orders. ${error.toString()}",
-          //     );
-          //   },
-          //   (bookedOrders) {
-          //     if (bookedOrders.isNotEmpty) {
-          //       bookedOrdersResponse = bookedOrders;
-          //       return;
-          //     } else {
-          //       AppToasts.dismiss(Get.context!);
-          //       AppToasts.showErrorToast(Get.context!, 'Orders did not sync.');
-          //     }
-          //   },
-          // );
+          late List<GetOrderResponse> bookedOrdersResponse;
+          final remoteOrdersResponse = await createOrdersRemotelyUsecase.call(
+            syncModel,
+          );
+          remoteOrdersResponse.fold(
+            (error) {
+              AppToasts.dismiss(Get.context!);
+              AppToasts.showErrorToast(
+                Get.context!,
+                "Error syncing orders. ${error.toString()}",
+              );
+            },
+            (bookedOrders) {
+              if (bookedOrders.isNotEmpty) {
+                bookedOrdersResponse = bookedOrders;
+                return;
+              } else {
+                AppToasts.dismiss(Get.context!);
+                AppToasts.showErrorToast(Get.context!, 'Orders did not sync.');
+              }
+            },
+          );
 
-          // await _updateSyncedOrders(orders, bookedOrdersResponse);
+          await _updateSyncedOrders(orders, bookedOrdersResponse);
 
-          // final updateUnsynccount = await getCountUnsyncordersUsecase.call(
-          //   NoParams(),
-          // );
-          // await updateUnsynccount.fold((error) {}, (count) {
-          //   unsyncedOrdersCount.value = count;
-          // });
+          final updateUnsynccount = await getCountUnsyncordersUsecase.call(
+            NoParams(),
+          );
+          await updateUnsynccount.fold((error) {}, (count) {
+            unsyncedOrdersCount.value = count;
+          });
 
-          // AppToasts.dismiss(Get.context!);
-          // AppToasts.showSuccessToast(
-          //   Get.context!,
-          //   '${bookedOrdersResponse.length} orders synced successfully.',
-          // );
+          AppToasts.dismiss(Get.context!);
+          AppToasts.showSuccessToast(
+            Get.context!,
+            '${bookedOrdersResponse.length} orders synced successfully.',
+          );
         },
       );
     } catch (error) {
@@ -430,56 +419,43 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<SyncOrdersModel> _prepareSyncModel(
+  Future<List<SyncOrdersModel>> _prepareSyncModel(
     List<OrderItemsForLocal> orders,
-    GetSalesmanModel salesman,
   ) async {
-    final dataList = <DataList>[];
+    final ordersList = <SyncOrdersModel>[];
 
     for (int i = 0; i < orders.length; i++) {
       final orderRows = _extractOrderRows(orders[i]);
 
-      dataList.add(
-        DataList(
-          guid: orders[i].guid,
-          tenantOrderId: null,
+      ordersList.add(
+        SyncOrdersModel(
           salesmanOrderId: null,
-          deviceOrderId: 0,
-          // ((SessionController().getUserDetails.maxDeviceOrderId! + i) + 1),
+          deviceOrderId: orders[i].orderId,
           customerId: int.tryParse(orders[i].customerId),
-          salesmanId: salesman.id,
-          orderTime: orders[i].orderDate,
-          syncDate: DateTime.now(),
+          salesmanId: CurrentUserHelper.salesmanId,
+          deviceOrderDateTime: orders[i].orderDate,
+          deviceOrderTime: DateTime.now(),
           orderRows: orderRows,
-          id: null,
-          tenantId: 6,
-          // SessionController().getUserDetails.tenantId!.toIntOrNull,
         ),
       );
     }
-    return SyncOrdersModel(
-      security: Security(
-        mobileNo: await storage.readValues('phone'),
-        password: "",
-      ),
-      dataList: dataList,
-    );
+
+    return ordersList;
   }
 
-  List<OrderRowForSync> _extractOrderRows(OrderItemsForLocal order) {
-    final orderRows = <OrderRowForSync>[];
+  List<OrderRow> _extractOrderRows(OrderItemsForLocal order) {
+    final orderRows = <OrderRow>[];
 
     for (final company in order.companies) {
       for (final product in company.products) {
         orderRows.add(
-          OrderRowForSync(
-            productId: product.productId,
+          OrderRow(
+            productId: int.parse(product.productId),
             qty: product.quantity,
             bonus: product.bonus,
             discRatio: product.discRatio,
             price: product.price,
-            tenantId: 6,
-            // SessionController().getUserDetails.tenantId!.toIntOrNull,
+            orderId: order.orderId,
           ),
         );
       }

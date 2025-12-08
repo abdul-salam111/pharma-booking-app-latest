@@ -13,7 +13,7 @@ abstract interface class CustomerLocalDataSource {
   Future<List<GetCustomersModel>> getAllLocalCustomers();
   Future<List<GetSubAreaListModel>> getAllLocalTowns();
   Future<List<GetAreaListModel>> getAllLocalSectors();
-  Future<GetCustomersModel?> getLocalCustomerById({required String customerId});
+  Future<GetCustomersModel?> getLocalCustomerById({required int customerId});
 
   // Insert operations
   Future<List<int>> insertLocalCustomers(List<GetCustomersModel> customers);
@@ -24,6 +24,9 @@ abstract interface class CustomerLocalDataSource {
   Future<bool> clearLocalCustomers();
   Future<bool> clearLocalTowns();
   Future<bool> clearLocalSectors();
+
+  // Count operations
+  Future<int> getCustomersCount();
 }
 
 // ============================================================================
@@ -46,17 +49,66 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
 
   @override
   Future<bool> clearLocalCustomers() async {
-    return await databaseHelper.clearTable(customerTable);
+    try {
+      return await databaseHelper.clearTable(customerTable);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error clearing customers: $e');
+      }
+      return false;
+    }
   }
 
   @override
   Future<bool> clearLocalTowns() async {
-    return await databaseHelper.clearTable(townTable);
+    try {
+      return await databaseHelper.clearTable(townTable);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error clearing towns: $e');
+      }
+      return false;
+    }
   }
 
   @override
   Future<bool> clearLocalSectors() async {
-    return await databaseHelper.clearTable(sectorTable);
+    try {
+      return await databaseHelper.clearTable(sectorTable);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error clearing sectors: $e');
+      }
+      return false;
+    }
+  }
+
+  // ==========================================================================
+  // COUNT OPERATIONS
+  // ==========================================================================
+
+  @override
+  Future<int> getCustomersCount() async {
+    try {
+      final dbClient = await databaseHelper.database;
+      if (dbClient == null) return 0;
+
+      final result = await dbClient.rawQuery(
+        'SELECT COUNT(*) as count FROM $customerTable',
+      );
+      final count = Sqflite.firstIntValue(result) ?? 0;
+
+      if (kDebugMode) {
+        print('Total customers in database: $count');
+      }
+
+      return count;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting customers count: $e');
+      }
+      return 0;
+    }
   }
 
   // ==========================================================================
@@ -67,16 +119,42 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   Future<List<GetCustomersModel>> getAllLocalCustomers() async {
     try {
       final dbClient = await databaseHelper.database;
+      if (dbClient == null) {
+        if (kDebugMode) {
+          print('Database client is null');
+        }
+        return [];
+      }
 
-      return await dbClient!.transaction((txn) async {
-        final customerData = await txn.query(customerTable);
+      return await dbClient.transaction((txn) async {
+        final customerData = await txn.query(
+          customerTable,
+          orderBy: 'customerName ASC',
+        );
+
+        if (kDebugMode) {
+          print('Raw query returned ${customerData.length} records');
+          if (customerData.isNotEmpty) {
+            print('First customer data: ${customerData.first}');
+          }
+        }
 
         final customers = customerData.map((customer) {
-          return GetCustomersModelDbX.fromDbJson(customer);
+          try {
+            return GetCustomersModelDbX.fromDbJson(customer);
+          } catch (e) {
+            if (kDebugMode) {
+              print('Error parsing customer: $e');
+              print('Customer data: $customer');
+            }
+            rethrow;
+          }
         }).toList();
 
         if (kDebugMode) {
-          print('Retrieved ${customers.length} customers from database');
+          print(
+            'Successfully parsed ${customers.length} customers from database',
+          );
         }
 
         return customers;
@@ -84,8 +162,45 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
     } catch (e) {
       if (kDebugMode) {
         print('Error getting customers from database: $e');
+        print('Stack trace: ${StackTrace.current}');
       }
       return [];
+    }
+  }
+
+  @override
+  Future<GetCustomersModel?> getLocalCustomerById({
+    required int customerId,
+  }) async {
+    try {
+      final dbClient = await databaseHelper.database;
+      if (dbClient == null) return null;
+
+      return await dbClient.transaction((txn) async {
+        final maps = await txn.query(
+          customerTable,
+          where: 'id = ?',
+          whereArgs: [customerId],
+          limit: 1,
+        );
+
+        if (maps.isNotEmpty) {
+          if (kDebugMode) {
+            print('Found customer with ID $customerId');
+          }
+          return GetCustomersModelDbX.fromDbJson(maps.first);
+        }
+
+        if (kDebugMode) {
+          print('No customer found with ID $customerId');
+        }
+        return null;
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting customer by ID: $e');
+      }
+      return null;
     }
   }
 
@@ -93,9 +208,10 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   Future<List<GetSubAreaListModel>> getAllLocalTowns() async {
     try {
       final dbClient = await databaseHelper.database;
+      if (dbClient == null) return [];
 
-      return await dbClient!.transaction((txn) async {
-        final maps = await txn.query(townTable);
+      return await dbClient.transaction((txn) async {
+        final maps = await txn.query(townTable, orderBy: 'name ASC');
 
         final towns = maps.map((map) {
           return GetSubAreaListModel.fromJson(map);
@@ -119,9 +235,10 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   Future<List<GetAreaListModel>> getAllLocalSectors() async {
     try {
       final dbClient = await databaseHelper.database;
+      if (dbClient == null) return [];
 
-      return await dbClient!.transaction((txn) async {
-        final maps = await txn.query(sectorTable);
+      return await dbClient.transaction((txn) async {
+        final maps = await txn.query(sectorTable, orderBy: 'name ASC');
 
         final sectors = maps.map((map) {
           return GetAreaListModel.fromJson(map);
@@ -151,20 +268,43 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   ) async {
     try {
       final dbClient = await databaseHelper.database;
-      final results = <int>[];
+      if (dbClient == null) {
+        if (kDebugMode) {
+          print('Database client is null, cannot insert customers');
+        }
+        return [];
+      }
 
-      await dbClient!.transaction((txn) async {
-        for (final customer in customers) {
+      final results = <int>[];
+      int successCount = 0;
+
+      await dbClient.transaction((txn) async {
+        for (int i = 0; i < customers.length; i++) {
+          final customer = customers[i];
           try {
+            final dbJson = customer.toDbJson();
+
+            if (kDebugMode && i == 0) {
+              print('First customer DB JSON: $dbJson');
+            }
+
             final result = await txn.insert(
               customerTable,
-              customer.toDbJson(),
+              dbJson,
               conflictAlgorithm: ConflictAlgorithm.replace,
             );
+
             results.add(result);
+            successCount++;
+
+            if (kDebugMode && (i % 100 == 0 || i == customers.length - 1)) {
+              print('Inserted ${i + 1}/${customers.length} customers');
+            }
           } catch (e) {
             if (kDebugMode) {
-              print('Error inserting individual customer: $e');
+              print(
+                'Error inserting customer ${customer.id} (${customer.customerName}): $e',
+              );
               print('Customer data: ${customer.toJson()}');
             }
           }
@@ -172,15 +312,14 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
       });
 
       if (kDebugMode) {
-        print(
-          'Successfully inserted ${results.length} customers out of ${customers.length}',
-        );
+        print('Successfully inserted: $successCount');
       }
 
       return results;
     } catch (e) {
       if (kDebugMode) {
-        print('Error inserting customers: $e');
+        print('Fatal error inserting customers: $e');
+        print('Stack trace: ${StackTrace.current}');
       }
       return [];
     }
@@ -190,9 +329,11 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   Future<List<int>> insertLocalTowns(List<GetSubAreaListModel> towns) async {
     try {
       final dbClient = await databaseHelper.database;
+      if (dbClient == null) return [];
+
       final results = <int>[];
 
-      await dbClient!.transaction((txn) async {
+      await dbClient.transaction((txn) async {
         for (final town in towns) {
           try {
             final result = await txn.insert(
@@ -203,7 +344,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
             results.add(result);
           } catch (e) {
             if (kDebugMode) {
-              print('Error inserting individual town: $e');
+              print('Error inserting town: $e');
               print('Town data: ${town.toJson()}');
             }
           }
@@ -211,9 +352,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
       });
 
       if (kDebugMode) {
-        print(
-          'Successfully inserted ${results.length} towns out of ${towns.length}',
-        );
+        print('Successfully inserted ${results.length}/${towns.length} towns');
       }
 
       return results;
@@ -229,9 +368,11 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   Future<List<int>> insertLocalSectors(List<GetAreaListModel> sectors) async {
     try {
       final dbClient = await databaseHelper.database;
+      if (dbClient == null) return [];
+
       final results = <int>[];
 
-      await dbClient!.transaction((txn) async {
+      await dbClient.transaction((txn) async {
         for (final sector in sectors) {
           try {
             final result = await txn.insert(
@@ -242,7 +383,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
             results.add(result);
           } catch (e) {
             if (kDebugMode) {
-              print('Error inserting individual sector: $e');
+              print('Error inserting sector: $e');
               print('Sector data: ${sector.toJson()}');
             }
           }
@@ -251,7 +392,7 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
 
       if (kDebugMode) {
         print(
-          'Successfully inserted ${results.length} sectors out of ${sectors.length}',
+          'Successfully inserted ${results.length}/${sectors.length} sectors',
         );
       }
 
@@ -262,75 +403,5 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
       }
       return [];
     }
-  }
-
-  @override
-  Future<GetCustomersModel?> getLocalCustomerById({
-    required String customerId,
-  }) async {
-    try {
-      var dbClient = await databaseHelper.database;
-
-      return await dbClient!.transaction((txn) async {
-        List<Map<String, dynamic>> maps = await txn.query(
-          'customers',
-          where: 'ID = ?',
-          whereArgs: [customerId],
-          limit: 1,
-        );
-
-        if (maps.isNotEmpty) {
-          return GetCustomersModelDbX.fromDbJson(maps.first);
-        }
-        return null;
-      });
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error getting customer by ID: $e');
-      }
-      return null;
-    }
-  }
-}
-
-extension GetCustomersModelDbX on GetCustomersModel {
-  /// Convert model to SQLite map
-  Map<String, dynamic> toDbJson() {
-    return {
-      'id': id,
-      'customerName': customerName,
-      'ordSubAreaId': ordSubAreaId ?? 0,
-      'city': city,
-      'contactPerson': contactPerson,
-      'phone1': phone1,
-      'email': email,
-      'customerType': customerType,
-      'ordersCount': ordersCount ?? 0,
-      'isActive': (isActive ?? false) ? 1 : 0,
-      'creditLimit': creditLimit ?? 0,
-      'openingBalance': openingBalance ?? 0,
-      'currentBalance': currentBalance ?? 0,
-      'isFiler': (isFiler ?? false) ? 1 : 0,
-    };
-  }
-
-  /// Static helper to create a model from SQLite map
-  static GetCustomersModel fromDbJson(Map<String, dynamic> json) {
-    return GetCustomersModel(
-      id: json['id'] as int?,
-      customerName: json['customerName'] as String?,
-      ordSubAreaId: json['ordSubAreaId'] as int?,
-      city: json['city'] as String?,
-      contactPerson: json['contactPerson'] as String?,
-      phone1: json['phone1'] as String?,
-      email: json['email'] as String?,
-      customerType: json['customerType'] as String?,
-      ordersCount: json['ordersCount'] as int? ?? 0,
-      isActive: (json['isActive'] as int? ?? 0) == 1,
-      creditLimit: (json['creditLimit'] as num?)?.toDouble() ?? 0.0,
-      openingBalance: (json['openingBalance'] as num?)?.toDouble() ?? 0.0,
-      currentBalance: (json['currentBalance'] as num?)?.toDouble() ?? 0.0,
-      isFiler: (json['isFiler'] as int? ?? 0) == 1,
-    );
   }
 }

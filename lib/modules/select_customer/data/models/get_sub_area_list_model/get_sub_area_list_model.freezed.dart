@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GetSubAreaListModel {
 
-@JsonKey(name: "id") int? get id;@JsonKey(name: "name") String? get name;@JsonKey(name: "ordAreaId") int? get ordAreaId;
+@JsonKey(name: "id") int? get id;@JsonKey(name: "name") String? get name;@JsonKey(name: "areaId") int? get areaId;
 /// Create a copy of GetSubAreaListModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $GetSubAreaListModelCopyWith<GetSubAreaListModel> get copyWith => _$GetSubAreaLi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetSubAreaListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.ordAreaId, ordAreaId) || other.ordAreaId == ordAreaId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetSubAreaListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.areaId, areaId) || other.areaId == areaId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,ordAreaId);
+int get hashCode => Object.hash(runtimeType,id,name,areaId);
 
 @override
 String toString() {
-  return 'GetSubAreaListModel(id: $id, name: $name, ordAreaId: $ordAreaId)';
+  return 'GetSubAreaListModel(id: $id, name: $name, areaId: $areaId)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $GetSubAreaListModelCopyWith<$Res>  {
   factory $GetSubAreaListModelCopyWith(GetSubAreaListModel value, $Res Function(GetSubAreaListModel) _then) = _$GetSubAreaListModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: "id") int? id,@JsonKey(name: "name") String? name,@JsonKey(name: "ordAreaId") int? ordAreaId
+@JsonKey(name: "id") int? id,@JsonKey(name: "name") String? name,@JsonKey(name: "areaId") int? areaId
 });
 
 
@@ -65,11 +65,11 @@ class _$GetSubAreaListModelCopyWithImpl<$Res>
 
 /// Create a copy of GetSubAreaListModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = freezed,Object? ordAreaId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = freezed,Object? areaId = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String?,ordAreaId: freezed == ordAreaId ? _self.ordAreaId : ordAreaId // ignore: cast_nullable_to_non_nullable
+as String?,areaId: freezed == areaId ? _self.areaId : areaId // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
 }
@@ -155,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name, @JsonKey(name: "ordAreaId")  int? ordAreaId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name, @JsonKey(name: "areaId")  int? areaId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GetSubAreaListModel() when $default != null:
-return $default(_that.id,_that.name,_that.ordAreaId);case _:
+return $default(_that.id,_that.name,_that.areaId);case _:
   return orElse();
 
 }
@@ -176,10 +176,10 @@ return $default(_that.id,_that.name,_that.ordAreaId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name, @JsonKey(name: "ordAreaId")  int? ordAreaId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name, @JsonKey(name: "areaId")  int? areaId)  $default,) {final _that = this;
 switch (_that) {
 case _GetSubAreaListModel():
-return $default(_that.id,_that.name,_that.ordAreaId);case _:
+return $default(_that.id,_that.name,_that.areaId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +196,10 @@ return $default(_that.id,_that.name,_that.ordAreaId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name, @JsonKey(name: "ordAreaId")  int? ordAreaId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name, @JsonKey(name: "areaId")  int? areaId)?  $default,) {final _that = this;
 switch (_that) {
 case _GetSubAreaListModel() when $default != null:
-return $default(_that.id,_that.name,_that.ordAreaId);case _:
+return $default(_that.id,_that.name,_that.areaId);case _:
   return null;
 
 }
@@ -211,12 +211,12 @@ return $default(_that.id,_that.name,_that.ordAreaId);case _:
 @JsonSerializable()
 
 class _GetSubAreaListModel implements GetSubAreaListModel {
-  const _GetSubAreaListModel({@JsonKey(name: "id") this.id, @JsonKey(name: "name") this.name, @JsonKey(name: "ordAreaId") this.ordAreaId});
+  const _GetSubAreaListModel({@JsonKey(name: "id") this.id, @JsonKey(name: "name") this.name, @JsonKey(name: "areaId") this.areaId});
   factory _GetSubAreaListModel.fromJson(Map<String, dynamic> json) => _$GetSubAreaListModelFromJson(json);
 
 @override@JsonKey(name: "id") final  int? id;
 @override@JsonKey(name: "name") final  String? name;
-@override@JsonKey(name: "ordAreaId") final  int? ordAreaId;
+@override@JsonKey(name: "areaId") final  int? areaId;
 
 /// Create a copy of GetSubAreaListModel
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +231,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetSubAreaListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.ordAreaId, ordAreaId) || other.ordAreaId == ordAreaId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetSubAreaListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.areaId, areaId) || other.areaId == areaId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,ordAreaId);
+int get hashCode => Object.hash(runtimeType,id,name,areaId);
 
 @override
 String toString() {
-  return 'GetSubAreaListModel(id: $id, name: $name, ordAreaId: $ordAreaId)';
+  return 'GetSubAreaListModel(id: $id, name: $name, areaId: $areaId)';
 }
 
 
@@ -251,7 +251,7 @@ abstract mixin class _$GetSubAreaListModelCopyWith<$Res> implements $GetSubAreaL
   factory _$GetSubAreaListModelCopyWith(_GetSubAreaListModel value, $Res Function(_GetSubAreaListModel) _then) = __$GetSubAreaListModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: "id") int? id,@JsonKey(name: "name") String? name,@JsonKey(name: "ordAreaId") int? ordAreaId
+@JsonKey(name: "id") int? id,@JsonKey(name: "name") String? name,@JsonKey(name: "areaId") int? areaId
 });
 
 
@@ -268,11 +268,11 @@ class __$GetSubAreaListModelCopyWithImpl<$Res>
 
 /// Create a copy of GetSubAreaListModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = freezed,Object? ordAreaId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = freezed,Object? areaId = freezed,}) {
   return _then(_GetSubAreaListModel(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String?,ordAreaId: freezed == ordAreaId ? _self.ordAreaId : ordAreaId // ignore: cast_nullable_to_non_nullable
+as String?,areaId: freezed == areaId ? _self.areaId : areaId // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
 }

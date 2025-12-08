@@ -237,7 +237,7 @@ class AllProductsView extends GetView<AllProductsController> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  "( CS: ${product.discRatioPur} )",
+                                                  "( CS: ${product.discRatioSal1} )",
                                                   style: context
                                                       .displayLargeStyle!
                                                       .copyWith(
@@ -338,10 +338,11 @@ class AllProductsView extends GetView<AllProductsController> {
                                                     ),
                                                   ),
 
-                                                  Obx(
-                                                    () =>
-                                                        controller.showBns.value
-                                                        ? SizedBox(
+                                                  // Obx(
+                                                  //   () =>
+                                                        // controller.showBns.value
+                                                        // ?
+                                                         SizedBox(
                                                             width:
                                                                 context.width *
                                                                 0.1,
@@ -379,16 +380,17 @@ class AllProductsView extends GetView<AllProductsController> {
                                                                 ],
                                                               ),
                                                             ),
-                                                          )
-                                                        : SizedBox.shrink(),
-                                                  ),
+                                                          ),
+                                                        // : SizedBox.shrink(),
+                                                //  ),
 
-                                                  Obx(
-                                                    () =>
-                                                        controller
-                                                            .showdisc
-                                                            .value
-                                                        ? SizedBox(
+                                                  // Obx(
+                                                  //   () =>
+                                                        // controller
+                                                        //     .showdisc
+                                                        //     .value
+                                                        // ? 
+                                                        SizedBox(
                                                             width:
                                                                 context.width *
                                                                 0.13,
@@ -426,9 +428,9 @@ class AllProductsView extends GetView<AllProductsController> {
                                                                 ],
                                                               ),
                                                             ),
-                                                          )
-                                                        : SizedBox.shrink(),
-                                                  ),
+                                                          ),
+                                                        // : SizedBox.shrink(),
+                                                //  ),
 
                                                   SizedBox(
                                                     height: 24,
@@ -771,8 +773,9 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
                   ),
                 ),
                 widthBox(20),
-                controller.showBns.value
-                    ? Expanded(
+                // controller.showBns.value
+                //     ? 
+                    Expanded(
                         child: CustomTextFormField(
                           controller: bonusController,
                           label: "Bonus",
@@ -783,15 +786,16 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
                           labelfontSize: 14,
                         ),
                       )
-                    : SizedBox.shrink(),
+                    // : SizedBox.shrink(),
               ],
             ),
 
             const SizedBox(height: 10),
             Row(
               children: [
-                controller.showdisc.value
-                    ? Expanded(
+                // controller.showdisc.value
+                //     ? 
+                    Expanded(
                         child: CustomTextFormField(
                           label: "Discount %",
                           labelColor: AppColors.blackTextColor,
@@ -801,11 +805,12 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
                           borderColor: AppColors.darkGreyColor,
                           labelfontSize: 14,
                         ),
-                      )
-                    : SizedBox.shrink(),
+                      ),
+                  //  : SizedBox.shrink(),
                 widthBox(20),
-                controller.showprice.value
-                    ? Expanded(
+                // controller.showprice.value
+                //     ? 
+                    Expanded(
                         child: CustomTextFormField(
                           controller: priceController,
                           label: "Price",
@@ -818,7 +823,7 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
                           labelfontSize: 14,
                         ),
                       )
-                    : SizedBox.shrink(),
+                    // : SizedBox.shrink(),
               ],
             ),
             heightBox(20),

@@ -1,4 +1,5 @@
 
+import '../../../all_products/domain/usecases/products_usecases/product_local_usecases/get_product_by_id_usecase.dart';
 import '../../../home/presentation/barrel.dart';
 import '../../../select_customer/domain/usecases/local_usecases/get_local_customer_by_id_usecase.dart';
 import '../controllers/orders_on_date_controller.dart';
@@ -8,11 +9,11 @@ class OrdersOnDateBinding extends Bindings {
   void dependencies() {
     Get.lazyPut(() => Get.find<PharmaDatabase>());
   
-    // Get.lazyPut(
-    //   () => GetProductByIdUsecase(
-    //     productRepository: Get.find<ProductAbstractRepository>(),
-    //   ),
-    // );
+    Get.lazyPut(
+      () => GetProductByIdUsecase(
+        productRepository: Get.find<ProductAbstractRepository>(),
+      ),
+    );
     Get.lazyPut(
       () => GetLocalCustomerByIdUsecase(
         repository: Get.find<CustomerAbstractRepository>(),
@@ -22,7 +23,7 @@ class OrdersOnDateBinding extends Bindings {
       () => OrdersOnDateController(
       
 
-        // getProductByIdUsecase: Get.find<GetProductByIdUsecase>(),
+         getProductByIdUsecase: Get.find<GetProductByIdUsecase>(),
         getLocalCustomerByIdUsecase: Get.find<GetLocalCustomerByIdUsecase>(),
       ),
     );

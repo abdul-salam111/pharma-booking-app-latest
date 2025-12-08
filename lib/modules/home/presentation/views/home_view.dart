@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import '../barrel.dart';
+import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
 
+import '../barrel.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -35,11 +36,8 @@ class HomeView extends GetView<HomeController> {
               ),
               heightBox(100),
               Text(
-                "Welcome, ",
-                // ${
-                //   SessionController().getUserDetails.userName
-                // }
-              
+                "Welcome, ${CurrentUserHelper.userName}",
+
                 style: context.headlineSmallStyle!.copyWith(
                   color: AppColors.blackTextColor,
                 ),

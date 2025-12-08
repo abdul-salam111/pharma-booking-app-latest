@@ -13,9 +13,15 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
   @override
   Future<List<GetCustomersModel>> getAllCustomers() async {
     try {
-      final response = await dioHelper.getApi(url: ApiKeys.getCustomersUrl);
+      final response = await dioHelper.getApi(
+        url: ApiKeys.getCustomersUrl,
+        authToken: await storage.readValues(StorageKeys.token),
+        isAuthRequired: true,
+      );
+    
 
       if (response is List) {
+     
         return response
             .map((item) => GetCustomersModel.fromJson(item))
             .toList();
@@ -30,7 +36,11 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
   @override
   Future<List<GetSubAreaListModel>> getSubAreaList() async {
     try {
-      final response = await dioHelper.getApi(url: ApiKeys.getTownssUrl);
+      final response = await dioHelper.getApi(
+        url: ApiKeys.getTownssUrl,
+        authToken: await storage.readValues(StorageKeys.token),
+        isAuthRequired: true,
+      );
 
       if (response is List) {
         return response
@@ -47,7 +57,11 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
   @override
   Future<List<GetAreaListModel>> getAreaList() async {
     try {
-      final response = await dioHelper.getApi(url: ApiKeys.getSectorsUrl);
+      final response = await dioHelper.getApi(
+        url: ApiKeys.getSectorsUrl,
+        authToken: await storage.readValues(StorageKeys.token),
+        isAuthRequired: true,
+      );
 
       if (response is List) {
         return response.map((item) => GetAreaListModel.fromJson(item)).toList();
@@ -62,7 +76,11 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
   @override
   Future<List<GetSalesmanModel>> getAllSalesmans() async {
     try {
-      final response = await dioHelper.postApi(url: ApiKeys.getSalesman);
+      final response = await dioHelper.postApi(
+        url: ApiKeys.getSalesman,
+        authToken: await storage.readValues(StorageKeys.token),
+        isAuthRequired: true,
+      );
 
       if (response is List) {
         return response.map((item) => GetSalesmanModel.fromJson(item)).toList();

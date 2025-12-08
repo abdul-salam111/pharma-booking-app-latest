@@ -1,12 +1,10 @@
 import 'package:flutter/foundation.dart';
+import '../../../create_order/presentation/controllers/create_order_controller.dart';
 import '../../../home/presentation/barrel.dart';
-
 
 /// Controller for managing product selection and order creation in the pharma app
 /// Handles product filtering, company selection, and order management
 class AllProductsController extends GetxController {
-
-
   // ╔══════════════════════════════════════════════════════════════════════════════╗
   // ║                            CUSTOMER DETAILS VARIABLES                        ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
@@ -110,7 +108,6 @@ class AllProductsController extends GetxController {
     super.onInit();
     _initializeData();
     _setupListeners();
-  
   }
 
   /// Initialize controller data from Get.arguments
@@ -150,9 +147,7 @@ class AllProductsController extends GetxController {
 
         // Extract companies list (index 4)
         if (arguments.length > 4) {
-          getAllCompanies.value = List<CompaniesModel>.from(
-            arguments[4] ?? [],
-          );
+          getAllCompanies.value = List<CompaniesModel>.from(arguments[4] ?? []);
           filteredCompanies.value = List.from(getAllCompanies);
         }
       }
@@ -219,7 +214,6 @@ class AllProductsController extends GetxController {
 
   /// Fetch salesman permissions from database
   /// Sets permission flags for bonus, price, and discount changes
-  
 
   // ╔══════════════════════════════════════════════════════════════════════════════╗
   // ║                            ORDER MANAGEMENT METHODS                          ║
@@ -241,14 +235,14 @@ class AllProductsController extends GetxController {
     }
 
     calculateTotals();
-    // notifyCreateOrderController();
+    notifyCreateOrderController();
   }
 
   /// Remove a product from the current order by product ID
   void removeProductFromOrder(String productId) {
     selectedProducts.removeWhere((p) => p.productId == productId);
     calculateTotals();
-    // notifyCreateOrderController();
+    notifyCreateOrderController();
   }
 
   /// Update an existing product in the order
@@ -267,7 +261,7 @@ class AllProductsController extends GetxController {
   void clearOrder() {
     selectedProducts.clear();
     calculateTotals();
-    // notifyCreateOrderController();
+    notifyCreateOrderController();
   }
 
   /// Check if a product is already in the current order
@@ -441,9 +435,7 @@ class AllProductsController extends GetxController {
 
       final arguments = Get.arguments;
       if (arguments is List && arguments.length > 4) {
-        getAllCompanies.value = List<CompaniesModel>.from(
-          arguments[4] ?? [],
-        );
+        getAllCompanies.value = List<CompaniesModel>.from(arguments[4] ?? []);
       } else if (arguments is Map && arguments['getCompaniesModel'] != null) {
         getAllCompanies.value = List<CompaniesModel>.from(
           arguments['getCompaniesModel'],
@@ -577,14 +569,14 @@ class AllProductsController extends GetxController {
 
   /// Notify the CreateOrderController about changes to the order
   /// This keeps the order creation screen updated with latest data
-  // void notifyCreateOrderController() {
-  //   if (Get.isRegistered<CreateOrderController>()) {
-  //     final createOrderController = Get.find<CreateOrderController>();
-  //     createOrderController.updateOrderData(
-  //       selectedProducts.toList(),
-  //       totalAmount.value,
-  //       totalItems.value,
-  //     );
-  //   }
-  // }
+  void notifyCreateOrderController() {
+    if (Get.isRegistered<CreateOrderController>()) {
+      final createOrderController = Get.find<CreateOrderController>();
+      createOrderController.updateOrderData(
+        selectedProducts.toList(),
+        totalAmount.value,
+        totalItems.value,
+      );
+    }
+  }
 }

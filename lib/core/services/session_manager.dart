@@ -19,11 +19,8 @@ class SessionController {
   Future<void> saveUserInStorage(LoginResponseModel user) async {
     await storage.setValues(StorageKeys.userDetails, jsonEncode(user));
     await storage.setValues(StorageKeys.loggedIn, 'true');
-    // await storage.setValues(StorageKeys.userId, user.userId.toString());
-    // await storage.setValues(
-    //   StorageKeys.token,
-    //   user.authToken!.accessToken!,
-    // );
+    await storage.setValues(StorageKeys.userId, user.user?.userId ?? "");
+    await storage.setValues(StorageKeys.token, user.token.toString());
   }
 
   Future<void> getUserfromSharedpref() async {

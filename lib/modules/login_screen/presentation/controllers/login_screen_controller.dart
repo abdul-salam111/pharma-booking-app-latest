@@ -58,8 +58,7 @@ class LoginScreenController extends GetxController {
         isLoading.value = false;
       },
       (userData) async {
-        await storage.setValues(StorageKeys.token, userData.token.toString());
-        Get.offAllNamed(Routes.HOME);
+        _persistSessionAndNavigate(userData);
         // 2. Check for salesman change
         // final oldSalesmanId = SessionController().getUserDetails.salesmanId;
         // final newSalesmanId = userData.salesmanId;

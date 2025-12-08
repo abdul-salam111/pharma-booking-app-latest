@@ -1,6 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-
 part 'get_sub_area_list_model.freezed.dart';
 part 'get_sub_area_list_model.g.dart';
 
@@ -11,8 +9,8 @@ abstract class GetSubAreaListModel with _$GetSubAreaListModel {
         int? id,
         @JsonKey(name: "name")
         String? name,
-        @JsonKey(name: "ordAreaId")
-        int? ordAreaId,
+        @JsonKey(name: "areaId")
+        int? areaId,
     }) = _GetSubAreaListModel;
 
     factory GetSubAreaListModel.fromJson(Map<String, dynamic> json) => _$GetSubAreaListModelFromJson(json);

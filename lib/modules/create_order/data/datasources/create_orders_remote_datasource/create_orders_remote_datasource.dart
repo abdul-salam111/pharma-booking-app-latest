@@ -1,15 +1,12 @@
+import '../../../../../core/core.dart';
 
-
-import '../../../../../core/constants/api_keys.dart';
-
-import '../../../../../core/networks/exceptions/app_exceptions.dart';
 import '../../../../../core/networks/network_manager/dio_helper.dart';
 import '../../../../../core/shared/models/post_models/sync_orders_model.dart';
 import '../../models/get_order_response/get_order_response.dart';
 
 abstract interface class CreateOrdersRemoteDatasource {
   Future<List<GetOrderResponse>> syncOrdersRemotely({
-    required SyncOrdersModel orderdata,
+    required List<SyncOrdersModel> orderdata,
   });
 }
 
@@ -19,17 +16,17 @@ class CreateOrdersRemoteDatasourceImpl implements CreateOrdersRemoteDatasource {
   CreateOrdersRemoteDatasourceImpl({required this.dioHelper});
   @override
   Future<List<GetOrderResponse>> syncOrdersRemotely({
-    required SyncOrdersModel orderdata,
+    required List<SyncOrdersModel> orderdata,
   }) async {
     try {
       final response = await dioHelper.postApi(
         url: ApiKeys.syncorders,
         requestBody: orderdata,
+        isAuthRequired: true,
+        authToken: await storage.readValues(StorageKeys.token),
       );
       if (response is List) {
-        return response
-            .map((item) => GetOrderResponse.fromJson(item))
-            .toList();
+        return response.map((item) => GetOrderResponse.fromJson(item)).toList();
       } else {
         return [];
       }

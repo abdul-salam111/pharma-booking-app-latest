@@ -10,7 +10,7 @@ _GetSubAreaListModel _$GetSubAreaListModelFromJson(Map<String, dynamic> json) =>
     _GetSubAreaListModel(
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
-      ordAreaId: (json['ordAreaId'] as num?)?.toInt(),
+      areaId: (json['areaId'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$GetSubAreaListModelToJson(
@@ -18,5 +18,5 @@ Map<String, dynamic> _$GetSubAreaListModelToJson(
 ) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
-  'ordAreaId': instance.ordAreaId,
+  'areaId': instance.areaId,
 };

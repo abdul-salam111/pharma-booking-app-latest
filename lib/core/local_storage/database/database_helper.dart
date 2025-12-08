@@ -83,54 +83,62 @@ class PharmaDatabase {
         CREATE TABLE subareas(
           id INTEGER,
           name TEXT,
-          ordAreaId INTEGER
+          areaId INTEGER
         )
       ''');
 
         // ============== CUSTOMERS TABLE ==============
         await txn.execute('''
-        CREATE TABLE customers(
-          id INTEGER,
-          customerName TEXT,
-          ordSubAreaId INTEGER,
-          city TEXT,
-          contactPerson TEXT,
-          phone1 TEXT,
-          email TEXT,
-          customerType TEXT,
-          ordersCount INTEGER,
-          isActive INTEGER,
-          creditLimit REAL,
-          openingBalance REAL,
-          currentBalance REAL,
-          isFiler INTEGER
-        )
-      ''');
-
+  CREATE TABLE customers(
+    id INTEGER PRIMARY KEY,
+    customerName TEXT,
+    address TEXT,
+    city TEXT,
+    contactPerson TEXT,
+    phone1 TEXT,
+    mobile TEXT,
+    email TEXT,
+    ntn TEXT,
+    stn TEXT,
+    customerType TEXT,
+    ordersCount INTEGER,
+    priceLevel INTEGER,
+    isActive INTEGER,
+    creditDays INTEGER,
+    creditLimit INTEGER,
+    currentBalance INTEGER,
+    lastOrderDate TEXT,
+    lastPaymentDate TEXT,
+    isFiler INTEGER,
+    latitude REAL,
+    longitude REAL,
+    ordSubAreaId INTEGER,
+    subAreaName TEXT,
+    areaId INTEGER,
+    defaultPrice INTEGER
+  )
+''');
         // ============== PRODUCTS TABLE ==============
         await txn.execute('''
-        CREATE TABLE products(
-          id INTEGER,
-          productName TEXT,
-          companyId INTEGER,
-          pricePackPur REAL,
-          retailPrice REAL,
-          discRatioPur REAL,
-          saleDiscRatio REAL,
-          pricePackSal1 REAL,
-          pricePackSal2 REAL,
-          pricePackSal3 REAL,
-          discRatioSal1 REAL,
-          discRatioSal2 REAL,
-          discRatioSal3 REAL,
-          sTaxRatio REAL,
-          sTaxValPack REAL,
-          isSTaxOnBnsSal INTEGER,
-          displayOrder INTEGER,
-          tradePrice REAL,
-          packings TEXT
-        )
-      ''');
+    CREATE TABLE products(
+      id INTEGER,
+      productName TEXT,
+      companyId INTEGER,
+      retailPrice REAL,
+      tradePrice REAL,
+      saleDiscRatio REAL,
+      pricePackSal1 REAL,
+      pricePackSal2 REAL,
+      pricePackSal3 REAL,
+      discRatioSal1 REAL,
+      discRatioSal2 REAL,
+      discRatioSal3 REAL,
+      sTaxRatio INTEGER,
+      isSTaxOnBnsSal INTEGER,
+      packSize TEXT,
+      packings TEXT
+    )
+  ''');
         // Create orders table
         await txn.execute('''
           CREATE TABLE orders(
