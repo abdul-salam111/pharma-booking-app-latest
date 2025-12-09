@@ -68,7 +68,7 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   @override
   Future<Either<AppException, List<GetSubAreaListModel>>> getAllLocalSubAreas() async {
     try {
-      final response = await customerLocalDataSource.getAllLocalTowns();
+      final response = await customerLocalDataSource.getAllLocalSubAreas();
       return right(response);
     } catch (error) {
       return left(AppException(error.toString()));
@@ -79,7 +79,7 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   Future<Either<AppException, List<GetAreaListModel>>>
   getAllLocalAreas() async {
     try {
-      final response = await customerLocalDataSource.getAllLocalSectors();
+      final response = await customerLocalDataSource.getAllLocalAreas();
       return right(response);
     } catch (error) {
       return left(AppException(error.toString()));
@@ -110,7 +110,7 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
     List<GetSubAreaListModel> towns,
   ) async {
     try {
-      final response = await customerLocalDataSource.insertLocalTowns(towns);
+      final response = await customerLocalDataSource.insertLocalSubAreas(towns);
       return right(response);
     } catch (error) {
       return left(AppException(error.toString()));
@@ -122,7 +122,7 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
     List<GetAreaListModel> sectors,
   ) async {
     try {
-      final response = await customerLocalDataSource.insertLocalSectors(
+      final response = await customerLocalDataSource.insertLocalAreas(
         sectors,
       );
       return right(response);
@@ -149,7 +149,7 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   @override
   Future<Either<AppException, bool>> clearSubAreasLocally() async {
     try {
-      final response = await customerLocalDataSource.clearLocalTowns();
+      final response = await customerLocalDataSource.clearLocalSubAreas();
       return right(response);
     } catch (error) {
       return left(AppException(error.toString()));
@@ -159,7 +159,7 @@ class CustomerRepositoryImpl implements CustomerAbstractRepository {
   @override
   Future<Either<AppException, bool>> clearAreasLocally() async {
     try {
-      final response = await customerLocalDataSource.clearLocalSectors();
+      final response = await customerLocalDataSource.clearLocalAreas();
       return right(response);
     } catch (error) {
       return left(AppException(error.toString()));

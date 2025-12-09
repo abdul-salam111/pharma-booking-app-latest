@@ -11,19 +11,19 @@ import '../../../../home/presentation/barrel.dart';
 abstract interface class CustomerLocalDataSource {
   // Read operations
   Future<List<GetCustomersModel>> getAllLocalCustomers();
-  Future<List<GetSubAreaListModel>> getAllLocalTowns();
-  Future<List<GetAreaListModel>> getAllLocalSectors();
+  Future<List<GetSubAreaListModel>> getAllLocalSubAreas();
+  Future<List<GetAreaListModel>> getAllLocalAreas();
   Future<GetCustomersModel?> getLocalCustomerById({required int customerId});
 
   // Insert operations
   Future<List<int>> insertLocalCustomers(List<GetCustomersModel> customers);
-  Future<List<int>> insertLocalTowns(List<GetSubAreaListModel> towns);
-  Future<List<int>> insertLocalSectors(List<GetAreaListModel> sectors);
+  Future<List<int>> insertLocalSubAreas(List<GetSubAreaListModel> towns);
+  Future<List<int>> insertLocalAreas(List<GetAreaListModel> sectors);
 
   // Clear operations
   Future<bool> clearLocalCustomers();
-  Future<bool> clearLocalTowns();
-  Future<bool> clearLocalSectors();
+  Future<bool> clearLocalSubAreas();
+  Future<bool> clearLocalAreas();
 
   // Count operations
   Future<int> getCustomersCount();
@@ -40,8 +40,8 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
 
   // Table names
   static const String customerTable = 'customers';
-  static const String townTable = 'subareas';
-  static const String sectorTable = 'areas';
+  static const String subAreasTable = 'subareas';
+  static const String areasTable = 'areas';
 
   // ==========================================================================
   // CLEAR OPERATIONS
@@ -60,24 +60,24 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   }
 
   @override
-  Future<bool> clearLocalTowns() async {
+  Future<bool> clearLocalSubAreas() async {
     try {
-      return await databaseHelper.clearTable(townTable);
+      return await databaseHelper.clearTable(subAreasTable);
     } catch (e) {
       if (kDebugMode) {
-        print('Error clearing towns: $e');
+        print('Error clearing subareas: $e');
       }
       return false;
     }
   }
 
   @override
-  Future<bool> clearLocalSectors() async {
+  Future<bool> clearLocalAreas() async {
     try {
-      return await databaseHelper.clearTable(sectorTable);
+      return await databaseHelper.clearTable(areasTable);
     } catch (e) {
       if (kDebugMode) {
-        print('Error clearing sectors: $e');
+        print('Error clearing areas: $e');
       }
       return false;
     }
@@ -205,23 +205,23 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   }
 
   @override
-  Future<List<GetSubAreaListModel>> getAllLocalTowns() async {
+  Future<List<GetSubAreaListModel>> getAllLocalSubAreas() async {
     try {
       final dbClient = await databaseHelper.database;
       if (dbClient == null) return [];
 
       return await dbClient.transaction((txn) async {
-        final maps = await txn.query(townTable, orderBy: 'name ASC');
+        final maps = await txn.query(subAreasTable, orderBy: 'name ASC');
 
-        final towns = maps.map((map) {
+        final subAreas = maps.map((map) {
           return GetSubAreaListModel.fromJson(map);
         }).toList();
 
         if (kDebugMode) {
-          print('Retrieved ${towns.length} towns from database');
+          print('Retrieved ${subAreas.length} subareas from database');
         }
 
-        return towns;
+        return subAreas;
       });
     } catch (e) {
       if (kDebugMode) {
@@ -232,23 +232,23 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   }
 
   @override
-  Future<List<GetAreaListModel>> getAllLocalSectors() async {
+  Future<List<GetAreaListModel>> getAllLocalAreas() async {
     try {
       final dbClient = await databaseHelper.database;
       if (dbClient == null) return [];
 
       return await dbClient.transaction((txn) async {
-        final maps = await txn.query(sectorTable, orderBy: 'name ASC');
+        final maps = await txn.query(areasTable, orderBy: 'name ASC');
 
-        final sectors = maps.map((map) {
+        final areas = maps.map((map) {
           return GetAreaListModel.fromJson(map);
         }).toList();
 
         if (kDebugMode) {
-          print('Retrieved ${sectors.length} sectors from database');
+          print('Retrieved ${areas.length} areas from database');
         }
 
-        return sectors;
+        return areas;
       });
     } catch (e) {
       if (kDebugMode) {
@@ -326,7 +326,9 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
   }
 
   @override
-  Future<List<int>> insertLocalTowns(List<GetSubAreaListModel> towns) async {
+  Future<List<int>> insertLocalSubAreas(
+    List<GetSubAreaListModel> subAreas,
+  ) async {
     try {
       final dbClient = await databaseHelper.database;
       if (dbClient == null) return [];
@@ -334,57 +336,18 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
       final results = <int>[];
 
       await dbClient.transaction((txn) async {
-        for (final town in towns) {
+        for (final subarea in subAreas) {
           try {
             final result = await txn.insert(
-              townTable,
-              town.toJson(),
+              subAreasTable,
+              subarea.toJson(),
               conflictAlgorithm: ConflictAlgorithm.replace,
             );
             results.add(result);
           } catch (e) {
             if (kDebugMode) {
               print('Error inserting town: $e');
-              print('Town data: ${town.toJson()}');
-            }
-          }
-        }
-      });
-
-      if (kDebugMode) {
-        print('Successfully inserted ${results.length}/${towns.length} towns');
-      }
-
-      return results;
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error inserting towns: $e');
-      }
-      return [];
-    }
-  }
-
-  @override
-  Future<List<int>> insertLocalSectors(List<GetAreaListModel> sectors) async {
-    try {
-      final dbClient = await databaseHelper.database;
-      if (dbClient == null) return [];
-
-      final results = <int>[];
-
-      await dbClient.transaction((txn) async {
-        for (final sector in sectors) {
-          try {
-            final result = await txn.insert(
-              sectorTable,
-              sector.toJson(),
-              conflictAlgorithm: ConflictAlgorithm.replace,
-            );
-            results.add(result);
-          } catch (e) {
-            if (kDebugMode) {
-              print('Error inserting sector: $e');
-              print('Sector data: ${sector.toJson()}');
+              print('Town data: ${subarea.toJson()}');
             }
           }
         }
@@ -392,14 +355,55 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
 
       if (kDebugMode) {
         print(
-          'Successfully inserted ${results.length}/${sectors.length} sectors',
+          'Successfully inserted ${results.length}/${subAreas.length} subareas',
         );
       }
 
       return results;
     } catch (e) {
       if (kDebugMode) {
-        print('Error inserting sectors: $e');
+        print('Error inserting subareas: $e');
+      }
+      return [];
+    }
+  }
+
+  @override
+  Future<List<int>> insertLocalAreas(List<GetAreaListModel> areas) async {
+    try {
+      final dbClient = await databaseHelper.database;
+      if (dbClient == null) return [];
+
+      final results = <int>[];
+
+      await dbClient.transaction((txn) async {
+        for (final area in areas) {
+          try {
+            final result = await txn.insert(
+              areasTable,
+              area.toJson(),
+              conflictAlgorithm: ConflictAlgorithm.replace,
+            );
+            results.add(result);
+          } catch (e) {
+            if (kDebugMode) {
+              print('Error inserting areas: $e');
+              print('areas data: ${area.toJson()}');
+            }
+          }
+        }
+      });
+
+      if (kDebugMode) {
+        print(
+          'Successfully inserted ${results.length}/${areas.length} sectors',
+        );
+      }
+
+      return results;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error inserting areas: $e');
       }
       return [];
     }

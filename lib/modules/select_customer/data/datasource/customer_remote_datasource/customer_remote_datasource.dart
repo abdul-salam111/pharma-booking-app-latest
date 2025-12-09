@@ -18,10 +18,7 @@ class CustomerRemoteDatasourceImpl implements CustomerRemoteDatasource {
         authToken: await storage.readValues(StorageKeys.token),
         isAuthRequired: true,
       );
-    
-
-      if (response is List) {
-     
+      if (response is List) { 
         return response
             .map((item) => GetCustomersModel.fromJson(item))
             .toList();
