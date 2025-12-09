@@ -11,7 +11,6 @@ class SplashServices {
 
   Future<void> checkLoginStatus() async {
     try {
-      print('checkLoginStatus');
       await SessionController().getUserfromSharedpref();
 
       if (SessionController().islogin == true) {

@@ -30,6 +30,7 @@ class LocalProductDatasourceImpl implements LocalProductDatasource {
             final result = await txn.insert(
               _tableName,
               product.toJson(),
+              
               conflictAlgorithm: ConflictAlgorithm.replace,
             );
             results.add(result);

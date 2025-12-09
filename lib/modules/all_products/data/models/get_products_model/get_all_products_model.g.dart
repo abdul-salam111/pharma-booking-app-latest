@@ -25,7 +25,7 @@ _GetAllProductsModel _$GetAllProductsModelFromJson(Map<String, dynamic> json) =>
         json['isSTaxOnBnsSal'],
       ),
       packSize: json['packSize'] as String?,
-      packings: json['packings'] as List<dynamic>?,
+      packings: const ListToStringConverter().fromJson(json['packings']),
     );
 
 Map<String, dynamic> _$GetAllProductsModelToJson(
@@ -46,5 +46,5 @@ Map<String, dynamic> _$GetAllProductsModelToJson(
   'sTaxRatio': instance.sTaxRatio,
   'isSTaxOnBnsSal': const IntToBoolConverter().toJson(instance.isSTaxOnBnsSal),
   'packSize': instance.packSize,
-  'packings': instance.packings,
+  'packings': const ListToStringConverter().toJson(instance.packings),
 };

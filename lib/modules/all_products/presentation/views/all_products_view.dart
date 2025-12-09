@@ -130,14 +130,13 @@ class AllProductsView extends GetView<AllProductsController> {
                       );
                       return;
                     }
-                 
+
                     Get.toNamed(
                       Routes.CREATE_ORDER,
                       arguments: {
                         'selectedCustomer': controller.selectedCustomer.value,
                         'selectedSector': controller.selectedSector.value,
                         'selectedTown': controller.selectedTown.value,
-
                         'selectedProducts': controller.selectedProducts
                             .toList(),
                         'getAllProducts': controller.getAllProducts.toList(),
@@ -340,98 +339,104 @@ class AllProductsView extends GetView<AllProductsController> {
 
                                                   // Obx(
                                                   //   () =>
-                                                        // controller.showBns.value
-                                                        // ?
-                                                         SizedBox(
-                                                            width:
-                                                                context.width *
-                                                                0.1,
+                                                  // controller.showBns.value
+                                                  // ?
+                                                  SizedBox(
+                                                    width: context.width * 0.1,
 
-                                                            child: RichText(
-                                                              text: TextSpan(
-                                                                children: [
-                                                                  TextSpan(
-                                                                    text: "B: ",
-                                                                    style: context.displayLargeStyle!.copyWith(
-                                                                      color: AppColors
-                                                                          .greyTextColor,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                                  ),
-                                                                  TextSpan(
-                                                                    text:
-                                                                        selectedProduct?.bonus !=
-                                                                            0
-                                                                        ? selectedProduct
-                                                                              ?.bonus
-                                                                              .toString()
-                                                                        : "",
-
-                                                                    style: context.displayLargeStyle!.copyWith(
-                                                                      color: AppColors
-                                                                          .blackTextColor,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
+                                                    child: RichText(
+                                                      text: TextSpan(
+                                                        children: [
+                                                          TextSpan(
+                                                            text: "B: ",
+                                                            style: context
+                                                                .displayLargeStyle!
+                                                                .copyWith(
+                                                                  color: AppColors
+                                                                      .greyTextColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
                                                           ),
-                                                        // : SizedBox.shrink(),
-                                                //  ),
+                                                          TextSpan(
+                                                            text:
+                                                                selectedProduct
+                                                                        ?.bonus !=
+                                                                    0
+                                                                ? selectedProduct
+                                                                      ?.bonus
+                                                                      .toString()
+                                                                : "",
+
+                                                            style: context
+                                                                .displayLargeStyle!
+                                                                .copyWith(
+                                                                  color: AppColors
+                                                                      .blackTextColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  // : SizedBox.shrink(),
+                                                  //  ),
 
                                                   // Obx(
                                                   //   () =>
-                                                        // controller
-                                                        //     .showdisc
-                                                        //     .value
-                                                        // ? 
-                                                        SizedBox(
-                                                            width:
-                                                                context.width *
-                                                                0.13,
+                                                  // controller
+                                                  //     .showdisc
+                                                  //     .value
+                                                  // ?
+                                                  SizedBox(
+                                                    width: context.width * 0.13,
 
-                                                            child: RichText(
-                                                              text: TextSpan(
-                                                                children: [
-                                                                  TextSpan(
-                                                                    text: "D: ",
-                                                                    style: context.displayLargeStyle!.copyWith(
-                                                                      color: AppColors
-                                                                          .greyTextColor,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                                  ),
-                                                                  TextSpan(
-                                                                    text:
-                                                                        (selectedProduct?.discRatio !=
-                                                                                0.0 &&
-                                                                            selectedProduct?.discRatio !=
-                                                                                null)
-                                                                        ? "${selectedProduct?.discRatio.toString()}%"
-                                                                        : "",
-                                                                    style: context
-                                                                        .displayLargeStyle!
-                                                                        .copyWith(
-                                                                          color:
-                                                                              Colors.red,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                        ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
+                                                    child: RichText(
+                                                      text: TextSpan(
+                                                        children: [
+                                                          TextSpan(
+                                                            text: "D: ",
+                                                            style: context
+                                                                .displayLargeStyle!
+                                                                .copyWith(
+                                                                  color: AppColors
+                                                                      .greyTextColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
                                                           ),
-                                                        // : SizedBox.shrink(),
-                                                //  ),
+                                                          TextSpan(
+                                                            text:
+                                                                (selectedProduct
+                                                                            ?.discRatio !=
+                                                                        0.0 &&
+                                                                    selectedProduct
+                                                                            ?.discRatio !=
+                                                                        null)
+                                                                ? "${selectedProduct?.discRatio.toString()}%"
+                                                                : "",
+                                                            style: context
+                                                                .displayLargeStyle!
+                                                                .copyWith(
+                                                                  color: Colors
+                                                                      .red,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
 
+                                                  // : SizedBox.shrink(),
+                                                  //  ),
                                                   SizedBox(
                                                     height: 24,
                                                     width: 24,
@@ -774,19 +779,19 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
                 ),
                 widthBox(20),
                 // controller.showBns.value
-                //     ? 
-                    Expanded(
-                        child: CustomTextFormField(
-                          controller: bonusController,
-                          label: "Bonus",
-                          labelColor: AppColors.blackTextColor,
-                          hintText: "Bns",
-                          keyboardType: TextInputType.number,
-                          borderColor: AppColors.darkGreyColor,
-                          labelfontSize: 14,
-                        ),
-                      )
-                    // : SizedBox.shrink(),
+                //     ?
+                Expanded(
+                  child: CustomTextFormField(
+                    controller: bonusController,
+                    label: "Bonus",
+                    labelColor: AppColors.blackTextColor,
+                    hintText: "Bns",
+                    keyboardType: TextInputType.number,
+                    borderColor: AppColors.darkGreyColor,
+                    labelfontSize: 14,
+                  ),
+                ),
+                // : SizedBox.shrink(),
               ],
             ),
 
@@ -794,36 +799,36 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
             Row(
               children: [
                 // controller.showdisc.value
-                //     ? 
-                    Expanded(
-                        child: CustomTextFormField(
-                          label: "Discount %",
-                          labelColor: AppColors.blackTextColor,
-                          controller: discController,
-                          hintText: "Disc%",
-                          keyboardType: TextInputType.number,
-                          borderColor: AppColors.darkGreyColor,
-                          labelfontSize: 14,
-                        ),
-                      ),
-                  //  : SizedBox.shrink(),
+                //     ?
+                Expanded(
+                  child: CustomTextFormField(
+                    label: "Discount %",
+                    labelColor: AppColors.blackTextColor,
+                    controller: discController,
+                    hintText: "Disc%",
+                    keyboardType: TextInputType.number,
+                    borderColor: AppColors.darkGreyColor,
+                    labelfontSize: 14,
+                  ),
+                ),
+                //  : SizedBox.shrink(),
                 widthBox(20),
                 // controller.showprice.value
-                //     ? 
-                    Expanded(
-                        child: CustomTextFormField(
-                          controller: priceController,
-                          label: "Price",
-                          labelColor: AppColors.blackTextColor,
-                          hintText: "${widget.product.tradePrice}",
-                          keyboardType: TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          borderColor: AppColors.darkGreyColor,
-                          labelfontSize: 14,
-                        ),
-                      )
-                    // : SizedBox.shrink(),
+                //     ?
+                Expanded(
+                  child: CustomTextFormField(
+                    controller: priceController,
+                    label: "Price",
+                    labelColor: AppColors.blackTextColor,
+                    hintText: "${widget.product.tradePrice}",
+                    keyboardType: TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    borderColor: AppColors.darkGreyColor,
+                    labelfontSize: 14,
+                  ),
+                ),
+                // : SizedBox.shrink(),
               ],
             ),
             heightBox(20),

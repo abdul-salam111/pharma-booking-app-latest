@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'get_all_products_model.freezed.dart';
 part 'get_all_products_model.g.dart';
 
-// Add this converter class
+// Converter for bool to int (for SQLite compatibility)
 class IntToBoolConverter implements JsonConverter<bool?, dynamic> {
   const IntToBoolConverter();
 
@@ -19,6 +21,31 @@ class IntToBoolConverter implements JsonConverter<bool?, dynamic> {
   dynamic toJson(bool? value) {
     if (value == null) return null;
     return value ? 1 : 0;
+  }
+}
+
+// Converter for List to JSON String (for SQLite compatibility)
+class ListToStringConverter implements JsonConverter<List<dynamic>?, dynamic> {
+  const ListToStringConverter();
+
+  @override
+  List<dynamic>? fromJson(dynamic value) {
+    if (value == null) return null;
+    if (value is List) return value;
+    if (value is String && value.isNotEmpty) {
+      try {
+        return jsonDecode(value) as List<dynamic>;
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  @override
+  dynamic toJson(List<dynamic>? value) {
+    if (value == null || value.isEmpty) return null;
+    return jsonEncode(value);
   }
 }
 
@@ -39,10 +66,12 @@ abstract class GetAllProductsModel with _$GetAllProductsModel {
     @JsonKey(name: "discRatioSal3") int? discRatioSal3,
     @JsonKey(name: "sTaxRatio") int? sTaxRatio,
     @JsonKey(name: "isSTaxOnBnsSal")
-    @IntToBoolConverter() // Add this converter
+    @IntToBoolConverter()
     bool? isSTaxOnBnsSal,
     @JsonKey(name: "packSize") String? packSize,
-    @JsonKey(name: "packings") List<dynamic>? packings,
+    @JsonKey(name: "packings")
+    @ListToStringConverter() // Add this converter
+    List<dynamic>? packings,
   }) = _GetAllProductsModel;
 
   factory GetAllProductsModel.fromJson(Map<String, dynamic> json) =>

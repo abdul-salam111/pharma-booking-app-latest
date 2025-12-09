@@ -70,7 +70,7 @@ class OrderItemsForLocal {
     double? totalAmount,
     int? totalItems,
     String? customerAddress,
-    String? uniqueId,
+    String? guid,
   }) {
     return OrderItemsForLocal(
       orderId: orderId ?? this.orderId,
@@ -83,7 +83,7 @@ class OrderItemsForLocal {
       syncedStatus: syncedStatus ?? this.syncedStatus,
       totalAmount: totalAmount ?? this.totalAmount,
       totalItems: totalItems ?? this.totalItems,
-      guid: uniqueId ?? this.guid,
+      guid: guid ?? this.guid,
     );
   }
 }

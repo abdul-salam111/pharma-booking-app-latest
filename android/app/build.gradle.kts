@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.pharmasuitbooking.app"
+    namespace = "com.softronix.bookingapp"
     compileSdk = 36
     ndkVersion = "27.0.12077973"
 
@@ -23,7 +23,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.pharmasuitbooking.app"
+        applicationId = "com.softronix.bookingapp"
         minSdk = flutter.minSdkVersion
         targetSdk = 36
         versionCode = flutter.versionCode
