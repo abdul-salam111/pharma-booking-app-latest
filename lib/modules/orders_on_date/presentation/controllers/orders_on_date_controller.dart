@@ -89,7 +89,7 @@ class OrdersOnDateController extends GetxController {
       List<SyncOrdersModel> ordersList = [];
 
       for (int i = 0; i < ordersForDate.length; i++) {
-        List<OrderRow> orderRows = [];
+        List<SyncOrderRow> orderRows = [];
 
         // Process each company and product in the order
         for (var company in ordersForDate[i].companies) {
@@ -103,7 +103,7 @@ class OrdersOnDateController extends GetxController {
               },
               (productModel) {
                 orderRows.add(
-                  OrderRow(
+                  SyncOrderRow(
                     orderId: ordersForDate[i].orderId,
                     productId: product.productId.toIntOrNull,
                     qty: product.quantity,
@@ -133,7 +133,6 @@ class OrdersOnDateController extends GetxController {
                 customerId: getCustomersModel?.id,
                 salesmanId: CurrentUserHelper.salesmanId,
                 deviceOrderDateTime: ordersForDate[i].orderDate,
-                deviceOrderTime: ordersForDate[i].syncDate,
                 orderRows: orderRows,
               ),
             );

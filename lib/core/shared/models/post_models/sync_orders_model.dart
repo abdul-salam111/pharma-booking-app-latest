@@ -1,6 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-
 part 'sync_orders_model.freezed.dart';
 part 'sync_orders_model.g.dart';
 
@@ -15,20 +13,18 @@ abstract class SyncOrdersModel with _$SyncOrdersModel {
         int? customerId,
         @JsonKey(name: "SalesmanId")
         int? salesmanId,
-        @JsonKey(name: "DeviceOrderTime")
-        DateTime? deviceOrderTime,
-        @JsonKey(name: "OrderRows")
-        List<OrderRow>? orderRows,
         @JsonKey(name: "DeviceOrderDateTime")
         DateTime? deviceOrderDateTime,
+        @JsonKey(name: "OrderRows")
+        List<SyncOrderRow>? orderRows,
     }) = _SyncOrdersModel;
 
     factory SyncOrdersModel.fromJson(Map<String, dynamic> json) => _$SyncOrdersModelFromJson(json);
 }
 
 @freezed
-abstract class OrderRow with _$OrderRow {
-    const factory OrderRow({
+abstract class SyncOrderRow with _$SyncOrderRow {
+    const factory SyncOrderRow({
         @JsonKey(name: "OrderId")
         int? orderId,
         @JsonKey(name: "ProductId")
@@ -41,9 +37,7 @@ abstract class OrderRow with _$OrderRow {
         double? discRatio,
         @JsonKey(name: "Price")
         double? price,
-        @JsonKey(name: "ID")
-        int? id,
-    }) = _OrderRow;
+    }) = _SyncOrderRow;
 
-    factory OrderRow.fromJson(Map<String, dynamic> json) => _$OrderRowFromJson(json);
+    factory SyncOrderRow.fromJson(Map<String, dynamic> json) => _$SyncOrderRowFromJson(json);
 }

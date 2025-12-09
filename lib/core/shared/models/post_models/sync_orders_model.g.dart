@@ -12,15 +12,12 @@ _SyncOrdersModel _$SyncOrdersModelFromJson(Map<String, dynamic> json) =>
       deviceOrderId: (json['DeviceOrderID'] as num?)?.toInt(),
       customerId: (json['CustomerId'] as num?)?.toInt(),
       salesmanId: (json['SalesmanId'] as num?)?.toInt(),
-      deviceOrderTime: json['DeviceOrderTime'] == null
-          ? null
-          : DateTime.parse(json['DeviceOrderTime'] as String),
-      orderRows: (json['OrderRows'] as List<dynamic>?)
-          ?.map((e) => OrderRow.fromJson(e as Map<String, dynamic>))
-          .toList(),
       deviceOrderDateTime: json['DeviceOrderDateTime'] == null
           ? null
           : DateTime.parse(json['DeviceOrderDateTime'] as String),
+      orderRows: (json['OrderRows'] as List<dynamic>?)
+          ?.map((e) => SyncOrderRow.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$SyncOrdersModelToJson(_SyncOrdersModel instance) =>
@@ -29,27 +26,26 @@ Map<String, dynamic> _$SyncOrdersModelToJson(_SyncOrdersModel instance) =>
       'DeviceOrderID': instance.deviceOrderId,
       'CustomerId': instance.customerId,
       'SalesmanId': instance.salesmanId,
-      'DeviceOrderTime': instance.deviceOrderTime?.toIso8601String(),
-      'OrderRows': instance.orderRows,
       'DeviceOrderDateTime': instance.deviceOrderDateTime?.toIso8601String(),
+      'OrderRows': instance.orderRows,
     };
 
-_OrderRow _$OrderRowFromJson(Map<String, dynamic> json) => _OrderRow(
-  orderId: (json['OrderId'] as num?)?.toInt(),
-  productId: (json['ProductId'] as num?)?.toInt(),
-  qty: (json['Qty'] as num?)?.toInt(),
-  bonus: (json['Bonus'] as num?)?.toInt(),
-  discRatio: (json['DiscRatio'] as num?)?.toDouble(),
-  price: (json['Price'] as num?)?.toDouble(),
-  id: (json['ID'] as num?)?.toInt(),
-);
+_SyncOrderRow _$SyncOrderRowFromJson(Map<String, dynamic> json) =>
+    _SyncOrderRow(
+      orderId: (json['OrderId'] as num?)?.toInt(),
+      productId: (json['ProductId'] as num?)?.toInt(),
+      qty: (json['Qty'] as num?)?.toInt(),
+      bonus: (json['Bonus'] as num?)?.toInt(),
+      discRatio: (json['DiscRatio'] as num?)?.toDouble(),
+      price: (json['Price'] as num?)?.toDouble(),
+    );
 
-Map<String, dynamic> _$OrderRowToJson(_OrderRow instance) => <String, dynamic>{
-  'OrderId': instance.orderId,
-  'ProductId': instance.productId,
-  'Qty': instance.qty,
-  'Bonus': instance.bonus,
-  'DiscRatio': instance.discRatio,
-  'Price': instance.price,
-  'ID': instance.id,
-};
+Map<String, dynamic> _$SyncOrderRowToJson(_SyncOrderRow instance) =>
+    <String, dynamic>{
+      'OrderId': instance.orderId,
+      'ProductId': instance.productId,
+      'Qty': instance.qty,
+      'Bonus': instance.bonus,
+      'DiscRatio': instance.discRatio,
+      'Price': instance.price,
+    };

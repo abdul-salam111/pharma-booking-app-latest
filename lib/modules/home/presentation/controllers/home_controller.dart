@@ -434,7 +434,6 @@ class HomeController extends GetxController {
           customerId: int.tryParse(orders[i].customerId),
           salesmanId: CurrentUserHelper.salesmanId,
           deviceOrderDateTime: orders[i].orderDate,
-          deviceOrderTime: DateTime.now(),
           orderRows: orderRows,
         ),
       );
@@ -443,13 +442,13 @@ class HomeController extends GetxController {
     return ordersList;
   }
 
-  List<OrderRow> _extractOrderRows(OrderItemsForLocal order) {
-    final orderRows = <OrderRow>[];
+  List<SyncOrderRow> _extractOrderRows(OrderItemsForLocal order) {
+    final orderRows = <SyncOrderRow>[];
 
     for (final company in order.companies) {
       for (final product in company.products) {
         orderRows.add(
-          OrderRow(
+          SyncOrderRow(
             productId: int.parse(product.productId),
             qty: product.quantity,
             bonus: product.bonus,
