@@ -3,9 +3,9 @@ import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
 import '../../../../core/utils/export_file.dart';
 import '../../../../core/utils/type_conversion.dart';
 
-import '../../../all_products/domain/usecases/products_usecases/product_local_usecases/get_product_by_id_usecase.dart';
-import '../../../home/presentation/barrel.dart';
-import '../../../select_customer/domain/usecases/local_usecases/get_local_customer_by_id_usecase.dart';
+import '../../../pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/get_product_by_id_usecase.dart';
+import '../../../common/home/presentation/barrel.dart';
+import '../../../common/select_customer/domain/usecases/local_usecases/get_local_customer_by_id_usecase.dart';
 
 class OrdersOnDateController extends GetxController {
   final GetProductByIdUsecase getProductByIdUsecase;

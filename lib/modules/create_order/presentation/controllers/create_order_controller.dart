@@ -3,8 +3,8 @@
 
 
 import 'package:uuid/uuid.dart';
-import '../../../all_products/presentation/controllers/all_products_controller.dart';
-import '../../../home/presentation/barrel.dart';
+import '../../../pharma_suit/all_products/presentation/controllers/all_products_controller.dart';
+import '../../../common/home/presentation/barrel.dart';
 import '../../domain/usecases/local_usecases/create_order_local_usecase.dart';
 import '../../domain/usecases/local_usecases/update_order_local_usecase.dart';
 

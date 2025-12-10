@@ -163,6 +163,7 @@ class OrderProducts {
   final int bonus;
   final double discRatio;
   final double price;
+  final int? loseQuantity;
 
   OrderProducts({
     this.orderProductId,
@@ -172,6 +173,7 @@ class OrderProducts {
     required this.quantity,
     this.bonus = 0,
     this.discRatio = 0,
+    this.loseQuantity,
     required this.price,
   });
 
@@ -185,6 +187,7 @@ class OrderProducts {
       'bonus': bonus,
       'discRatio': discRatio,
       'price': price,
+      'loseQuantity': loseQuantity
     };
   }
 
@@ -198,6 +201,7 @@ class OrderProducts {
       bonus: map['bonus'],
       discRatio: map['discRatio'],
       price: map['price'],
+      loseQuantity: map['loseQuantity'],
     );
   }
 
@@ -211,6 +215,7 @@ class OrderProducts {
     int? bonus,
     double? discRatio,
     double? price,
+    int? loseQuantity,
   }) {
     return OrderProducts(
       orderProductId: orderProductId ?? this.orderProductId,
@@ -221,6 +226,7 @@ class OrderProducts {
       bonus: bonus ?? this.bonus,
       discRatio: discRatio ?? this.discRatio,
       price: price ?? this.price,
+      loseQuantity: loseQuantity ?? this.loseQuantity,
     );
   }
 }

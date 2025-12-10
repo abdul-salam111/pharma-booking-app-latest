@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../home/presentation/barrel.dart';
+import '../../../common/home/presentation/barrel.dart';
 import '../controllers/orders_on_date_controller.dart';
 
 class OrdersOnDateView extends GetView<OrdersOnDateController> {

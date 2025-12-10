@@ -13,6 +13,7 @@ abstract class Routes {
   static const ORDERS_ON_DATE = _Paths.ORDERS_ON_DATE;
   static const ORDER_DETAILS_ON_DATE = _Paths.ORDER_DETAILS_ON_DATE;
   static const RECOVERY = _Paths.RECOVERY;
+  static const ALL_PRODUCTS_INTELLIBIZ = _Paths.ALL_PRODUCTS_INTELLIBIZ;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const ORDERS_ON_DATE = '/orders-on-date';
   static const ORDER_DETAILS_ON_DATE = '/order-details-on-date';
   static const RECOVERY = '/recovery';
+  static const ALL_PRODUCTS_INTELLIBIZ = '/all-products-intellibiz';
 }

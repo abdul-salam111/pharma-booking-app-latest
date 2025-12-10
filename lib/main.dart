@@ -1,4 +1,4 @@
-import 'modules/home/presentation/barrel.dart';
+import 'modules/common/home/presentation/barrel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

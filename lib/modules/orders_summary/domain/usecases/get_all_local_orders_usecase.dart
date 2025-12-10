@@ -1,5 +1,5 @@
 import 'package:fpdart/fpdart.dart';
-import '../../../home/presentation/barrel.dart';
+import '../../../common/home/presentation/barrel.dart';
 import '../repository/orders_summary_repository.dart';
 
 class GetAllLocalOrdersUsecase

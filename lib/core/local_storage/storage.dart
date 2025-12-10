@@ -33,13 +33,13 @@ class StorageKeys {
   static const String userId = 'userId';
   static const String isDatasynced = "isDatasynced";
   static const String userDetails = 'userDetails';
-   static const String selectedSector = 'selected_sector';
+  static const String selectedSector = 'selected_sector';
   static const String selectedTown = 'selected_town';
   static const String salesmanInfo = 'salesmanInfo';
   static const String loginId = 'loginId';
   static const String password = 'password';
+  static const String softwareVersion = 'softwareVersion';
 }
-
 
 extension LocalStorageGetters on LocalStorage {
   Future<String?> get userId async {

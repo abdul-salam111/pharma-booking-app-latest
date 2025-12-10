@@ -1,5 +1,5 @@
 import 'package:fpdart/fpdart.dart';
-import '../../../home/presentation/barrel.dart';
+import '../../../common/home/presentation/barrel.dart';
 import '../../domain/repository/orders_summary_repository.dart';
 import '../datasource/order_summary_local_datasource/order_summary_local_datasource.dart';
 

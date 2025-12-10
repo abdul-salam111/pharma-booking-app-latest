@@ -1,6 +1,6 @@
 
 
-import '../../../home/presentation/barrel.dart';
+import '../../../common/home/presentation/barrel.dart';
 import '../controllers/orders_summary_controller.dart';
 
 class OrdersSummaryView extends GetView<OrdersSummaryController> {

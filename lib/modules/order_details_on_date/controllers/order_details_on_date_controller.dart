@@ -1,4 +1,4 @@
-import '../../home/presentation/barrel.dart';
+import '../../common/home/presentation/barrel.dart';
 
 class OrderDetailsOnDateController extends GetxController {
   final GetAllLocalProductsUsecase getAllLocalProductsUsecase;
