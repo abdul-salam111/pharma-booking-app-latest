@@ -17,4 +17,13 @@ class CurrentUserHelper {
   static bool get isLoggedIn => _session.islogin;
 
   static int get salesmanId => _session.getUserDetails.user?.salesmanId ?? 0;
+
+  static bool get isAllowChangeBookingPrice =>
+      _session.getUserDetails.user?.salesman?.isAllowChangeBookingPrice ??
+      false;
+  static bool get isAllowChangeBookingDisc =>
+      _session.getUserDetails.user?.salesman?.isAllowChangeBookingDisc ?? false;
+  static bool get isAllowChangeBookingBonus =>
+      _session.getUserDetails.user?.salesman?.isAllowChangeBookingBonus ??
+      false;
 }

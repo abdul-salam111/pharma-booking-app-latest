@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+
 part 'login_response_model.freezed.dart';
 part 'login_response_model.g.dart';
 
@@ -23,6 +25,10 @@ abstract class User with _$User {
         String? userName,
         @JsonKey(name: "displayName")
         String? displayName,
+        @JsonKey(name: "email")
+        String? email,
+        @JsonKey(name: "emailConfirmed")
+        bool? emailConfirmed,
         @JsonKey(name: "tenantId")
         int? tenantId,
         @JsonKey(name: "tenantBusinessId")
@@ -31,7 +37,55 @@ abstract class User with _$User {
         int? salesmanId,
         @JsonKey(name: "isSystemUser")
         bool? isSystemUser,
+        @JsonKey(name: "roles")
+        List<dynamic>? roles,
+        @JsonKey(name: "permissions")
+        List<dynamic>? permissions,
+        @JsonKey(name: "salesman")
+        Salesman? salesman,
     }) = _User;
 
     factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+}
+
+@freezed
+abstract class Salesman with _$Salesman {
+    const factory Salesman({
+        @JsonKey(name: "id")
+        int? id,
+        @JsonKey(name: "importAccountNo")
+        String? importAccountNo,
+        @JsonKey(name: "salesmanName")
+        String? salesmanName,
+        @JsonKey(name: "mobileNo")
+        String? mobileNo,
+        @JsonKey(name: "cnic")
+        String? cnic,
+        @JsonKey(name: "address")
+        String? address,
+        @JsonKey(name: "city")
+        String? city,
+        @JsonKey(name: "email")
+        String? email,
+        @JsonKey(name: "tenantBusinessId")
+        int? tenantBusinessId,
+        @JsonKey(name: "isStockHolder")
+        bool? isStockHolder,
+        @JsonKey(name: "commission")
+        int? commission,
+        @JsonKey(name: "creditLimit")
+        int? creditLimit,
+        @JsonKey(name: "isShowCurrentStock")
+        bool? isShowCurrentStock,
+        @JsonKey(name: "isAllowChangeBookingPrice")
+        bool? isAllowChangeBookingPrice,
+        @JsonKey(name: "isAllowChangeBookingDisc")
+        bool? isAllowChangeBookingDisc,
+        @JsonKey(name: "isAllowChangeBookingBonus")
+        bool? isAllowChangeBookingBonus,
+        @JsonKey(name: "isActive")
+        bool? isActive,
+    }) = _Salesman;
+
+    factory Salesman.fromJson(Map<String, dynamic> json) => _$SalesmanFromJson(json);
 }

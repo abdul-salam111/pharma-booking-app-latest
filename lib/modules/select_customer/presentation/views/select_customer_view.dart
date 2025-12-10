@@ -183,7 +183,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
     return SizedBox(
       height: context.screenHeight * 0.05,
       child: Obx(
-        () => _buildDropdownSearch<GetAreaListModel>(
+        () => buildDropdownSearch<GetAreaListModel>(
           items: controller.sectors,
           selectedItem: controller.selectedSector.value,
           hintText: "Select Sector",
@@ -203,7 +203,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
     return SizedBox(
       height: context.screenHeight * 0.05,
       child: Obx(
-        () => _buildDropdownSearch<GetSubAreaListModel>(
+        () => buildDropdownSearch<GetSubAreaListModel>(
           items: controller.towns,
           selectedItem: controller.selectedTown.value,
           hintText: "Select Town",
@@ -224,7 +224,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
     return SizedBox(
       height: context.screenHeight * 0.05,
       child: Obx(
-        () => _buildDropdownSearch<GetCustomersModel>(
+        () => buildDropdownSearch<GetCustomersModel>(
           items: controller.customers,
           selectedItem: controller.selectedCustomer.value,
           hintText: "Select Customer",
@@ -241,7 +241,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
   }
 
   /// Generic dropdown search builder
-  Widget _buildDropdownSearch<T>({
+  Widget buildDropdownSearch<T>({
     required List<T> items,
     required T? selectedItem,
     required String hintText,

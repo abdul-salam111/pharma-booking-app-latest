@@ -178,7 +178,7 @@ class HomeController extends GetxController {
     // Check if sync is needed
     final isDataSynced = await storage.readValues(StorageKeys.isDatasynced);
 
-    if (isDataSynced == null) {
+    if (isDataSynced == null || isDataSynced == 'false') {
       Future.delayed(const Duration(seconds: 1), syncAllData);
     }
   }

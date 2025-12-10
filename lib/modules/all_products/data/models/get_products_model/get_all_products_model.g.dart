@@ -25,7 +25,7 @@ _GetAllProductsModel _$GetAllProductsModelFromJson(Map<String, dynamic> json) =>
         json['isSTaxOnBnsSal'],
       ),
       packSize: json['packSize'] as String?,
-      packings: const ListToStringConverter().fromJson(json['packings']),
+      packings: const PackingListConverter().fromJson(json['packings']),
     );
 
 Map<String, dynamic> _$GetAllProductsModelToJson(
@@ -46,5 +46,21 @@ Map<String, dynamic> _$GetAllProductsModelToJson(
   'sTaxRatio': instance.sTaxRatio,
   'isSTaxOnBnsSal': const IntToBoolConverter().toJson(instance.isSTaxOnBnsSal),
   'packSize': instance.packSize,
-  'packings': const ListToStringConverter().toJson(instance.packings),
+  'packings': const PackingListConverter().toJson(instance.packings),
+};
+
+_Packing _$PackingFromJson(Map<String, dynamic> json) => _Packing(
+  id: (json['id'] as num?)?.toInt(),
+  productId: (json['productId'] as num?)?.toInt(),
+  packingId: (json['packingId'] as num?)?.toInt(),
+  packingName: json['packingName'] as String?,
+  multiplier: (json['multiplier'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$PackingToJson(_Packing instance) => <String, dynamic>{
+  'id': instance.id,
+  'productId': instance.productId,
+  'packingId': instance.packingId,
+  'packingName': instance.packingName,
+  'multiplier': instance.multiplier,
 };

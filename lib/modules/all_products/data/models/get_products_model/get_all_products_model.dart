@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'dart:convert';
 
 part 'get_all_products_model.freezed.dart';
 part 'get_all_products_model.g.dart';
@@ -24,28 +24,41 @@ class IntToBoolConverter implements JsonConverter<bool?, dynamic> {
   }
 }
 
-// Converter for List to JSON String (for SQLite compatibility)
-class ListToStringConverter implements JsonConverter<List<dynamic>?, dynamic> {
-  const ListToStringConverter();
+// Converter for List<Packing> to JSON String (for SQLite compatibility)
+class PackingListConverter implements JsonConverter<List<Packing>?, dynamic> {
+  const PackingListConverter();
 
   @override
-  List<dynamic>? fromJson(dynamic value) {
+  List<Packing>? fromJson(dynamic value) {
     if (value == null) return null;
-    if (value is List) return value;
+
+    // If it's already a List (from API)
+    if (value is List) {
+      return value
+          .map((e) => Packing.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+
+    // If it's a String (from SQLite)
     if (value is String && value.isNotEmpty) {
       try {
-        return jsonDecode(value) as List<dynamic>;
+        final decoded = jsonDecode(value) as List<dynamic>;
+        return decoded
+            .map((e) => Packing.fromJson(e as Map<String, dynamic>))
+            .toList();
       } catch (e) {
         return null;
       }
     }
+
     return null;
   }
 
   @override
-  dynamic toJson(List<dynamic>? value) {
+  dynamic toJson(List<Packing>? value) {
     if (value == null || value.isEmpty) return null;
-    return jsonEncode(value);
+    // Convert to JSON string for SQLite storage
+    return jsonEncode(value.map((e) => e.toJson()).toList());
   }
 }
 
@@ -65,15 +78,25 @@ abstract class GetAllProductsModel with _$GetAllProductsModel {
     @JsonKey(name: "discRatioSal2") int? discRatioSal2,
     @JsonKey(name: "discRatioSal3") int? discRatioSal3,
     @JsonKey(name: "sTaxRatio") int? sTaxRatio,
-    @JsonKey(name: "isSTaxOnBnsSal")
-    @IntToBoolConverter()
-    bool? isSTaxOnBnsSal,
+    @JsonKey(name: "isSTaxOnBnsSal") @IntToBoolConverter() bool? isSTaxOnBnsSal,
     @JsonKey(name: "packSize") String? packSize,
-    @JsonKey(name: "packings")
-    @ListToStringConverter() // Add this converter
-    List<dynamic>? packings,
+    @JsonKey(name: "packings") @PackingListConverter() List<Packing>? packings,
   }) = _GetAllProductsModel;
 
   factory GetAllProductsModel.fromJson(Map<String, dynamic> json) =>
       _$GetAllProductsModelFromJson(json);
+}
+
+@freezed
+abstract class Packing with _$Packing {
+  const factory Packing({
+    @JsonKey(name: "id") int? id,
+    @JsonKey(name: "productId") int? productId,
+    @JsonKey(name: "packingId") int? packingId,
+    @JsonKey(name: "packingName") String? packingName,
+    @JsonKey(name: "multiplier") int? multiplier,
+  }) = _Packing;
+
+  factory Packing.fromJson(Map<String, dynamic> json) =>
+      _$PackingFromJson(json);
 }

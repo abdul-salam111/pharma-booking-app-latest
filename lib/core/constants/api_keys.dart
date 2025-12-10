@@ -1,5 +1,5 @@
 class ApiKeys {
-  static const baseUrl = "https://syncbridge.manticapps.com";
+  static const baseUrl = "https://syncbridge-api.manticapps.com";
   static const loginUrl = "$baseUrl/api/auth/login";
   static const getSectorsUrl = "$baseUrl/api/mobile/area/list";
   static const getTownssUrl = "$baseUrl/api/mobile/subarea/list";
