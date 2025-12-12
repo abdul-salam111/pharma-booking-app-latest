@@ -652,6 +652,9 @@ class _ProductBottomSheetIntellibizState
 
   late Packing defaultPacking;
 
+  // ╔══════════════════════════════════════════════════════════════════════════════╗
+  // ║         UPDATED: Ab calculations controller se aayengi                       ║
+  // ╚══════════════════════════════════════════════════════════════════════════════╝
   final RxDouble totalAmount = 0.0.obs;
   final RxDouble discountAmount = 0.0.obs;
   final RxDouble finalAmount = 0.0.obs;
@@ -684,7 +687,6 @@ class _ProductBottomSheetIntellibizState
           widget.product.pricePackSal1?.toString() ??
           '0.0';
     } else {
-      // Set default values
       packingQtyController.text = '0';
       qtyloseController.text = '0';
       bonusController.text = '0';
@@ -692,23 +694,11 @@ class _ProductBottomSheetIntellibizState
       priceController.text = widget.product.pricePackSal1?.toString() ?? '0.0';
     }
 
-    // Initialize default packing based on salPackingId
+    // Initialize default packing
     if (widget.product.packings != null &&
         widget.product.packings!.isNotEmpty) {
-      // if (widget.product.salPackingId != null)
-      // if (widget.product.salPackingId != null) {
-      //   try {
-      //     defaultPacking = widget.product.packings!.firstWhere(
-      //       (p) => p.packingId == widget.product.salPackingId,
-      //     );
-      //   } catch (e) {
-      //     defaultPacking = widget.product.packings!.first;
-      //   }
-      // } else {
       defaultPacking = widget.product.packings!.first;
-      //  }
 
-      // If product exists in order and has packing info, use that
       if (existingProduct != null &&
           existingProduct.packingName != null &&
           existingProduct.multiplier != null) {
@@ -749,7 +739,12 @@ class _ProductBottomSheetIntellibizState
     super.dispose();
   }
 
+  // ╔══════════════════════════════════════════════════════════════════════════════╗
+  // ║    UPDATED: Ab yeh method controller ki calculation use krega               ║
+  // ╚══════════════════════════════════════════════════════════════════════════════╝
   void calculateTotals() {
+    final controller = Get.find<AllProductsIntellibizController>();
+    
     final packingQty = int.tryParse(packingQtyController.text) ?? 0;
     final loseQty = int.tryParse(qtyloseController.text) ?? 0;
     final price = double.tryParse(priceController.text) ?? 0.0;
@@ -762,19 +757,20 @@ class _ProductBottomSheetIntellibizState
       return;
     }
 
-    final selectedMultiplier = selectedPacking.value!.multiplier ?? 1;
-    final defaultMultiplier = defaultPacking.multiplier ?? 1;
-    final factor = selectedMultiplier / defaultMultiplier;
+    // ✨ Ab controller ka centralized method use kar rahe hain
+    final result = controller.calculateProductAmounts(
+      productId: widget.product.id.toString(),
+      quantityPack: packingQty,
+      quantityLose: loseQty,
+      price: price,
+      discountPercent: discount,
+      selectedPacking: selectedPacking.value,
+    );
 
-    final packingAmount = packingQty * factor * price;
-    final loseAmount = loseQty * price / defaultMultiplier;
-    final subtotal = packingAmount + loseAmount;
-    final discountValue = (subtotal * discount) / 100;
-    final final_amount = subtotal - discountValue;
-
-    totalAmount.value = subtotal;
-    discountAmount.value = discountValue;
-    finalAmount.value = final_amount;
+    // Update observable values
+    totalAmount.value = result.subtotal;
+    discountAmount.value = result.discountAmount;
+    finalAmount.value = result.finalAmount;
   }
 
   @override
@@ -783,7 +779,11 @@ class _ProductBottomSheetIntellibizState
     final existingProduct = controller.getProductFromOrder(
       widget.product.id.toString(),
     );
-
+    final productCompany = controller.getAllCompanies
+        .where((company) => company.id == widget.product.companyId)
+        .first
+        .name;
+    
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.9,
@@ -820,6 +820,36 @@ class _ProductBottomSheetIntellibizState
                 ),
               ],
             ),
+            heightBox(10),
+            Row(
+              mainAxisAlignment: mainAxisSpaceAround,
+              children: [
+                Text.rich(
+                  TextSpan(
+                    text: "Available Stock: ",
+                    style: context.displayLargeStyle!.copyWith(
+                      color: AppColors.greyColor,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "${widget.product.currentStock}",
+                        style: context.displayLargeStyle!.copyWith(
+                          color: AppColors.blackTextColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text.rich(
+                  TextSpan(
+                    text: productCompany.toString(),
+                    style: context.displayLargeStyle!.copyWith(
+                      color: AppColors.greyColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
 
             const SizedBox(height: 20),
 
@@ -841,7 +871,6 @@ class _ProductBottomSheetIntellibizState
                     labelColor: AppColors.greyColor,
                     textfieldHeight: 40,
                     label: "Qty Pack",
-                    isrequired: true,
                     controller: packingQtyController,
                     hintText: "Qty Pack",
                     keyboardType: TextInputType.number,
@@ -850,13 +879,11 @@ class _ProductBottomSheetIntellibizState
                   ),
                 ),
                 SizedBox(width: 10),
-
                 Expanded(
                   child: CustomTextFormField(
                     labelColor: AppColors.greyColor,
                     textfieldHeight: 40,
                     label: "Qty Lose",
-
                     controller: qtyloseController,
                     hintText: "Qty Lose",
                     keyboardType: TextInputType.number,
@@ -896,17 +923,14 @@ class _ProductBottomSheetIntellibizState
                       labelfontSize: 14,
                     ),
                   ),
-
                 widthBox(10),
-
                 if (CurrentUserHelper.isAllowChangeBookingPrice)
                   Expanded(
                     child: CustomTextFormField(
                       labelColor: AppColors.greyColor,
                       textfieldHeight: 40,
                       controller: priceController,
-                      label: "Price",
-
+                      label: "Price Pack",
                       hintText: "${widget.product.pricePackSal1}",
                       keyboardType: TextInputType.numberWithOptions(
                         decimal: true,
@@ -1007,42 +1031,6 @@ class _ProductBottomSheetIntellibizState
 
             heightBox(20),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text.rich(
-                  TextSpan(
-                    text: "Available Stock: ",
-                    style: const TextStyle(color: Colors.grey),
-                    children: [
-                      TextSpan(
-                        text: "${widget.product.currentStock}",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Text.rich(
-                //   TextSpan(
-                //     text: "Trade Price: ",
-                //     style: const TextStyle(color: Colors.grey),
-                //     children: [
-                //       TextSpan(
-                //         text: "${widget.product.pricePackSal1}",
-                //         style: const TextStyle(
-                //           color: Colors.black,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-              ],
-            ),
-
             const SizedBox(height: 24),
 
             // Remove and Update buttons
@@ -1078,9 +1066,15 @@ class _ProductBottomSheetIntellibizState
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                     
-                    
-                      // Store the original price (not discounted)
+                      if (packingQtyController.text.isEmpty &&
+                          qtyloseController.text.isEmpty) {
+                        AppToasts.showErrorToast(
+                          context,
+                          "Please enter quantity",
+                        );
+                        return;
+                      }
+
                       final originalPrice = double.parse(
                         priceController.text.isEmpty
                             ? widget.product.pricePackSal1.toString()
@@ -1098,7 +1092,7 @@ class _ProductBottomSheetIntellibizState
                           productId: widget.product.id.toString(),
                           productName: widget.product.productName!,
                           quantityPack: int.parse(packingQtyController.text),
-                          pricePack: originalPrice, // Store original price
+                          pricePack: originalPrice,
                           bonus: int.parse(
                             bonusController.text.isEmpty
                                 ? '0'
@@ -1109,7 +1103,6 @@ class _ProductBottomSheetIntellibizState
                                 ? '0.0'
                                 : discController.text,
                           ),
-                          // Add packing info if available
                           packingName: selectedPacking.value?.packingName,
                           multiplier: selectedPacking.value?.multiplier,
                         ),

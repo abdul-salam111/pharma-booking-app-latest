@@ -3,6 +3,20 @@ import 'package:flutter/foundation.dart';
 import '../../../common/home/presentation/barrel.dart';
 import '../../../pharma_suit/create_order/presentation/controllers/create_order_controller.dart';
 
+/// Holds all calculated values for a product
+/// Yeh ek jagah sab calculations ka result store krega
+class ProductCalculationResult {
+  final double subtotal;
+  final double discountAmount;
+  final double finalAmount;
+
+  ProductCalculationResult({
+    required this.subtotal,
+    required this.discountAmount,
+    required this.finalAmount,
+  });
+}
+
 /// Controller for managing product selection and order creation in the pharma app
 /// Handles product filtering, company selection, and order management
 class AllProductsIntellibizController extends GetxController {
@@ -279,17 +293,23 @@ class AllProductsIntellibizController extends GetxController {
       return null;
     }
   }
-
   // ╔══════════════════════════════════════════════════════════════════════════════╗
-  // ║                            CALCULATION METHODS                               ║
+  // ║                   NEW: CENTRALIZED CALCULATION METHOD                        ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Calculate the total price for a single product with discount applied
-  /// Formula: (quantity * price) - discount
-  double calculateProductTotal(OrderProducts product) {
+  /// Calculate product amounts with proper packing logic
+  /// Yeh method bottom sheet aur controller dono mein use hoga
+  ProductCalculationResult calculateProductAmounts({
+    required String productId,
+    required int quantityPack,
+    required int quantityLose,
+    required double price,
+    required double discountPercent,
+    Packing? selectedPacking,
+  }) {
     // Get the product details to find default packing
     final productDetails = getAllProducts.firstWhere(
-      (p) => p.id.toString() == product.productId,
+      (p) => p.id.toString() == productId,
       orElse: () => GetAllProductsModel(),
     );
 
@@ -311,77 +331,105 @@ class AllProductsIntellibizController extends GetxController {
     }
 
     // If no packing info available, use simple calculation
-    if (defaultPacking == null || product.multiplier == null) {
-      final subtotal = product.quantityPack * product.pricePack;
-      final discountAmount = (subtotal * (product.discPercent ?? 0)) / 100;
-      return subtotal - discountAmount;
+    if (defaultPacking == null || selectedPacking == null) {
+      final subtotal = quantityPack * price;
+      final discountAmount = (subtotal * discountPercent) / 100;
+      final finalAmount = subtotal - discountAmount;
+
+      return ProductCalculationResult(
+        subtotal: subtotal,
+        discountAmount: discountAmount,
+        finalAmount: finalAmount,
+      );
     }
 
     // Use packing calculation formula
-    final selectedMultiplier = product.multiplier ?? 1;
+    final selectedMultiplier = selectedPacking.multiplier ?? 1;
     final defaultMultiplier = defaultPacking.multiplier ?? 1;
     final factor = selectedMultiplier / defaultMultiplier;
 
     // Calculate packing amount
-    final packingAmount = product.quantityPack * factor * product.pricePack;
+    final packingAmount = quantityPack * factor * price;
 
     // Calculate lose qty amount
-    final loseAmount =
-        (product.quantityLose ?? 0) * product.pricePack / defaultMultiplier;
+    final loseAmount = quantityLose * price / defaultMultiplier;
 
     // Calculate subtotal
     final subtotal = packingAmount + loseAmount;
 
     // Calculate discount
-    final discountAmount = (subtotal * (product.discPercent ?? 0)) / 100;
+    final discountAmount = (subtotal * discountPercent) / 100;
 
-    // Return final amount
-    return subtotal - discountAmount;
+    // Calculate final amount
+    final finalAmount = subtotal - discountAmount;
+
+    return ProductCalculationResult(
+      subtotal: subtotal,
+      discountAmount: discountAmount,
+      finalAmount: finalAmount,
+    );
   }
+  // ╔══════════════════════════════════════════════════════════════════════════════╗
+  // ║                   UPDATED: SIMPLIFIED CALCULATION METHODS                    ║
+  // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  double getProductSubtotal(OrderProducts product) {
-    // Get the product details to find default packing
-    final productDetails = getAllProducts.firstWhere(
-      (p) => p.id.toString() == product.productId,
-      orElse: () => GetAllProductsModel(),
+  /// Calculate the total price for a single product with discount applied
+  /// Ab yeh method calculateProductAmounts ko use krega
+  double calculateProductTotal(OrderProducts product) {
+    final result = calculateProductAmounts(
+      productId: product.productId,
+      quantityPack: product.quantityPack,
+      quantityLose: product.quantityLose ?? 0,
+      price: product.pricePack,
+      discountPercent: product.discPercent ?? 0,
+      selectedPacking: product.multiplier != null
+          ? Packing(
+              packingName: product.packingName,
+              multiplier: product.multiplier,
+            )
+          : null,
     );
 
-    // Find default packing
-    Packing? defaultPacking;
-    if (productDetails.packings != null &&
-        productDetails.packings!.isNotEmpty) {
-      if (productDetails.salPackingId != null) {
-        try {
-          defaultPacking = productDetails.packings!.firstWhere(
-            (p) => p.packingId == productDetails.salPackingId,
-          );
-        } catch (e) {
-          defaultPacking = productDetails.packings!.first;
-        }
-      } else {
-        defaultPacking = productDetails.packings!.first;
-      }
-    }
+    return result.finalAmount;
+  }
 
-    if (defaultPacking == null || product.multiplier == null) {
-      return product.quantityPack * product.pricePack;
-    }
+  /// Get subtotal without discount
+  double getProductSubtotal(OrderProducts product) {
+    final result = calculateProductAmounts(
+      productId: product.productId,
+      quantityPack: product.quantityPack,
+      quantityLose: product.quantityLose ?? 0,
+      price: product.pricePack,
+      discountPercent: product.discPercent ?? 0,
+      selectedPacking: product.multiplier != null
+          ? Packing(
+              packingName: product.packingName,
+              multiplier: product.multiplier,
+            )
+          : null,
+    );
 
-    final selectedMultiplier = product.multiplier ?? 1;
-    final defaultMultiplier = defaultPacking.multiplier ?? 1;
-    final factor = selectedMultiplier / defaultMultiplier;
-
-    final packingAmount = product.quantityPack * factor * product.pricePack;
-    final loseAmount =
-        (product.quantityLose ?? 0) * product.pricePack / defaultMultiplier;
-
-    return packingAmount + loseAmount;
+    return result.subtotal;
   }
 
   /// Calculate the discount amount for a product
+  /// Get discount amount
   double getProductDiscountAmount(OrderProducts product) {
-    final subtotal = getProductSubtotal(product);
-    return (subtotal * (product.discPercent ?? 0)) / 100;
+    final result = calculateProductAmounts(
+      productId: product.productId,
+      quantityPack: product.quantityPack,
+      quantityLose: product.quantityLose ?? 0,
+      price: product.pricePack,
+      discountPercent: product.discPercent ?? 0,
+      selectedPacking: product.multiplier != null
+          ? Packing(
+              packingName: product.packingName,
+              multiplier: product.multiplier,
+            )
+          : null,
+    );
+
+    return result.discountAmount;
   }
 
   /// Calculate total amounts and item counts for the order
