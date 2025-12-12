@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 
 import 'package:sqflite/sqflite.dart';
 
-import '../../../../../core/local_storage/database/database_helper.dart';
-import '../../../../../core/shared/models/post_models/create_order_for_local.dart';
+import '../../../../../../core/local_storage/database/database_helper.dart';
+import '../../../../../../core/shared/models/post_models/create_order_for_local.dart';
 
 abstract interface class CreateOrdersLocalDatasource {
   Future<List<OrderItemsForLocal>> getUnsyncedOrders();
@@ -154,30 +154,36 @@ class CreateOrdersLocalDatasourceImpl implements CreateOrdersLocalDatasource {
         // Insert all companies and their products for this order
         for (var company in order.companies) {
           // Create company map for insertion
-          final companyMap = {
-            'orderId': orderId,
-            'companyId': company.companyId,
-            'companyName': company.companyName,
-            'totalCompanyProducts': company.companyTotalItems,
-            'totalCompanyAmount': company.companyTotalAmount,
-          };
+          // final companyMap = {
+          //   'orderId': orderId,
+          //   'companyId': company.companyId,
+          //   'companyName': company.companyName,
+          //   'totalCompanyProducts': company.companyTotalItems,
+          //   'totalCompanyAmount': company.companyTotalAmount,
+          // };
 
           // Insert company and get generated ID
-          int companyOrderId = await txn.insert('order_companies', companyMap);
+          int companyOrderId = await txn.insert(
+            'order_companies',
+            company.copyWith(orderId: orderId).toMap(),
+          );
 
           // Insert all products for this company
           for (var product in company.products) {
-            final productMap = {
-              'companyOrderId': companyOrderId,
-              'productId': product.productId,
-              'productName': product.productName,
-              'quantity': product.quantity,
-              'bonus': product.bonus,
-              'discRatio': product.discRatio,
-              'price': product.price,
-            };
+            // final productMap = {
+            //   'companyOrderId': companyOrderId,
+            //   'productId': product.productId,
+            //   'productName': product.productName,
+            //   'quantity': product.quantityPack,
+            //   'bonus': product.bonus,
+            //   'discPercent': product.discPercent,
+            //   'price': product.pricePack,
+            // };
 
-            await txn.insert('order_products', productMap);
+            await txn.insert(
+              'order_products',
+              product.copyWith(companyOrderId: companyOrderId,).toMap(),
+            );
           }
         }
 

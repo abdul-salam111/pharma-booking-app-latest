@@ -159,22 +159,32 @@ class OrderProducts {
   final int? companyOrderId;
   final String productId;
   final String productName;
-  final int quantity;
+  final int quantityPack;
+  final int? quantityLose;
+  final double pricePack;
+  final double? priceLose;
+  final double? discPercent;
+  final double? discValue;
+  final int? multiplier;
+  final String? packingName;
   final int bonus;
-  final double discRatio;
-  final double price;
-  final int? loseQuantity;
+  final double rowTotal;
 
   OrderProducts({
     this.orderProductId,
     this.companyOrderId,
     required this.productId,
     required this.productName,
-    required this.quantity,
+    required this.quantityPack,
+    this.quantityLose,
+    required this.pricePack,
+    this.priceLose,
+    this.discPercent,
+    this.discValue,
+    this.multiplier,
+    this.packingName,
     this.bonus = 0,
-    this.discRatio = 0,
-    this.loseQuantity,
-    required this.price,
+    this.rowTotal = 0,
   });
 
   Map<String, dynamic> toMap() {
@@ -183,11 +193,16 @@ class OrderProducts {
       'companyOrderId': companyOrderId,
       'productId': productId,
       'productName': productName,
-      'quantity': quantity,
+      'quantityPack': quantityPack,
+      'quantityLose': quantityLose,
+      'pricePack': pricePack,
+      'priceLose': priceLose,
+      'discPercent': discPercent,
+      'discValue': discValue,
+      'multiplier': multiplier,
+      'packingName': packingName,
       'bonus': bonus,
-      'discRatio': discRatio,
-      'price': price,
-      'loseQuantity': loseQuantity
+      'rowTotal': rowTotal,
     };
   }
 
@@ -197,11 +212,16 @@ class OrderProducts {
       companyOrderId: map['companyOrderId'],
       productId: map['productId'],
       productName: map['productName'],
-      quantity: map['quantity'],
+      quantityPack: map['quantityPack'],
+      quantityLose: map['quantityLose'],
+      pricePack: map['pricePack'],
+      priceLose: map['priceLose'],
+      discPercent: map['discPercent'],
+      discValue: map['discValue'],
+      multiplier: map['multiplier'],
+      packingName: map['packingName'],
       bonus: map['bonus'],
-      discRatio: map['discRatio'],
-      price: map['price'],
-      loseQuantity: map['loseQuantity'],
+      rowTotal: map['rowTotal'],
     );
   }
 
@@ -211,22 +231,32 @@ class OrderProducts {
     int? companyOrderId,
     String? productId,
     String? productName,
-    int? quantity,
+    int? quantityPack,
+    int? quantityLose,
+    double? discPercent,
+    double? discValue,
+    double? pricePack,
+    double? priceLose,
+    int? multiplier,
+    String? packingName,
     int? bonus,
-    double? discRatio,
-    double? price,
-    int? loseQuantity,
+    double? rowTotal,
   }) {
     return OrderProducts(
       orderProductId: orderProductId ?? this.orderProductId,
       companyOrderId: companyOrderId ?? this.companyOrderId,
       productId: productId ?? this.productId,
       productName: productName ?? this.productName,
-      quantity: quantity ?? this.quantity,
+      quantityPack: quantityPack ?? this.quantityPack,
+      quantityLose: quantityLose ?? this.quantityLose,
+      pricePack: pricePack ?? this.pricePack,
+      priceLose: priceLose ?? this.priceLose,
+      discPercent: discPercent ?? this.discPercent,
+      discValue: discValue ?? this.discValue,
+      multiplier: multiplier ?? this.multiplier,
+      packingName: packingName ?? this.packingName,
       bonus: bonus ?? this.bonus,
-      discRatio: discRatio ?? this.discRatio,
-      price: price ?? this.price,
-      loseQuantity: loseQuantity ?? this.loseQuantity,
+      rowTotal: rowTotal ?? this.rowTotal,
     );
   }
 }

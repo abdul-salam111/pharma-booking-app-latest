@@ -1,3 +1,6 @@
+import 'package:pharma_booking_app/modules/intellibiz/all_products_intellibiz/controllers/all_products_intellibiz_controller.dart';
+
+import '../../../../../core/utils/current_user_helper.dart';
 import '../../../home/presentation/barrel.dart';
 
 /// Controller to manage the selection of Sector → Town → Customer
@@ -108,7 +111,6 @@ class SelectCustomerController extends GetxController {
   void _filterCustomersByTown(GetSubAreaListModel town) {
     customers.assignAll(
       _allCustomers.where((c) {
-     
         return c.subArea!.id.toString() == town.id.toString();
       }).toList(),
     );
@@ -151,22 +153,37 @@ class SelectCustomerController extends GetxController {
 
   // ==================== ACTIONS ==================== //
 
-  void onCustomerSelected() {
+  void onCustomerSelected() async {
     final customer = selectedCustomer.value;
     final sector = selectedSector.value;
     final town = selectedTown.value;
 
     if (customer != null && sector != null && town != null) {
-      Get.toNamed(
-        Routes.ALL_PRODUCTS,
-        arguments: {
-          'selectedCustomer': customer,
-          'selectedTown': town,
-          'selectedSector': sector,
-          'getAllProducts': _args['getAllProducts'],
-          'getCompaniesModel': _args['getCompaniesModel'],
-        },
-      );
+      final String softwareVersion = await CurrentUserHelper.softwareVersion();
+      if (softwareVersion == "0") {
+        Get.toNamed(
+          Routes.ALL_PRODUCTS,
+          arguments: {
+            'selectedCustomer': customer,
+            'selectedTown': town,
+            'selectedSector': sector,
+            'getAllProducts': _args['getAllProducts'],
+            'getCompaniesModel': _args['getCompaniesModel'],
+          },
+        );
+      } else {
+        Get.lazyPut(() => AllProductsIntellibizController());
+        Get.toNamed(
+          Routes.ALL_PRODUCTS_INTELLIBIZ,
+          arguments: {
+            'selectedCustomer': customer,
+            'selectedTown': town,
+            'selectedSector': sector,
+            'getAllProducts': _args['getAllProducts'],
+            'getCompaniesModel': _args['getCompaniesModel'],
+          },
+        );
+      }
     } else {
       AppToasts.showErrorToast(
         Get.context!,

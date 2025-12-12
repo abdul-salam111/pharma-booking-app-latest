@@ -1,4 +1,5 @@
-import '../services/session_manager.dart';
+import 'package:pharma_booking_app/core/core.dart';
+
 
 class CurrentUserHelper {
   static final _session = SessionController.instance;
@@ -26,4 +27,6 @@ class CurrentUserHelper {
   static bool get isAllowChangeBookingBonus =>
       _session.getUserDetails.user?.salesman?.isAllowChangeBookingBonus ??
       false;
+  static Future<String> softwareVersion() async =>
+      await storage.readValues(StorageKeys.softwareVersion) ?? "";
 }

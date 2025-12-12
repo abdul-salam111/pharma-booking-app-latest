@@ -106,10 +106,10 @@ class OrdersOnDateController extends GetxController {
                   SyncOrderRow(
                     orderId: ordersForDate[i].orderId,
                     productId: product.productId.toIntOrNull,
-                    qty: product.quantity,
+                    qty: product.quantityPack,
                     bonus: product.bonus,
-                    discRatio: product.discRatio,
-                    price: product.price,
+                    discRatio: product.discPercent,
+                    price: product.pricePack,
                   ),
                 );
               },

@@ -3,7 +3,7 @@
 // ============================================================================
 import 'dart:async';
 import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
-import 'package:pharma_booking_app/modules/create_order/data/models/get_order_response/get_order_response.dart'
+import 'package:pharma_booking_app/modules/pharma_suit/create_order/data/models/get_order_response/get_order_response.dart'
     show GetOrderResponse;
 
 import '../../../select_customer/domain/usecases/local_usecases/insert_sub_areas_local_usecase.dart';
@@ -450,10 +450,10 @@ class HomeController extends GetxController {
         orderRows.add(
           SyncOrderRow(
             productId: int.parse(product.productId),
-            qty: product.quantity,
+            qty: product.quantityPack,
             bonus: product.bonus,
-            discRatio: product.discRatio,
-            price: product.price,
+            discRatio: product.discPercent,
+            price: product.pricePack,
             orderId: order.orderId,
           ),
         );

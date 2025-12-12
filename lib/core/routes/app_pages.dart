@@ -12,8 +12,8 @@ import '../../modules/common/select_customer/presentation/bindings/select_custom
 import '../../modules/common/select_customer/presentation/views/select_customer_view.dart';
 import '../../modules/common/splash_screen/bindings/splash_screen_binding.dart';
 import '../../modules/common/splash_screen/views/splash_screen_view.dart';
-import '../../modules/create_order/presentation/bindings/create_order_binding.dart';
-import '../../modules/create_order/presentation/views/create_order_view.dart';
+import '../../modules/pharma_suit/create_order/presentation/bindings/create_order_binding.dart';
+import '../../modules/pharma_suit/create_order/presentation/views/create_order_view.dart';
 import '../../modules/order_details_on_date/bindings/order_details_on_date_binding.dart';
 import '../../modules/order_details_on_date/views/order_details_on_date_view.dart';
 import '../../modules/orders_on_date/presentation/bindings/orders_on_date_binding.dart';

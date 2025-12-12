@@ -124,18 +124,25 @@ class PharmaDatabase {
       id INTEGER,
       productName TEXT,
       companyId INTEGER,
-      retailPrice REAL,
-      tradePrice REAL,
-      saleDiscRatio REAL,
+      groupId INTEGER,
+      purPackingId INTEGER,
+      salPackingId INTEGER,
       pricePackSal1 REAL,
       pricePackSal2 REAL,
       pricePackSal3 REAL,
+      saleDiscRatio REAL,
       discRatioSal1 REAL,
       discRatioSal2 REAL,
       discRatioSal3 REAL,
-      sTaxRatio INTEGER,
+      discValPackSal1 INTEGER,
+      isValueB4Ratio INTEGER,
+      sTaxRatio REAL,
       isSTaxOnBnsSal INTEGER,
+      size TEXT,
+      unit TEXT,
       packSize TEXT,
+      tradePrice REAL,
+      currentStock INTEGER,
       packings TEXT
     )
   ''');
@@ -171,17 +178,24 @@ class PharmaDatabase {
 
         // Create order products table (stores individual products in each order)
         await txn.execute('''
-          CREATE TABLE order_products(
-            orderProductId INTEGER PRIMARY KEY AUTOINCREMENT,
-            companyOrderId INTEGER,
-            productId TEXT,
-            productName TEXT,
-            quantity INTEGER,
-            bonus INTEGER DEFAULT 0,
-            discRatio REAL DEFAULT 0,
-            price REAL,
-            FOREIGN KEY (companyOrderId) REFERENCES order_companies(companyOrderId) ON DELETE CASCADE
-          )
+  CREATE TABLE order_products(
+    orderProductId INTEGER PRIMARY KEY AUTOINCREMENT,
+    companyOrderId INTEGER,
+    productId TEXT,
+    productName TEXT,
+    quantityPack INTEGER,
+    quantityLose INTEGER,
+    pricePack REAL,
+    priceLose REAL,
+    discPercent REAL,
+    discValue REAL,
+    multiplier INTEGER,
+    packingName TEXT,     
+    bonus INTEGER DEFAULT 0,
+    rowTotal REAL,
+    
+    FOREIGN KEY (companyOrderId) REFERENCES order_companies(companyOrderId) ON DELETE CASCADE
+  )
 ''');
       });
 

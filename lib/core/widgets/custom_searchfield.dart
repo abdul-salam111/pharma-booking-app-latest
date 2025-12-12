@@ -22,7 +22,7 @@ class CustomSearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      
+      height: 40,
       child: TextField(
         autofocus: false,
         controller: controller,

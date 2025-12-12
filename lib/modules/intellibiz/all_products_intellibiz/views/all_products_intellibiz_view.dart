@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
-import 'package:pharma_booking_app/modules/pharma_suit/all_products/presentation/widgets/packing_dropdown.dart';
+import 'package:pharma_booking_app/modules/intellibiz/all_products_intellibiz/widgets/packing_dropdown.dart';
 import '../../../../../core/core.dart';
 import '../../../../../core/routes/app_pages.dart';
 import '../../../../../core/shared/models/post_models/create_order_for_local.dart';
@@ -55,7 +55,6 @@ class AllProductsIntellibizView
                     ? Column(
                         crossAxisAlignment: crossAxisStart,
                         mainAxisAlignment: mainAxisCenter,
-
                         children: [
                           Text(
                             "Company",
@@ -63,7 +62,6 @@ class AllProductsIntellibizView
                               color: Colors.white,
                             ),
                           ),
-
                           Obx(
                             () => Text(
                               controller.companyTotal.value.withCommas,
@@ -78,7 +76,6 @@ class AllProductsIntellibizView
                               controller.companyTotalItems.value.withCommas,
                               style: context.bodySmallStyle!.copyWith(
                                 color: Colors.white,
-
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -119,11 +116,11 @@ class AllProductsIntellibizView
                 ],
               ),
               SizedBox(
-                width: 80,
+                width: 70,
                 child: CustomButton(
                   backgroundColor: AppColors.appLightThemeBackground,
                   text: "Finalize",
-                  fontsize: 14,
+                  fontsize: 12,
                   onPressed: () {
                     if (controller.selectedProducts.isEmpty) {
                       AppToasts.showErrorToast(
@@ -181,7 +178,6 @@ class AllProductsIntellibizView
             children: [
               CustomSearchField(
                 controller: controller.searchController,
-
                 hintText: "Search medicines...",
                 onChanged: (query) {
                   controller.filterProducts();
@@ -199,6 +195,31 @@ class AllProductsIntellibizView
                             final selectedProduct = controller
                                 .getProductFromOrder(product.id.toString());
 
+                            // Get default packing based on salPackingId
+                            Packing? defaultPacking;
+                            if (product.packings != null &&
+                                product.packings!.isNotEmpty &&
+                                product.salPackingId != null) {
+                              try {
+                                defaultPacking = product.packings!.firstWhere(
+                                  (p) => p.packingId == product.salPackingId,
+                                );
+                              } catch (e) {
+                                defaultPacking = product.packings!.first;
+                              }
+                            }
+
+                            // Get display packing (selected product's packing or default)
+                            String packingDisplay = "";
+                            if (selectedProduct != null &&
+                                selectedProduct.packingName != null) {
+                              packingDisplay =
+                                  " (${selectedProduct.packingName} x ${selectedProduct.multiplier})";
+                            } else if (defaultPacking != null) {
+                              packingDisplay =
+                                  " (${defaultPacking.packingName} x ${defaultPacking.multiplier})";
+                            }
+
                             return Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 8.0,
@@ -215,21 +236,17 @@ class AllProductsIntellibizView
                                       children: [
                                         Row(
                                           children: [
-                                            Text(
-                                              "${product.productName}",
-                                              style: context.bodySmallStyle!
-                                                  .copyWith(
-                                                    color: AppColors
-                                                        .blackTextColor,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                            ),
-                                            Text(
-                                              " (${product.packSize}) ",
-                                              style: context.displayLargeStyle!
-                                                  .copyWith(
-                                                    color: AppColors.greyColor,
-                                                  ),
+                                            Flexible(
+                                              child: Text(
+                                                "${product.productName}$packingDisplay",
+                                                style: context.bodySmallStyle!
+                                                    .copyWith(
+                                                      color: AppColors
+                                                          .blackTextColor,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -241,17 +258,7 @@ class AllProductsIntellibizView
                                             Row(
                                               children: [
                                                 Text(
-                                                  "T.P: ${product.tradePrice}",
-                                                  style: context
-                                                      .displayLargeStyle!
-                                                      .copyWith(
-                                                        color: AppColors
-                                                            .greyTextColor,
-                                                      ),
-                                                ),
-                                                widthBox(5),
-                                                Text(
-                                                  "( CS: ${product.discRatioSal1} )",
+                                                  "( CS: ${product.currentStock} )",
                                                   style: context
                                                       .displayLargeStyle!
                                                       .copyWith(
@@ -261,10 +268,8 @@ class AllProductsIntellibizView
                                                 ),
                                               ],
                                             ),
-
                                             SizedBox(
-                                              width: context.width * 0.56,
-
+                                              width: context.width * 0.66,
                                               child: Row(
                                                 mainAxisAlignment:
                                                     mainAxisSpaceBetween,
@@ -293,32 +298,29 @@ class AllProductsIntellibizView
                                                               text:
                                                                   selectedProduct !=
                                                                       null
-                                                                  ? "${selectedProduct.price}"
-                                                                  : "${product.tradePrice}",
-                                                              style: context
-                                                                  .displayLargeStyle! //change the color to blue when the price is changed
-                                                                  .copyWith(
-                                                                    color:
-                                                                        selectedProduct !=
-                                                                                null &&
-                                                                            selectedProduct.price !=
-                                                                                product.tradePrice
-                                                                        ? Colors
-                                                                              .blue
-                                                                        : AppColors
-                                                                              .blackTextColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
+                                                                  ? "${selectedProduct.pricePack}"
+                                                                  : "${product.pricePackSal1}",
+                                                              style: context.displayLargeStyle!.copyWith(
+                                                                color:
+                                                                    selectedProduct !=
+                                                                            null &&
+                                                                        selectedProduct.pricePack !=
+                                                                            product.pricePackSal1
+                                                                    ? Colors
+                                                                          .blue
+                                                                    : AppColors
+                                                                          .blackTextColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
                                                       ),
                                                     ),
-
                                                   SizedBox(
-                                                    width: context.width * 0.1,
+                                                    width: context.width * 0.15,
                                                     child: RichText(
                                                       text: TextSpan(
                                                         children: [
@@ -334,33 +336,30 @@ class AllProductsIntellibizView
                                                                           .w500,
                                                                 ),
                                                           ),
-                                                          TextSpan(
-                                                            text:
-                                                                selectedProduct
-                                                                    ?.quantity
-                                                                    .toString() ??
-                                                                "",
-                                                            style: context
-                                                                .displayLargeStyle!
-                                                                .copyWith(
-                                                                  color: AppColors
-                                                                      .blackTextColor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                          ),
+                                                          if (selectedProduct !=
+                                                              null)
+                                                            TextSpan(
+                                                              text:
+                                                                  "(${selectedProduct.quantityPack}${selectedProduct.quantityLose != null && selectedProduct.quantityLose! > 0 ? '-${selectedProduct.quantityLose}' : ''})",
+                                                              style: context
+                                                                  .displayLargeStyle!
+                                                                  .copyWith(
+                                                                    color: AppColors
+                                                                        .blackTextColor,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                            ),
                                                         ],
                                                       ),
                                                     ),
                                                   ),
-
                                                   if (CurrentUserHelper
                                                       .isAllowChangeBookingBonus)
                                                     SizedBox(
                                                       width:
                                                           context.width * 0.1,
-
                                                       child: RichText(
                                                         text: TextSpan(
                                                           children: [
@@ -385,7 +384,6 @@ class AllProductsIntellibizView
                                                                         ?.bonus
                                                                         .toString()
                                                                   : "",
-
                                                               style: context
                                                                   .displayLargeStyle!
                                                                   .copyWith(
@@ -400,13 +398,11 @@ class AllProductsIntellibizView
                                                         ),
                                                       ),
                                                     ),
-
                                                   if (CurrentUserHelper
                                                       .isAllowChangeBookingDisc)
                                                     SizedBox(
                                                       width:
                                                           context.width * 0.13,
-
                                                       child: RichText(
                                                         text: TextSpan(
                                                           children: [
@@ -425,12 +421,12 @@ class AllProductsIntellibizView
                                                             TextSpan(
                                                               text:
                                                                   (selectedProduct
-                                                                              ?.discRatio !=
+                                                                              ?.discPercent !=
                                                                           0.0 &&
                                                                       selectedProduct
-                                                                              ?.discRatio !=
+                                                                              ?.discPercent !=
                                                                           null)
-                                                                  ? "${selectedProduct?.discRatio.toString()}%"
+                                                                  ? "${selectedProduct?.discPercent.toString()}%"
                                                                   : "",
                                                               style: context
                                                                   .displayLargeStyle!
@@ -446,7 +442,6 @@ class AllProductsIntellibizView
                                                         ),
                                                       ),
                                                     ),
-
                                                   SizedBox(
                                                     height: 24,
                                                     width: 24,
@@ -462,26 +457,14 @@ class AllProductsIntellibizView
                                                         controller
                                                             .searchFocusNode
                                                             .unfocus();
-                                                        //if the packing is empty we will show the pharma suit bottom sheet
-                                                        //else we will show the intellibiz bottom sheet
 
-                                                        product.packings == null
-                                                            ? await Get.bottomSheet(
-                                                                ProductBottomSheetPharmaSuit(
-                                                                  product:
-                                                                      product,
-                                                                ),
-                                                                isScrollControlled:
-                                                                    true,
-                                                              )
-                                                            : await Get.bottomSheet(
-                                                                ProductBottomSheetIntellibiz(
-                                                                  product:
-                                                                      product,
-                                                                ),
-                                                                isScrollControlled:
-                                                                    true,
-                                                              );
+                                                        await Get.bottomSheet(
+                                                          ProductBottomSheetIntellibiz(
+                                                            product: product,
+                                                          ),
+                                                          isScrollControlled:
+                                                              true,
+                                                        );
                                                         controller
                                                             .searchFocusNode
                                                             .unfocus();
@@ -541,7 +524,6 @@ class CompanySelectionBottomSheet
       ),
       child: Column(
         children: [
-          // Handle bar
           Container(
             width: 40,
             height: 4,
@@ -551,8 +533,6 @@ class CompanySelectionBottomSheet
               borderRadius: BorderRadius.circular(8),
             ),
           ),
-
-          // Header
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -572,23 +552,17 @@ class CompanySelectionBottomSheet
               ],
             ),
           ),
-
           const Divider(height: 1),
-
-          // Search field
           Padding(
             padding: const EdgeInsets.all(16),
             child: CustomSearchField(
               controller: controller.companySearchController,
-
               hintText: "Search companies...",
               onChanged: (query) {
                 controller.filterCompanies();
               },
             ),
           ),
-
-          // All Companies option
           ListTile(
             title: Text("All Companies", style: context.bodyMediumStyle),
             subtitle: Obx(
@@ -597,15 +571,11 @@ class CompanySelectionBottomSheet
                 style: const TextStyle(color: Colors.grey, fontSize: 12),
               ),
             ),
-
             onTap: () {
               controller.selectCompany("All Companies", "");
             },
           ),
-
           const Divider(height: 1),
-
-          // Companies list
           Expanded(
             child: Obx(
               () => controller.isCompaniesLoading.value
@@ -645,8 +615,6 @@ class CompanySelectionBottomSheet
                               ? const Icon(Icons.check, color: Colors.green)
                               : null,
                           onTap: () {
-                            // Use company.id (which is 137) instead of company.companyId (which is "01")
-                            // because products have CompanyId: 137 matching company.id
                             controller.selectCompany(
                               company.name ?? "Unknown Company",
                               company.id?.toString() ?? "",
@@ -663,432 +631,6 @@ class CompanySelectionBottomSheet
   }
 }
 
-class ProductBottomSheetPharmaSuit extends StatefulWidget {
-  final GetAllProductsModel product;
-  const ProductBottomSheetPharmaSuit({super.key, required this.product});
-
-  @override
-  State<ProductBottomSheetPharmaSuit> createState() =>
-      _ProductBottomSheetPharmaSuitState();
-}
-
-class _ProductBottomSheetPharmaSuitState
-    extends State<ProductBottomSheetPharmaSuit> {
-  late TextEditingController qtyController;
-  late TextEditingController bonusController;
-  late TextEditingController discController;
-  late TextEditingController priceController;
-  late FocusNode qtyFocusNode;
-
-  final RxDouble totalAmount = 0.0.obs;
-  final RxDouble discountAmount = 0.0.obs;
-  final RxDouble finalAmount = 0.0.obs;
-
-  @override
-  void initState() {
-    super.initState();
-    final controller = Get.find<AllProductsIntellibizController>();
-    final existingProduct = controller.getProductFromOrder(
-      widget.product.id.toString(),
-    );
-
-    // Initialize controllers with existing values or defaults
-    qtyController = TextEditingController(
-      text: existingProduct?.quantity.toString() ?? '',
-    );
-    bonusController = TextEditingController(
-      text: existingProduct?.bonus.toString() ?? '0',
-    );
-    discController = TextEditingController(
-      text: existingProduct?.discRatio.toString() ?? '0',
-    );
-    priceController = TextEditingController(
-      text:
-          existingProduct?.price.toString() ??
-          widget.product.tradePrice.toString(),
-    );
-
-    qtyFocusNode = FocusNode();
-
-    // Add listeners
-    qtyController.addListener(calculateTotals);
-    priceController.addListener(calculateTotals);
-    discController.addListener(calculateTotals);
-
-    // Calculate initial totals
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      calculateTotals();
-      qtyFocusNode.requestFocus();
-    });
-  }
-
-  @override
-  void dispose() {
-    // Clean up controllers and focus nodes
-    qtyController.dispose();
-    bonusController.dispose();
-    discController.dispose();
-    priceController.dispose();
-    qtyFocusNode.dispose();
-    super.dispose();
-  }
-
-  void calculateTotals() {
-    final quantity = int.tryParse(qtyController.text) ?? 0;
-    final price = double.tryParse(priceController.text) ?? 0.0;
-    final discount = double.tryParse(discController.text) ?? 0.0;
-
-    final subtotal = quantity * price;
-    final discountValue = (subtotal * discount) / 100;
-    final final_amount = subtotal - discountValue;
-
-    totalAmount.value = subtotal;
-    discountAmount.value = discountValue;
-    finalAmount.value = final_amount;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = Get.find<AllProductsIntellibizController>();
-    final existingProduct = controller.getProductFromOrder(
-      widget.product.id.toString(),
-    );
-
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.9,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            heightBox(10),
-            Container(
-              width: 40,
-              height: 4,
-              margin: const EdgeInsets.only(bottom: 12),
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-
-            Row(
-              mainAxisAlignment: mainAxisCenter,
-              children: [
-                Text(
-                  "${widget.product.productName}",
-                  style: context.bodyLargeStyle!.copyWith(
-                    color: AppColors.blackTextColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  " (${widget.product.packSize}) ",
-                  style: context.displayLargeStyle!.copyWith(
-                    color: AppColors.greyColor,
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            Row(
-              children: [
-                Expanded(
-                  child: CustomTextFormField(
-                    label: "Quantity*",
-                    labelColor: AppColors.blackTextColor,
-                    controller: qtyController,
-                    hintText: "Qty",
-                    keyboardType: TextInputType.number,
-                    borderColor: AppColors.darkGreyColor,
-                    labelfontSize: 14,
-                  ),
-                ),
-                if (CurrentUserHelper.isAllowChangeBookingBonus) widthBox(20),
-
-                if (CurrentUserHelper.isAllowChangeBookingBonus)
-                  Expanded(
-                    child: CustomTextFormField(
-                      controller: bonusController,
-                      label: "Bonus",
-                      labelColor: AppColors.blackTextColor,
-                      hintText: "Bns",
-                      keyboardType: TextInputType.number,
-                      borderColor: AppColors.darkGreyColor,
-                      labelfontSize: 14,
-                    ),
-                  ),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                if (CurrentUserHelper.isAllowChangeBookingDisc)
-                  Expanded(
-                    child: CustomTextFormField(
-                      label: "Discount %",
-                      labelColor: AppColors.blackTextColor,
-                      controller: discController,
-                      hintText: "Disc%",
-                      keyboardType: TextInputType.number,
-                      borderColor: AppColors.darkGreyColor,
-                      labelfontSize: 14,
-                    ),
-                  ),
-
-                widthBox(20),
-
-                if (CurrentUserHelper.isAllowChangeBookingPrice)
-                  Expanded(
-                    child: CustomTextFormField(
-                      controller: priceController,
-                      label: "Price",
-                      labelColor: AppColors.blackTextColor,
-                      hintText: "${widget.product.tradePrice}",
-                      keyboardType: TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      borderColor: AppColors.darkGreyColor,
-                      labelfontSize: 14,
-                    ),
-                  ),
-              ],
-            ),
-            heightBox(20),
-
-            // Calculation Summary Card
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[50],
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey[300]!),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Subtotal:",
-                        style: context.bodyMediumStyle!.copyWith(
-                          color: AppColors.greyTextColor,
-                        ),
-                      ),
-                      Obx(
-                        () => Text(
-                          totalAmount.value.withCommas,
-                          style: context.bodyMediumStyle!.copyWith(
-                            color: AppColors.blackTextColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  heightBox(8),
-                  Obx(
-                    () => discountAmount.value > 0
-                        ? Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Discount:",
-                                    style: context.bodyMediumStyle!.copyWith(
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                  Text(
-                                    "- ${discountAmount.value.withCommas}",
-                                    style: context.bodyMediumStyle!.copyWith(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              heightBox(8),
-                              Divider(color: Colors.grey[300], height: 1),
-                              heightBox(8),
-                            ],
-                          )
-                        : SizedBox.shrink(),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total Amount:",
-                        style: context.bodyMediumStyle!.copyWith(
-                          color: AppColors.blackTextColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Obx(
-                        () => Text(
-                          finalAmount.value.withCommas,
-                          style: context.bodyLargeStyle!.copyWith(
-                            color: AppColors.appPrimaryColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            heightBox(20),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text.rich(
-                  TextSpan(
-                    text: "Available Stock: ",
-                    style: const TextStyle(color: Colors.grey),
-                    children: [
-                      TextSpan(
-                        text: "${widget.product.discRatioSal3}",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Text.rich(
-                  TextSpan(
-                    text: "Trade Price: ",
-                    style: const TextStyle(color: Colors.grey),
-                    children: [
-                      TextSpan(
-                        text: "${widget.product.tradePrice}",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 24),
-
-            // Remove and Update buttons
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (existingProduct != null) {
-                        controller.removeProductFromOrder(
-                          widget.product.id.toString(),
-                        );
-                      }
-                      Get.back();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      existingProduct != null ? "Remove" : "Cancel",
-                      style: context.bodySmallStyle!.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Validate quantity
-                      if (qtyController.text.isEmpty ||
-                          int.parse(qtyController.text) <= 0) {
-                        AppToasts.showErrorToast(
-                          context,
-                          'Please enter a valid quantity',
-                        );
-                        return;
-                      }
-
-                      // Store the original price (not discounted)
-                      final originalPrice = double.parse(
-                        priceController.text.isEmpty
-                            ? widget.product.tradePrice.toString()
-                            : priceController.text,
-                      );
-
-                      controller.addProductToOrder(
-                        OrderProducts(
-                          companyOrderId: widget.product.companyId!,
-                          productId: widget.product.id.toString(),
-                          productName: widget.product.productName!,
-                          quantity: int.parse(qtyController.text),
-                          price: originalPrice, // Store original price
-                          bonus: int.parse(
-                            bonusController.text.isEmpty
-                                ? '0'
-                                : bonusController.text,
-                          ),
-                          discRatio: double.parse(
-                            discController.text.isEmpty
-                                ? '0.0'
-                                : discController.text,
-                          ),
-                        ),
-                      );
-
-                      Get.back();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      existingProduct != null ? "Update" : "Add to Order",
-                      style: context.bodySmallStyle!.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            heightBox(20),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class ProductBottomSheetIntellibiz extends StatefulWidget {
   final GetAllProductsModel product;
   const ProductBottomSheetIntellibiz({super.key, required this.product});
@@ -1100,13 +642,15 @@ class ProductBottomSheetIntellibiz extends StatefulWidget {
 
 class _ProductBottomSheetIntellibizState
     extends State<ProductBottomSheetIntellibiz> {
-  late TextEditingController qtyController;
+  late TextEditingController packingQtyController;
   late TextEditingController qtyloseController;
   late TextEditingController bonusController;
   late TextEditingController discController;
   late TextEditingController priceController;
   late FocusNode qtyFocusNode;
-  final Packing? selectedPacking = null;
+  Rx<Packing?> selectedPacking = Rx<Packing?>(null);
+
+  late Packing defaultPacking;
 
   final RxDouble totalAmount = 0.0.obs;
   final RxDouble discountAmount = 0.0.obs;
@@ -1115,44 +659,79 @@ class _ProductBottomSheetIntellibizState
   @override
   void initState() {
     super.initState();
+
+    // Initialize all controllers first
+    packingQtyController = TextEditingController();
+    qtyloseController = TextEditingController();
+    bonusController = TextEditingController();
+    discController = TextEditingController();
+    priceController = TextEditingController();
+    qtyFocusNode = FocusNode();
+
     final controller = Get.find<AllProductsIntellibizController>();
     final existingProduct = controller.getProductFromOrder(
       widget.product.id.toString(),
     );
 
-    // Initialize controllers with existing values or defaults
-    qtyController = TextEditingController(
-      text: existingProduct?.quantity.toString() ?? '',
-    );
-    bonusController = TextEditingController(
-      text: existingProduct?.bonus.toString() ?? '0',
-    );
-    discController = TextEditingController(
-      text: existingProduct?.discRatio.toString() ?? '0',
-    );
-    priceController = TextEditingController(
-      text:
-          existingProduct?.price.toString() ??
-          "${controller.selectedCustomer.value?.priceLevel == 1
-              ? widget.product.pricePackSal1
-              : controller.selectedCustomer.value!.priceLevel == 2
-              ? widget.product.pricePackSal2
-              : widget.product.pricePackSal3}",
-    );
+    // Set initial values based on existing product
+    if (existingProduct != null) {
+      packingQtyController.text = existingProduct.quantityPack.toString();
+      qtyloseController.text = existingProduct.quantityLose?.toString() ?? '0';
+      bonusController.text = existingProduct.bonus.toString();
+      discController.text = existingProduct.discPercent?.toString() ?? '0.0';
+      priceController.text =
+          existingProduct.pricePack?.toString() ??
+          widget.product.pricePackSal1?.toString() ??
+          '0.0';
+    } else {
+      // Set default values
+      packingQtyController.text = '0';
+      qtyloseController.text = '0';
+      bonusController.text = '0';
+      discController.text = '0.0';
+      priceController.text = widget.product.pricePackSal1?.toString() ?? '0.0';
+    }
 
-    qtyloseController = TextEditingController(
-      text: existingProduct?.loseQuantity.toString() ?? '',
-    );
+    // Initialize default packing based on salPackingId
+    if (widget.product.packings != null &&
+        widget.product.packings!.isNotEmpty) {
+      // if (widget.product.salPackingId != null)
+      // if (widget.product.salPackingId != null) {
+      //   try {
+      //     defaultPacking = widget.product.packings!.firstWhere(
+      //       (p) => p.packingId == widget.product.salPackingId,
+      //     );
+      //   } catch (e) {
+      //     defaultPacking = widget.product.packings!.first;
+      //   }
+      // } else {
+      defaultPacking = widget.product.packings!.first;
+      //  }
 
-    qtyFocusNode = FocusNode();
+      // If product exists in order and has packing info, use that
+      if (existingProduct != null &&
+          existingProduct.packingName != null &&
+          existingProduct.multiplier != null) {
+        try {
+          selectedPacking.value = widget.product.packings!.firstWhere(
+            (p) =>
+                p.packingName == existingProduct.packingName &&
+                p.multiplier == existingProduct.multiplier,
+          );
+        } catch (e) {
+          selectedPacking.value = defaultPacking;
+        }
+      } else {
+        selectedPacking.value = defaultPacking;
+      }
+    }
 
-    // Add listeners
-    qtyController.addListener(calculateTotals);
+    // Add listeners after initialization
+    packingQtyController.addListener(calculateTotals);
     priceController.addListener(calculateTotals);
     discController.addListener(calculateTotals);
     qtyloseController.addListener(calculateTotals);
 
-    // Calculate initial totals
     WidgetsBinding.instance.addPostFrameCallback((_) {
       calculateTotals();
       qtyFocusNode.requestFocus();
@@ -1161,22 +740,35 @@ class _ProductBottomSheetIntellibizState
 
   @override
   void dispose() {
-    // Clean up controllers and focus nodes
-    qtyController.dispose();
+    packingQtyController.dispose();
     bonusController.dispose();
     discController.dispose();
     priceController.dispose();
+    qtyloseController.dispose();
     qtyFocusNode.dispose();
     super.dispose();
   }
 
   void calculateTotals() {
-    final quantity = int.tryParse(qtyController.text) ?? 0;
-    final loseQuantity = int.tryParse(qtyloseController.text) ?? 0;
+    final packingQty = int.tryParse(packingQtyController.text) ?? 0;
+    final loseQty = int.tryParse(qtyloseController.text) ?? 0;
     final price = double.tryParse(priceController.text) ?? 0.0;
     final discount = double.tryParse(discController.text) ?? 0.0;
 
-    final subtotal = (quantity * price) + (loseQuantity * price);
+    if (selectedPacking.value == null) {
+      totalAmount.value = 0.0;
+      discountAmount.value = 0.0;
+      finalAmount.value = 0.0;
+      return;
+    }
+
+    final selectedMultiplier = selectedPacking.value!.multiplier ?? 1;
+    final defaultMultiplier = defaultPacking.multiplier ?? 1;
+    final factor = selectedMultiplier / defaultMultiplier;
+
+    final packingAmount = packingQty * factor * price;
+    final loseAmount = loseQty * price / defaultMultiplier;
+    final subtotal = packingAmount + loseAmount;
     final discountValue = (subtotal * discount) / 100;
     final final_amount = subtotal - discountValue;
 
@@ -1221,15 +813,9 @@ class _ProductBottomSheetIntellibizState
               children: [
                 Text(
                   "${widget.product.productName}",
-                  style: context.bodyLargeStyle!.copyWith(
+                  style: context.bodyMediumStyle!.copyWith(
                     color: AppColors.blackTextColor,
                     fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  " (${widget.product.packSize}) ",
-                  style: context.displayLargeStyle!.copyWith(
-                    color: AppColors.greyColor,
                   ),
                 ),
               ],
@@ -1242,50 +828,37 @@ class _ProductBottomSheetIntellibizState
                 Expanded(
                   child: PackingDropdown(
                     packings: widget.product.packings,
-                    selectedPacking: widget.product.packings?.first,
-                    onChanged: (val) {},
+                    selectedPacking: selectedPacking.value,
+                    onChanged: (val) {
+                      selectedPacking.value = val;
+                      calculateTotals();
+                    },
                   ),
                 ),
-                SizedBox(width: 20),
-
+                SizedBox(width: 10),
                 Expanded(
                   child: CustomTextFormField(
-                    label: "Quantity*",
-                    labelColor: AppColors.blackTextColor,
-                    controller: qtyController,
-                    hintText: "Qty",
+                    labelColor: AppColors.greyColor,
+                    textfieldHeight: 40,
+                    label: "Qty Pack",
+                    isrequired: true,
+                    controller: packingQtyController,
+                    hintText: "Qty Pack",
                     keyboardType: TextInputType.number,
                     borderColor: AppColors.darkGreyColor,
                     labelfontSize: 14,
                   ),
                 ),
-              ],
-            ),
+                SizedBox(width: 10),
 
-            const SizedBox(height: 20),
-
-            Row(
-              children: [
                 Expanded(
                   child: CustomTextFormField(
-                    label: "Quantity Lose*",
-                    labelColor: AppColors.blackTextColor,
+                    labelColor: AppColors.greyColor,
+                    textfieldHeight: 40,
+                    label: "Qty Lose",
+
                     controller: qtyloseController,
                     hintText: "Qty Lose",
-                    keyboardType: TextInputType.number,
-                    borderColor: AppColors.darkGreyColor,
-                    labelfontSize: 14,
-                  ),
-                ),
-                // if (CurrentUserHelper.isAllowChangeBookingBonus) widthBox(20),
-                SizedBox(width: 20),
-                // if (CurrentUserHelper.isAllowChangeBookingBonus)
-                Expanded(
-                  child: CustomTextFormField(
-                    controller: bonusController,
-                    label: "Bonus",
-                    labelColor: AppColors.blackTextColor,
-                    hintText: "Bns",
                     keyboardType: TextInputType.number,
                     borderColor: AppColors.darkGreyColor,
                     labelfontSize: 14,
@@ -1297,11 +870,25 @@ class _ProductBottomSheetIntellibizState
             const SizedBox(height: 10),
             Row(
               children: [
+                Expanded(
+                  child: CustomTextFormField(
+                    labelColor: AppColors.greyColor,
+                    textfieldHeight: 40,
+                    controller: bonusController,
+                    label: "Bonus",
+                    hintText: "Bns",
+                    keyboardType: TextInputType.number,
+                    borderColor: AppColors.darkGreyColor,
+                    labelfontSize: 14,
+                  ),
+                ),
+                widthBox(10),
                 if (CurrentUserHelper.isAllowChangeBookingDisc)
                   Expanded(
                     child: CustomTextFormField(
+                      labelColor: AppColors.greyColor,
+                      textfieldHeight: 40,
                       label: "Discount %",
-                      labelColor: AppColors.blackTextColor,
                       controller: discController,
                       hintText: "Disc%",
                       keyboardType: TextInputType.number,
@@ -1310,15 +897,17 @@ class _ProductBottomSheetIntellibizState
                     ),
                   ),
 
-                widthBox(20),
+                widthBox(10),
 
                 if (CurrentUserHelper.isAllowChangeBookingPrice)
                   Expanded(
                     child: CustomTextFormField(
+                      labelColor: AppColors.greyColor,
+                      textfieldHeight: 40,
                       controller: priceController,
                       label: "Price",
-                      labelColor: AppColors.blackTextColor,
-                      hintText: "${widget.product.tradePrice}",
+
+                      hintText: "${widget.product.pricePackSal1}",
                       keyboardType: TextInputType.numberWithOptions(
                         decimal: true,
                       ),
@@ -1351,7 +940,7 @@ class _ProductBottomSheetIntellibizState
                       ),
                       Obx(
                         () => Text(
-                          totalAmount.value.withCommas,
+                          totalAmount.value.withCommasAndDecimals,
                           style: context.bodyMediumStyle!.copyWith(
                             color: AppColors.blackTextColor,
                             fontWeight: FontWeight.w500,
@@ -1376,7 +965,7 @@ class _ProductBottomSheetIntellibizState
                                     ),
                                   ),
                                   Text(
-                                    "- ${discountAmount.value.withCommas}",
+                                    "- ${discountAmount.value.withCommasAndDecimals}",
                                     style: context.bodyMediumStyle!.copyWith(
                                       color: Colors.red,
                                       fontWeight: FontWeight.w500,
@@ -1427,7 +1016,7 @@ class _ProductBottomSheetIntellibizState
                     style: const TextStyle(color: Colors.grey),
                     children: [
                       TextSpan(
-                        text: "${widget.product.discRatioSal3}",
+                        text: "${widget.product.currentStock}",
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -1436,21 +1025,21 @@ class _ProductBottomSheetIntellibizState
                     ],
                   ),
                 ),
-                Text.rich(
-                  TextSpan(
-                    text: "Trade Price: ",
-                    style: const TextStyle(color: Colors.grey),
-                    children: [
-                      TextSpan(
-                        text: "${widget.product.tradePrice}",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Text.rich(
+                //   TextSpan(
+                //     text: "Trade Price: ",
+                //     style: const TextStyle(color: Colors.grey),
+                //     children: [
+                //       TextSpan(
+                //         text: "${widget.product.pricePackSal1}",
+                //         style: const TextStyle(
+                //           color: Colors.black,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
 
@@ -1471,7 +1060,7 @@ class _ProductBottomSheetIntellibizState
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -1489,41 +1078,40 @@ class _ProductBottomSheetIntellibizState
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Validate quantity
-                      if (qtyController.text.isEmpty ||
-                          int.parse(qtyController.text) <= 0) {
-                        AppToasts.showErrorToast(
-                          context,
-                          'Please enter a valid quantity',
-                        );
-                        return;
-                      }
-
+                     
+                    
                       // Store the original price (not discounted)
                       final originalPrice = double.parse(
                         priceController.text.isEmpty
-                            ? widget.product.tradePrice.toString()
+                            ? widget.product.pricePackSal1.toString()
                             : priceController.text,
                       );
 
                       controller.addProductToOrder(
                         OrderProducts(
-                          loseQuantity: int.parse(qtyloseController.text),
+                          quantityLose: int.parse(
+                            qtyloseController.text.isEmpty
+                                ? '0'
+                                : qtyloseController.text,
+                          ),
                           companyOrderId: widget.product.companyId!,
                           productId: widget.product.id.toString(),
                           productName: widget.product.productName!,
-                          quantity: int.parse(qtyController.text),
-                          price: originalPrice, // Store original price
+                          quantityPack: int.parse(packingQtyController.text),
+                          pricePack: originalPrice, // Store original price
                           bonus: int.parse(
                             bonusController.text.isEmpty
                                 ? '0'
                                 : bonusController.text,
                           ),
-                          discRatio: double.parse(
+                          discPercent: double.parse(
                             discController.text.isEmpty
                                 ? '0.0'
                                 : discController.text,
                           ),
+                          // Add packing info if available
+                          packingName: selectedPacking.value?.packingName,
+                          multiplier: selectedPacking.value?.multiplier,
                         ),
                       );
 
@@ -1531,7 +1119,7 @@ class _ProductBottomSheetIntellibizState
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

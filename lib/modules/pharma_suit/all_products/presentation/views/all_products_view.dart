@@ -21,8 +21,8 @@ class AllProductsView extends GetView<AllProductsController> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         bottomNavigationBar: Container(
-          padding: EdgeInsetsDirectional.symmetric(horizontal: 16, vertical: 8),
-          height: context.screenHeight * 0.12,
+          padding: EdgeInsetsDirectional.symmetric(horizontal: 16, vertical: 2),
+          height: context.screenHeight * 0.1,
           width: double.infinity,
           color: AppColors.appPrimaryColor,
           child: Row(
@@ -118,11 +118,11 @@ class AllProductsView extends GetView<AllProductsController> {
                 ],
               ),
               SizedBox(
-                width: 80,
+                width: 70,
                 child: CustomButton(
                   backgroundColor: AppColors.appLightThemeBackground,
                   text: "Finalize",
-                  fontsize: 14,
+                  fontsize: 12,
                   onPressed: () {
                     if (controller.selectedProducts.isEmpty) {
                       AppToasts.showErrorToast(
@@ -250,7 +250,7 @@ class AllProductsView extends GetView<AllProductsController> {
                                                 ),
                                                 widthBox(5),
                                                 Text(
-                                                  "( CS: ${product.discRatioSal1} )",
+                                                  "( CS: ${product.currentStock} )",
                                                   style: context
                                                       .displayLargeStyle!
                                                       .copyWith(
@@ -292,7 +292,7 @@ class AllProductsView extends GetView<AllProductsController> {
                                                               text:
                                                                   selectedProduct !=
                                                                       null
-                                                                  ? "${selectedProduct.price}"
+                                                                  ? "${selectedProduct.pricePack}"
                                                                   : "${product.tradePrice}",
                                                               style: context
                                                                   .displayLargeStyle! //change the color to blue when the price is changed
@@ -300,7 +300,7 @@ class AllProductsView extends GetView<AllProductsController> {
                                                                     color:
                                                                         selectedProduct !=
                                                                                 null &&
-                                                                            selectedProduct.price !=
+                                                                            selectedProduct.pricePack !=
                                                                                 product.tradePrice
                                                                         ? Colors
                                                                               .blue
@@ -336,7 +336,7 @@ class AllProductsView extends GetView<AllProductsController> {
                                                           TextSpan(
                                                             text:
                                                                 selectedProduct
-                                                                    ?.quantity
+                                                                    ?.quantityPack
                                                                     .toString() ??
                                                                 "",
                                                             style: context
@@ -424,12 +424,12 @@ class AllProductsView extends GetView<AllProductsController> {
                                                             TextSpan(
                                                               text:
                                                                   (selectedProduct
-                                                                              ?.discRatio !=
+                                                                              ?.discPercent !=
                                                                           0.0 &&
                                                                       selectedProduct
-                                                                              ?.discRatio !=
+                                                                              ?.discPercent !=
                                                                           null)
-                                                                  ? "${selectedProduct?.discRatio.toString()}%"
+                                                                  ? "${selectedProduct?.discPercent.toString()}%"
                                                                   : "",
                                                               style: context
                                                                   .displayLargeStyle!
@@ -632,8 +632,6 @@ class CompanySelectionBottomSheet extends GetView<AllProductsController> {
                               ? const Icon(Icons.check, color: Colors.green)
                               : null,
                           onTap: () {
-                            // Use company.id (which is 137) instead of company.companyId (which is "01")
-                            // because products have CompanyId: 137 matching company.id
                             controller.selectCompany(
                               company.name ?? "Unknown Company",
                               company.id?.toString() ?? "",
@@ -681,17 +679,17 @@ class _ProductBottomSheetPharmaSuitState
 
     // Initialize controllers with existing values or defaults
     qtyController = TextEditingController(
-      text: existingProduct?.quantity.toString() ?? '',
+      text: existingProduct?.quantityPack.toString() ?? '',
     );
     bonusController = TextEditingController(
       text: existingProduct?.bonus.toString() ?? '0',
     );
     discController = TextEditingController(
-      text: existingProduct?.discRatio.toString() ?? '0',
+      text: existingProduct?.discPercent.toString() ?? '0',
     );
     priceController = TextEditingController(
       text:
-          existingProduct?.price.toString() ??
+          existingProduct?.pricePack.toString() ??
           widget.product.tradePrice.toString(),
     );
 
@@ -770,7 +768,7 @@ class _ProductBottomSheetPharmaSuitState
               children: [
                 Text(
                   "${widget.product.productName}",
-                  style: context.bodyLargeStyle!.copyWith(
+                  style: context.bodyMediumStyle!.copyWith(
                     color: AppColors.blackTextColor,
                     fontWeight: FontWeight.bold,
                   ),
@@ -789,14 +787,17 @@ class _ProductBottomSheetPharmaSuitState
             Row(
               children: [
                 Expanded(
-                  child: CustomTextFormField(
-                    label: "Quantity*",
-                    labelColor: AppColors.blackTextColor,
-                    controller: qtyController,
-                    hintText: "Qty",
-                    keyboardType: TextInputType.number,
-                    borderColor: AppColors.darkGreyColor,
-                    labelfontSize: 14,
+                  child: SizedBox(
+                    child: CustomTextFormField(
+                      textfieldHeight: 40,
+                      label: "Quantity*",
+                      labelColor: AppColors.greyColor,
+                      controller: qtyController,
+                      hintText: "Qty",
+                      keyboardType: TextInputType.number,
+                      borderColor: AppColors.darkGreyColor,
+                      labelfontSize: 14,
+                    ),
                   ),
                 ),
                 if (CurrentUserHelper.isAllowChangeBookingBonus) widthBox(20),
@@ -804,6 +805,7 @@ class _ProductBottomSheetPharmaSuitState
                 if (CurrentUserHelper.isAllowChangeBookingBonus)
                   Expanded(
                     child: CustomTextFormField(
+                      textfieldHeight: 40,
                       controller: bonusController,
                       label: "Bonus",
                       labelColor: AppColors.blackTextColor,
@@ -822,8 +824,9 @@ class _ProductBottomSheetPharmaSuitState
                 if (CurrentUserHelper.isAllowChangeBookingDisc)
                   Expanded(
                     child: CustomTextFormField(
+                      textfieldHeight: 40,
                       label: "Discount %",
-                      labelColor: AppColors.blackTextColor,
+                      labelColor: AppColors.greyColor,
                       controller: discController,
                       hintText: "Disc%",
                       keyboardType: TextInputType.number,
@@ -837,9 +840,11 @@ class _ProductBottomSheetPharmaSuitState
                 if (CurrentUserHelper.isAllowChangeBookingPrice)
                   Expanded(
                     child: CustomTextFormField(
+                      labelColor: AppColors.greyColor,
+                      textfieldHeight: 40,
                       controller: priceController,
                       label: "Price",
-                      labelColor: AppColors.blackTextColor,
+
                       hintText: "${widget.product.tradePrice}",
                       keyboardType: TextInputType.numberWithOptions(
                         decimal: true,
@@ -873,7 +878,7 @@ class _ProductBottomSheetPharmaSuitState
                       ),
                       Obx(
                         () => Text(
-                          totalAmount.value.withCommas,
+                          totalAmount.value.withCommasAndDecimals,
                           style: context.bodyMediumStyle!.copyWith(
                             color: AppColors.blackTextColor,
                             fontWeight: FontWeight.w500,
@@ -898,7 +903,7 @@ class _ProductBottomSheetPharmaSuitState
                                     ),
                                   ),
                                   Text(
-                                    "- ${discountAmount.value.withCommas}",
+                                    "- ${discountAmount.value.withCommasAndDecimals}",
                                     style: context.bodyMediumStyle!.copyWith(
                                       color: Colors.red,
                                       fontWeight: FontWeight.w500,
@@ -949,7 +954,7 @@ class _ProductBottomSheetPharmaSuitState
                     style: const TextStyle(color: Colors.grey),
                     children: [
                       TextSpan(
-                        text: "${widget.product.discRatioSal3}",
+                        text: "${widget.product.currentStock}",
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -993,7 +998,7 @@ class _ProductBottomSheetPharmaSuitState
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -1033,14 +1038,14 @@ class _ProductBottomSheetPharmaSuitState
                           companyOrderId: widget.product.companyId!,
                           productId: widget.product.id.toString(),
                           productName: widget.product.productName!,
-                          quantity: int.parse(qtyController.text),
-                          price: originalPrice, // Store original price
+                          quantityPack: int.parse(qtyController.text),
+                          pricePack: originalPrice, // Store original price
                           bonus: int.parse(
                             bonusController.text.isEmpty
                                 ? '0'
                                 : bonusController.text,
                           ),
-                          discRatio: double.parse(
+                          discPercent: double.parse(
                             discController.text.isEmpty
                                 ? '0.0'
                                 : discController.text,
@@ -1052,7 +1057,7 @@ class _ProductBottomSheetPharmaSuitState
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

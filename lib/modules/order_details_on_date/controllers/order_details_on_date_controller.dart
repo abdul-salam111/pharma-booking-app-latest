@@ -111,10 +111,10 @@ class OrderDetailsOnDateController extends GetxController {
               companyOrderId: int.tryParse(companyId) ?? 0,
               productId: product.productId,
               productName: product.productName,
-              quantity: product.quantity,
-              price: product.price,
+              quantityPack: product.quantityPack,
+              pricePack: product.pricePack,
               bonus: product.bonus,
-              discRatio: product.discRatio,
+              discPercent: product.discPercent,
             ),
           );
         }

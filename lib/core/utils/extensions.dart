@@ -126,8 +126,14 @@ extension DateTimeExtensions on DateTime {
 
 
 extension NumberFormatting on num {
+  // Shows whole numbers only
   String get withCommas {
     return NumberFormat("#,##0", "en_US").format(this);
+  }
+
+  // Shows 2 decimal places
+  String get withCommasAndDecimals {
+    return NumberFormat("#,##0.00", "en_US").format(this);
   }
 
   String get asCurrency {
@@ -176,7 +182,7 @@ extension WidgetExtensions on Widget {
       decoration: BoxDecoration(
         border: Border.all(color: color, width: width),
         borderRadius: borderRadius,
-      ),
+      ), 
       child: this,
     );
   }

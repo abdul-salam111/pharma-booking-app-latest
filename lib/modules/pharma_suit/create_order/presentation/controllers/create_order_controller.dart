@@ -1,10 +1,10 @@
 // ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
 
-
-
+import 'package:pharma_booking_app/modules/intellibiz/all_products_intellibiz/controllers/all_products_intellibiz_controller.dart';
 import 'package:uuid/uuid.dart';
-import '../../../pharma_suit/all_products/presentation/controllers/all_products_controller.dart';
-import '../../../common/home/presentation/barrel.dart';
+import '../../../../../core/utils/current_user_helper.dart';
+import '../../../all_products/presentation/controllers/all_products_controller.dart';
+import '../../../../common/home/presentation/barrel.dart';
 import '../../domain/usecases/local_usecases/create_order_local_usecase.dart';
 import '../../domain/usecases/local_usecases/update_order_local_usecase.dart';
 
@@ -336,13 +336,13 @@ class CreateOrderController extends GetxController {
 
   /// Get the original subtotal for a product (before discount)
   double getProductSubtotal(OrderProducts product) {
-    return product.quantity * product.price;
+    return product.quantityPack * product.pricePack;
   }
 
   /// Calculate discount amount for a product
   double getProductDiscountAmount(OrderProducts product) {
     final subtotal = getProductSubtotal(product);
-    return (subtotal * product.discRatio) / 100;
+    return (subtotal * product.discPercent!) / 100;
   }
 
   // ========================================================================
@@ -425,27 +425,48 @@ class CreateOrderController extends GetxController {
   // ========================================================================
 
   /// Navigate to all products screen for adding more products
-  void goToAllProducts([String? companyId]) {
-    // Ensure AllProductsController is available
-    if (!Get.isRegistered<AllProductsController>()) {
-    
+  void goToAllProducts([String? companyId]) async {
+    final String softwareVersion = await CurrentUserHelper.softwareVersion();
+    if (softwareVersion == "1") {
+      // Ensure AllProductsController is available
+      if (!Get.isRegistered<AllProductsIntellibizController>()) {
+        Get.lazyPut(() => AllProductsIntellibizController());
+      }
+      // Navigate with all necessary data
+      Get.toNamed(
+        Routes.ALL_PRODUCTS_INTELLIBIZ,
+        arguments: [
+          selectedCustomer.value, // index 0 - customer details
+          selectedTown.value, // index 1 - town details
+          selectedSector.value, // index 2 - sector details
+          getAllProducts.toList(), // index 3 - all available products
+          getCompaniesModel.toList(), // index 4 - all companies
+          selectedProducts.toList(), // index 5 - currently selected products
+        ],
+      );
+
+      // Set company filter after navigation if specified
+      _setCompanyFilterAfterNavigation(companyId);
+    } else {
+      // Ensure AllProductsController is available
+      if (!Get.isRegistered<AllProductsController>()) {}
+
+      // Navigate with all necessary data
+      Get.toNamed(
+        Routes.ALL_PRODUCTS,
+        arguments: [
+          selectedCustomer.value, // index 0 - customer details
+          selectedTown.value, // index 1 - town details
+          selectedSector.value, // index 2 - sector details
+          getAllProducts.toList(), // index 3 - all available products
+          getCompaniesModel.toList(), // index 4 - all companies
+          selectedProducts.toList(), // index 5 - currently selected products
+        ],
+      );
+
+      // Set company filter after navigation if specified
+      _setCompanyFilterAfterNavigation(companyId);
     }
-
-    // Navigate with all necessary data
-    Get.toNamed(
-      Routes.ALL_PRODUCTS,
-      arguments: [
-        selectedCustomer.value, // index 0 - customer details
-        selectedTown.value, // index 1 - town details
-        selectedSector.value, // index 2 - sector details
-        getAllProducts.toList(), // index 3 - all available products
-        getCompaniesModel.toList(), // index 4 - all companies
-        selectedProducts.toList(), // index 5 - currently selected products
-      ],
-    );
-
-    // Set company filter after navigation if specified
-    _setCompanyFilterAfterNavigation(companyId);
   }
 
   /// Set company filter in AllProductsController after navigation
@@ -674,10 +695,10 @@ class CreateOrderController extends GetxController {
             (product) => OrderProducts(
               productId: product.productId,
               productName: product.productName,
-              quantity: product.quantity,
+              quantityPack: product.quantityPack,
               bonus: product.bonus,
-              discRatio: product.discRatio,
-              price: product.price, // Keep original price
+              discPercent: product.discPercent,
+              pricePack: product.pricePack, // Keep original price
             ),
           )
           .toList();

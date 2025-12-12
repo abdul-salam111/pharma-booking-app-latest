@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../core/core.dart';
-import '../../../../core/widgets/widgets.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/widgets/widgets.dart';
 import '../controllers/create_order_controller.dart';
 
 class CreateOrderView extends GetView<CreateOrderController> {

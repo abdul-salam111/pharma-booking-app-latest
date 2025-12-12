@@ -278,7 +278,7 @@ class OrderDetailsOnDateView extends GetView<OrderDetailsOnDateController> {
                                           flex: 1,
                                           child: Center(
                                             child: Text(
-                                              product.price.toStringAsFixed(1),
+                                              product.pricePack.toStringAsFixed(1),
                                               style: context.displayLargeStyle!
                                                   .copyWith(
                                                     color:
@@ -291,7 +291,7 @@ class OrderDetailsOnDateView extends GetView<OrderDetailsOnDateController> {
                                           flex: 1,
                                           child: Center(
                                             child: Text(
-                                              product.quantity.toString(),
+                                              product.quantityPack.toString(),
                                               style: context.displayLargeStyle!
                                                   .copyWith(
                                                     color:
@@ -317,7 +317,7 @@ class OrderDetailsOnDateView extends GetView<OrderDetailsOnDateController> {
                                           flex: 1,
                                           child: Center(
                                             child: Text(
-                                              product.discRatio.toStringAsFixed(
+                                              product.discPercent!.toStringAsFixed(
                                                 0,
                                               ),
                                               style: context.displayLargeStyle!

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../../../../create_order/presentation/controllers/create_order_controller.dart';
+import '../../../create_order/presentation/controllers/create_order_controller.dart';
 import '../../../../common/home/presentation/barrel.dart';
 
 /// Controller for managing product selection and order creation in the pharma app
@@ -286,20 +286,20 @@ class AllProductsController extends GetxController {
   /// Calculate the total price for a single product with discount applied
   /// Formula: (quantity * price) - discount
   double calculateProductTotal(OrderProducts product) {
-    final subtotal = product.quantity * product.price;
-    final discountAmount = (subtotal * product.discRatio) / 100;
+    final subtotal = product.quantityPack * product.pricePack;
+    final discountAmount = (subtotal * product.discPercent!) / 100;
     return subtotal - discountAmount;
   }
 
   /// Get the original subtotal for a product (before discount)
   double getProductSubtotal(OrderProducts product) {
-    return product.quantity * product.price;
+    return product.quantityPack * product.pricePack;
   }
 
   /// Calculate the discount amount for a product
   double getProductDiscountAmount(OrderProducts product) {
-    final subtotal = product.quantity * product.price;
-    return (subtotal * product.discRatio) / 100;
+    final subtotal = product.quantityPack * product.pricePack;
+    return (subtotal * product.discPercent!) / 100;
   }
 
   /// Calculate total amounts and item counts for the order

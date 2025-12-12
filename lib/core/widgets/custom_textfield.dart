@@ -20,6 +20,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool isrequired;
   final int labelfontSize;
   final bool readonly;
+  final double? textfieldHeight;
   final List<TextInputFormatter>? inputFormatters; // Added this
 
   const CustomTextFormField({
@@ -38,6 +39,7 @@ class CustomTextFormField extends StatefulWidget {
     this.validator,
     this.labelfontSize = 16,
     this.onChanged,
+    this.textfieldHeight=50,
     this.onTap,
     this.maxLines = 1,
     this.inputFormatters, // Added this
@@ -86,54 +88,57 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             ),
           ),
         heightBox(5),
-        TextFormField(
-          autofocus: false,
-          textCapitalization: TextCapitalization.words,
-          readOnly: widget.readonly,
-          style: context.bodySmallStyle,
-          controller: widget.controller,
-          obscureText: isObscure,
-          keyboardType: widget.keyboardType,
-          maxLines: widget.obscureText ? 1 : widget.maxLines,
-          inputFormatters: widget.inputFormatters, // Added this
-          decoration: InputDecoration(
-            hintStyle: context.bodySmallStyle!.copyWith(
-              color: AppColors.greyTextColor,
+        SizedBox(
+          height: widget.textfieldHeight,
+          child: TextFormField(
+            autofocus: false,
+            textCapitalization: TextCapitalization.words,
+            readOnly: widget.readonly,
+            style: context.bodySmallStyle,
+            controller: widget.controller,
+            obscureText: isObscure,
+            keyboardType: widget.keyboardType,
+            maxLines: widget.obscureText ? 1 : widget.maxLines,
+            inputFormatters: widget.inputFormatters, // Added this
+            decoration: InputDecoration(
+              hintStyle: context.bodySmallStyle!.copyWith(
+                color: AppColors.greyTextColor,
+              ),
+              hintText: widget.hintText,
+              prefixIcon: widget.prefixIcon != null
+                  ? Icon(widget.prefixIcon, color: AppColors.greyColor, size: 20)
+                  : null,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: widget.borderColor),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              fillColor: widget.fillColor,
+              filled: true,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: AppColors.greyColor, width: 2),
+              ),
+              contentPadding: const EdgeInsets.only(left: 10),
+              suffixIcon: widget.obscureText
+                  ? IconButton(
+                      icon: Icon(
+                        isObscure ? Iconsax.eye_slash : Iconsax.eye,
+                        color: AppColors.greyColor,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isObscure = !isObscure;
+                        });
+                      },
+                    )
+                  : null,
             ),
-            hintText: widget.hintText,
-            prefixIcon: widget.prefixIcon != null
-                ? Icon(widget.prefixIcon, color: AppColors.greyColor, size: 20)
-                : null,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: widget.borderColor),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            fillColor: widget.fillColor,
-            filled: true,
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: AppColors.greyColor, width: 2),
-            ),
-            contentPadding: const EdgeInsets.only(left: 10),
-            suffixIcon: widget.obscureText
-                ? IconButton(
-                    icon: Icon(
-                      isObscure ? Iconsax.eye_slash : Iconsax.eye,
-                      color: AppColors.greyColor,
-                      size: 20,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        isObscure = !isObscure;
-                      });
-                    },
-                  )
-                : null,
+            validator: widget.validator,
+            onChanged: widget.onChanged,
+            onTap: widget.onTap,
           ),
-          validator: widget.validator,
-          onChanged: widget.onChanged,
-          onTap: widget.onTap,
         ),
       ],
     );
