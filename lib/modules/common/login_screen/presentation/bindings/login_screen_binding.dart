@@ -26,7 +26,7 @@ class LoginScreenBinding extends Bindings {
     Get.lazyPut<LoginScreenController>(
       () => LoginScreenController(
         loginUserUsecase: Get.find<LoginUserUsecase>(),
-        databaseHelper: Get.find<PharmaDatabase>(),
+        databaseHelper: Get.find<SoftronixBookingDatabase>(),
       ),
     );
   }

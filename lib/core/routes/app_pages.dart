@@ -1,4 +1,8 @@
 import 'package:get/get.dart';
+import 'package:pharma_booking_app/modules/intellibiz/create_order_intellibiz/presentation/bindings/create_order_intellibiz_binding.dart';
+import 'package:pharma_booking_app/modules/intellibiz/create_order_intellibiz/presentation/views/create_order_intellibiz_view.dart';
+import 'package:pharma_booking_app/modules/intellibiz/order_details_on_date_intellibiz/bindings/order_details_on_date_binding_intellibiz.dart';
+import 'package:pharma_booking_app/modules/intellibiz/order_details_on_date_intellibiz/views/order_details_on_date_view_intellibiz.dart';
 
 import '../../modules/intellibiz/all_products_intellibiz/bindings/all_products_intellibiz_binding.dart';
 import '../../modules/intellibiz/all_products_intellibiz/views/all_products_intellibiz_view.dart';
@@ -12,14 +16,14 @@ import '../../modules/common/select_customer/presentation/bindings/select_custom
 import '../../modules/common/select_customer/presentation/views/select_customer_view.dart';
 import '../../modules/common/splash_screen/bindings/splash_screen_binding.dart';
 import '../../modules/common/splash_screen/views/splash_screen_view.dart';
-import '../../modules/pharma_suit/create_order/presentation/bindings/create_order_binding.dart';
-import '../../modules/pharma_suit/create_order/presentation/views/create_order_view.dart';
-import '../../modules/order_details_on_date/bindings/order_details_on_date_binding.dart';
-import '../../modules/order_details_on_date/views/order_details_on_date_view.dart';
-import '../../modules/orders_on_date/presentation/bindings/orders_on_date_binding.dart';
-import '../../modules/orders_on_date/presentation/views/orders_on_date_view.dart';
-import '../../modules/orders_summary/presentation/bindings/orders_summary_binding.dart';
-import '../../modules/orders_summary/presentation/views/orders_summary_view.dart';
+import '../../modules/pharma_suit/create_order_pharmasuit/presentation/bindings/create_order_binding.dart';
+import '../../modules/pharma_suit/create_order_pharmasuit/presentation/views/create_order_view.dart';
+import '../../modules/pharma_suit/order_details_on_date/bindings/order_details_on_date_binding.dart';
+import '../../modules/pharma_suit/order_details_on_date/views/order_details_on_date_view.dart';
+import '../../modules/common/orders_on_date/presentation/bindings/orders_on_date_binding.dart';
+import '../../modules/common/orders_on_date/presentation/views/orders_on_date_view.dart';
+import '../../modules/common/orders_summary/presentation/bindings/orders_summary_binding.dart';
+import '../../modules/common/orders_summary/presentation/views/orders_summary_view.dart';
 import '../../modules/pharma_suit/all_products/presentation/bindings/all_products_binding.dart';
 import '../../modules/pharma_suit/all_products/presentation/views/all_products_view.dart';
 
@@ -86,6 +90,16 @@ class AppPages {
       name: _Paths.ALL_PRODUCTS_INTELLIBIZ,
       page: () => const AllProductsIntellibizView(),
       binding: AllProductsIntellibizBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_ORDER_INTELLIBIZ,
+      page: () => const CreateOrderIntellibizView(),
+      binding: CreateOrderIntellibizBinding(),
+    ),
+    GetPage(
+      name: _Paths.ORDER_DETAILS_ON_DATE_INTELLIBIZ,
+      page: () => const OrderDetailsOnDateViewIntellibiz(),
+      binding: OrderDetailsOnDateBindingIntellibiz(),
     ),
   ];
 }

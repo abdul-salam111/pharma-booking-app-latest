@@ -131,7 +131,7 @@ class AllProductsIntellibizView
                     }
 
                     Get.toNamed(
-                      Routes.CREATE_ORDER,
+                      Routes.CREATE_ORDER_INTELLIBIZ,
                       arguments: {
                         'selectedCustomer': controller.selectedCustomer.value,
                         'selectedSector': controller.selectedSector.value,
@@ -237,15 +237,28 @@ class AllProductsIntellibizView
                                         Row(
                                           children: [
                                             Flexible(
-                                              child: Text(
-                                                "${product.productName}$packingDisplay",
-                                                style: context.bodySmallStyle!
-                                                    .copyWith(
-                                                      color: AppColors
-                                                          .blackTextColor,
-                                                      fontWeight:
-                                                          FontWeight.w500,
+                                              child: RichText(
+                                                text: TextSpan(
+                                                  text: product.productName,
+                                                  style: context.bodySmallStyle!
+                                                      .copyWith(
+                                                        color: AppColors
+                                                            .blackTextColor,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                  children: [
+                                                    TextSpan(
+                                                      text: packingDisplay,
+                                                      style: context
+                                                          .displayLargeStyle!
+                                                          .copyWith(
+                                                            color: AppColors
+                                                                .greyTextColor,
+                                                          ),
                                                     ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -255,21 +268,16 @@ class AllProductsIntellibizView
                                           mainAxisAlignment:
                                               mainAxisSpaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "( CS: ${product.currentStock} )",
-                                                  style: context
-                                                      .displayLargeStyle!
-                                                      .copyWith(
-                                                        color: AppColors
-                                                            .greyTextColor,
-                                                      ),
-                                                ),
-                                              ],
+                                            Text(
+                                              "( CS: ${product.currentStock} )",
+                                              style: context.displayLargeStyle!
+                                                  .copyWith(
+                                                    color:
+                                                        AppColors.greyTextColor,
+                                                  ),
                                             ),
                                             SizedBox(
-                                              width: context.width * 0.66,
+                                              width: context.width * 0.7,
                                               child: Row(
                                                 mainAxisAlignment:
                                                     mainAxisSpaceBetween,
@@ -278,12 +286,12 @@ class AllProductsIntellibizView
                                                       .isAllowChangeBookingPrice)
                                                     SizedBox(
                                                       width:
-                                                          context.width * 0.15,
+                                                          context.width * 0.19,
                                                       child: RichText(
                                                         text: TextSpan(
                                                           children: [
                                                             TextSpan(
-                                                              text: "P: ",
+                                                              text: "P-Pack: ",
                                                               style: context
                                                                   .displayLargeStyle!
                                                                   .copyWith(
@@ -320,12 +328,12 @@ class AllProductsIntellibizView
                                                       ),
                                                     ),
                                                   SizedBox(
-                                                    width: context.width * 0.15,
+                                                    width: context.width * 0.19,
                                                     child: RichText(
                                                       text: TextSpan(
                                                         children: [
                                                           TextSpan(
-                                                            text: "Q: ",
+                                                            text: "Q(P-L): ",
                                                             style: context
                                                                 .displayLargeStyle!
                                                                 .copyWith(
@@ -340,12 +348,12 @@ class AllProductsIntellibizView
                                                               null)
                                                             TextSpan(
                                                               text:
-                                                                  "(${selectedProduct.quantityPack}${selectedProduct.quantityLose != null && selectedProduct.quantityLose! > 0 ? '-${selectedProduct.quantityLose}' : ''})",
+                                                                  "(${selectedProduct.quantityPack}${'-${selectedProduct.quantityLose}'})",
                                                               style: context
                                                                   .displayLargeStyle!
                                                                   .copyWith(
                                                                     color: AppColors
-                                                                        .blackTextColor,
+                                                                        .successColor,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -450,7 +458,7 @@ class AllProductsIntellibizView
                                                       constraints:
                                                           const BoxConstraints(),
                                                       icon: const Icon(
-                                                        Icons.unfold_more,
+                                                        Icons.add_shopping_cart,
                                                         size: 15,
                                                       ),
                                                       onPressed: () async {
@@ -642,50 +650,37 @@ class ProductBottomSheetIntellibiz extends StatefulWidget {
 
 class _ProductBottomSheetIntellibizState
     extends State<ProductBottomSheetIntellibiz> {
-  late TextEditingController packingQtyController;
-  late TextEditingController qtyloseController;
-  late TextEditingController bonusController;
-  late TextEditingController discController;
-  late TextEditingController priceController;
-  late FocusNode qtyFocusNode;
+  late TextEditingController packingQtyController = TextEditingController();
+  late TextEditingController qtyloseController = TextEditingController();
+  late TextEditingController bonusController = TextEditingController();
+  late TextEditingController discController = TextEditingController();
+  late TextEditingController priceController = TextEditingController();
+  late FocusNode qtyFocusNode = FocusNode();
   Rx<Packing?> selectedPacking = Rx<Packing?>(null);
-
   late Packing defaultPacking;
-
-  // ╔══════════════════════════════════════════════════════════════════════════════╗
-  // ║         UPDATED: Ab calculations controller se aayengi                       ║
-  // ╚══════════════════════════════════════════════════════════════════════════════╝
-  final RxDouble totalAmount = 0.0.obs;
-  final RxDouble discountAmount = 0.0.obs;
-  final RxDouble finalAmount = 0.0.obs;
-
+  late OrderProducts? existingProduct;
+  late String? productCompany;
   @override
   void initState() {
     super.initState();
-
-    // Initialize all controllers first
-    packingQtyController = TextEditingController();
-    qtyloseController = TextEditingController();
-    bonusController = TextEditingController();
-    discController = TextEditingController();
-    priceController = TextEditingController();
-    qtyFocusNode = FocusNode();
-
     final controller = Get.find<AllProductsIntellibizController>();
-    final existingProduct = controller.getProductFromOrder(
+    existingProduct = controller.getProductFromOrder(
       widget.product.id.toString(),
     );
 
-    // Set initial values based on existing product
+    productCompany = controller.getAllCompanies
+        .where((company) => company.id == widget.product.companyId)
+        .first
+        .name;
+
+    // Set initial values based on the already existing product
     if (existingProduct != null) {
-      packingQtyController.text = existingProduct.quantityPack.toString();
-      qtyloseController.text = existingProduct.quantityLose?.toString() ?? '0';
-      bonusController.text = existingProduct.bonus.toString();
-      discController.text = existingProduct.discPercent?.toString() ?? '0.0';
-      priceController.text =
-          existingProduct.pricePack?.toString() ??
-          widget.product.pricePackSal1?.toString() ??
-          '0.0';
+      packingQtyController.text =
+          existingProduct?.quantityPack.toString() ?? '0';
+      qtyloseController.text = existingProduct?.quantityLose?.toString() ?? '0';
+      bonusController.text = existingProduct?.bonus.toString() ?? '0';
+      discController.text = existingProduct?.discPercent?.toString() ?? '0.0';
+      priceController.text = existingProduct?.pricePack.toString() ?? '0';
     } else {
       packingQtyController.text = '0';
       qtyloseController.text = '0';
@@ -694,19 +689,19 @@ class _ProductBottomSheetIntellibizState
       priceController.text = widget.product.pricePackSal1?.toString() ?? '0.0';
     }
 
-    // Initialize default packing
+    // set default packing
     if (widget.product.packings != null &&
         widget.product.packings!.isNotEmpty) {
       defaultPacking = widget.product.packings!.first;
 
       if (existingProduct != null &&
-          existingProduct.packingName != null &&
-          existingProduct.multiplier != null) {
+          existingProduct?.packingName != null &&
+          existingProduct?.multiplier != null) {
         try {
           selectedPacking.value = widget.product.packings!.firstWhere(
             (p) =>
-                p.packingName == existingProduct.packingName &&
-                p.multiplier == existingProduct.multiplier,
+                p.packingName == existingProduct?.packingName &&
+                p.multiplier == existingProduct?.multiplier,
           );
         } catch (e) {
           selectedPacking.value = defaultPacking;
@@ -740,16 +735,17 @@ class _ProductBottomSheetIntellibizState
   }
 
   // ╔══════════════════════════════════════════════════════════════════════════════╗
-  // ║    UPDATED: Ab yeh method controller ki calculation use krega               ║
+  // ║        Total Amount calculation variables  & Methods                         ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
+  final RxDouble totalAmount = 0.0.obs;
+  final RxDouble discountAmount = 0.0.obs;
+  final RxDouble finalAmount = 0.0.obs;
   void calculateTotals() {
     final controller = Get.find<AllProductsIntellibizController>();
-    
     final packingQty = int.tryParse(packingQtyController.text) ?? 0;
     final loseQty = int.tryParse(qtyloseController.text) ?? 0;
     final price = double.tryParse(priceController.text) ?? 0.0;
     final discount = double.tryParse(discController.text) ?? 0.0;
-
     if (selectedPacking.value == null) {
       totalAmount.value = 0.0;
       discountAmount.value = 0.0;
@@ -757,7 +753,6 @@ class _ProductBottomSheetIntellibizState
       return;
     }
 
-    // ✨ Ab controller ka centralized method use kar rahe hain
     final result = controller.calculateProductAmounts(
       productId: widget.product.id.toString(),
       quantityPack: packingQty,
@@ -766,8 +761,6 @@ class _ProductBottomSheetIntellibizState
       discountPercent: discount,
       selectedPacking: selectedPacking.value,
     );
-
-    // Update observable values
     totalAmount.value = result.subtotal;
     discountAmount.value = result.discountAmount;
     finalAmount.value = result.finalAmount;
@@ -776,14 +769,12 @@ class _ProductBottomSheetIntellibizState
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AllProductsIntellibizController>();
-    final existingProduct = controller.getProductFromOrder(
-      widget.product.id.toString(),
-    );
+
     final productCompany = controller.getAllCompanies
         .where((company) => company.id == widget.product.companyId)
         .first
         .name;
-    
+
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.9,
@@ -897,33 +888,6 @@ class _ProductBottomSheetIntellibizState
             const SizedBox(height: 10),
             Row(
               children: [
-                Expanded(
-                  child: CustomTextFormField(
-                    labelColor: AppColors.greyColor,
-                    textfieldHeight: 40,
-                    controller: bonusController,
-                    label: "Bonus",
-                    hintText: "Bns",
-                    keyboardType: TextInputType.number,
-                    borderColor: AppColors.darkGreyColor,
-                    labelfontSize: 14,
-                  ),
-                ),
-                widthBox(10),
-                if (CurrentUserHelper.isAllowChangeBookingDisc)
-                  Expanded(
-                    child: CustomTextFormField(
-                      labelColor: AppColors.greyColor,
-                      textfieldHeight: 40,
-                      label: "Discount %",
-                      controller: discController,
-                      hintText: "Disc%",
-                      keyboardType: TextInputType.number,
-                      borderColor: AppColors.darkGreyColor,
-                      labelfontSize: 14,
-                    ),
-                  ),
-                widthBox(10),
                 if (CurrentUserHelper.isAllowChangeBookingPrice)
                   Expanded(
                     child: CustomTextFormField(
@@ -939,8 +903,37 @@ class _ProductBottomSheetIntellibizState
                       labelfontSize: 14,
                     ),
                   ),
+                widthBox(10),
+                if (CurrentUserHelper.isAllowChangeBookingDisc)
+                  Expanded(
+                    child: CustomTextFormField(
+                      labelColor: AppColors.greyColor,
+                      textfieldHeight: 40,
+                      label: "Discount %",
+                      controller: discController,
+                      hintText: "Disc%",
+                      keyboardType: TextInputType.number,
+                      borderColor: AppColors.darkGreyColor,
+                      labelfontSize: 14,
+                    ),
+                  ),
+                widthBox(10),
+                if (CurrentUserHelper.isAllowChangeBookingBonus)
+                  Expanded(
+                    child: CustomTextFormField(
+                      labelColor: AppColors.greyColor,
+                      textfieldHeight: 40,
+                      controller: bonusController,
+                      label: "Bonus",
+                      hintText: "Bns",
+                      keyboardType: TextInputType.number,
+                      borderColor: AppColors.darkGreyColor,
+                      labelfontSize: 14,
+                    ),
+                  ),
               ],
             ),
+
             heightBox(20),
 
             // Calculation Summary Card
@@ -1105,6 +1098,7 @@ class _ProductBottomSheetIntellibizState
                           ),
                           packingName: selectedPacking.value?.packingName,
                           multiplier: selectedPacking.value?.multiplier,
+                          packingId: selectedPacking.value?.packingId,
                         ),
                       );
 

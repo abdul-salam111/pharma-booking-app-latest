@@ -5,7 +5,7 @@ import '../../domain/usecases/login_user_usecase.dart';
 
 class LoginScreenController extends GetxController {
   final LoginUserUsecase loginUserUsecase;
-  final PharmaDatabase databaseHelper;
+  final SoftronixBookingDatabase databaseHelper;
 
   LoginScreenController({
     required this.loginUserUsecase,

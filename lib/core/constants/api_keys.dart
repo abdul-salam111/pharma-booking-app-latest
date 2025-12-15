@@ -8,4 +8,5 @@ class ApiKeys {
   static const getProductsUrl = "$baseUrl/api/mobile/product/list";
   static const getCompaniesUrl = "$baseUrl/api/mobile/company/list";
   static const syncorders = "$baseUrl/api/mobile/order/sync";
+  static const getPackingsUrl = "$baseUrl/api/mobile/packing/list";
 }

@@ -3,7 +3,10 @@
 // ============================================================================
 import 'dart:async';
 import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
-import 'package:pharma_booking_app/modules/pharma_suit/create_order/data/models/get_order_response/get_order_response.dart'
+import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/clear_local_packings_usecase.dart';
+import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/insert_packings_locally_usecase.dart';
+import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_remote_usecases/get_all_remote_packings_usecase.dart';
+import 'package:pharma_booking_app/modules/pharma_suit/create_order_pharmasuit/data/models/get_order_response/get_order_response.dart'
     show GetOrderResponse;
 
 import '../../../select_customer/domain/usecases/local_usecases/insert_sub_areas_local_usecase.dart';
@@ -19,6 +22,14 @@ class HomeController extends GetxController {
   final GetAllLocalProductsUsecase getAllLocalProductsUsecase;
   final InsertProductsLocallyUsecase insertProductsLocallyUsecase;
   final ClearLocalProductsUsecase clearLocalProductsUsecase;
+
+  // ==========================================================================
+  // PACKINGS USECASES
+  // ==========================================================================
+  final GetAllRemotePackingsUsecase getAllRemotePackingsUsecase;
+
+  final InsertPackingsLocallyUsecase insertPackingsLocallyUsecase;
+  final ClearLocalPackingsUsecase clearLocalPackingsUsecase;
 
   // ==========================================================================
   // COMPANY USECASES
@@ -64,6 +75,10 @@ class HomeController extends GetxController {
   // CONSTRUCTOR
   // ==========================================================================
   HomeController({
+    required this.getAllRemotePackingsUsecase,
+
+    required this.insertPackingsLocallyUsecase,
+    required this.clearLocalPackingsUsecase,
     // Product usecases
     required this.getAllProductsUsecase,
     required this.getAllLocalProductsUsecase,
@@ -201,6 +216,7 @@ class HomeController extends GetxController {
         getAllCustomersUsecase.call(NoParams()),
         getAllSectorsUseCase.call(NoParams()),
         getAllTownsUsecase.call(NoParams()),
+        getAllRemotePackingsUsecase.call(NoParams()),
       ]);
 
       // // Phase 2: Clear all local data in parallel (PERFORMANCE BOOST)
@@ -210,9 +226,10 @@ class HomeController extends GetxController {
         clearCustomersLocalUsecase.call(NoParams()),
         clearAreasLocalUsecase.call(NoParams()),
         clearSubAreasLocalUsecase.call(NoParams()),
+        clearLocalPackingsUsecase.call(NoParams()),
       ]);
 
-      // Phase 3: Insert all data in parallel (PERFORMANCE BOOST)
+      // Phase 3: Insert all data in parallel
       await _insertAllDataInParallel(results);
 
       // // Phase 4: Reload local data
@@ -267,9 +284,17 @@ class HomeController extends GetxController {
 
     // // // Towns
     results[4].fold(
-      (error) => throw Exception('Failed to fetch towns: ${error.toString()}'),
+      (error) => throw Exception('Failed to insert towns: ${error.toString()}'),
       (towns) =>
           insertOperations.add(insertAllSubAreasLocalUsecase.call(towns)),
+    );
+
+    // Packings
+    results[5].fold(
+      (error) =>
+          throw Exception('Failed to insert packings: ${error.toString()}'),
+      (packings) =>
+          insertOperations.add(insertPackingsLocallyUsecase.call(packings)),
     );
 
     // // Execute all inserts in parallel

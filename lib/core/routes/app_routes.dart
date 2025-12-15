@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 part of 'app_pages.dart';
 // DO NOT EDIT. This is code generated via package:get_cli/get_cli.dart
 
@@ -14,6 +16,8 @@ abstract class Routes {
   static const ORDER_DETAILS_ON_DATE = _Paths.ORDER_DETAILS_ON_DATE;
   static const RECOVERY = _Paths.RECOVERY;
   static const ALL_PRODUCTS_INTELLIBIZ = _Paths.ALL_PRODUCTS_INTELLIBIZ;
+  static const CREATE_ORDER_INTELLIBIZ = _Paths.CREATE_ORDER_INTELLIBIZ;
+  static const ORDER_DETAILS_ON_DATE_INTELLIBIZ = _Paths.ORDER_DETAILS_ON_DATE_INTELLIBIZ;
 }
 
 abstract class _Paths {
@@ -29,4 +33,6 @@ abstract class _Paths {
   static const ORDER_DETAILS_ON_DATE = '/order-details-on-date';
   static const RECOVERY = '/recovery';
   static const ALL_PRODUCTS_INTELLIBIZ = '/all-products-intellibiz';
+  static const CREATE_ORDER_INTELLIBIZ = '/create-order-intellibiz';
+  static const ORDER_DETAILS_ON_DATE_INTELLIBIZ = '/order-details-on-date-intellibiz';
 }

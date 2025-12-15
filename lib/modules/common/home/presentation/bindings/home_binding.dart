@@ -2,6 +2,12 @@
 // HOME BINDING
 // ============================================================================
 
+import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/clear_local_packings_usecase.dart';
+
+import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/insert_packings_locally_usecase.dart';
+import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_remote_usecases/get_all_remote_packings_usecase.dart';
+
+import '../../../../pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/get_packing_by_id_usecase.dart';
 import '../../../select_customer/domain/usecases/local_usecases/insert_sub_areas_local_usecase.dart';
 import '../barrel.dart';
 
@@ -33,7 +39,7 @@ class HomeBinding extends Bindings {
 
     Get.lazyPut<CustomerLocalDataSource>(
       () => CustomerLocalDataSourceImpl(
-        databaseHelper: Get.find<PharmaDatabase>(),
+        databaseHelper: Get.find<SoftronixBookingDatabase>(),
       ),
       fenix: true,
     );
@@ -117,8 +123,6 @@ class HomeBinding extends Bindings {
         customerRepository: Get.find<CustomerAbstractRepository>(),
       ),
     );
-
-  
   }
 
   // ==========================================================================
@@ -129,6 +133,7 @@ class HomeBinding extends Bindings {
     _registerProductDataSources();
     _registerProductRepository();
     _registerProductUseCases();
+    _registerPackingsUseCases();
   }
 
   void _registerProductDataSources() {
@@ -138,7 +143,7 @@ class HomeBinding extends Bindings {
 
     Get.lazyPut<LocalProductDatasource>(
       () => LocalProductDatasourceImpl(
-        databaseHelper: Get.find<PharmaDatabase>(),
+        databaseHelper: Get.find<SoftronixBookingDatabase>(),
       ),
     );
   }
@@ -175,6 +180,32 @@ class HomeBinding extends Bindings {
     );
   }
 
+  void _registerPackingsUseCases() {
+    Get.lazyPut(
+      () => GetAllRemotePackingsUsecase(
+        productRepository: Get.find<ProductAbstractRepository>(),
+      ),
+    );
+
+    Get.lazyPut(
+      () => InsertPackingsLocallyUsecase(
+        productAbstractRepository: Get.find<ProductAbstractRepository>(),
+      ),
+    );
+
+    Get.lazyPut(
+      () => ClearLocalPackingsUsecase(
+        productAbstractRepository: Get.find<ProductAbstractRepository>(),
+      ),
+    );
+
+    Get.lazyPut(
+      () => GetPackingsByIdUsecase(
+        productRepository: Get.find<ProductAbstractRepository>(),
+      ),
+    );
+  }
+
   // ==========================================================================
   // COMPANY MODULE DEPENDENCIES
   // ==========================================================================
@@ -192,7 +223,7 @@ class HomeBinding extends Bindings {
 
     Get.lazyPut<LocalCompanyDatasource>(
       () => LocalCompanyDatasourceImpl(
-        databaseHelper: Get.find<PharmaDatabase>(),
+        databaseHelper: Get.find<SoftronixBookingDatabase>(),
       ),
     );
   }
@@ -241,7 +272,7 @@ class HomeBinding extends Bindings {
   void registerOrdersDatasources() {
     Get.lazyPut<CreateOrdersLocalDatasource>(
       () => CreateOrdersLocalDatasourceImpl(
-        databaseHelper: Get.find<PharmaDatabase>(),
+        databaseHelper: Get.find<SoftronixBookingDatabase>(),
       ),
     );
 
@@ -292,6 +323,11 @@ class HomeBinding extends Bindings {
   void _registerController() {
     Get.lazyPut<HomeController>(
       () => HomeController(
+        // Packings usecases
+        getAllRemotePackingsUsecase: Get.find<GetAllRemotePackingsUsecase>(),
+
+        insertPackingsLocallyUsecase: Get.find<InsertPackingsLocallyUsecase>(),
+        clearLocalPackingsUsecase: Get.find<ClearLocalPackingsUsecase>(),
         // Product use cases
         getAllProductsUsecase: Get.find<GetAllRemoteProductsUsecase>(),
         getAllLocalProductsUsecase: Get.find<GetAllLocalProductsUsecase>(),
@@ -314,7 +350,8 @@ class HomeBinding extends Bindings {
 
         insertAllCustomersLocalUsecase:
             Get.find<InsertAllCustomersLocalUsecase>(),
-        insertAllSubAreasLocalUsecase: Get.find<InsertAllSubAreasLocalUsecase>(),
+        insertAllSubAreasLocalUsecase:
+            Get.find<InsertAllSubAreasLocalUsecase>(),
         insertAllAreasLocalUsecase: Get.find<InsertAllAreasLocalUsecase>(),
 
         clearCustomersLocalUsecase: Get.find<ClearCustomersLocalUsecase>(),

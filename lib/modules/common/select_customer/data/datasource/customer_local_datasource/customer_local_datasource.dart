@@ -34,7 +34,7 @@ abstract interface class CustomerLocalDataSource {
 // ============================================================================
 
 class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
-  final PharmaDatabase databaseHelper;
+  final SoftronixBookingDatabase databaseHelper;
 
   CustomerLocalDataSourceImpl({required this.databaseHelper});
 
@@ -131,13 +131,6 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
           customerTable,
           orderBy: 'customerName ASC',
         );
-
-        if (kDebugMode) {
-          print('Raw query returned ${customerData.length} records');
-          if (customerData.isNotEmpty) {
-            print('First customer data: ${customerData.first}');
-          }
-        }
 
         final customers = customerData.map((customer) {
           try {

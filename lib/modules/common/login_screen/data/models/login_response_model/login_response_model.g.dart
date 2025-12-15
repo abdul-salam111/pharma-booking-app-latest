@@ -67,6 +67,9 @@ _Salesman _$SalesmanFromJson(Map<String, dynamic> json) => _Salesman(
   isAllowChangeBookingDisc: json['isAllowChangeBookingDisc'] as bool?,
   isAllowChangeBookingBonus: json['isAllowChangeBookingBonus'] as bool?,
   isActive: json['isActive'] as bool?,
+  software: json['software'] == null
+      ? null
+      : Software.fromJson(json['software'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$SalesmanToJson(_Salesman instance) => <String, dynamic>{
@@ -87,4 +90,19 @@ Map<String, dynamic> _$SalesmanToJson(_Salesman instance) => <String, dynamic>{
   'isAllowChangeBookingDisc': instance.isAllowChangeBookingDisc,
   'isAllowChangeBookingBonus': instance.isAllowChangeBookingBonus,
   'isActive': instance.isActive,
+  'software': instance.software,
+};
+
+_Software _$SoftwareFromJson(Map<String, dynamic> json) => _Software(
+  softwareName: json['softwareName'] as String?,
+  softwareKey: json['softwareKey'] as String?,
+  dbPrefix: json['dbPrefix'] as String?,
+  id: (json['id'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$SoftwareToJson(_Software instance) => <String, dynamic>{
+  'softwareName': instance.softwareName,
+  'softwareKey': instance.softwareKey,
+  'dbPrefix': instance.dbPrefix,
+  'id': instance.id,
 };

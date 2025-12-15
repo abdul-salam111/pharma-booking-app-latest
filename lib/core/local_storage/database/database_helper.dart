@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
 import 'package:path/path.dart';
 
-class PharmaDatabase {
+class SoftronixBookingDatabase {
   // ==================== SINGLETON PATTERN ====================
 
   /// Private static instance of the database
@@ -16,7 +16,7 @@ class PharmaDatabase {
   static const int _databaseVersion = 1;
 
   /// Database name
-  static const String _databaseName = "pharmaApp.db";
+  static const String _databaseName = "softronixbookingApp.db";
 
   // ==================== DATABASE INITIALIZATION ====================
 
@@ -28,7 +28,6 @@ class PharmaDatabase {
     return _db;
   }
 
-  /// Initialize the SQLite database
   /// Sets up the database file path and handles creation/upgrade
   Future<Database> initializeDatabase() async {
     try {
@@ -58,7 +57,6 @@ class PharmaDatabase {
   }
 
   /// Create database tables when database is first created
-  /// This method is called only once when the database is created
   Future<void> _onCreate(Database db, int version) async {
     try {
       await db.transaction((txn) async {
@@ -146,6 +144,14 @@ class PharmaDatabase {
       packings TEXT
     )
   ''');
+        // Create product packings table
+        await txn.execute('''
+          CREATE TABLE product_pakings(
+            id INTEGER,
+           packingName TEXT,
+           abbrevation TEXT
+          )
+        ''');
         // Create orders table
         await txn.execute('''
           CREATE TABLE orders(
@@ -190,6 +196,7 @@ class PharmaDatabase {
     discPercent REAL,
     discValue REAL,
     multiplier INTEGER,
+    packingId INTEGER,
     packingName TEXT,     
     bonus INTEGER DEFAULT 0,
     rowTotal REAL,
@@ -219,8 +226,6 @@ class PharmaDatabase {
 
   // ==================== CLEAR/DELETE METHODS ====================
   // These methods handle data cleanup and table management
-  /// Clear a specific table by name
-  /// Generic method that can clear any table
   Future<bool> clearTable(String tableName) async {
     try {
       var dbClient = await database;

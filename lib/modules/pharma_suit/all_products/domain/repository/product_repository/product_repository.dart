@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../../../../core/core.dart';
 import '../../../data/models/get_products_model/get_all_products_model.dart';
+import '../../../data/models/get_products_packing/get_packings.dart';
 
 abstract interface class ProductAbstractRepository {
   //╔══════════════════════════════════════════════════════════════════════════════╗
@@ -8,6 +9,7 @@ abstract interface class ProductAbstractRepository {
   //╚══════════════════════════════════════════════════════════════════════════════╝
 
   Future<Either<AppException, List<GetAllProductsModel>>> getAllProducts();
+  Future<Either<AppException, List<GetPackings>>> getAllPackings();
 
   //╔══════════════════════════════════════════════════════════════════════════════╗
   //║                            Local Products Management                         ║
@@ -24,9 +26,16 @@ abstract interface class ProductAbstractRepository {
   /// Clears all products from local database
   Future<Either<AppException, bool>> clearLocalProducts();
 
-  /// Retrieves a local product by its ID
-  /// Returns [AppException] if product not found or any error occurs
-  Future<Either<AppException, GetAllProductsModel?>> getLocalProductById(
-   {required int productId}
+  Future<Either<AppException, GetAllProductsModel?>> getLocalProductById({
+    required int productId,
+  });
+
+  Future<Either<AppException, List<GetPackings>>> getAllLocalPackings();
+  Future<Either<AppException, List<int>>> insertPackingsLocal(
+    List<GetPackings> packings,
   );
+  Future<Either<AppException, bool>> clearLocalPackings();
+  Future<Either<AppException, GetPackings>> getPackingsById({
+    required int packingId,
+  });
 }

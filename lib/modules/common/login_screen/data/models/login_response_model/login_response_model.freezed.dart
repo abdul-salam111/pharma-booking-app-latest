@@ -641,7 +641,7 @@ $SalesmanCopyWith<$Res>? get salesman {
 /// @nodoc
 mixin _$Salesman {
 
-@JsonKey(name: "id") int? get id;@JsonKey(name: "importAccountNo") String? get importAccountNo;@JsonKey(name: "salesmanName") String? get salesmanName;@JsonKey(name: "mobileNo") String? get mobileNo;@JsonKey(name: "cnic") String? get cnic;@JsonKey(name: "address") String? get address;@JsonKey(name: "city") String? get city;@JsonKey(name: "email") String? get email;@JsonKey(name: "tenantBusinessId") int? get tenantBusinessId;@JsonKey(name: "isStockHolder") bool? get isStockHolder;@JsonKey(name: "commission") int? get commission;@JsonKey(name: "creditLimit") int? get creditLimit;@JsonKey(name: "isShowCurrentStock") bool? get isShowCurrentStock;@JsonKey(name: "isAllowChangeBookingPrice") bool? get isAllowChangeBookingPrice;@JsonKey(name: "isAllowChangeBookingDisc") bool? get isAllowChangeBookingDisc;@JsonKey(name: "isAllowChangeBookingBonus") bool? get isAllowChangeBookingBonus;@JsonKey(name: "isActive") bool? get isActive;
+@JsonKey(name: "id") int? get id;@JsonKey(name: "importAccountNo") String? get importAccountNo;@JsonKey(name: "salesmanName") String? get salesmanName;@JsonKey(name: "mobileNo") String? get mobileNo;@JsonKey(name: "cnic") String? get cnic;@JsonKey(name: "address") String? get address;@JsonKey(name: "city") String? get city;@JsonKey(name: "email") String? get email;@JsonKey(name: "tenantBusinessId") int? get tenantBusinessId;@JsonKey(name: "isStockHolder") bool? get isStockHolder;@JsonKey(name: "commission") int? get commission;@JsonKey(name: "creditLimit") int? get creditLimit;@JsonKey(name: "isShowCurrentStock") bool? get isShowCurrentStock;@JsonKey(name: "isAllowChangeBookingPrice") bool? get isAllowChangeBookingPrice;@JsonKey(name: "isAllowChangeBookingDisc") bool? get isAllowChangeBookingDisc;@JsonKey(name: "isAllowChangeBookingBonus") bool? get isAllowChangeBookingBonus;@JsonKey(name: "isActive") bool? get isActive;@JsonKey(name: "software") Software? get software;
 /// Create a copy of Salesman
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -654,16 +654,16 @@ $SalesmanCopyWith<Salesman> get copyWith => _$SalesmanCopyWithImpl<Salesman>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Salesman&&(identical(other.id, id) || other.id == id)&&(identical(other.importAccountNo, importAccountNo) || other.importAccountNo == importAccountNo)&&(identical(other.salesmanName, salesmanName) || other.salesmanName == salesmanName)&&(identical(other.mobileNo, mobileNo) || other.mobileNo == mobileNo)&&(identical(other.cnic, cnic) || other.cnic == cnic)&&(identical(other.address, address) || other.address == address)&&(identical(other.city, city) || other.city == city)&&(identical(other.email, email) || other.email == email)&&(identical(other.tenantBusinessId, tenantBusinessId) || other.tenantBusinessId == tenantBusinessId)&&(identical(other.isStockHolder, isStockHolder) || other.isStockHolder == isStockHolder)&&(identical(other.commission, commission) || other.commission == commission)&&(identical(other.creditLimit, creditLimit) || other.creditLimit == creditLimit)&&(identical(other.isShowCurrentStock, isShowCurrentStock) || other.isShowCurrentStock == isShowCurrentStock)&&(identical(other.isAllowChangeBookingPrice, isAllowChangeBookingPrice) || other.isAllowChangeBookingPrice == isAllowChangeBookingPrice)&&(identical(other.isAllowChangeBookingDisc, isAllowChangeBookingDisc) || other.isAllowChangeBookingDisc == isAllowChangeBookingDisc)&&(identical(other.isAllowChangeBookingBonus, isAllowChangeBookingBonus) || other.isAllowChangeBookingBonus == isAllowChangeBookingBonus)&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Salesman&&(identical(other.id, id) || other.id == id)&&(identical(other.importAccountNo, importAccountNo) || other.importAccountNo == importAccountNo)&&(identical(other.salesmanName, salesmanName) || other.salesmanName == salesmanName)&&(identical(other.mobileNo, mobileNo) || other.mobileNo == mobileNo)&&(identical(other.cnic, cnic) || other.cnic == cnic)&&(identical(other.address, address) || other.address == address)&&(identical(other.city, city) || other.city == city)&&(identical(other.email, email) || other.email == email)&&(identical(other.tenantBusinessId, tenantBusinessId) || other.tenantBusinessId == tenantBusinessId)&&(identical(other.isStockHolder, isStockHolder) || other.isStockHolder == isStockHolder)&&(identical(other.commission, commission) || other.commission == commission)&&(identical(other.creditLimit, creditLimit) || other.creditLimit == creditLimit)&&(identical(other.isShowCurrentStock, isShowCurrentStock) || other.isShowCurrentStock == isShowCurrentStock)&&(identical(other.isAllowChangeBookingPrice, isAllowChangeBookingPrice) || other.isAllowChangeBookingPrice == isAllowChangeBookingPrice)&&(identical(other.isAllowChangeBookingDisc, isAllowChangeBookingDisc) || other.isAllowChangeBookingDisc == isAllowChangeBookingDisc)&&(identical(other.isAllowChangeBookingBonus, isAllowChangeBookingBonus) || other.isAllowChangeBookingBonus == isAllowChangeBookingBonus)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.software, software) || other.software == software));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,importAccountNo,salesmanName,mobileNo,cnic,address,city,email,tenantBusinessId,isStockHolder,commission,creditLimit,isShowCurrentStock,isAllowChangeBookingPrice,isAllowChangeBookingDisc,isAllowChangeBookingBonus,isActive);
+int get hashCode => Object.hash(runtimeType,id,importAccountNo,salesmanName,mobileNo,cnic,address,city,email,tenantBusinessId,isStockHolder,commission,creditLimit,isShowCurrentStock,isAllowChangeBookingPrice,isAllowChangeBookingDisc,isAllowChangeBookingBonus,isActive,software);
 
 @override
 String toString() {
-  return 'Salesman(id: $id, importAccountNo: $importAccountNo, salesmanName: $salesmanName, mobileNo: $mobileNo, cnic: $cnic, address: $address, city: $city, email: $email, tenantBusinessId: $tenantBusinessId, isStockHolder: $isStockHolder, commission: $commission, creditLimit: $creditLimit, isShowCurrentStock: $isShowCurrentStock, isAllowChangeBookingPrice: $isAllowChangeBookingPrice, isAllowChangeBookingDisc: $isAllowChangeBookingDisc, isAllowChangeBookingBonus: $isAllowChangeBookingBonus, isActive: $isActive)';
+  return 'Salesman(id: $id, importAccountNo: $importAccountNo, salesmanName: $salesmanName, mobileNo: $mobileNo, cnic: $cnic, address: $address, city: $city, email: $email, tenantBusinessId: $tenantBusinessId, isStockHolder: $isStockHolder, commission: $commission, creditLimit: $creditLimit, isShowCurrentStock: $isShowCurrentStock, isAllowChangeBookingPrice: $isAllowChangeBookingPrice, isAllowChangeBookingDisc: $isAllowChangeBookingDisc, isAllowChangeBookingBonus: $isAllowChangeBookingBonus, isActive: $isActive, software: $software)';
 }
 
 
@@ -674,11 +674,11 @@ abstract mixin class $SalesmanCopyWith<$Res>  {
   factory $SalesmanCopyWith(Salesman value, $Res Function(Salesman) _then) = _$SalesmanCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: "id") int? id,@JsonKey(name: "importAccountNo") String? importAccountNo,@JsonKey(name: "salesmanName") String? salesmanName,@JsonKey(name: "mobileNo") String? mobileNo,@JsonKey(name: "cnic") String? cnic,@JsonKey(name: "address") String? address,@JsonKey(name: "city") String? city,@JsonKey(name: "email") String? email,@JsonKey(name: "tenantBusinessId") int? tenantBusinessId,@JsonKey(name: "isStockHolder") bool? isStockHolder,@JsonKey(name: "commission") int? commission,@JsonKey(name: "creditLimit") int? creditLimit,@JsonKey(name: "isShowCurrentStock") bool? isShowCurrentStock,@JsonKey(name: "isAllowChangeBookingPrice") bool? isAllowChangeBookingPrice,@JsonKey(name: "isAllowChangeBookingDisc") bool? isAllowChangeBookingDisc,@JsonKey(name: "isAllowChangeBookingBonus") bool? isAllowChangeBookingBonus,@JsonKey(name: "isActive") bool? isActive
+@JsonKey(name: "id") int? id,@JsonKey(name: "importAccountNo") String? importAccountNo,@JsonKey(name: "salesmanName") String? salesmanName,@JsonKey(name: "mobileNo") String? mobileNo,@JsonKey(name: "cnic") String? cnic,@JsonKey(name: "address") String? address,@JsonKey(name: "city") String? city,@JsonKey(name: "email") String? email,@JsonKey(name: "tenantBusinessId") int? tenantBusinessId,@JsonKey(name: "isStockHolder") bool? isStockHolder,@JsonKey(name: "commission") int? commission,@JsonKey(name: "creditLimit") int? creditLimit,@JsonKey(name: "isShowCurrentStock") bool? isShowCurrentStock,@JsonKey(name: "isAllowChangeBookingPrice") bool? isAllowChangeBookingPrice,@JsonKey(name: "isAllowChangeBookingDisc") bool? isAllowChangeBookingDisc,@JsonKey(name: "isAllowChangeBookingBonus") bool? isAllowChangeBookingBonus,@JsonKey(name: "isActive") bool? isActive,@JsonKey(name: "software") Software? software
 });
 
 
-
+$SoftwareCopyWith<$Res>? get software;
 
 }
 /// @nodoc
@@ -691,7 +691,7 @@ class _$SalesmanCopyWithImpl<$Res>
 
 /// Create a copy of Salesman
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? importAccountNo = freezed,Object? salesmanName = freezed,Object? mobileNo = freezed,Object? cnic = freezed,Object? address = freezed,Object? city = freezed,Object? email = freezed,Object? tenantBusinessId = freezed,Object? isStockHolder = freezed,Object? commission = freezed,Object? creditLimit = freezed,Object? isShowCurrentStock = freezed,Object? isAllowChangeBookingPrice = freezed,Object? isAllowChangeBookingDisc = freezed,Object? isAllowChangeBookingBonus = freezed,Object? isActive = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? importAccountNo = freezed,Object? salesmanName = freezed,Object? mobileNo = freezed,Object? cnic = freezed,Object? address = freezed,Object? city = freezed,Object? email = freezed,Object? tenantBusinessId = freezed,Object? isStockHolder = freezed,Object? commission = freezed,Object? creditLimit = freezed,Object? isShowCurrentStock = freezed,Object? isAllowChangeBookingPrice = freezed,Object? isAllowChangeBookingDisc = freezed,Object? isAllowChangeBookingBonus = freezed,Object? isActive = freezed,Object? software = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,importAccountNo: freezed == importAccountNo ? _self.importAccountNo : importAccountNo // ignore: cast_nullable_to_non_nullable
@@ -710,10 +710,23 @@ as bool?,isAllowChangeBookingPrice: freezed == isAllowChangeBookingPrice ? _self
 as bool?,isAllowChangeBookingDisc: freezed == isAllowChangeBookingDisc ? _self.isAllowChangeBookingDisc : isAllowChangeBookingDisc // ignore: cast_nullable_to_non_nullable
 as bool?,isAllowChangeBookingBonus: freezed == isAllowChangeBookingBonus ? _self.isAllowChangeBookingBonus : isAllowChangeBookingBonus // ignore: cast_nullable_to_non_nullable
 as bool?,isActive: freezed == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool?,
+as bool?,software: freezed == software ? _self.software : software // ignore: cast_nullable_to_non_nullable
+as Software?,
   ));
 }
+/// Create a copy of Salesman
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SoftwareCopyWith<$Res>? get software {
+    if (_self.software == null) {
+    return null;
+  }
 
+  return $SoftwareCopyWith<$Res>(_self.software!, (value) {
+    return _then(_self.copyWith(software: value));
+  });
+}
 }
 
 
@@ -795,10 +808,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "importAccountNo")  String? importAccountNo, @JsonKey(name: "salesmanName")  String? salesmanName, @JsonKey(name: "mobileNo")  String? mobileNo, @JsonKey(name: "cnic")  String? cnic, @JsonKey(name: "address")  String? address, @JsonKey(name: "city")  String? city, @JsonKey(name: "email")  String? email, @JsonKey(name: "tenantBusinessId")  int? tenantBusinessId, @JsonKey(name: "isStockHolder")  bool? isStockHolder, @JsonKey(name: "commission")  int? commission, @JsonKey(name: "creditLimit")  int? creditLimit, @JsonKey(name: "isShowCurrentStock")  bool? isShowCurrentStock, @JsonKey(name: "isAllowChangeBookingPrice")  bool? isAllowChangeBookingPrice, @JsonKey(name: "isAllowChangeBookingDisc")  bool? isAllowChangeBookingDisc, @JsonKey(name: "isAllowChangeBookingBonus")  bool? isAllowChangeBookingBonus, @JsonKey(name: "isActive")  bool? isActive)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "importAccountNo")  String? importAccountNo, @JsonKey(name: "salesmanName")  String? salesmanName, @JsonKey(name: "mobileNo")  String? mobileNo, @JsonKey(name: "cnic")  String? cnic, @JsonKey(name: "address")  String? address, @JsonKey(name: "city")  String? city, @JsonKey(name: "email")  String? email, @JsonKey(name: "tenantBusinessId")  int? tenantBusinessId, @JsonKey(name: "isStockHolder")  bool? isStockHolder, @JsonKey(name: "commission")  int? commission, @JsonKey(name: "creditLimit")  int? creditLimit, @JsonKey(name: "isShowCurrentStock")  bool? isShowCurrentStock, @JsonKey(name: "isAllowChangeBookingPrice")  bool? isAllowChangeBookingPrice, @JsonKey(name: "isAllowChangeBookingDisc")  bool? isAllowChangeBookingDisc, @JsonKey(name: "isAllowChangeBookingBonus")  bool? isAllowChangeBookingBonus, @JsonKey(name: "isActive")  bool? isActive, @JsonKey(name: "software")  Software? software)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Salesman() when $default != null:
-return $default(_that.id,_that.importAccountNo,_that.salesmanName,_that.mobileNo,_that.cnic,_that.address,_that.city,_that.email,_that.tenantBusinessId,_that.isStockHolder,_that.commission,_that.creditLimit,_that.isShowCurrentStock,_that.isAllowChangeBookingPrice,_that.isAllowChangeBookingDisc,_that.isAllowChangeBookingBonus,_that.isActive);case _:
+return $default(_that.id,_that.importAccountNo,_that.salesmanName,_that.mobileNo,_that.cnic,_that.address,_that.city,_that.email,_that.tenantBusinessId,_that.isStockHolder,_that.commission,_that.creditLimit,_that.isShowCurrentStock,_that.isAllowChangeBookingPrice,_that.isAllowChangeBookingDisc,_that.isAllowChangeBookingBonus,_that.isActive,_that.software);case _:
   return orElse();
 
 }
@@ -816,10 +829,10 @@ return $default(_that.id,_that.importAccountNo,_that.salesmanName,_that.mobileNo
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "importAccountNo")  String? importAccountNo, @JsonKey(name: "salesmanName")  String? salesmanName, @JsonKey(name: "mobileNo")  String? mobileNo, @JsonKey(name: "cnic")  String? cnic, @JsonKey(name: "address")  String? address, @JsonKey(name: "city")  String? city, @JsonKey(name: "email")  String? email, @JsonKey(name: "tenantBusinessId")  int? tenantBusinessId, @JsonKey(name: "isStockHolder")  bool? isStockHolder, @JsonKey(name: "commission")  int? commission, @JsonKey(name: "creditLimit")  int? creditLimit, @JsonKey(name: "isShowCurrentStock")  bool? isShowCurrentStock, @JsonKey(name: "isAllowChangeBookingPrice")  bool? isAllowChangeBookingPrice, @JsonKey(name: "isAllowChangeBookingDisc")  bool? isAllowChangeBookingDisc, @JsonKey(name: "isAllowChangeBookingBonus")  bool? isAllowChangeBookingBonus, @JsonKey(name: "isActive")  bool? isActive)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "importAccountNo")  String? importAccountNo, @JsonKey(name: "salesmanName")  String? salesmanName, @JsonKey(name: "mobileNo")  String? mobileNo, @JsonKey(name: "cnic")  String? cnic, @JsonKey(name: "address")  String? address, @JsonKey(name: "city")  String? city, @JsonKey(name: "email")  String? email, @JsonKey(name: "tenantBusinessId")  int? tenantBusinessId, @JsonKey(name: "isStockHolder")  bool? isStockHolder, @JsonKey(name: "commission")  int? commission, @JsonKey(name: "creditLimit")  int? creditLimit, @JsonKey(name: "isShowCurrentStock")  bool? isShowCurrentStock, @JsonKey(name: "isAllowChangeBookingPrice")  bool? isAllowChangeBookingPrice, @JsonKey(name: "isAllowChangeBookingDisc")  bool? isAllowChangeBookingDisc, @JsonKey(name: "isAllowChangeBookingBonus")  bool? isAllowChangeBookingBonus, @JsonKey(name: "isActive")  bool? isActive, @JsonKey(name: "software")  Software? software)  $default,) {final _that = this;
 switch (_that) {
 case _Salesman():
-return $default(_that.id,_that.importAccountNo,_that.salesmanName,_that.mobileNo,_that.cnic,_that.address,_that.city,_that.email,_that.tenantBusinessId,_that.isStockHolder,_that.commission,_that.creditLimit,_that.isShowCurrentStock,_that.isAllowChangeBookingPrice,_that.isAllowChangeBookingDisc,_that.isAllowChangeBookingBonus,_that.isActive);case _:
+return $default(_that.id,_that.importAccountNo,_that.salesmanName,_that.mobileNo,_that.cnic,_that.address,_that.city,_that.email,_that.tenantBusinessId,_that.isStockHolder,_that.commission,_that.creditLimit,_that.isShowCurrentStock,_that.isAllowChangeBookingPrice,_that.isAllowChangeBookingDisc,_that.isAllowChangeBookingBonus,_that.isActive,_that.software);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -836,10 +849,10 @@ return $default(_that.id,_that.importAccountNo,_that.salesmanName,_that.mobileNo
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "importAccountNo")  String? importAccountNo, @JsonKey(name: "salesmanName")  String? salesmanName, @JsonKey(name: "mobileNo")  String? mobileNo, @JsonKey(name: "cnic")  String? cnic, @JsonKey(name: "address")  String? address, @JsonKey(name: "city")  String? city, @JsonKey(name: "email")  String? email, @JsonKey(name: "tenantBusinessId")  int? tenantBusinessId, @JsonKey(name: "isStockHolder")  bool? isStockHolder, @JsonKey(name: "commission")  int? commission, @JsonKey(name: "creditLimit")  int? creditLimit, @JsonKey(name: "isShowCurrentStock")  bool? isShowCurrentStock, @JsonKey(name: "isAllowChangeBookingPrice")  bool? isAllowChangeBookingPrice, @JsonKey(name: "isAllowChangeBookingDisc")  bool? isAllowChangeBookingDisc, @JsonKey(name: "isAllowChangeBookingBonus")  bool? isAllowChangeBookingBonus, @JsonKey(name: "isActive")  bool? isActive)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "importAccountNo")  String? importAccountNo, @JsonKey(name: "salesmanName")  String? salesmanName, @JsonKey(name: "mobileNo")  String? mobileNo, @JsonKey(name: "cnic")  String? cnic, @JsonKey(name: "address")  String? address, @JsonKey(name: "city")  String? city, @JsonKey(name: "email")  String? email, @JsonKey(name: "tenantBusinessId")  int? tenantBusinessId, @JsonKey(name: "isStockHolder")  bool? isStockHolder, @JsonKey(name: "commission")  int? commission, @JsonKey(name: "creditLimit")  int? creditLimit, @JsonKey(name: "isShowCurrentStock")  bool? isShowCurrentStock, @JsonKey(name: "isAllowChangeBookingPrice")  bool? isAllowChangeBookingPrice, @JsonKey(name: "isAllowChangeBookingDisc")  bool? isAllowChangeBookingDisc, @JsonKey(name: "isAllowChangeBookingBonus")  bool? isAllowChangeBookingBonus, @JsonKey(name: "isActive")  bool? isActive, @JsonKey(name: "software")  Software? software)?  $default,) {final _that = this;
 switch (_that) {
 case _Salesman() when $default != null:
-return $default(_that.id,_that.importAccountNo,_that.salesmanName,_that.mobileNo,_that.cnic,_that.address,_that.city,_that.email,_that.tenantBusinessId,_that.isStockHolder,_that.commission,_that.creditLimit,_that.isShowCurrentStock,_that.isAllowChangeBookingPrice,_that.isAllowChangeBookingDisc,_that.isAllowChangeBookingBonus,_that.isActive);case _:
+return $default(_that.id,_that.importAccountNo,_that.salesmanName,_that.mobileNo,_that.cnic,_that.address,_that.city,_that.email,_that.tenantBusinessId,_that.isStockHolder,_that.commission,_that.creditLimit,_that.isShowCurrentStock,_that.isAllowChangeBookingPrice,_that.isAllowChangeBookingDisc,_that.isAllowChangeBookingBonus,_that.isActive,_that.software);case _:
   return null;
 
 }
@@ -851,7 +864,7 @@ return $default(_that.id,_that.importAccountNo,_that.salesmanName,_that.mobileNo
 @JsonSerializable()
 
 class _Salesman implements Salesman {
-  const _Salesman({@JsonKey(name: "id") this.id, @JsonKey(name: "importAccountNo") this.importAccountNo, @JsonKey(name: "salesmanName") this.salesmanName, @JsonKey(name: "mobileNo") this.mobileNo, @JsonKey(name: "cnic") this.cnic, @JsonKey(name: "address") this.address, @JsonKey(name: "city") this.city, @JsonKey(name: "email") this.email, @JsonKey(name: "tenantBusinessId") this.tenantBusinessId, @JsonKey(name: "isStockHolder") this.isStockHolder, @JsonKey(name: "commission") this.commission, @JsonKey(name: "creditLimit") this.creditLimit, @JsonKey(name: "isShowCurrentStock") this.isShowCurrentStock, @JsonKey(name: "isAllowChangeBookingPrice") this.isAllowChangeBookingPrice, @JsonKey(name: "isAllowChangeBookingDisc") this.isAllowChangeBookingDisc, @JsonKey(name: "isAllowChangeBookingBonus") this.isAllowChangeBookingBonus, @JsonKey(name: "isActive") this.isActive});
+  const _Salesman({@JsonKey(name: "id") this.id, @JsonKey(name: "importAccountNo") this.importAccountNo, @JsonKey(name: "salesmanName") this.salesmanName, @JsonKey(name: "mobileNo") this.mobileNo, @JsonKey(name: "cnic") this.cnic, @JsonKey(name: "address") this.address, @JsonKey(name: "city") this.city, @JsonKey(name: "email") this.email, @JsonKey(name: "tenantBusinessId") this.tenantBusinessId, @JsonKey(name: "isStockHolder") this.isStockHolder, @JsonKey(name: "commission") this.commission, @JsonKey(name: "creditLimit") this.creditLimit, @JsonKey(name: "isShowCurrentStock") this.isShowCurrentStock, @JsonKey(name: "isAllowChangeBookingPrice") this.isAllowChangeBookingPrice, @JsonKey(name: "isAllowChangeBookingDisc") this.isAllowChangeBookingDisc, @JsonKey(name: "isAllowChangeBookingBonus") this.isAllowChangeBookingBonus, @JsonKey(name: "isActive") this.isActive, @JsonKey(name: "software") this.software});
   factory _Salesman.fromJson(Map<String, dynamic> json) => _$SalesmanFromJson(json);
 
 @override@JsonKey(name: "id") final  int? id;
@@ -871,6 +884,7 @@ class _Salesman implements Salesman {
 @override@JsonKey(name: "isAllowChangeBookingDisc") final  bool? isAllowChangeBookingDisc;
 @override@JsonKey(name: "isAllowChangeBookingBonus") final  bool? isAllowChangeBookingBonus;
 @override@JsonKey(name: "isActive") final  bool? isActive;
+@override@JsonKey(name: "software") final  Software? software;
 
 /// Create a copy of Salesman
 /// with the given fields replaced by the non-null parameter values.
@@ -885,16 +899,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Salesman&&(identical(other.id, id) || other.id == id)&&(identical(other.importAccountNo, importAccountNo) || other.importAccountNo == importAccountNo)&&(identical(other.salesmanName, salesmanName) || other.salesmanName == salesmanName)&&(identical(other.mobileNo, mobileNo) || other.mobileNo == mobileNo)&&(identical(other.cnic, cnic) || other.cnic == cnic)&&(identical(other.address, address) || other.address == address)&&(identical(other.city, city) || other.city == city)&&(identical(other.email, email) || other.email == email)&&(identical(other.tenantBusinessId, tenantBusinessId) || other.tenantBusinessId == tenantBusinessId)&&(identical(other.isStockHolder, isStockHolder) || other.isStockHolder == isStockHolder)&&(identical(other.commission, commission) || other.commission == commission)&&(identical(other.creditLimit, creditLimit) || other.creditLimit == creditLimit)&&(identical(other.isShowCurrentStock, isShowCurrentStock) || other.isShowCurrentStock == isShowCurrentStock)&&(identical(other.isAllowChangeBookingPrice, isAllowChangeBookingPrice) || other.isAllowChangeBookingPrice == isAllowChangeBookingPrice)&&(identical(other.isAllowChangeBookingDisc, isAllowChangeBookingDisc) || other.isAllowChangeBookingDisc == isAllowChangeBookingDisc)&&(identical(other.isAllowChangeBookingBonus, isAllowChangeBookingBonus) || other.isAllowChangeBookingBonus == isAllowChangeBookingBonus)&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Salesman&&(identical(other.id, id) || other.id == id)&&(identical(other.importAccountNo, importAccountNo) || other.importAccountNo == importAccountNo)&&(identical(other.salesmanName, salesmanName) || other.salesmanName == salesmanName)&&(identical(other.mobileNo, mobileNo) || other.mobileNo == mobileNo)&&(identical(other.cnic, cnic) || other.cnic == cnic)&&(identical(other.address, address) || other.address == address)&&(identical(other.city, city) || other.city == city)&&(identical(other.email, email) || other.email == email)&&(identical(other.tenantBusinessId, tenantBusinessId) || other.tenantBusinessId == tenantBusinessId)&&(identical(other.isStockHolder, isStockHolder) || other.isStockHolder == isStockHolder)&&(identical(other.commission, commission) || other.commission == commission)&&(identical(other.creditLimit, creditLimit) || other.creditLimit == creditLimit)&&(identical(other.isShowCurrentStock, isShowCurrentStock) || other.isShowCurrentStock == isShowCurrentStock)&&(identical(other.isAllowChangeBookingPrice, isAllowChangeBookingPrice) || other.isAllowChangeBookingPrice == isAllowChangeBookingPrice)&&(identical(other.isAllowChangeBookingDisc, isAllowChangeBookingDisc) || other.isAllowChangeBookingDisc == isAllowChangeBookingDisc)&&(identical(other.isAllowChangeBookingBonus, isAllowChangeBookingBonus) || other.isAllowChangeBookingBonus == isAllowChangeBookingBonus)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.software, software) || other.software == software));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,importAccountNo,salesmanName,mobileNo,cnic,address,city,email,tenantBusinessId,isStockHolder,commission,creditLimit,isShowCurrentStock,isAllowChangeBookingPrice,isAllowChangeBookingDisc,isAllowChangeBookingBonus,isActive);
+int get hashCode => Object.hash(runtimeType,id,importAccountNo,salesmanName,mobileNo,cnic,address,city,email,tenantBusinessId,isStockHolder,commission,creditLimit,isShowCurrentStock,isAllowChangeBookingPrice,isAllowChangeBookingDisc,isAllowChangeBookingBonus,isActive,software);
 
 @override
 String toString() {
-  return 'Salesman(id: $id, importAccountNo: $importAccountNo, salesmanName: $salesmanName, mobileNo: $mobileNo, cnic: $cnic, address: $address, city: $city, email: $email, tenantBusinessId: $tenantBusinessId, isStockHolder: $isStockHolder, commission: $commission, creditLimit: $creditLimit, isShowCurrentStock: $isShowCurrentStock, isAllowChangeBookingPrice: $isAllowChangeBookingPrice, isAllowChangeBookingDisc: $isAllowChangeBookingDisc, isAllowChangeBookingBonus: $isAllowChangeBookingBonus, isActive: $isActive)';
+  return 'Salesman(id: $id, importAccountNo: $importAccountNo, salesmanName: $salesmanName, mobileNo: $mobileNo, cnic: $cnic, address: $address, city: $city, email: $email, tenantBusinessId: $tenantBusinessId, isStockHolder: $isStockHolder, commission: $commission, creditLimit: $creditLimit, isShowCurrentStock: $isShowCurrentStock, isAllowChangeBookingPrice: $isAllowChangeBookingPrice, isAllowChangeBookingDisc: $isAllowChangeBookingDisc, isAllowChangeBookingBonus: $isAllowChangeBookingBonus, isActive: $isActive, software: $software)';
 }
 
 
@@ -905,11 +919,11 @@ abstract mixin class _$SalesmanCopyWith<$Res> implements $SalesmanCopyWith<$Res>
   factory _$SalesmanCopyWith(_Salesman value, $Res Function(_Salesman) _then) = __$SalesmanCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: "id") int? id,@JsonKey(name: "importAccountNo") String? importAccountNo,@JsonKey(name: "salesmanName") String? salesmanName,@JsonKey(name: "mobileNo") String? mobileNo,@JsonKey(name: "cnic") String? cnic,@JsonKey(name: "address") String? address,@JsonKey(name: "city") String? city,@JsonKey(name: "email") String? email,@JsonKey(name: "tenantBusinessId") int? tenantBusinessId,@JsonKey(name: "isStockHolder") bool? isStockHolder,@JsonKey(name: "commission") int? commission,@JsonKey(name: "creditLimit") int? creditLimit,@JsonKey(name: "isShowCurrentStock") bool? isShowCurrentStock,@JsonKey(name: "isAllowChangeBookingPrice") bool? isAllowChangeBookingPrice,@JsonKey(name: "isAllowChangeBookingDisc") bool? isAllowChangeBookingDisc,@JsonKey(name: "isAllowChangeBookingBonus") bool? isAllowChangeBookingBonus,@JsonKey(name: "isActive") bool? isActive
+@JsonKey(name: "id") int? id,@JsonKey(name: "importAccountNo") String? importAccountNo,@JsonKey(name: "salesmanName") String? salesmanName,@JsonKey(name: "mobileNo") String? mobileNo,@JsonKey(name: "cnic") String? cnic,@JsonKey(name: "address") String? address,@JsonKey(name: "city") String? city,@JsonKey(name: "email") String? email,@JsonKey(name: "tenantBusinessId") int? tenantBusinessId,@JsonKey(name: "isStockHolder") bool? isStockHolder,@JsonKey(name: "commission") int? commission,@JsonKey(name: "creditLimit") int? creditLimit,@JsonKey(name: "isShowCurrentStock") bool? isShowCurrentStock,@JsonKey(name: "isAllowChangeBookingPrice") bool? isAllowChangeBookingPrice,@JsonKey(name: "isAllowChangeBookingDisc") bool? isAllowChangeBookingDisc,@JsonKey(name: "isAllowChangeBookingBonus") bool? isAllowChangeBookingBonus,@JsonKey(name: "isActive") bool? isActive,@JsonKey(name: "software") Software? software
 });
 
 
-
+@override $SoftwareCopyWith<$Res>? get software;
 
 }
 /// @nodoc
@@ -922,7 +936,7 @@ class __$SalesmanCopyWithImpl<$Res>
 
 /// Create a copy of Salesman
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? importAccountNo = freezed,Object? salesmanName = freezed,Object? mobileNo = freezed,Object? cnic = freezed,Object? address = freezed,Object? city = freezed,Object? email = freezed,Object? tenantBusinessId = freezed,Object? isStockHolder = freezed,Object? commission = freezed,Object? creditLimit = freezed,Object? isShowCurrentStock = freezed,Object? isAllowChangeBookingPrice = freezed,Object? isAllowChangeBookingDisc = freezed,Object? isAllowChangeBookingBonus = freezed,Object? isActive = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? importAccountNo = freezed,Object? salesmanName = freezed,Object? mobileNo = freezed,Object? cnic = freezed,Object? address = freezed,Object? city = freezed,Object? email = freezed,Object? tenantBusinessId = freezed,Object? isStockHolder = freezed,Object? commission = freezed,Object? creditLimit = freezed,Object? isShowCurrentStock = freezed,Object? isAllowChangeBookingPrice = freezed,Object? isAllowChangeBookingDisc = freezed,Object? isAllowChangeBookingBonus = freezed,Object? isActive = freezed,Object? software = freezed,}) {
   return _then(_Salesman(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,importAccountNo: freezed == importAccountNo ? _self.importAccountNo : importAccountNo // ignore: cast_nullable_to_non_nullable
@@ -941,7 +955,292 @@ as bool?,isAllowChangeBookingPrice: freezed == isAllowChangeBookingPrice ? _self
 as bool?,isAllowChangeBookingDisc: freezed == isAllowChangeBookingDisc ? _self.isAllowChangeBookingDisc : isAllowChangeBookingDisc // ignore: cast_nullable_to_non_nullable
 as bool?,isAllowChangeBookingBonus: freezed == isAllowChangeBookingBonus ? _self.isAllowChangeBookingBonus : isAllowChangeBookingBonus // ignore: cast_nullable_to_non_nullable
 as bool?,isActive: freezed == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool?,
+as bool?,software: freezed == software ? _self.software : software // ignore: cast_nullable_to_non_nullable
+as Software?,
+  ));
+}
+
+/// Create a copy of Salesman
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SoftwareCopyWith<$Res>? get software {
+    if (_self.software == null) {
+    return null;
+  }
+
+  return $SoftwareCopyWith<$Res>(_self.software!, (value) {
+    return _then(_self.copyWith(software: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$Software {
+
+@JsonKey(name: "softwareName") String? get softwareName;@JsonKey(name: "softwareKey") String? get softwareKey;@JsonKey(name: "dbPrefix") String? get dbPrefix;@JsonKey(name: "id") int? get id;
+/// Create a copy of Software
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SoftwareCopyWith<Software> get copyWith => _$SoftwareCopyWithImpl<Software>(this as Software, _$identity);
+
+  /// Serializes this Software to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Software&&(identical(other.softwareName, softwareName) || other.softwareName == softwareName)&&(identical(other.softwareKey, softwareKey) || other.softwareKey == softwareKey)&&(identical(other.dbPrefix, dbPrefix) || other.dbPrefix == dbPrefix)&&(identical(other.id, id) || other.id == id));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,softwareName,softwareKey,dbPrefix,id);
+
+@override
+String toString() {
+  return 'Software(softwareName: $softwareName, softwareKey: $softwareKey, dbPrefix: $dbPrefix, id: $id)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SoftwareCopyWith<$Res>  {
+  factory $SoftwareCopyWith(Software value, $Res Function(Software) _then) = _$SoftwareCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: "softwareName") String? softwareName,@JsonKey(name: "softwareKey") String? softwareKey,@JsonKey(name: "dbPrefix") String? dbPrefix,@JsonKey(name: "id") int? id
+});
+
+
+
+
+}
+/// @nodoc
+class _$SoftwareCopyWithImpl<$Res>
+    implements $SoftwareCopyWith<$Res> {
+  _$SoftwareCopyWithImpl(this._self, this._then);
+
+  final Software _self;
+  final $Res Function(Software) _then;
+
+/// Create a copy of Software
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? softwareName = freezed,Object? softwareKey = freezed,Object? dbPrefix = freezed,Object? id = freezed,}) {
+  return _then(_self.copyWith(
+softwareName: freezed == softwareName ? _self.softwareName : softwareName // ignore: cast_nullable_to_non_nullable
+as String?,softwareKey: freezed == softwareKey ? _self.softwareKey : softwareKey // ignore: cast_nullable_to_non_nullable
+as String?,dbPrefix: freezed == dbPrefix ? _self.dbPrefix : dbPrefix // ignore: cast_nullable_to_non_nullable
+as String?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [Software].
+extension SoftwarePatterns on Software {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Software value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _Software() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Software value)  $default,){
+final _that = this;
+switch (_that) {
+case _Software():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Software value)?  $default,){
+final _that = this;
+switch (_that) {
+case _Software() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "softwareName")  String? softwareName, @JsonKey(name: "softwareKey")  String? softwareKey, @JsonKey(name: "dbPrefix")  String? dbPrefix, @JsonKey(name: "id")  int? id)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _Software() when $default != null:
+return $default(_that.softwareName,_that.softwareKey,_that.dbPrefix,_that.id);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "softwareName")  String? softwareName, @JsonKey(name: "softwareKey")  String? softwareKey, @JsonKey(name: "dbPrefix")  String? dbPrefix, @JsonKey(name: "id")  int? id)  $default,) {final _that = this;
+switch (_that) {
+case _Software():
+return $default(_that.softwareName,_that.softwareKey,_that.dbPrefix,_that.id);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "softwareName")  String? softwareName, @JsonKey(name: "softwareKey")  String? softwareKey, @JsonKey(name: "dbPrefix")  String? dbPrefix, @JsonKey(name: "id")  int? id)?  $default,) {final _that = this;
+switch (_that) {
+case _Software() when $default != null:
+return $default(_that.softwareName,_that.softwareKey,_that.dbPrefix,_that.id);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _Software implements Software {
+  const _Software({@JsonKey(name: "softwareName") this.softwareName, @JsonKey(name: "softwareKey") this.softwareKey, @JsonKey(name: "dbPrefix") this.dbPrefix, @JsonKey(name: "id") this.id});
+  factory _Software.fromJson(Map<String, dynamic> json) => _$SoftwareFromJson(json);
+
+@override@JsonKey(name: "softwareName") final  String? softwareName;
+@override@JsonKey(name: "softwareKey") final  String? softwareKey;
+@override@JsonKey(name: "dbPrefix") final  String? dbPrefix;
+@override@JsonKey(name: "id") final  int? id;
+
+/// Create a copy of Software
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SoftwareCopyWith<_Software> get copyWith => __$SoftwareCopyWithImpl<_Software>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SoftwareToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Software&&(identical(other.softwareName, softwareName) || other.softwareName == softwareName)&&(identical(other.softwareKey, softwareKey) || other.softwareKey == softwareKey)&&(identical(other.dbPrefix, dbPrefix) || other.dbPrefix == dbPrefix)&&(identical(other.id, id) || other.id == id));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,softwareName,softwareKey,dbPrefix,id);
+
+@override
+String toString() {
+  return 'Software(softwareName: $softwareName, softwareKey: $softwareKey, dbPrefix: $dbPrefix, id: $id)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SoftwareCopyWith<$Res> implements $SoftwareCopyWith<$Res> {
+  factory _$SoftwareCopyWith(_Software value, $Res Function(_Software) _then) = __$SoftwareCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: "softwareName") String? softwareName,@JsonKey(name: "softwareKey") String? softwareKey,@JsonKey(name: "dbPrefix") String? dbPrefix,@JsonKey(name: "id") int? id
+});
+
+
+
+
+}
+/// @nodoc
+class __$SoftwareCopyWithImpl<$Res>
+    implements _$SoftwareCopyWith<$Res> {
+  __$SoftwareCopyWithImpl(this._self, this._then);
+
+  final _Software _self;
+  final $Res Function(_Software) _then;
+
+/// Create a copy of Software
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? softwareName = freezed,Object? softwareKey = freezed,Object? dbPrefix = freezed,Object? id = freezed,}) {
+  return _then(_Software(
+softwareName: freezed == softwareName ? _self.softwareName : softwareName // ignore: cast_nullable_to_non_nullable
+as String?,softwareKey: freezed == softwareKey ? _self.softwareKey : softwareKey // ignore: cast_nullable_to_non_nullable
+as String?,dbPrefix: freezed == dbPrefix ? _self.dbPrefix : dbPrefix // ignore: cast_nullable_to_non_nullable
+as String?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

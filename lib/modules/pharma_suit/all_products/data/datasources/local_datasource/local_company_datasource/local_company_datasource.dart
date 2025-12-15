@@ -23,13 +23,13 @@ abstract interface class LocalCompanyDatasource {
 // ==================== IMPLEMENTATION ====================
 
 class LocalCompanyDatasourceImpl implements LocalCompanyDatasource {
-  final PharmaDatabase _databaseHelper;
+  final SoftronixBookingDatabase _databaseHelper;
 
   /// Table name constant
   static const String _tableName = 'companies';
 
   // Constructor injection
-  LocalCompanyDatasourceImpl({required PharmaDatabase databaseHelper})
+  LocalCompanyDatasourceImpl({required SoftronixBookingDatabase databaseHelper})
     : _databaseHelper = databaseHelper;
 
   // ==================== CREATE OPERATIONS ====================

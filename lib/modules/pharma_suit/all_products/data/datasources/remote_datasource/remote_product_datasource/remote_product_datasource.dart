@@ -1,9 +1,11 @@
+import 'package:pharma_booking_app/modules/pharma_suit/all_products/data/models/get_products_packing/get_packings.dart';
 import '../../../../../../../core/core.dart';
 import '../../../../../../../core/networks/network_manager/dio_helper.dart';
 import '../../../models/get_products_model/get_all_products_model.dart';
 
 abstract interface class RemoteProductDatasource {
   Future<List<GetAllProductsModel>> getAllProducts();
+  Future<List<GetPackings>> getAllPackings();
 }
 
 class RemoteProductDataSourceImpl implements RemoteProductDatasource {
@@ -23,6 +25,25 @@ class RemoteProductDataSourceImpl implements RemoteProductDatasource {
         return response
             .map((item) => GetAllProductsModel.fromJson(item))
             .toList();
+      } else {
+        return [];
+      }
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<GetPackings>> getAllPackings() async {
+    try {
+      final response = await dioHelper.getApi(
+        url: ApiKeys.getPackingsUrl,
+        isAuthRequired: true,
+        authToken: await storage.readValues(StorageKeys.token),
+      );
+
+      if (response is List) {
+        return response.map((item) => GetPackings.fromJson(item)).toList();
       } else {
         return [];
       }

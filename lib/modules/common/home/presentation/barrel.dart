@@ -12,10 +12,10 @@ export '../../../../core/routes/app_pages.dart';
 export 'package:pharma_booking_app/core/shared/domain/usecases/usecase.dart';
 
 // 🧾 Create Order Usecases
-export 'package:pharma_booking_app/modules/pharma_suit/create_order/domain/usecases/local_usecases/get_unsync_orders_usecase.dart';
-export 'package:pharma_booking_app/modules/pharma_suit/create_order/domain/usecases/local_usecases/get_count_unsyncorders_usecase.dart';
-export 'package:pharma_booking_app/modules/pharma_suit/create_order/domain/usecases/local_usecases/update_orders_sync_status_usecase.dart';
-export 'package:pharma_booking_app/modules/pharma_suit/create_order/domain/usecases/remote_usecases/create_orders_remotely_usecase.dart';
+export 'package:pharma_booking_app/modules/pharma_suit/create_order_pharmasuit/domain/usecases/local_usecases/get_unsync_orders_usecase.dart';
+export 'package:pharma_booking_app/modules/pharma_suit/create_order_pharmasuit/domain/usecases/local_usecases/get_count_unsyncorders_usecase.dart';
+export 'package:pharma_booking_app/modules/pharma_suit/create_order_pharmasuit/domain/usecases/local_usecases/update_orders_sync_status_usecase.dart';
+export 'package:pharma_booking_app/modules/pharma_suit/create_order_pharmasuit/domain/usecases/remote_usecases/create_orders_remotely_usecase.dart';
 
 // 🧪 Product Usecases
 export 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/get_all_local_products_usecase.dart';
@@ -68,10 +68,10 @@ export 'package:pharma_booking_app/core/networks/network_manager/dio_helper.dart
 export 'controllers/home_controller.dart';
 
 // 🧾 CREATE ORDER MODULE
-export 'package:pharma_booking_app/modules/pharma_suit/create_order/data/datasources/create_orders_local_datasource/create_orders_local_datasource.dart';
-export 'package:pharma_booking_app/modules/pharma_suit/create_order/data/datasources/create_orders_remote_datasource/create_orders_remote_datasource.dart';
-export 'package:pharma_booking_app/modules/pharma_suit/create_order/data/repository_impl/create_orders_repository_impl.dart';
-export 'package:pharma_booking_app/modules/pharma_suit/create_order/domain/repository/create_orders_repository.dart';
+export 'package:pharma_booking_app/modules/pharma_suit/create_order_pharmasuit/data/datasources/create_orders_local_datasource/create_orders_local_datasource.dart';
+export 'package:pharma_booking_app/modules/pharma_suit/create_order_pharmasuit/data/datasources/create_orders_remote_datasource/create_orders_remote_datasource.dart';
+export 'package:pharma_booking_app/modules/pharma_suit/create_order_pharmasuit/data/repository_impl/create_orders_repository_impl.dart';
+export 'package:pharma_booking_app/modules/pharma_suit/create_order_pharmasuit/domain/repository/create_orders_repository.dart';
 
 // 👥 CUSTOMER MODULE
 export 'package:pharma_booking_app/modules/common/select_customer/data/datasource/customer_local_datasource/customer_local_datasource.dart';

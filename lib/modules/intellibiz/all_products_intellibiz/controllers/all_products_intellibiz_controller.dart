@@ -1,21 +1,9 @@
 import 'package:flutter/foundation.dart';
-
+import 'package:pharma_booking_app/modules/intellibiz/create_order_intellibiz/presentation/controllers/create_order_intellibiz_controller.dart';
 import '../../../common/home/presentation/barrel.dart';
-import '../../../pharma_suit/create_order/presentation/controllers/create_order_controller.dart';
 
-/// Holds all calculated values for a product
-/// Yeh ek jagah sab calculations ka result store krega
-class ProductCalculationResult {
-  final double subtotal;
-  final double discountAmount;
-  final double finalAmount;
-
-  ProductCalculationResult({
-    required this.subtotal,
-    required this.discountAmount,
-    required this.finalAmount,
-  });
-}
+// ✅ STEP 1: YEH IMPORT ADD KARO (Line 6 par)
+import 'package:pharma_booking_app/core/utils/product_calculation_utils.dart';
 
 /// Controller for managing product selection and order creation in the pharma app
 /// Handles product filtering, company selection, and order management
@@ -24,94 +12,54 @@ class AllProductsIntellibizController extends GetxController {
   // ║                            CUSTOMER DETAILS VARIABLES                        ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Currently selected sector for the customer
   final Rx<GetAreaListModel?> selectedSector = Rx<GetAreaListModel?>(null);
-
-  /// Currently selected town for the customer
   final Rx<GetSubAreaListModel?> selectedTown = Rx<GetSubAreaListModel?>(null);
-
-  /// Currently selected customer for the order
   final Rx<GetCustomersModel?> selectedCustomer = Rx<GetCustomersModel?>(null);
 
   // ╔══════════════════════════════════════════════════════════════════════════════╗
   // ║                            SEARCH & UI CONTROLLERS                           ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Text controller for product search functionality
   final TextEditingController searchController = TextEditingController();
-
-  /// Text controller for company search functionality
   final TextEditingController companySearchController = TextEditingController();
   final FocusNode qtyFocusNode = FocusNode();
-
-  /// Focus node for product search field
   final FocusNode searchFocusNode = FocusNode();
-
-  /// Focus node for company search field
   final FocusNode companySearchFocusNode = FocusNode();
 
   // ╔══════════════════════════════════════════════════════════════════════════════╗
   // ║                            LOADING STATE VARIABLES                           ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Loading state for products list
   var isLoading = false.obs;
-
-  /// Loading state for companies list
   var isCompaniesLoading = false.obs;
 
   // ╔══════════════════════════════════════════════════════════════════════════════╗
   // ║                            PRODUCTS & COMPANIES DATA                         ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Complete list of all available products
   RxList<GetAllProductsModel> getAllProducts = <GetAllProductsModel>[].obs;
-
-  /// Filtered list of products based on search and company selection
   RxList<GetAllProductsModel> filteredProducts = <GetAllProductsModel>[].obs;
-
-  /// Complete list of all available companies
   RxList<CompaniesModel> getAllCompanies = <CompaniesModel>[].obs;
-
-  /// Filtered list of companies based on search
   RxList<CompaniesModel> filteredCompanies = <CompaniesModel>[].obs;
-
-  /// Name of currently selected company filter
   RxString selectedCompany = "All Companies".obs;
-
-  /// ID of currently selected company filter
   RxString selectedCompanyId = "".obs;
 
   // ╔══════════════════════════════════════════════════════════════════════════════╗
   // ║                            ORDER MANAGEMENT VARIABLES                        ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// List of products selected for the current order
   RxList<OrderProducts> selectedProducts = <OrderProducts>[].obs;
-
-  /// Total amount of the entire order (includes discounts)
   RxDouble totalAmount = 0.0.obs;
-
-  /// Total amount for the currently selected company filter
   RxDouble companyTotal = 0.0.obs;
-
-  /// Total number of different products in the order
   RxInt totalItems = 0.obs;
-
-  /// Total number of products from the selected company
   RxInt companyTotalItems = 0.obs;
 
   // ╔══════════════════════════════════════════════════════════════════════════════╗
   // ║                            SALESMAN PERMISSIONS                              ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Permission flag for changing bonus
   var showBns = false.obs;
-
-  /// Permission flag for changing price
   var showprice = false.obs;
-
-  /// Permission flag for changing discount
   var showdisc = false.obs;
 
   // ╔══════════════════════════════════════════════════════════════════════════════╗
@@ -125,13 +73,10 @@ class AllProductsIntellibizController extends GetxController {
     _setupListeners();
   }
 
-  /// Initialize controller data from Get.arguments
-  /// Handles both List (normal flow) and Map (editing flow) argument formats
   void _initializeData() {
     try {
       final arguments = Get.arguments;
 
-      // Check if arguments exist and are in the expected format
       if (arguments == null) {
         if (kDebugMode) {
           print('Error: Get.arguments is null');
@@ -139,20 +84,16 @@ class AllProductsIntellibizController extends GetxController {
         return;
       }
 
-      // Handle arguments as List (normal flow from previous screen)
       if (arguments is List) {
-        // Extract selected products if available (index 5)
         if (arguments.length > 5) {
           selectedProducts.value = List<OrderProducts>.from(arguments[5] ?? []);
           calculateTotals();
         }
 
-        // Extract customer, town, and sector data (indices 0-2)
         selectedCustomer.value = arguments.isNotEmpty ? arguments[0] : null;
         selectedTown.value = arguments.length > 1 ? arguments[1] : null;
         selectedSector.value = arguments.length > 2 ? arguments[2] : null;
 
-        // Extract products list (index 3)
         if (arguments.length > 3) {
           getAllProducts.value = List<GetAllProductsModel>.from(
             arguments[3] ?? [],
@@ -160,19 +101,15 @@ class AllProductsIntellibizController extends GetxController {
           filteredProducts.value = List.from(getAllProducts);
         }
 
-        // Extract companies list (index 4)
         if (arguments.length > 4) {
           getAllCompanies.value = List<CompaniesModel>.from(arguments[4] ?? []);
           filteredCompanies.value = List.from(getAllCompanies);
         }
-      }
-      // Handle arguments as Map (editing flow from order editing)
-      else if (arguments is Map<String, dynamic>) {
+      } else if (arguments is Map<String, dynamic>) {
         selectedCustomer.value = arguments['selectedCustomer'];
         selectedTown.value = arguments['selectedTown'];
         selectedSector.value = arguments['selectedSector'];
 
-        // Extract selected products from map
         if (arguments['selectedProducts'] != null) {
           selectedProducts.value = List<OrderProducts>.from(
             arguments['selectedProducts'],
@@ -180,7 +117,6 @@ class AllProductsIntellibizController extends GetxController {
           calculateTotals();
         }
 
-        // Extract products list from map
         if (arguments['getAllProducts'] != null) {
           getAllProducts.value = List<GetAllProductsModel>.from(
             arguments['getAllProducts'],
@@ -188,7 +124,6 @@ class AllProductsIntellibizController extends GetxController {
           filteredProducts.value = List.from(getAllProducts);
         }
 
-        // Extract companies list from map
         if (arguments['getCompaniesModel'] != null) {
           getAllCompanies.value = List<CompaniesModel>.from(
             arguments['getCompaniesModel'],
@@ -197,7 +132,6 @@ class AllProductsIntellibizController extends GetxController {
         }
       }
 
-      // Set loading states to false after initialization
       isLoading.value = false;
       isCompaniesLoading.value = false;
     } catch (e) {
@@ -207,7 +141,6 @@ class AllProductsIntellibizController extends GetxController {
       isLoading.value = false;
       isCompaniesLoading.value = false;
 
-      // Show error toast if context is available
       if (Get.context != null) {
         AppToasts.showErrorToast(
           Get.context!,
@@ -217,35 +150,97 @@ class AllProductsIntellibizController extends GetxController {
     }
   }
 
-  /// Set up listeners for search controllers
   void _setupListeners() {
     searchController.addListener(filterProducts);
     companySearchController.addListener(filterCompanies);
   }
 
   // ╔══════════════════════════════════════════════════════════════════════════════╗
-  // ║                            SALESMAN PERMISSIONS                              ║
+  // ║         ✅ NAYI CALCULATION METHODS - YEH SAB ADD KARO (Line 180 ke baad)   ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Fetch salesman permissions from database
-  /// Sets permission flags for bonus, price, and discount changes
+  // ✅ Method 1: Bottom sheet ke liye - Yeh wali method calculateTotals() use karegi
+  ProductCalculationResult calculateProductAmounts({
+    required String productId,
+    required int quantityPack,
+    required int quantityLose,
+    required double price,
+    required double discountPercent,
+    Packing? selectedPacking,
+  }) {
+    // Product details nikalo
+    final productDetails = getAllProducts.firstWhere(
+      (p) => p.id.toString() == productId,
+    );
+
+    // Utility class ko call karo - Yeh actual calculation karega
+    return ProductCalculationUtils.calculateProductAmounts(
+      productDetails: productDetails,
+      quantityPack: quantityPack,
+      quantityLose: quantityLose,
+      price: price,
+      discountPercent: discountPercent,
+      selectedPacking: selectedPacking,
+    );
+  }
+
+  // ✅ Method 2: Final amount ke liye - Order list mein dikhane ke liye
+  double calculateProductTotal(OrderProducts product) {
+    final productDetails = getAllProducts.firstWhere(
+      (p) => p.id.toString() == product.productId,
+      orElse: () => GetAllProductsModel(),
+    );
+
+    final result = ProductCalculationUtils.calculateFromOrderProduct(
+      orderProduct: product,
+      productDetails: productDetails,
+    );
+
+    return result.finalAmount; // Final amount after discount
+  }
+
+  // ✅ Method 3: Subtotal ke liye - Discount se pehle ki amount
+  double getProductSubtotal(OrderProducts product) {
+    final productDetails = getAllProducts.firstWhere(
+      (p) => p.id.toString() == product.productId,
+      orElse: () => GetAllProductsModel(),
+    );
+
+    final result = ProductCalculationUtils.calculateFromOrderProduct(
+      orderProduct: product,
+      productDetails: productDetails,
+    );
+
+    return result.subtotal; // Amount before discount
+  }
+
+  // ✅ Method 4: Discount amount ke liye - Kitna discount mila
+  double getProductDiscountAmount(OrderProducts product) {
+    final productDetails = getAllProducts.firstWhere(
+      (p) => p.id.toString() == product.productId,
+      orElse: () => GetAllProductsModel(),
+    );
+
+    final result = ProductCalculationUtils.calculateFromOrderProduct(
+      orderProduct: product,
+      productDetails: productDetails,
+    );
+
+    return result.discountAmount; // Discount amount
+  }
 
   // ╔══════════════════════════════════════════════════════════════════════════════╗
   // ║                            ORDER MANAGEMENT METHODS                          ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Add a product to the current order
-  /// If product already exists in order, update it; otherwise add new entry
   void addProductToOrder(OrderProducts product) {
     final existingIndex = selectedProducts.indexWhere(
       (p) => p.productId == product.productId,
     );
 
     if (existingIndex != -1) {
-      // Update existing product
       selectedProducts[existingIndex] = product;
     } else {
-      // Add new product
       selectedProducts.add(product);
     }
 
@@ -253,14 +248,12 @@ class AllProductsIntellibizController extends GetxController {
     notifyCreateOrderController();
   }
 
-  /// Remove a product from the current order by product ID
   void removeProductFromOrder(String productId) {
     selectedProducts.removeWhere((p) => p.productId == productId);
     calculateTotals();
     notifyCreateOrderController();
   }
 
-  /// Update an existing product in the order
   void updateProductInOrder(OrderProducts updatedProduct) {
     final index = selectedProducts.indexWhere(
       (p) => p.productId == updatedProduct.productId,
@@ -272,20 +265,16 @@ class AllProductsIntellibizController extends GetxController {
     }
   }
 
-  /// Clear all products from the current order
   void clearOrder() {
     selectedProducts.clear();
     calculateTotals();
     notifyCreateOrderController();
   }
 
-  /// Check if a product is already in the current order
   bool isProductInOrder(String productId) {
     return selectedProducts.any((p) => p.productId == productId);
   }
 
-  /// Get a product from the current order by product ID
-  /// Returns null if product is not found
   OrderProducts? getProductFromOrder(String productId) {
     try {
       return selectedProducts.firstWhere((p) => p.productId == productId);
@@ -293,158 +282,20 @@ class AllProductsIntellibizController extends GetxController {
       return null;
     }
   }
+
   // ╔══════════════════════════════════════════════════════════════════════════════╗
-  // ║                   NEW: CENTRALIZED CALCULATION METHOD                        ║
+  // ║                            CALCULATION METHODS                               ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Calculate product amounts with proper packing logic
-  /// Yeh method bottom sheet aur controller dono mein use hoga
-  ProductCalculationResult calculateProductAmounts({
-    required String productId,
-    required int quantityPack,
-    required int quantityLose,
-    required double price,
-    required double discountPercent,
-    Packing? selectedPacking,
-  }) {
-    // Get the product details to find default packing
-    final productDetails = getAllProducts.firstWhere(
-      (p) => p.id.toString() == productId,
-      orElse: () => GetAllProductsModel(),
-    );
-
-    // Find default packing based on salPackingId
-    Packing? defaultPacking;
-    if (productDetails.packings != null &&
-        productDetails.packings!.isNotEmpty) {
-      if (productDetails.salPackingId != null) {
-        try {
-          defaultPacking = productDetails.packings!.firstWhere(
-            (p) => p.packingId == productDetails.salPackingId,
-          );
-        } catch (e) {
-          defaultPacking = productDetails.packings!.first;
-        }
-      } else {
-        defaultPacking = productDetails.packings!.first;
-      }
-    }
-
-    // If no packing info available, use simple calculation
-    if (defaultPacking == null || selectedPacking == null) {
-      final subtotal = quantityPack * price;
-      final discountAmount = (subtotal * discountPercent) / 100;
-      final finalAmount = subtotal - discountAmount;
-
-      return ProductCalculationResult(
-        subtotal: subtotal,
-        discountAmount: discountAmount,
-        finalAmount: finalAmount,
-      );
-    }
-
-    // Use packing calculation formula
-    final selectedMultiplier = selectedPacking.multiplier ?? 1;
-    final defaultMultiplier = defaultPacking.multiplier ?? 1;
-    final factor = selectedMultiplier / defaultMultiplier;
-
-    // Calculate packing amount
-    final packingAmount = quantityPack * factor * price;
-
-    // Calculate lose qty amount
-    final loseAmount = quantityLose * price / defaultMultiplier;
-
-    // Calculate subtotal
-    final subtotal = packingAmount + loseAmount;
-
-    // Calculate discount
-    final discountAmount = (subtotal * discountPercent) / 100;
-
-    // Calculate final amount
-    final finalAmount = subtotal - discountAmount;
-
-    return ProductCalculationResult(
-      subtotal: subtotal,
-      discountAmount: discountAmount,
-      finalAmount: finalAmount,
-    );
-  }
-  // ╔══════════════════════════════════════════════════════════════════════════════╗
-  // ║                   UPDATED: SIMPLIFIED CALCULATION METHODS                    ║
-  // ╚══════════════════════════════════════════════════════════════════════════════╝
-
-  /// Calculate the total price for a single product with discount applied
-  /// Ab yeh method calculateProductAmounts ko use krega
-  double calculateProductTotal(OrderProducts product) {
-    final result = calculateProductAmounts(
-      productId: product.productId,
-      quantityPack: product.quantityPack,
-      quantityLose: product.quantityLose ?? 0,
-      price: product.pricePack,
-      discountPercent: product.discPercent ?? 0,
-      selectedPacking: product.multiplier != null
-          ? Packing(
-              packingName: product.packingName,
-              multiplier: product.multiplier,
-            )
-          : null,
-    );
-
-    return result.finalAmount;
-  }
-
-  /// Get subtotal without discount
-  double getProductSubtotal(OrderProducts product) {
-    final result = calculateProductAmounts(
-      productId: product.productId,
-      quantityPack: product.quantityPack,
-      quantityLose: product.quantityLose ?? 0,
-      price: product.pricePack,
-      discountPercent: product.discPercent ?? 0,
-      selectedPacking: product.multiplier != null
-          ? Packing(
-              packingName: product.packingName,
-              multiplier: product.multiplier,
-            )
-          : null,
-    );
-
-    return result.subtotal;
-  }
-
-  /// Calculate the discount amount for a product
-  /// Get discount amount
-  double getProductDiscountAmount(OrderProducts product) {
-    final result = calculateProductAmounts(
-      productId: product.productId,
-      quantityPack: product.quantityPack,
-      quantityLose: product.quantityLose ?? 0,
-      price: product.pricePack,
-      discountPercent: product.discPercent ?? 0,
-      selectedPacking: product.multiplier != null
-          ? Packing(
-              packingName: product.packingName,
-              multiplier: product.multiplier,
-            )
-          : null,
-    );
-
-    return result.discountAmount;
-  }
-
-  /// Calculate total amounts and item counts for the order
-  /// Updates both grand totals and company-specific totals
   void calculateTotals() {
-    // Calculate grand total with discounts applied
+    // Calculate total amount using our new method
     totalAmount.value = selectedProducts.fold(
       0.0,
       (sum, product) => sum + calculateProductTotal(product),
     );
 
-    // Count distinct products (not sum of quantities)
     totalItems.value = selectedProducts.length;
 
-    // Calculate company-specific totals if a company filter is selected
     if (selectedCompanyId.value.isNotEmpty) {
       final companyProducts = selectedProducts.where((product) {
         return product.companyOrderId.toString() == selectedCompanyId.value;
@@ -457,7 +308,6 @@ class AllProductsIntellibizController extends GetxController {
 
       companyTotalItems.value = companyProducts.length;
     } else {
-      // Reset company totals if no company filter selected
       companyTotal.value = 0.0;
       companyTotalItems.value = 0;
     }
@@ -467,10 +317,7 @@ class AllProductsIntellibizController extends GetxController {
   // ║                            ORDER PREPARATION                                 ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Prepare the final order structure with all selected products
-  /// Groups products by company and calculates totals
   OrderItemsForLocal prepareOrder(GetCustomersModel customer) {
-    // Group products by company
     final Map<String, List<OrderProducts>> groupedProducts = {};
 
     for (var product in selectedProducts) {
@@ -481,7 +328,6 @@ class AllProductsIntellibizController extends GetxController {
       groupedProducts[companyId]!.add(product);
     }
 
-    // Create company order objects
     final List<OrderCompanies> companies = groupedProducts.entries.map((entry) {
       final companyProducts = entry.value;
       final company = getAllCompanies.firstWhere(
@@ -489,7 +335,6 @@ class AllProductsIntellibizController extends GetxController {
         orElse: () => CompaniesModel(),
       );
 
-      // Calculate total amount with discounts applied
       final totalAmount = companyProducts.fold(
         0.0,
         (sum, product) => sum + calculateProductTotal(product),
@@ -507,7 +352,6 @@ class AllProductsIntellibizController extends GetxController {
       );
     }).toList();
 
-    // Return complete order structure
     return OrderItemsForLocal(
       customerAddress:
           "${selectedSector.value!.name} - ${selectedTown.value!.name}",
@@ -524,8 +368,6 @@ class AllProductsIntellibizController extends GetxController {
   // ║                            DATA FETCHING METHODS                             ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Fetch products data from arguments
-  /// Handles both List and Map argument formats
   void fetchProducts() async {
     try {
       isLoading.value = true;
@@ -557,8 +399,6 @@ class AllProductsIntellibizController extends GetxController {
     }
   }
 
-  /// Fetch companies data from arguments
-  /// Handles both List and Map argument formats
   void fetchCompanies() async {
     try {
       isCompaniesLoading.value = true;
@@ -592,13 +432,10 @@ class AllProductsIntellibizController extends GetxController {
   // ║                            FILTERING METHODS                                 ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Filter products based on search query and selected company
-  /// First applies company filter, then applies search filter
   void filterProducts() {
     final query = searchController.text.toLowerCase();
     List<GetAllProductsModel> productsToFilter;
 
-    // First filter by company if selected
     if (selectedCompanyId.value.isEmpty ||
         selectedCompany.value == "All Companies") {
       productsToFilter = List.from(getAllProducts);
@@ -610,7 +447,6 @@ class AllProductsIntellibizController extends GetxController {
       }).toList();
     }
 
-    // Then filter by search query
     if (query.isEmpty) {
       filteredProducts.value = productsToFilter;
     } else {
@@ -620,7 +456,6 @@ class AllProductsIntellibizController extends GetxController {
     }
   }
 
-  /// Filter companies based on search query
   void filterCompanies() {
     final query = companySearchController.text.toLowerCase();
     if (query.isEmpty) {
@@ -636,18 +471,15 @@ class AllProductsIntellibizController extends GetxController {
   // ║                            COMPANY SELECTION METHODS                         ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Select a company for filtering products
-  /// Updates selected company, clears search, and re-filters products
   void selectCompany(String companyName, [String? companyId]) {
     selectedCompany.value = companyName;
     selectedCompanyId.value = companyId ?? "";
     companySearchController.clear();
     Get.back();
     filterProducts();
-    calculateTotals(); // Recalculate totals when company changes
+    calculateTotals();
   }
 
-  /// Clear the company search field and reset filter
   void clearCompanySearch() {
     companySearchController.clear();
     filteredCompanies.value = List.from(getAllCompanies);
@@ -657,8 +489,6 @@ class AllProductsIntellibizController extends GetxController {
   // ║                            UTILITY METHODS                                   ║
   // ╚══════════════════════════════════════════════════════════════════════════════╝
 
-  /// Get company ID for a specific product
-  /// Used internally to group products by company
   String _getProductCompanyId(String productId) {
     final product = getAllProducts.firstWhere(
       (p) => p.id.toString() == productId,
@@ -667,7 +497,6 @@ class AllProductsIntellibizController extends GetxController {
     return product.companyId?.toString() ?? '';
   }
 
-  /// Get the count of products available for a specific company
   int getProductsCountForCompany(String companyId) {
     if (companyId.isEmpty) return getAllProducts.length;
     return getAllProducts.where((product) {
@@ -675,14 +504,11 @@ class AllProductsIntellibizController extends GetxController {
     }).length;
   }
 
-  /// Refresh all data by re-fetching products and companies
   void refreshData() {
     fetchProducts();
     fetchCompanies();
   }
 
-  /// Reset all controller state to initial values
-  /// Used when starting a new order or clearing current state
   void resetState() {
     selectedProducts.clear();
     totalAmount.value = 0.0;
@@ -697,11 +523,9 @@ class AllProductsIntellibizController extends GetxController {
     filteredCompanies.value = List.from(getAllCompanies);
   }
 
-  /// Notify the CreateOrderController about changes to the order
-  /// This keeps the order creation screen updated with latest data
   void notifyCreateOrderController() {
-    if (Get.isRegistered<CreateOrderController>()) {
-      final createOrderController = Get.find<CreateOrderController>();
+    if (Get.isRegistered<CreateOrderIntellibizController>()) {
+      final createOrderController = Get.find<CreateOrderIntellibizController>();
       createOrderController.updateOrderData(
         selectedProducts.toList(),
         totalAmount.value,

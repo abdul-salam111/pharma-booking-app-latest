@@ -90,7 +90,7 @@ class OrderItemsForLocal {
 
 class OrderCompanies {
   final int? companyOrderId;
-  final int orderId;
+  final int? orderId;
   final String companyId;
   final String companyName;
   final List<OrderProducts> products;
@@ -99,7 +99,7 @@ class OrderCompanies {
 
   OrderCompanies({
     this.companyOrderId,
-    required this.orderId,
+    this.orderId,
     required this.companyId,
     required this.companyName,
     required this.products,
@@ -165,6 +165,7 @@ class OrderProducts {
   final double? priceLose;
   final double? discPercent;
   final double? discValue;
+  final int? packingId;
   final int? multiplier;
   final String? packingName;
   final int bonus;
@@ -174,6 +175,7 @@ class OrderProducts {
     this.orderProductId,
     this.companyOrderId,
     required this.productId,
+
     required this.productName,
     required this.quantityPack,
     this.quantityLose,
@@ -183,6 +185,7 @@ class OrderProducts {
     this.discValue,
     this.multiplier,
     this.packingName,
+    this.packingId,
     this.bonus = 0,
     this.rowTotal = 0,
   });
@@ -201,6 +204,7 @@ class OrderProducts {
       'discValue': discValue,
       'multiplier': multiplier,
       'packingName': packingName,
+      'packingId': packingId,
       'bonus': bonus,
       'rowTotal': rowTotal,
     };
@@ -220,6 +224,7 @@ class OrderProducts {
       discValue: map['discValue'],
       multiplier: map['multiplier'],
       packingName: map['packingName'],
+      packingId: map['packingId'],
       bonus: map['bonus'],
       rowTotal: map['rowTotal'],
     );
@@ -238,7 +243,9 @@ class OrderProducts {
     double? pricePack,
     double? priceLose,
     int? multiplier,
+    int? packingId,
     String? packingName,
+
     int? bonus,
     double? rowTotal,
   }) {
@@ -255,6 +262,7 @@ class OrderProducts {
       discValue: discValue ?? this.discValue,
       multiplier: multiplier ?? this.multiplier,
       packingName: packingName ?? this.packingName,
+      packingId: packingId ?? this.packingId,
       bonus: bonus ?? this.bonus,
       rowTotal: rowTotal ?? this.rowTotal,
     );
