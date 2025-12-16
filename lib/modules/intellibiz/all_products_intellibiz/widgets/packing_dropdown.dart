@@ -31,13 +31,15 @@ class PackingDropdown extends StatelessWidget {
         Text(
           'Packing',
           style: context.bodySmallStyle!.copyWith(
-            color: AppColors.greyColor
+            color: AppColors.greyColor,
+            fontSize: 12,
           ),
         ),
-        heightBox(5),
+       // heightBox(5),
         SizedBox(
-          height: 40,
+          height: 30,
           child: DropdownButtonFormField<Packing>(
+            dropdownColor: AppColors.whiteTextColor,
             initialValue: selectedPacking,
             hint: Text(
               hint ?? 'Select Packing',
@@ -46,11 +48,11 @@ class PackingDropdown extends StatelessWidget {
           
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
                 borderSide: const BorderSide(color: AppColors.darkGreyColor),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
                 borderSide: const BorderSide(color: AppColors.darkGreyColor),
               ),
               contentPadding: const EdgeInsets.symmetric(
@@ -64,11 +66,12 @@ class PackingDropdown extends StatelessWidget {
                 ? null
                 : packings!.map((Packing packing) {
                     return DropdownMenuItem<Packing>(
+                    
                       value: packing,
                       child: Text(
-                        packing.packingName ?? 'Unknown',
+                       "${ packing.packingName} x ${packing.multiplier}",
                         overflow: TextOverflow.ellipsis,
-                        style: context.bodySmallStyle!.copyWith(
+                        style: context.displayLargeStyle!.copyWith(
                           color: AppColors.blackTextColor,
                         ),
                       ),

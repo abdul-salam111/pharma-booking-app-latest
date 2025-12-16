@@ -1,6 +1,5 @@
 import 'package:pharma_booking_app/core/core.dart';
 
-
 class CurrentUserHelper {
   static final _session = SessionController.instance;
 
@@ -19,6 +18,7 @@ class CurrentUserHelper {
 
   static int get salesmanId => _session.getUserDetails.user?.salesmanId ?? 0;
 
+
   static bool get isAllowChangeBookingPrice =>
       _session.getUserDetails.user?.salesman?.isAllowChangeBookingPrice ??
       false;
@@ -27,6 +27,8 @@ class CurrentUserHelper {
   static bool get isAllowChangeBookingBonus =>
       _session.getUserDetails.user?.salesman?.isAllowChangeBookingBonus ??
       false;
-  static Future<String> softwareVersion() async =>
-      await storage.readValues(StorageKeys.softwareVersion) ?? "";
+  static bool get isShowCurrentStock =>
+      _session.getUserDetails.user?.salesman?.isShowCurrentStock ?? false;
+  static String get softwareVersion =>
+      _session.getUserDetails.user?.salesman?.software!.id!.toString() ?? "1";
 }

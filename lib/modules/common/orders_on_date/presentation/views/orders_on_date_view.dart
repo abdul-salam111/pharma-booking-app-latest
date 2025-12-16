@@ -1,3 +1,5 @@
+import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
+
 import '../../../home/presentation/barrel.dart';
 import '../controllers/orders_on_date_controller.dart';
 
@@ -41,8 +43,7 @@ class OrdersOnDateView extends GetView<OrdersOnDateController> {
 
             return GestureDetector(
               onTap: () async {
-                if (await storage.readValues(StorageKeys.softwareVersion) !=
-                    "1") {
+                if (CurrentUserHelper.softwareVersion.toString() == "1") {
                   Get.toNamed(
                     Routes.ORDER_DETAILS_ON_DATE,
                     arguments: {'order': order, 'orderIndex': index},
@@ -79,7 +80,7 @@ class OrdersOnDateView extends GetView<OrdersOnDateController> {
                       ),
                     ),
                     Text(
-                      "Rs. ${(controller.getOrderTotal(order)).withCommas}",
+                      "Rs. ${(controller.getOrderTotal(order)).withCommasAndDecimals}",
                       style: context.bodyMediumStyle!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

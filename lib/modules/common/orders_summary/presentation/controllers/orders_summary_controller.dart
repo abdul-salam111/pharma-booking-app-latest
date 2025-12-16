@@ -1,13 +1,10 @@
 // ignore_for_file: depend_on_referenced_packages
 
-
 import 'package:intl/intl.dart';
 
 import '../../../home/presentation/barrel.dart';
 import '../../domain/enitity/order_summary_by_date.dart';
 import '../../domain/usecases/get_all_local_orders_usecase.dart';
-
-
 
 /// Controller for managing orders summary functionality
 class OrdersSummaryController extends GetxController {
@@ -123,8 +120,19 @@ class OrdersSummaryController extends GetxController {
 
   /// Calculates sync status based on all orders
   String _calculateSyncStatus(List<OrderItemsForLocal> orders) {
+    // Check if all orders are synced
     final allSynced = orders.every((order) => order.syncedStatus == 'Yes');
-    return allSynced ? 'All' : 'Partial';
+
+    // Check if all orders are not synced
+    final allUnsynced = orders.every((order) => order.syncedStatus == 'No');
+
+    if (allSynced) {
+      return 'All';
+    } else if (allUnsynced) {
+      return 'UnSynced';
+    } else {
+      return 'Partial';
+    }
   }
 
   /// Calculates total amount from all orders

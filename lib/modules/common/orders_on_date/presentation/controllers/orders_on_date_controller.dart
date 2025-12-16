@@ -128,7 +128,6 @@ class OrdersOnDateController extends GetxController {
             // Add order to data list
             ordersList.add(
               SyncOrdersModel(
-                salesmanOrderId: null,
                 deviceOrderId: ordersForDate[i].orderId,
                 customerId: getCustomersModel?.id,
                 salesmanId: CurrentUserHelper.salesmanId,

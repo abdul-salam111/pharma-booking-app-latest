@@ -6,13 +6,17 @@ import 'package:pharma_booking_app/modules/common/home/presentation/barrel.dart'
 // Yeh class calculation ka result hold karegi
 // ============================================
 class ProductCalculationResult {
-  final double subtotal;        // Amount before discount
-  final double discountAmount;  // Discount amount
-  final double finalAmount;     // Final amount after discount
+  final double subtotal; // Amount before discount and tax
+  final double discountAmount; // Discount amount
+  final double amountAfterDiscount; // Amount after discount, before tax
+  final double salesTaxAmount; // Sales tax amount
+  final double finalAmount; // Final amount after discount and tax
 
   ProductCalculationResult({
     required this.subtotal,
     required this.discountAmount,
+    required this.amountAfterDiscount,
+    required this.salesTaxAmount,
     required this.finalAmount,
   });
 }
@@ -21,8 +25,7 @@ class ProductCalculationResult {
 // Yeh main utility class hai - SARI calculations yahan!
 // ============================================
 class ProductCalculationUtils {
-  
-  // Yeh method sari calculations karega
+  // Yeh method sari calculations karega (with sales tax)
   static ProductCalculationResult calculateProductAmounts({
     required GetAllProductsModel productDetails,
     required int quantityPack,
@@ -33,24 +36,32 @@ class ProductCalculationUtils {
   }) {
     // Step 1: Default packing nikalo
     Packing? defaultPacking;
-    if (productDetails.packings != null && productDetails.packings!.isNotEmpty) {
+    if (productDetails.packings != null &&
+        productDetails.packings!.isNotEmpty) {
       defaultPacking = productDetails.packings!.first;
     }
 
-    // Step 2: Agar packing nahi hai toh simple calculation
+    // Step 2: Sales tax ratio nikalo (default 0 agar null hai)
+    final salesTaxRatio = productDetails.sTaxRatio ?? 0.0;
+
+    // Step 3: Agar packing nahi hai toh simple calculation
     if (defaultPacking == null || selectedPacking == null) {
       final subtotal = quantityPack * price;
       final discountAmount = (subtotal * discountPercent) / 100;
-      final finalAmount = subtotal - discountAmount;
-      
+      final amountAfterDiscount = subtotal - discountAmount;
+      final salesTaxAmount = (amountAfterDiscount * salesTaxRatio) / 100;
+      final finalAmount = amountAfterDiscount + salesTaxAmount;
+
       return ProductCalculationResult(
         subtotal: subtotal,
         discountAmount: discountAmount,
+        amountAfterDiscount: amountAfterDiscount,
+        salesTaxAmount: salesTaxAmount,
         finalAmount: finalAmount,
       );
     }
 
-    // Step 3: Packing wali calculation
+    // Step 4: Packing wali calculation
     final selectedMultiplier = selectedPacking.multiplier ?? 1;
     final defaultMultiplier = defaultPacking.multiplier ?? 1;
     final factor = selectedMultiplier / defaultMultiplier;
@@ -58,12 +69,22 @@ class ProductCalculationUtils {
     final packingAmount = quantityPack * factor * price;
     final loseAmount = quantityLose * price / defaultMultiplier;
     final subtotal = packingAmount + loseAmount;
+
+    // Step 5: Discount calculate karo
     final discountAmount = (subtotal * discountPercent) / 100;
-    final finalAmount = subtotal - discountAmount;
+    final amountAfterDiscount = subtotal - discountAmount;
+
+    // Step 6: Sales tax calculate karo (discount ke baad)
+    final salesTaxAmount = (amountAfterDiscount * salesTaxRatio) / 100;
+
+    // Step 7: Final amount = amount after discount + sales tax
+    final finalAmount = amountAfterDiscount + salesTaxAmount;
 
     return ProductCalculationResult(
       subtotal: subtotal,
       discountAmount: discountAmount,
+      amountAfterDiscount: amountAfterDiscount,
+      salesTaxAmount: salesTaxAmount,
       finalAmount: finalAmount,
     );
   }

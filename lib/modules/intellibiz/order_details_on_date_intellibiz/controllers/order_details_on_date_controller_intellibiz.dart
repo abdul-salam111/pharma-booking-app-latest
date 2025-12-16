@@ -1,24 +1,52 @@
+import 'package:pharma_booking_app/modules/pharma_suit/all_products/data/models/get_products_packing/get_packings.dart';
+
 import '../../../common/home/presentation/barrel.dart';
+import '../../../pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/get_all_local_packings_usecase.dart';
 
 class OrderDetailsOnDateControllerIntellibiz extends GetxController {
   final GetAllLocalProductsUsecase getAllLocalProductsUsecase;
   final GetAllLocalCompaniesUsecase getAllLocalCompaniesUsecase;
   final GetAllLocalAreasUsecase getAllLocalSectorsUsecase;
   final GetAllLocalSubAreasUsecase getAllLocalTownsUsecase;
+  final GetAllLocalPackingsUsecase getAllLocalPackingsUsecase;
   OrderDetailsOnDateControllerIntellibiz({
     required this.getAllLocalProductsUsecase,
     required this.getAllLocalCompaniesUsecase,
     required this.getAllLocalSectorsUsecase,
     required this.getAllLocalTownsUsecase,
+    required this.getAllLocalPackingsUsecase,
   });
 
   final Rx<OrderItemsForLocal?> order = Rx<OrderItemsForLocal?>(null);
   final RxInt orderIndex = 0.obs;
+  final RxList<GetPackings> allPackings = <GetPackings>[].obs;
+  RxBool isLoading = false.obs;
 
   @override
   void onInit() {
     super.onInit();
     _receiveOrderData();
+    fetchAllPackings();
+  }
+
+  Future<void> fetchAllPackings() async {
+    try {
+      isLoading.value = true;
+      final response = await getAllLocalPackingsUsecase.call(NoParams());
+      response.fold((l) => print('Error fetching packings: $l'), (r) {
+        allPackings.clear();
+        allPackings.addAll(r);
+      });
+    } catch (e) {
+      print('Exception while fetching packings: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  String getPackingAbbrivation(int packagingId) {
+    final packing = allPackings.firstWhere((p) => p.id == packagingId);
+    return packing.abbrevation ?? "Unknown";
   }
 
   void _receiveOrderData() {
@@ -121,6 +149,7 @@ class OrderDetailsOnDateControllerIntellibiz extends GetxController {
               discValue: product.discValue,
               multiplier: product.multiplier,
               packingName: product.packingName,
+              packingId: product.packingId,
             ),
           );
         }

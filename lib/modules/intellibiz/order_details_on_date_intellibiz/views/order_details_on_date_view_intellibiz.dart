@@ -79,7 +79,7 @@ class OrderDetailsOnDateViewIntellibiz
                         ),
                         const Spacer(),
                         Text(
-                          "Rs. ${order.totalAmount.withCommas}",
+                          "Rs. ${order.totalAmount.withCommasAndDecimals}",
                           style: context.bodySmallStyle!.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -147,7 +147,7 @@ class OrderDetailsOnDateViewIntellibiz
               ),
               heightBox(10),
 
-              // Companies and Products Table
+              // Companies and Products
               Expanded(
                 child: ListView.builder(
                   itemCount: order.companies.length,
@@ -187,7 +187,7 @@ class OrderDetailsOnDateViewIntellibiz
                                   ),
                                 ),
                                 Text(
-                                  "Rs. ${company.companyTotalAmount.withCommas}",
+                                  "Rs. ${company.companyTotalAmount.withCommasAndDecimals}",
                                   style: context.bodySmallStyle!.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -197,84 +197,110 @@ class OrderDetailsOnDateViewIntellibiz
                             ),
                           ),
 
-                          // Products Table with Borders
-                          Table(
-                            border: TableBorder.all(
-                              color: AppColors.whiteTextColor,
-                              width: 1,
-                            ),
-                            columnWidths: const {
-                              0: FlexColumnWidth(2),
-                              1: FlexColumnWidth(1),
-                              2: FlexColumnWidth(1),
-                              3: FlexColumnWidth(1),
-                              4: FlexColumnWidth(1),
-                              5: FlexColumnWidth(1),
-                            },
-                            children: [
-                              // Table Header
-                              TableRow(
-                                decoration: BoxDecoration(
-                                  color: AppColors.borderColor,
+                          // Products List
+                          ...List.generate(company.products.length, (
+                            productIndex,
+                          ) {
+                            final product = company.products[productIndex];
+
+                            return Column(
+                              children: [
+                                Container(
+                                  padding: defaultPadding,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.halfWhiteColor,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: mainAxisSpaceBetween,
+                                    children: [
+                                      Text(
+                                        "${productIndex + 1}",
+                                        style: context.displayLargeStyle!
+                                            .copyWith(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                      Text(
+                                        product.productName,
+                                        style: context.displayLargeStyle!
+                                            .copyWith(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                      Text(
+                                        "Rs. ${product.rowTotal.withCommasAndDecimals}",
+                                        style: context.displayLargeStyle!
+                                            .copyWith(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                children: [
-                                  _buildHeaderCell(
-                                    context,
-                                    "Prd Name",
-                                    alignment: Alignment.centerLeft,
-                                  ),
-                                  _buildHeaderCell(
-                                    context,
-                                    "Pack",
-                                    alignment: Alignment.center,
-                                  ),
-                                  _buildHeaderCell(context, "P. Price"),
-                                  _buildHeaderCell(context, "Qty (P-L)"),
-                                  _buildHeaderCell(context, "Bns"),
-                                  _buildHeaderCell(context, "Disc%"),
-                                ],
-                              ),
-                              // Table Rows
-                              ...List.generate(company.products.length, (
-                                productIndex,
-                              ) {
-                                final product = company.products[productIndex];
-                                return TableRow(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                  ),
+
+                                Table(
+                                  columnWidths: const {
+                                    0: FlexColumnWidth(1),
+                                    1: FlexColumnWidth(1),
+                                    2: FlexColumnWidth(1),
+                                    3: FlexColumnWidth(1),
+                                    4: FlexColumnWidth(1),
+                                  },
                                   children: [
-                                    _buildDataCell(
-                                      context,
-                                      product.productName,
-                                      alignment: Alignment.centerLeft,
+                                    // Table Header
+                                    TableRow(
+                                      decoration: BoxDecoration(),
+                                      children: [
+                                        _buildHeaderCell(context, "Pack"),
+                                        _buildHeaderCell(context, "P. Price"),
+                                        _buildHeaderCell(context, "Qty (P-L)"),
+                                        _buildHeaderCell(context, "Bns"),
+                                        _buildHeaderCell(context, "Disc%"),
+                                      ],
                                     ),
-                                    _buildDataCell(
-                                      context,
-                                      "${product.packingName.toString()} ( ${product.multiplier.toString()} )",
-                                      alignment: Alignment.center,
-                                    ),
-                                    _buildDataCell(
-                                      context,
-                                      product.pricePack.toString(),
-                                    ),
-                                    _buildDataCell(
-                                      context,
-                                      "${product.quantityPack.toString()} - ${product.quantityLose.toString()}",
-                                    ),
-                                    _buildDataCell(
-                                      context,
-                                      product.bonus.toString(),
-                                    ),
-                                    _buildDataCell(
-                                      context,
-                                      product.discPercent!.toStringAsFixed(0),
+                                    // Table Row
+                                    TableRow(
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                      ),
+                                      children: [
+                                        Obx(
+                                          () => controller.isLoading.value
+                                              ? SizedBox.shrink()
+                                              : _buildDataCell(
+                                                  context,
+                                                  "${controller.getPackingAbbrivation(product.packingId ?? 1)} (${product.multiplier.toString()})",
+                                                ),
+                                        ),
+                                        _buildDataCell(
+                                          context,
+                                          product.pricePack.toString(),
+                                        ),
+                                        _buildDataCell(
+                                          context,
+                                          "${product.quantityPack.toString()} - ${product.quantityLose.toString()}",
+                                        ),
+                                        _buildDataCell(
+                                          context,
+                                          product.bonus.toString(),
+                                        ),
+                                        _buildDataCell(
+                                          context,
+                                          product.discPercent!.toStringAsFixed(
+                                            0,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
-                                );
-                              }),
-                            ],
-                          ),
+                                ),
+                              ],
+                            );
+                          }),
                         ],
                       ),
                     );
@@ -294,11 +320,14 @@ class OrderDetailsOnDateViewIntellibiz
     Alignment alignment = Alignment.center,
   }) {
     return Container(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 2),
+      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
       alignment: alignment,
       child: Text(
         text,
-        style: context.displayLargeStyle!.copyWith(fontWeight: FontWeight.bold),
+        style: context.displayLargeStyle!.copyWith(
+          fontWeight: FontWeight.normal,
+          color: AppColors.greyTextColor,
+        ),
       ),
     );
   }
@@ -309,12 +338,13 @@ class OrderDetailsOnDateViewIntellibiz
     Alignment alignment = Alignment.center,
   }) {
     return Container(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 2),
+      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
       alignment: alignment,
       child: Text(
         text,
         style: context.displayLargeStyle!.copyWith(
-          color: AppColors.greyTextColor,
+          color: AppColors.blackTextColor,
+          fontWeight: FontWeight.bold,
         ),
         textAlign: TextAlign.center,
       ),

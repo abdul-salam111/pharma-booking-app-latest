@@ -65,7 +65,10 @@ class AllProductsView extends GetView<AllProductsController> {
 
                           Obx(
                             () => Text(
-                              controller.companyTotal.value.withCommas,
+                              controller
+                                  .companyTotal
+                                  .value
+                                  .withCommasAndDecimals,
                               style: context.bodySmallStyle!.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -99,7 +102,7 @@ class AllProductsView extends GetView<AllProductsController> {
                   ),
                   Obx(
                     () => Text(
-                      controller.totalAmount.value.withCommas,
+                      controller.totalAmount.value.withCommasAndDecimals,
                       style: context.bodySmallStyle!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -249,15 +252,17 @@ class AllProductsView extends GetView<AllProductsController> {
                                                       ),
                                                 ),
                                                 widthBox(5),
-                                                Text(
-                                                  "( CS: ${product.currentStock} )",
-                                                  style: context
-                                                      .displayLargeStyle!
-                                                      .copyWith(
-                                                        color: AppColors
-                                                            .greyTextColor,
-                                                      ),
-                                                ),
+                                                if (CurrentUserHelper
+                                                    .isShowCurrentStock)
+                                                  Text(
+                                                    "( CS: ${product.currentStock} )",
+                                                    style: context
+                                                        .displayLargeStyle!
+                                                        .copyWith(
+                                                          color: AppColors
+                                                              .greyTextColor,
+                                                        ),
+                                                  ),
                                               ],
                                             ),
 
@@ -342,6 +347,49 @@ class AllProductsView extends GetView<AllProductsController> {
                                                             style: context
                                                                 .displayLargeStyle!
                                                                 .copyWith(
+                                                                  color: Colors
+                                                                      .green,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+
+                                                  SizedBox(
+                                                    width: context.width * 0.1,
+
+                                                    child: RichText(
+                                                      text: TextSpan(
+                                                        children: [
+                                                          TextSpan(
+                                                            text: "B: ",
+                                                            style: context
+                                                                .displayLargeStyle!
+                                                                .copyWith(
+                                                                  color: AppColors
+                                                                      .greyTextColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                          ),
+                                                          TextSpan(
+                                                            text:
+                                                                selectedProduct
+                                                                        ?.bonus !=
+                                                                    0
+                                                                ? selectedProduct
+                                                                      ?.bonus
+                                                                      .toString()
+                                                                : "",
+
+                                                            style: context
+                                                                .displayLargeStyle!
+                                                                .copyWith(
                                                                   color: AppColors
                                                                       .blackTextColor,
                                                                   fontWeight:
@@ -353,52 +401,6 @@ class AllProductsView extends GetView<AllProductsController> {
                                                       ),
                                                     ),
                                                   ),
-
-                                                  if (CurrentUserHelper
-                                                      .isAllowChangeBookingBonus)
-                                                    SizedBox(
-                                                      width:
-                                                          context.width * 0.1,
-
-                                                      child: RichText(
-                                                        text: TextSpan(
-                                                          children: [
-                                                            TextSpan(
-                                                              text: "B: ",
-                                                              style: context
-                                                                  .displayLargeStyle!
-                                                                  .copyWith(
-                                                                    color: AppColors
-                                                                        .greyTextColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                            ),
-                                                            TextSpan(
-                                                              text:
-                                                                  selectedProduct
-                                                                          ?.bonus !=
-                                                                      0
-                                                                  ? selectedProduct
-                                                                        ?.bonus
-                                                                        .toString()
-                                                                  : "",
-
-                                                              style: context
-                                                                  .displayLargeStyle!
-                                                                  .copyWith(
-                                                                    color: AppColors
-                                                                        .blackTextColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
 
                                                   if (CurrentUserHelper
                                                       .isAllowChangeBookingDisc)
@@ -453,9 +455,9 @@ class AllProductsView extends GetView<AllProductsController> {
                                                       padding: EdgeInsets.zero,
                                                       constraints:
                                                           const BoxConstraints(),
-                                                      icon: const Icon(
-                                                        Icons.unfold_more,
-                                                        size: 15,
+                                                      icon: Icon(
+                                                        Icons.add_shopping_cart,
+                                                        size: 18,
                                                       ),
                                                       onPressed: () async {
                                                         controller
@@ -682,10 +684,16 @@ class _ProductBottomSheetPharmaSuitState
       text: existingProduct?.quantityPack.toString() ?? '',
     );
     bonusController = TextEditingController(
-      text: existingProduct?.bonus.toString() ?? '0',
+      text: (existingProduct?.bonus != null && existingProduct!.bonus != 0)
+          ? existingProduct.bonus.toString()
+          : '',
     );
     discController = TextEditingController(
-      text: existingProduct?.discPercent.toString() ?? '0',
+      text:
+          (existingProduct?.discPercent != null &&
+              existingProduct!.discPercent != 0.0)
+          ? existingProduct.discPercent.toString()
+          : '',
     );
     priceController = TextEditingController(
       text:
@@ -739,6 +747,11 @@ class _ProductBottomSheetPharmaSuitState
       widget.product.id.toString(),
     );
 
+    final productCompany = controller.getAllCompanies
+        .where((company) => company.id == widget.product.companyId)
+        .first
+        .name;
+
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.9,
@@ -763,98 +776,149 @@ class _ProductBottomSheetPharmaSuitState
               ),
             ),
 
-            Row(
-              mainAxisAlignment: mainAxisCenter,
+            Column(
+              crossAxisAlignment: crossAxisStart,
               children: [
-                Text(
-                  "${widget.product.productName}",
-                  style: context.bodyMediumStyle!.copyWith(
-                    color: AppColors.blackTextColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      "${widget.product.productName}",
+                      style: context.bodyMediumStyle!.copyWith(
+                        color: AppColors.blackTextColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Spacer(),
+                    if (CurrentUserHelper.isShowCurrentStock)
+                      Text.rich(
+                        TextSpan(
+                          text: "Stock: ",
+                          style: context.bodySmallStyle!.copyWith(
+                            color: AppColors.greyColor,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: "${widget.product.currentStock}",
+                              style: context.bodySmallStyle!.copyWith(
+                                color: AppColors.blackTextColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
                 ),
-                Text(
-                  " (${widget.product.packSize}) ",
-                  style: context.displayLargeStyle!.copyWith(
-                    color: AppColors.greyColor,
+                Text.rich(
+                  TextSpan(
+                    text: productCompany.toString(),
+                    style: context.displayLargeStyle!.copyWith(
+                      color: AppColors.greyColor,
+                    ),
                   ),
                 ),
               ],
             ),
 
-            const SizedBox(height: 20),
+            heightBox(20),
 
             Row(
               children: [
                 Expanded(
                   child: SizedBox(
                     child: CustomTextFormField(
-                      textfieldHeight: 40,
+                      textfieldHeight: 30,
                       label: "Quantity*",
                       labelColor: AppColors.greyColor,
                       controller: qtyController,
                       hintText: "Qty",
+                      hintStyle: context.displayLargeStyle!.copyWith(
+                        color: AppColors.greyColor,
+                      ),
+                      borderRadius: 5,
                       keyboardType: TextInputType.number,
                       borderColor: AppColors.darkGreyColor,
-                      labelfontSize: 14,
+                      labelfontSize: 12,
                     ),
                   ),
                 ),
-                if (CurrentUserHelper.isAllowChangeBookingBonus) widthBox(20),
-
-                if (CurrentUserHelper.isAllowChangeBookingBonus)
-                  Expanded(
-                    child: CustomTextFormField(
-                      textfieldHeight: 40,
-                      controller: bonusController,
-                      label: "Bonus",
-                      labelColor: AppColors.blackTextColor,
-                      hintText: "Bns",
-                      keyboardType: TextInputType.number,
-                      borderColor: AppColors.darkGreyColor,
-                      labelfontSize: 14,
+                widthBox(10),
+                Expanded(
+                  child: CustomTextFormField(
+                    hintStyle: context.displayLargeStyle!.copyWith(
+                      color: AppColors.greyColor,
                     ),
+                    borderRadius: 5,
+                    readonly: (!CurrentUserHelper.isAllowChangeBookingPrice),
+                    labelColor: AppColors.greyColor,
+                    textfieldHeight: 30,
+                    controller: priceController,
+                    label: "Price",
+                    hintText: "${widget.product.tradePrice}",
+                    keyboardType: TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+
+                    labelfontSize: 12,
+                    borderColor: CurrentUserHelper.isAllowChangeBookingPrice
+                        ? AppColors.darkGreyColor
+                        : AppColors.mostLightGreyColor,
+                    fillColor: CurrentUserHelper.isAllowChangeBookingPrice
+                        ? AppColors.whiteTextColor
+                        : AppColors.mostLightGreyColor,
                   ),
+                ),
+                widthBox(10),
+
+                Expanded(
+                  child: CustomTextFormField(
+                    hintStyle: context.displayLargeStyle!.copyWith(
+                      color: AppColors.greyColor,
+                    ),
+                    borderRadius: 5,
+                    readonly: (!CurrentUserHelper.isAllowChangeBookingDisc),
+                    textfieldHeight: 30,
+                    label: "Discount %",
+                    labelColor: AppColors.greyColor,
+                    controller: discController,
+                    hintText: "0",
+                    keyboardType: TextInputType.number,
+                    labelfontSize: 12,
+                    borderColor: CurrentUserHelper.isAllowChangeBookingDisc
+                        ? AppColors.darkGreyColor
+                        : AppColors.mostLightGreyColor,
+                    fillColor: CurrentUserHelper.isAllowChangeBookingDisc
+                        ? AppColors.whiteTextColor
+                        : AppColors.mostLightGreyColor,
+                  ),
+                ),
+                widthBox(10),
+                Expanded(
+                  child: CustomTextFormField(
+                    readonly: (!CurrentUserHelper.isAllowChangeBookingBonus),
+                    hintStyle: context.displayLargeStyle!.copyWith(
+                      color: AppColors.greyColor,
+                    ),
+                    borderRadius: 5,
+                    textfieldHeight: 30,
+                    controller: bonusController,
+                    label: "Bonus",
+                    labelColor: AppColors.greyColor,
+                    hintText: "0",
+                    keyboardType: TextInputType.number,
+
+                    labelfontSize: 12,
+                    borderColor: CurrentUserHelper.isAllowChangeBookingBonus
+                        ? AppColors.darkGreyColor
+                        : AppColors.mostLightGreyColor,
+                    fillColor: CurrentUserHelper.isAllowChangeBookingBonus
+                        ? AppColors.whiteTextColor
+                        : AppColors.mostLightGreyColor,
+                  ),
+                ),
               ],
             ),
 
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                if (CurrentUserHelper.isAllowChangeBookingDisc)
-                  Expanded(
-                    child: CustomTextFormField(
-                      textfieldHeight: 40,
-                      label: "Discount %",
-                      labelColor: AppColors.greyColor,
-                      controller: discController,
-                      hintText: "Disc%",
-                      keyboardType: TextInputType.number,
-                      borderColor: AppColors.darkGreyColor,
-                      labelfontSize: 14,
-                    ),
-                  ),
-
-                widthBox(20),
-
-                if (CurrentUserHelper.isAllowChangeBookingPrice)
-                  Expanded(
-                    child: CustomTextFormField(
-                      labelColor: AppColors.greyColor,
-                      textfieldHeight: 40,
-                      controller: priceController,
-                      label: "Price",
-
-                      hintText: "${widget.product.tradePrice}",
-                      keyboardType: TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      borderColor: AppColors.darkGreyColor,
-                      labelfontSize: 14,
-                    ),
-                  ),
-              ],
-            ),
             heightBox(20),
 
             // Calculation Summary Card
@@ -867,26 +931,6 @@ class _ProductBottomSheetPharmaSuitState
               ),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Subtotal:",
-                        style: context.bodyMediumStyle!.copyWith(
-                          color: AppColors.greyTextColor,
-                        ),
-                      ),
-                      Obx(
-                        () => Text(
-                          totalAmount.value.withCommasAndDecimals,
-                          style: context.bodyMediumStyle!.copyWith(
-                            color: AppColors.blackTextColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   heightBox(8),
                   Obx(
                     () => discountAmount.value > 0
@@ -898,21 +942,20 @@ class _ProductBottomSheetPharmaSuitState
                                 children: [
                                   Text(
                                     "Discount:",
-                                    style: context.bodyMediumStyle!.copyWith(
+                                    style: context.bodySmallStyle!.copyWith(
                                       color: Colors.red,
                                     ),
                                   ),
                                   Text(
-                                    "- ${discountAmount.value.withCommasAndDecimals}",
-                                    style: context.bodyMediumStyle!.copyWith(
+                                    "- Rs. ${discountAmount.value.withCommasAndDecimals}",
+                                    style: context.bodySmallStyle!.copyWith(
                                       color: Colors.red,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ],
                               ),
-                              heightBox(8),
-                              Divider(color: Colors.grey[300], height: 1),
+
                               heightBox(8),
                             ],
                           )
@@ -922,17 +965,41 @@ class _ProductBottomSheetPharmaSuitState
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
+                        "Subtotal:",
+                        style: context.bodySmallStyle!.copyWith(
+                          color: AppColors.greyTextColor,
+                        ),
+                      ),
+                      Obx(
+                        () => Text(
+                        "Rs. ${finalAmount.value.withCommasAndDecimals}",
+                          style: context.bodySmallStyle!.copyWith(
+                            color: AppColors.greyTextColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  heightBox(8),
+                  Divider(color: Colors.grey[300], height: 1),
+                  heightBox(8),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
                         "Total Amount:",
-                        style: context.bodyMediumStyle!.copyWith(
+                        style: context.bodySmallStyle!.copyWith(
                           color: AppColors.blackTextColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Obx(
                         () => Text(
-                          finalAmount.value.withCommas,
-                          style: context.bodyLargeStyle!.copyWith(
-                            color: AppColors.appPrimaryColor,
+                          "Rs. ${finalAmount.value.withCommasAndDecimals}",
+                          style: context.bodySmallStyle!.copyWith(
+                            color: AppColors.blackTextColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -950,29 +1017,15 @@ class _ProductBottomSheetPharmaSuitState
               children: [
                 Text.rich(
                   TextSpan(
-                    text: "Available Stock: ",
-                    style: const TextStyle(color: Colors.grey),
-                    children: [
-                      TextSpan(
-                        text: "${widget.product.currentStock}",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Text.rich(
-                  TextSpan(
                     text: "Trade Price: ",
-                    style: const TextStyle(color: Colors.grey),
+                    style: const TextStyle(color: Colors.grey, fontSize: 14),
                     children: [
                       TextSpan(
-                        text: "${widget.product.tradePrice}",
+                        text: "Rs. ${widget.product.tradePrice}",
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
+                          fontSize: 14,
                         ),
                       ),
                     ],
@@ -987,7 +1040,7 @@ class _ProductBottomSheetPharmaSuitState
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(
+                  child: OutlinedButton(
                     onPressed: () {
                       if (existingProduct != null) {
                         controller.removeProductFromOrder(
@@ -996,8 +1049,8 @@ class _ProductBottomSheetPharmaSuitState
                       }
                       Get.back();
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Colors.red),
                       padding: const EdgeInsets.symmetric(vertical: 0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -1006,7 +1059,7 @@ class _ProductBottomSheetPharmaSuitState
                     child: Text(
                       existingProduct != null ? "Remove" : "Cancel",
                       style: context.bodySmallStyle!.copyWith(
-                        color: Colors.white,
+                        color: Colors.red,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

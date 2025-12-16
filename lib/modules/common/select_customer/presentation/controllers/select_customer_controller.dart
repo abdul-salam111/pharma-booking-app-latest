@@ -105,7 +105,7 @@ class SelectCustomerController extends GetxController {
   // ==================== FILTERING ==================== //
 
   void _filterTownsBySector(GetAreaListModel sector) {
-    towns.assignAll(_allTowns.where((t) => 1 == sector.id).toList());
+    towns.assignAll(_allTowns.where((t) => t.areaId == sector.id).toList());
   }
 
   void _filterCustomersByTown(GetSubAreaListModel town) {
@@ -159,8 +159,8 @@ class SelectCustomerController extends GetxController {
     final town = selectedTown.value;
 
     if (customer != null && sector != null && town != null) {
-      final String softwareVersion = await CurrentUserHelper.softwareVersion();
-      if (softwareVersion == "0") {
+      final String softwareVersion = CurrentUserHelper.softwareVersion;
+      if (softwareVersion == "1") {
         Get.toNamed(
           Routes.ALL_PRODUCTS,
           arguments: {
@@ -239,6 +239,7 @@ class SelectCustomerController extends GetxController {
       );
       if (town != null) {
         selectedTown.value = town;
+
         _filterCustomersByTown(town);
       }
     }

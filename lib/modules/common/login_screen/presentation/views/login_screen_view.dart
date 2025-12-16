@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../../core/core.dart';
-import '../../../../../core/utils/input_formatters.dart';
+// import '../../../../../core/utils/input_formatters.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../controllers/login_screen_controller.dart';
 
@@ -70,15 +70,15 @@ class LoginScreenView extends GetView<LoginScreenController> {
                           keyboardType: TextInputType.phone,
                           borderColor: AppColors.darkGreyColor,
                           fillColor: AppColors.halfWhiteColor,
-                          inputFormatters: [PhoneNumberFormatter()],
+                          // inputFormatters: [PhoneNumberFormatter()],
                           validator: (p0) {
                             if (p0 == null || p0.isEmpty) {
                               return "Mobile Number is required";
                             }
-                            String digitsOnly = p0.replaceAll('-', '');
-                            if (digitsOnly.length != 11) {
-                              return "Mobile Number must be 11 digits";
-                            }
+                            // String digitsOnly = p0.replaceAll('-', '');
+                            // if (digitsOnly.length != 11) {
+                            //   return "Mobile Number must be 11 digits";
+                            // }
                             return null;
                           },
                         ),

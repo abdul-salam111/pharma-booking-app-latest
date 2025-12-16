@@ -35,17 +35,10 @@ class LoginScreenController extends GetxController {
   /*                           Public API (Login)                               */
   /* -------------------------------------------------------------------------- */
 
-  /// Attempts to log the user in.
-  ///
-  /// If the **salesman ID changes**, a confirmation dialog is shown before
-  /// wiping previous local data.
-  /// **No dialog is shown when the user logs in for the very first time.**
   Future<void> loginUser() async {
     if (!formKey.currentState!.validate()) return;
 
     isLoading.value = true;
-
-    // 1. Authenticate
     final response = await loginUserUsecase.call(
       LoginRequestModel(
         password: passwordController.text.trim(),
@@ -59,26 +52,6 @@ class LoginScreenController extends GetxController {
       },
       (userData) async {
         _persistSessionAndNavigate(userData);
-
-        // 2. Check for salesman change
-        // final oldSalesmanId = SessionController().getUserDetails.salesmanId;
-        // final newSalesmanId = userData.salesmanId;
-
-        // final isFirstLogin = oldSalesmanId == null;
-        // final isSameSalesman = oldSalesmanId == newSalesmanId;
-
-        // if (isFirstLogin || isSameSalesman) {
-        //   // First login OR same salesman → proceed without confirmation
-        //   await _persistSessionAndNavigate(userData);
-        // } else {
-        //   // Different salesman → ask to wash-out
-        //   final confirmed = await showSalesmanConfirmDialog(Get.context!);
-        //   if (confirmed == true) {
-        //     await _persistSessionAndNavigate(userData, washOut: true);
-        //   } else {
-        //     Get.offAllNamed(Routes.LOGIN_SCREEN);
-        //   }
-        // }
         isLoading.value = false;
       },
     );
@@ -89,13 +62,11 @@ class LoginScreenController extends GetxController {
   /* -------------------------------------------------------------------------- */
 
   /// Saves credentials/session and navigates home.
-  ///
-  /// When [washOut] is `true`, previous orders are deleted.
   Future<void> _persistSessionAndNavigate(LoginResponseModel userData) async {
     await Future.wait([
       storage.setValues(StorageKeys.loginId, phoneController.text.trim()),
       storage.setValues(StorageKeys.password, phoneController.text.trim()),
-      storage.setValues(StorageKeys.softwareVersion, '1'),
+
       SessionController().saveUserInStorage(userData),
       SessionController().getUserfromSharedpref(),
     ]);
@@ -113,38 +84,4 @@ class LoginScreenController extends GetxController {
     passwordController.dispose();
     super.dispose();
   }
-}
-
-/* -------------------------------------------------------------------------- */
-/*                         Confirmation Dialog Widget                           */
-/* -------------------------------------------------------------------------- */
-
-/// Displays an AlertDialog asking the user to confirm a **salesman change** and
-/// the subsequent wash-out of previous data.
-///
-/// Returns `true` if the user taps **Confirm**, otherwise `false`.
-Future<bool?> showSalesmanConfirmDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext ctx) {
-      return AlertDialog(
-        backgroundColor: AppColors.appLightThemeBackground,
-        title: const Text('Please Confirm'),
-        content: const Text(
-          'Click Continue if you want to wash out previous salesman data.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Continue'),
-          ),
-        ],
-      );
-    },
-  );
 }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GetOrderResponse {
 
-@JsonKey(name: 'TenantOrderId') int? get tenantOrderId;@JsonKey(name: 'SalesmanOrderId') int? get salesmanOrderId;@JsonKey(name: 'DeviceOrderID') int? get deviceOrderId;@JsonKey(name: 'CustomerId') int? get customerId;@JsonKey(name: 'SalesmanId') int? get salesmanId;@JsonKey(name: 'OrderTime') DateTime? get orderTime;@JsonKey(name: 'SyncDate') DateTime? get syncDate;@JsonKey(name: 'OrderRows') List<OrderRow> get orderRows;@JsonKey(name: 'ID') int? get id;@JsonKey(name: 'TenantID') int? get tenantId;
+ int? get id; int? get tenantOrderId; DateTime? get orderDateTime; int? get deviceOrderID; List<String>? get errors;
 /// Create a copy of GetOrderResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $GetOrderResponseCopyWith<GetOrderResponse> get copyWith => _$GetOrderResponseCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetOrderResponse&&(identical(other.tenantOrderId, tenantOrderId) || other.tenantOrderId == tenantOrderId)&&(identical(other.salesmanOrderId, salesmanOrderId) || other.salesmanOrderId == salesmanOrderId)&&(identical(other.deviceOrderId, deviceOrderId) || other.deviceOrderId == deviceOrderId)&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.salesmanId, salesmanId) || other.salesmanId == salesmanId)&&(identical(other.orderTime, orderTime) || other.orderTime == orderTime)&&(identical(other.syncDate, syncDate) || other.syncDate == syncDate)&&const DeepCollectionEquality().equals(other.orderRows, orderRows)&&(identical(other.id, id) || other.id == id)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetOrderResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.tenantOrderId, tenantOrderId) || other.tenantOrderId == tenantOrderId)&&(identical(other.orderDateTime, orderDateTime) || other.orderDateTime == orderDateTime)&&(identical(other.deviceOrderID, deviceOrderID) || other.deviceOrderID == deviceOrderID)&&const DeepCollectionEquality().equals(other.errors, errors));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,tenantOrderId,salesmanOrderId,deviceOrderId,customerId,salesmanId,orderTime,syncDate,const DeepCollectionEquality().hash(orderRows),id,tenantId);
+int get hashCode => Object.hash(runtimeType,id,tenantOrderId,orderDateTime,deviceOrderID,const DeepCollectionEquality().hash(errors));
 
 @override
 String toString() {
-  return 'GetOrderResponse(tenantOrderId: $tenantOrderId, salesmanOrderId: $salesmanOrderId, deviceOrderId: $deviceOrderId, customerId: $customerId, salesmanId: $salesmanId, orderTime: $orderTime, syncDate: $syncDate, orderRows: $orderRows, id: $id, tenantId: $tenantId)';
+  return 'GetOrderResponse(id: $id, tenantOrderId: $tenantOrderId, orderDateTime: $orderDateTime, deviceOrderID: $deviceOrderID, errors: $errors)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $GetOrderResponseCopyWith<$Res>  {
   factory $GetOrderResponseCopyWith(GetOrderResponse value, $Res Function(GetOrderResponse) _then) = _$GetOrderResponseCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'TenantOrderId') int? tenantOrderId,@JsonKey(name: 'SalesmanOrderId') int? salesmanOrderId,@JsonKey(name: 'DeviceOrderID') int? deviceOrderId,@JsonKey(name: 'CustomerId') int? customerId,@JsonKey(name: 'SalesmanId') int? salesmanId,@JsonKey(name: 'OrderTime') DateTime? orderTime,@JsonKey(name: 'SyncDate') DateTime? syncDate,@JsonKey(name: 'OrderRows') List<OrderRow> orderRows,@JsonKey(name: 'ID') int? id,@JsonKey(name: 'TenantID') int? tenantId
+ int? id, int? tenantOrderId, DateTime? orderDateTime, int? deviceOrderID, List<String>? errors
 });
 
 
@@ -65,19 +65,14 @@ class _$GetOrderResponseCopyWithImpl<$Res>
 
 /// Create a copy of GetOrderResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? tenantOrderId = freezed,Object? salesmanOrderId = freezed,Object? deviceOrderId = freezed,Object? customerId = freezed,Object? salesmanId = freezed,Object? orderTime = freezed,Object? syncDate = freezed,Object? orderRows = null,Object? id = freezed,Object? tenantId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? tenantOrderId = freezed,Object? orderDateTime = freezed,Object? deviceOrderID = freezed,Object? errors = freezed,}) {
   return _then(_self.copyWith(
-tenantOrderId: freezed == tenantOrderId ? _self.tenantOrderId : tenantOrderId // ignore: cast_nullable_to_non_nullable
-as int?,salesmanOrderId: freezed == salesmanOrderId ? _self.salesmanOrderId : salesmanOrderId // ignore: cast_nullable_to_non_nullable
-as int?,deviceOrderId: freezed == deviceOrderId ? _self.deviceOrderId : deviceOrderId // ignore: cast_nullable_to_non_nullable
-as int?,customerId: freezed == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
-as int?,salesmanId: freezed == salesmanId ? _self.salesmanId : salesmanId // ignore: cast_nullable_to_non_nullable
-as int?,orderTime: freezed == orderTime ? _self.orderTime : orderTime // ignore: cast_nullable_to_non_nullable
-as DateTime?,syncDate: freezed == syncDate ? _self.syncDate : syncDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,orderRows: null == orderRows ? _self.orderRows : orderRows // ignore: cast_nullable_to_non_nullable
-as List<OrderRow>,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as int?,
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,tenantOrderId: freezed == tenantOrderId ? _self.tenantOrderId : tenantOrderId // ignore: cast_nullable_to_non_nullable
+as int?,orderDateTime: freezed == orderDateTime ? _self.orderDateTime : orderDateTime // ignore: cast_nullable_to_non_nullable
+as DateTime?,deviceOrderID: freezed == deviceOrderID ? _self.deviceOrderID : deviceOrderID // ignore: cast_nullable_to_non_nullable
+as int?,errors: freezed == errors ? _self.errors : errors // ignore: cast_nullable_to_non_nullable
+as List<String>?,
   ));
 }
 
@@ -162,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'TenantOrderId')  int? tenantOrderId, @JsonKey(name: 'SalesmanOrderId')  int? salesmanOrderId, @JsonKey(name: 'DeviceOrderID')  int? deviceOrderId, @JsonKey(name: 'CustomerId')  int? customerId, @JsonKey(name: 'SalesmanId')  int? salesmanId, @JsonKey(name: 'OrderTime')  DateTime? orderTime, @JsonKey(name: 'SyncDate')  DateTime? syncDate, @JsonKey(name: 'OrderRows')  List<OrderRow> orderRows, @JsonKey(name: 'ID')  int? id, @JsonKey(name: 'TenantID')  int? tenantId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int? tenantOrderId,  DateTime? orderDateTime,  int? deviceOrderID,  List<String>? errors)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GetOrderResponse() when $default != null:
-return $default(_that.tenantOrderId,_that.salesmanOrderId,_that.deviceOrderId,_that.customerId,_that.salesmanId,_that.orderTime,_that.syncDate,_that.orderRows,_that.id,_that.tenantId);case _:
+return $default(_that.id,_that.tenantOrderId,_that.orderDateTime,_that.deviceOrderID,_that.errors);case _:
   return orElse();
 
 }
@@ -183,10 +178,10 @@ return $default(_that.tenantOrderId,_that.salesmanOrderId,_that.deviceOrderId,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'TenantOrderId')  int? tenantOrderId, @JsonKey(name: 'SalesmanOrderId')  int? salesmanOrderId, @JsonKey(name: 'DeviceOrderID')  int? deviceOrderId, @JsonKey(name: 'CustomerId')  int? customerId, @JsonKey(name: 'SalesmanId')  int? salesmanId, @JsonKey(name: 'OrderTime')  DateTime? orderTime, @JsonKey(name: 'SyncDate')  DateTime? syncDate, @JsonKey(name: 'OrderRows')  List<OrderRow> orderRows, @JsonKey(name: 'ID')  int? id, @JsonKey(name: 'TenantID')  int? tenantId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int? tenantOrderId,  DateTime? orderDateTime,  int? deviceOrderID,  List<String>? errors)  $default,) {final _that = this;
 switch (_that) {
 case _GetOrderResponse():
-return $default(_that.tenantOrderId,_that.salesmanOrderId,_that.deviceOrderId,_that.customerId,_that.salesmanId,_that.orderTime,_that.syncDate,_that.orderRows,_that.id,_that.tenantId);case _:
+return $default(_that.id,_that.tenantOrderId,_that.orderDateTime,_that.deviceOrderID,_that.errors);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -203,10 +198,10 @@ return $default(_that.tenantOrderId,_that.salesmanOrderId,_that.deviceOrderId,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'TenantOrderId')  int? tenantOrderId, @JsonKey(name: 'SalesmanOrderId')  int? salesmanOrderId, @JsonKey(name: 'DeviceOrderID')  int? deviceOrderId, @JsonKey(name: 'CustomerId')  int? customerId, @JsonKey(name: 'SalesmanId')  int? salesmanId, @JsonKey(name: 'OrderTime')  DateTime? orderTime, @JsonKey(name: 'SyncDate')  DateTime? syncDate, @JsonKey(name: 'OrderRows')  List<OrderRow> orderRows, @JsonKey(name: 'ID')  int? id, @JsonKey(name: 'TenantID')  int? tenantId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int? tenantOrderId,  DateTime? orderDateTime,  int? deviceOrderID,  List<String>? errors)?  $default,) {final _that = this;
 switch (_that) {
 case _GetOrderResponse() when $default != null:
-return $default(_that.tenantOrderId,_that.salesmanOrderId,_that.deviceOrderId,_that.customerId,_that.salesmanId,_that.orderTime,_that.syncDate,_that.orderRows,_that.id,_that.tenantId);case _:
+return $default(_that.id,_that.tenantOrderId,_that.orderDateTime,_that.deviceOrderID,_that.errors);case _:
   return null;
 
 }
@@ -218,25 +213,22 @@ return $default(_that.tenantOrderId,_that.salesmanOrderId,_that.deviceOrderId,_t
 @JsonSerializable()
 
 class _GetOrderResponse implements GetOrderResponse {
-  const _GetOrderResponse({@JsonKey(name: 'TenantOrderId') this.tenantOrderId, @JsonKey(name: 'SalesmanOrderId') this.salesmanOrderId, @JsonKey(name: 'DeviceOrderID') this.deviceOrderId, @JsonKey(name: 'CustomerId') this.customerId, @JsonKey(name: 'SalesmanId') this.salesmanId, @JsonKey(name: 'OrderTime') this.orderTime, @JsonKey(name: 'SyncDate') this.syncDate, @JsonKey(name: 'OrderRows') final  List<OrderRow> orderRows = const [], @JsonKey(name: 'ID') this.id, @JsonKey(name: 'TenantID') this.tenantId}): _orderRows = orderRows;
+  const _GetOrderResponse({this.id, this.tenantOrderId, this.orderDateTime, this.deviceOrderID, final  List<String>? errors}): _errors = errors;
   factory _GetOrderResponse.fromJson(Map<String, dynamic> json) => _$GetOrderResponseFromJson(json);
 
-@override@JsonKey(name: 'TenantOrderId') final  int? tenantOrderId;
-@override@JsonKey(name: 'SalesmanOrderId') final  int? salesmanOrderId;
-@override@JsonKey(name: 'DeviceOrderID') final  int? deviceOrderId;
-@override@JsonKey(name: 'CustomerId') final  int? customerId;
-@override@JsonKey(name: 'SalesmanId') final  int? salesmanId;
-@override@JsonKey(name: 'OrderTime') final  DateTime? orderTime;
-@override@JsonKey(name: 'SyncDate') final  DateTime? syncDate;
- final  List<OrderRow> _orderRows;
-@override@JsonKey(name: 'OrderRows') List<OrderRow> get orderRows {
-  if (_orderRows is EqualUnmodifiableListView) return _orderRows;
+@override final  int? id;
+@override final  int? tenantOrderId;
+@override final  DateTime? orderDateTime;
+@override final  int? deviceOrderID;
+ final  List<String>? _errors;
+@override List<String>? get errors {
+  final value = _errors;
+  if (value == null) return null;
+  if (_errors is EqualUnmodifiableListView) return _errors;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_orderRows);
+  return EqualUnmodifiableListView(value);
 }
 
-@override@JsonKey(name: 'ID') final  int? id;
-@override@JsonKey(name: 'TenantID') final  int? tenantId;
 
 /// Create a copy of GetOrderResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -251,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetOrderResponse&&(identical(other.tenantOrderId, tenantOrderId) || other.tenantOrderId == tenantOrderId)&&(identical(other.salesmanOrderId, salesmanOrderId) || other.salesmanOrderId == salesmanOrderId)&&(identical(other.deviceOrderId, deviceOrderId) || other.deviceOrderId == deviceOrderId)&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.salesmanId, salesmanId) || other.salesmanId == salesmanId)&&(identical(other.orderTime, orderTime) || other.orderTime == orderTime)&&(identical(other.syncDate, syncDate) || other.syncDate == syncDate)&&const DeepCollectionEquality().equals(other._orderRows, _orderRows)&&(identical(other.id, id) || other.id == id)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetOrderResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.tenantOrderId, tenantOrderId) || other.tenantOrderId == tenantOrderId)&&(identical(other.orderDateTime, orderDateTime) || other.orderDateTime == orderDateTime)&&(identical(other.deviceOrderID, deviceOrderID) || other.deviceOrderID == deviceOrderID)&&const DeepCollectionEquality().equals(other._errors, _errors));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,tenantOrderId,salesmanOrderId,deviceOrderId,customerId,salesmanId,orderTime,syncDate,const DeepCollectionEquality().hash(_orderRows),id,tenantId);
+int get hashCode => Object.hash(runtimeType,id,tenantOrderId,orderDateTime,deviceOrderID,const DeepCollectionEquality().hash(_errors));
 
 @override
 String toString() {
-  return 'GetOrderResponse(tenantOrderId: $tenantOrderId, salesmanOrderId: $salesmanOrderId, deviceOrderId: $deviceOrderId, customerId: $customerId, salesmanId: $salesmanId, orderTime: $orderTime, syncDate: $syncDate, orderRows: $orderRows, id: $id, tenantId: $tenantId)';
+  return 'GetOrderResponse(id: $id, tenantOrderId: $tenantOrderId, orderDateTime: $orderDateTime, deviceOrderID: $deviceOrderID, errors: $errors)';
 }
 
 
@@ -271,7 +263,7 @@ abstract mixin class _$GetOrderResponseCopyWith<$Res> implements $GetOrderRespon
   factory _$GetOrderResponseCopyWith(_GetOrderResponse value, $Res Function(_GetOrderResponse) _then) = __$GetOrderResponseCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'TenantOrderId') int? tenantOrderId,@JsonKey(name: 'SalesmanOrderId') int? salesmanOrderId,@JsonKey(name: 'DeviceOrderID') int? deviceOrderId,@JsonKey(name: 'CustomerId') int? customerId,@JsonKey(name: 'SalesmanId') int? salesmanId,@JsonKey(name: 'OrderTime') DateTime? orderTime,@JsonKey(name: 'SyncDate') DateTime? syncDate,@JsonKey(name: 'OrderRows') List<OrderRow> orderRows,@JsonKey(name: 'ID') int? id,@JsonKey(name: 'TenantID') int? tenantId
+ int? id, int? tenantOrderId, DateTime? orderDateTime, int? deviceOrderID, List<String>? errors
 });
 
 
@@ -288,306 +280,14 @@ class __$GetOrderResponseCopyWithImpl<$Res>
 
 /// Create a copy of GetOrderResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? tenantOrderId = freezed,Object? salesmanOrderId = freezed,Object? deviceOrderId = freezed,Object? customerId = freezed,Object? salesmanId = freezed,Object? orderTime = freezed,Object? syncDate = freezed,Object? orderRows = null,Object? id = freezed,Object? tenantId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? tenantOrderId = freezed,Object? orderDateTime = freezed,Object? deviceOrderID = freezed,Object? errors = freezed,}) {
   return _then(_GetOrderResponse(
-tenantOrderId: freezed == tenantOrderId ? _self.tenantOrderId : tenantOrderId // ignore: cast_nullable_to_non_nullable
-as int?,salesmanOrderId: freezed == salesmanOrderId ? _self.salesmanOrderId : salesmanOrderId // ignore: cast_nullable_to_non_nullable
-as int?,deviceOrderId: freezed == deviceOrderId ? _self.deviceOrderId : deviceOrderId // ignore: cast_nullable_to_non_nullable
-as int?,customerId: freezed == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
-as int?,salesmanId: freezed == salesmanId ? _self.salesmanId : salesmanId // ignore: cast_nullable_to_non_nullable
-as int?,orderTime: freezed == orderTime ? _self.orderTime : orderTime // ignore: cast_nullable_to_non_nullable
-as DateTime?,syncDate: freezed == syncDate ? _self.syncDate : syncDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,orderRows: null == orderRows ? _self._orderRows : orderRows // ignore: cast_nullable_to_non_nullable
-as List<OrderRow>,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as int?,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
-mixin _$OrderRow {
-
-@JsonKey(name: 'OrderId') int? get orderId;@JsonKey(name: 'ProductId') int? get productId;@JsonKey(name: 'TenantProdId') int? get tenantProdId;@JsonKey(name: 'Qty') int? get qty;@JsonKey(name: 'Bonus') int? get bonus;@JsonKey(name: 'DiscRatio') double? get discRatio;@JsonKey(name: 'Price') double? get price;@JsonKey(name: 'ID') int? get id;@JsonKey(name: 'TenantID') int? get tenantId;
-/// Create a copy of OrderRow
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$OrderRowCopyWith<OrderRow> get copyWith => _$OrderRowCopyWithImpl<OrderRow>(this as OrderRow, _$identity);
-
-  /// Serializes this OrderRow to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderRow&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.tenantProdId, tenantProdId) || other.tenantProdId == tenantProdId)&&(identical(other.qty, qty) || other.qty == qty)&&(identical(other.bonus, bonus) || other.bonus == bonus)&&(identical(other.discRatio, discRatio) || other.discRatio == discRatio)&&(identical(other.price, price) || other.price == price)&&(identical(other.id, id) || other.id == id)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,orderId,productId,tenantProdId,qty,bonus,discRatio,price,id,tenantId);
-
-@override
-String toString() {
-  return 'OrderRow(orderId: $orderId, productId: $productId, tenantProdId: $tenantProdId, qty: $qty, bonus: $bonus, discRatio: $discRatio, price: $price, id: $id, tenantId: $tenantId)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $OrderRowCopyWith<$Res>  {
-  factory $OrderRowCopyWith(OrderRow value, $Res Function(OrderRow) _then) = _$OrderRowCopyWithImpl;
-@useResult
-$Res call({
-@JsonKey(name: 'OrderId') int? orderId,@JsonKey(name: 'ProductId') int? productId,@JsonKey(name: 'TenantProdId') int? tenantProdId,@JsonKey(name: 'Qty') int? qty,@JsonKey(name: 'Bonus') int? bonus,@JsonKey(name: 'DiscRatio') double? discRatio,@JsonKey(name: 'Price') double? price,@JsonKey(name: 'ID') int? id,@JsonKey(name: 'TenantID') int? tenantId
-});
-
-
-
-
-}
-/// @nodoc
-class _$OrderRowCopyWithImpl<$Res>
-    implements $OrderRowCopyWith<$Res> {
-  _$OrderRowCopyWithImpl(this._self, this._then);
-
-  final OrderRow _self;
-  final $Res Function(OrderRow) _then;
-
-/// Create a copy of OrderRow
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? orderId = freezed,Object? productId = freezed,Object? tenantProdId = freezed,Object? qty = freezed,Object? bonus = freezed,Object? discRatio = freezed,Object? price = freezed,Object? id = freezed,Object? tenantId = freezed,}) {
-  return _then(_self.copyWith(
-orderId: freezed == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
-as int?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
-as int?,tenantProdId: freezed == tenantProdId ? _self.tenantProdId : tenantProdId // ignore: cast_nullable_to_non_nullable
-as int?,qty: freezed == qty ? _self.qty : qty // ignore: cast_nullable_to_non_nullable
-as int?,bonus: freezed == bonus ? _self.bonus : bonus // ignore: cast_nullable_to_non_nullable
-as int?,discRatio: freezed == discRatio ? _self.discRatio : discRatio // ignore: cast_nullable_to_non_nullable
-as double?,price: freezed == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as double?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as int?,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [OrderRow].
-extension OrderRowPatterns on OrderRow {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _OrderRow value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _OrderRow() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _OrderRow value)  $default,){
-final _that = this;
-switch (_that) {
-case _OrderRow():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _OrderRow value)?  $default,){
-final _that = this;
-switch (_that) {
-case _OrderRow() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'OrderId')  int? orderId, @JsonKey(name: 'ProductId')  int? productId, @JsonKey(name: 'TenantProdId')  int? tenantProdId, @JsonKey(name: 'Qty')  int? qty, @JsonKey(name: 'Bonus')  int? bonus, @JsonKey(name: 'DiscRatio')  double? discRatio, @JsonKey(name: 'Price')  double? price, @JsonKey(name: 'ID')  int? id, @JsonKey(name: 'TenantID')  int? tenantId)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _OrderRow() when $default != null:
-return $default(_that.orderId,_that.productId,_that.tenantProdId,_that.qty,_that.bonus,_that.discRatio,_that.price,_that.id,_that.tenantId);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'OrderId')  int? orderId, @JsonKey(name: 'ProductId')  int? productId, @JsonKey(name: 'TenantProdId')  int? tenantProdId, @JsonKey(name: 'Qty')  int? qty, @JsonKey(name: 'Bonus')  int? bonus, @JsonKey(name: 'DiscRatio')  double? discRatio, @JsonKey(name: 'Price')  double? price, @JsonKey(name: 'ID')  int? id, @JsonKey(name: 'TenantID')  int? tenantId)  $default,) {final _that = this;
-switch (_that) {
-case _OrderRow():
-return $default(_that.orderId,_that.productId,_that.tenantProdId,_that.qty,_that.bonus,_that.discRatio,_that.price,_that.id,_that.tenantId);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'OrderId')  int? orderId, @JsonKey(name: 'ProductId')  int? productId, @JsonKey(name: 'TenantProdId')  int? tenantProdId, @JsonKey(name: 'Qty')  int? qty, @JsonKey(name: 'Bonus')  int? bonus, @JsonKey(name: 'DiscRatio')  double? discRatio, @JsonKey(name: 'Price')  double? price, @JsonKey(name: 'ID')  int? id, @JsonKey(name: 'TenantID')  int? tenantId)?  $default,) {final _that = this;
-switch (_that) {
-case _OrderRow() when $default != null:
-return $default(_that.orderId,_that.productId,_that.tenantProdId,_that.qty,_that.bonus,_that.discRatio,_that.price,_that.id,_that.tenantId);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _OrderRow implements OrderRow {
-  const _OrderRow({@JsonKey(name: 'OrderId') this.orderId, @JsonKey(name: 'ProductId') this.productId, @JsonKey(name: 'TenantProdId') this.tenantProdId, @JsonKey(name: 'Qty') this.qty, @JsonKey(name: 'Bonus') this.bonus, @JsonKey(name: 'DiscRatio') this.discRatio, @JsonKey(name: 'Price') this.price, @JsonKey(name: 'ID') this.id, @JsonKey(name: 'TenantID') this.tenantId});
-  factory _OrderRow.fromJson(Map<String, dynamic> json) => _$OrderRowFromJson(json);
-
-@override@JsonKey(name: 'OrderId') final  int? orderId;
-@override@JsonKey(name: 'ProductId') final  int? productId;
-@override@JsonKey(name: 'TenantProdId') final  int? tenantProdId;
-@override@JsonKey(name: 'Qty') final  int? qty;
-@override@JsonKey(name: 'Bonus') final  int? bonus;
-@override@JsonKey(name: 'DiscRatio') final  double? discRatio;
-@override@JsonKey(name: 'Price') final  double? price;
-@override@JsonKey(name: 'ID') final  int? id;
-@override@JsonKey(name: 'TenantID') final  int? tenantId;
-
-/// Create a copy of OrderRow
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$OrderRowCopyWith<_OrderRow> get copyWith => __$OrderRowCopyWithImpl<_OrderRow>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$OrderRowToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderRow&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.tenantProdId, tenantProdId) || other.tenantProdId == tenantProdId)&&(identical(other.qty, qty) || other.qty == qty)&&(identical(other.bonus, bonus) || other.bonus == bonus)&&(identical(other.discRatio, discRatio) || other.discRatio == discRatio)&&(identical(other.price, price) || other.price == price)&&(identical(other.id, id) || other.id == id)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,orderId,productId,tenantProdId,qty,bonus,discRatio,price,id,tenantId);
-
-@override
-String toString() {
-  return 'OrderRow(orderId: $orderId, productId: $productId, tenantProdId: $tenantProdId, qty: $qty, bonus: $bonus, discRatio: $discRatio, price: $price, id: $id, tenantId: $tenantId)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$OrderRowCopyWith<$Res> implements $OrderRowCopyWith<$Res> {
-  factory _$OrderRowCopyWith(_OrderRow value, $Res Function(_OrderRow) _then) = __$OrderRowCopyWithImpl;
-@override @useResult
-$Res call({
-@JsonKey(name: 'OrderId') int? orderId,@JsonKey(name: 'ProductId') int? productId,@JsonKey(name: 'TenantProdId') int? tenantProdId,@JsonKey(name: 'Qty') int? qty,@JsonKey(name: 'Bonus') int? bonus,@JsonKey(name: 'DiscRatio') double? discRatio,@JsonKey(name: 'Price') double? price,@JsonKey(name: 'ID') int? id,@JsonKey(name: 'TenantID') int? tenantId
-});
-
-
-
-
-}
-/// @nodoc
-class __$OrderRowCopyWithImpl<$Res>
-    implements _$OrderRowCopyWith<$Res> {
-  __$OrderRowCopyWithImpl(this._self, this._then);
-
-  final _OrderRow _self;
-  final $Res Function(_OrderRow) _then;
-
-/// Create a copy of OrderRow
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? orderId = freezed,Object? productId = freezed,Object? tenantProdId = freezed,Object? qty = freezed,Object? bonus = freezed,Object? discRatio = freezed,Object? price = freezed,Object? id = freezed,Object? tenantId = freezed,}) {
-  return _then(_OrderRow(
-orderId: freezed == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
-as int?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
-as int?,tenantProdId: freezed == tenantProdId ? _self.tenantProdId : tenantProdId // ignore: cast_nullable_to_non_nullable
-as int?,qty: freezed == qty ? _self.qty : qty // ignore: cast_nullable_to_non_nullable
-as int?,bonus: freezed == bonus ? _self.bonus : bonus // ignore: cast_nullable_to_non_nullable
-as int?,discRatio: freezed == discRatio ? _self.discRatio : discRatio // ignore: cast_nullable_to_non_nullable
-as double?,price: freezed == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as double?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,tenantId: freezed == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
-as int?,
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,tenantOrderId: freezed == tenantOrderId ? _self.tenantOrderId : tenantOrderId // ignore: cast_nullable_to_non_nullable
+as int?,orderDateTime: freezed == orderDateTime ? _self.orderDateTime : orderDateTime // ignore: cast_nullable_to_non_nullable
+as DateTime?,deviceOrderID: freezed == deviceOrderID ? _self.deviceOrderID : deviceOrderID // ignore: cast_nullable_to_non_nullable
+as int?,errors: freezed == errors ? _self._errors : errors // ignore: cast_nullable_to_non_nullable
+as List<String>?,
   ));
 }
 

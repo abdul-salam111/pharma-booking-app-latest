@@ -62,7 +62,7 @@ class CreateOrderIntellibizView extends GetView<CreateOrderIntellibizController>
                         heightBox(5),
                         Obx(
                           () => Text(
-                            controller.totalAmount.toDouble().withCommas,
+                            controller.totalAmount.toDouble().withCommasAndDecimals,
                             style: context.bodySmallStyle!.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -239,7 +239,7 @@ class CreateOrderIntellibizView extends GetView<CreateOrderIntellibizController>
                                               ),
                                         ),
                                         Text(
-                                          totalAmount.withCommas,
+                                          totalAmount.withCommasAndDecimals,
                                           style: context.bodySmallStyle!
                                               .copyWith(
                                                 color: AppColors.blackTextColor,

@@ -369,8 +369,8 @@ class CreateOrderIntellibizController extends GetxController {
   // ========================================================================
 
   void goToAllProducts([String? companyId]) async {
-    final String softwareVersion = await CurrentUserHelper.softwareVersion();
-    if (softwareVersion == "1") {
+    final String softwareVersion =  CurrentUserHelper.softwareVersion;
+    if (softwareVersion == "2") {
       if (!Get.isRegistered<AllProductsIntellibizController>()) {
         Get.lazyPut(() => AllProductsIntellibizController());
       }

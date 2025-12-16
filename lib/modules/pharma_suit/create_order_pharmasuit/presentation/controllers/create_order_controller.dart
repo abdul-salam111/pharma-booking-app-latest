@@ -426,8 +426,8 @@ class CreateOrderController extends GetxController {
 
   /// Navigate to all products screen for adding more products
   void goToAllProducts([String? companyId]) async {
-    final String softwareVersion = await CurrentUserHelper.softwareVersion();
-    if (softwareVersion == "1") {
+    final String softwareVersion =  CurrentUserHelper.softwareVersion;
+    if (softwareVersion == "2") {
       // Ensure AllProductsController is available
       if (!Get.isRegistered<AllProductsIntellibizController>()) {
         Get.lazyPut(() => AllProductsIntellibizController());

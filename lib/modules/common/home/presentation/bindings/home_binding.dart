@@ -7,7 +7,6 @@ import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/useca
 import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/insert_packings_locally_usecase.dart';
 import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_remote_usecases/get_all_remote_packings_usecase.dart';
 
-import '../../../../pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/get_packing_by_id_usecase.dart';
 import '../../../select_customer/domain/usecases/local_usecases/insert_sub_areas_local_usecase.dart';
 import '../barrel.dart';
 
@@ -196,12 +195,6 @@ class HomeBinding extends Bindings {
     Get.lazyPut(
       () => ClearLocalPackingsUsecase(
         productAbstractRepository: Get.find<ProductAbstractRepository>(),
-      ),
-    );
-
-    Get.lazyPut(
-      () => GetPackingsByIdUsecase(
-        productRepository: Get.find<ProductAbstractRepository>(),
       ),
     );
   }

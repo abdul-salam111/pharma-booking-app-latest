@@ -8,7 +8,6 @@ part of 'sync_orders_model.dart';
 
 _SyncOrdersModel _$SyncOrdersModelFromJson(Map<String, dynamic> json) =>
     _SyncOrdersModel(
-      salesmanOrderId: (json['SalesmanOrderId'] as num?)?.toInt(),
       deviceOrderId: (json['DeviceOrderID'] as num?)?.toInt(),
       customerId: (json['CustomerId'] as num?)?.toInt(),
       salesmanId: (json['SalesmanId'] as num?)?.toInt(),
@@ -22,7 +21,6 @@ _SyncOrdersModel _$SyncOrdersModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SyncOrdersModelToJson(_SyncOrdersModel instance) =>
     <String, dynamic>{
-      'SalesmanOrderId': instance.salesmanOrderId,
       'DeviceOrderID': instance.deviceOrderId,
       'CustomerId': instance.customerId,
       'SalesmanId': instance.salesmanId,

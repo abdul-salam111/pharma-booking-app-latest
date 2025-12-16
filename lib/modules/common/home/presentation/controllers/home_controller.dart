@@ -374,12 +374,15 @@ class HomeController extends GetxController {
   }
 
   // ================= ORDER SYNCHRONIZATION =================
+  // ================= ORDER SYNCHRONIZATION (CORRECTED) =================
   Future<void> _syncOrders() async {
     // Check if already syncing to prevent multiple calls
     if (isSyncingData.value) return;
+
     try {
       isSyncingData.value = true;
       final ordersResponse = await getUnsyncOrdersUsecase.call(NoParams());
+
       await ordersResponse.fold(
         (error) {
           AppToasts.showErrorToast(
@@ -397,11 +400,11 @@ class HomeController extends GetxController {
           final syncModel = await _prepareSyncModel(orders);
           print(syncModel.map((e) => e.toJson()).toList());
 
-          late List<GetOrderResponse> bookedOrdersResponse;
           final remoteOrdersResponse = await createOrdersRemotelyUsecase.call(
             syncModel,
           );
-          remoteOrdersResponse.fold(
+
+          await remoteOrdersResponse.fold(
             (error) {
               AppToasts.dismiss(Get.context!);
               AppToasts.showErrorToast(
@@ -409,30 +412,31 @@ class HomeController extends GetxController {
                 "Error syncing orders. ${error.toString()}",
               );
             },
-            (bookedOrders) {
-              if (bookedOrders.isNotEmpty) {
-                bookedOrdersResponse = bookedOrders;
-                return;
-              } else {
+            (bookedOrders) async {
+              if (bookedOrders.isEmpty) {
                 AppToasts.dismiss(Get.context!);
                 AppToasts.showErrorToast(Get.context!, 'Orders did not sync.');
+                return;
               }
+              final ordersListResponse = bookedOrders;
+
+              // Update synced orders
+              await _updateSyncedOrders(orders, ordersListResponse);
+
+              // Update unsynced count
+              final updateUnsynccount = await getCountUnsyncordersUsecase.call(
+                NoParams(),
+              );
+              await updateUnsynccount.fold((error) {}, (count) {
+                unsyncedOrdersCount.value = count;
+              });
+
+              AppToasts.dismiss(Get.context!);
+              AppToasts.showSuccessToast(
+                Get.context!,
+                '${bookedOrders.length} orders synced successfully.',
+              );
             },
-          );
-
-          await _updateSyncedOrders(orders, bookedOrdersResponse);
-
-          final updateUnsynccount = await getCountUnsyncordersUsecase.call(
-            NoParams(),
-          );
-          await updateUnsynccount.fold((error) {}, (count) {
-            unsyncedOrdersCount.value = count;
-          });
-
-          AppToasts.dismiss(Get.context!);
-          AppToasts.showSuccessToast(
-            Get.context!,
-            '${bookedOrdersResponse.length} orders synced successfully.',
           );
         },
       );
@@ -454,7 +458,6 @@ class HomeController extends GetxController {
 
       ordersList.add(
         SyncOrdersModel(
-          salesmanOrderId: null,
           deviceOrderId: orders[i].orderId,
           customerId: int.tryParse(orders[i].customerId),
           salesmanId: CurrentUserHelper.salesmanId,
@@ -492,6 +495,9 @@ class HomeController extends GetxController {
     List<OrderItemsForLocal> orders,
     List<GetOrderResponse> bookedOrders,
   ) async {
+    print(
+      'bookedOrders length: ${bookedOrders.length} I am updating thse orders',
+    );
     for (int i = 0; i < bookedOrders.length; i++) {
       if (bookedOrders[i].tenantOrderId != null) {
         print('Order synced: Local Order ID ${orders[i].orderId} ');

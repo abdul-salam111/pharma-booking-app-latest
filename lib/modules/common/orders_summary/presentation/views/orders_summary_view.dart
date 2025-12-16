@@ -34,7 +34,7 @@ class OrdersSummaryView extends GetView<OrdersSummaryController> {
         }
 
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: defaultPadding,
           child: _buildOrderTable(context),
         );
       }),
@@ -47,10 +47,10 @@ class OrdersSummaryView extends GetView<OrdersSummaryController> {
         horizontalInside: BorderSide(color: Colors.grey, width: 0.5),
       ),
       columnWidths: const {
-        0: FlexColumnWidth(1.5), // Date
+        0: FlexColumnWidth(1.3), // Date
         1: FlexColumnWidth(1), // Synced
         2: FlexColumnWidth(1), // Orders
-        3: FlexColumnWidth(1), // Amount
+        3: FlexColumnWidth(1.2), // Amount
       },
       children: [_buildTableHeader(context), ..._buildTableRows(context)],
     );
@@ -60,7 +60,7 @@ class OrdersSummaryView extends GetView<OrdersSummaryController> {
     return TableRow(
       decoration: BoxDecoration(color: Colors.grey[200]),
       children: [
-        _buildHeaderCell("Date", leftPadding: 12, context: context),
+        _buildHeaderCell("Date", leftPadding: 8, context: context),
         _buildHeaderCell("Synced", context: context),
         _buildHeaderCell("Orders", context: context),
         _buildHeaderCell("Amount", context: context),
@@ -113,7 +113,7 @@ class OrdersSummaryView extends GetView<OrdersSummaryController> {
                 : Colors.red[700],
           ),
           _buildClickableCell(summary.totalOrders.toString(), index, context),
-          _buildClickableCell(summary.totalAmount.withCommas, index, context),
+          _buildClickableCell("Rs. ${summary.totalAmount.withCommasAndDecimals}", index, context),
         ],
       );
     }).toList();
