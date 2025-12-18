@@ -15,6 +15,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Select Customer'),
         centerTitle: true,
@@ -285,6 +286,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
 
     return InputDecoration(
       hintText: hintText,
+
       contentPadding: EdgeInsets.zero,
       hintStyle: context.bodySmallStyle!.copyWith(color: iconColor),
       border: _buildUnderlineBorder(AppColors.borderColor),
@@ -308,17 +310,27 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
     String Function(T?) itemAsString,
   ) {
     return PopupProps.menu(
+      fit: FlexFit.tight,
       showSearchBox: true,
       searchFieldProps: TextFieldProps(
+        style: context.bodySmallStyle!.copyWith(
+          color: AppColors.blackTextColor,
+        ),
+        cursorHeight: 20,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.zero,
+          constraints: const BoxConstraints(maxHeight: 40),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 0,
+            vertical: 0,
+          ),
+          isDense: true,
           hintText: searchHint,
           hintStyle: context.bodySmallStyle!.copyWith(
             color: AppColors.greyTextColor,
           ),
           prefixIcon: Icon(
             Iconsax.search_normal,
-            size: 20,
+            size: 15,
             color: AppColors.greyColor,
           ),
           border: OutlineInputBorder(
@@ -334,15 +346,15 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
       menuProps: const MenuProps(backgroundColor: Colors.white, elevation: 8),
       itemBuilder: (context, item, isDisabled, isSelected) {
         String displayText = itemAsString(item);
-        String? subtitle;
-
-        // Add subtitle for customers to show additional info
-        if (T == GetCustomersModel && item != null) {
-          final customer = item as GetCustomersModel;
-          subtitle = customer.city;
-        }
 
         return ListTile(
+          dense: true,
+          visualDensity: const VisualDensity(horizontal: 0, vertical: -2),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 0,
+          ),
+          minVerticalPadding: 0,
           title: Text(
             displayText,
             style: context.bodySmallStyle!.copyWith(
@@ -351,14 +363,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
                   : AppColors.blackTextColor,
             ),
           ),
-          subtitle: subtitle != null
-              ? Text(
-                  subtitle,
-                  style: context.bodySmallStyle!.copyWith(
-                    color: AppColors.greyTextColor,
-                  ),
-                )
-              : null,
+
           enabled: !isDisabled,
           selected: isSelected,
         );

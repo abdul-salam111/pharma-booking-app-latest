@@ -142,14 +142,15 @@ class OrderDetailsOnDateControllerIntellibiz extends GetxController {
               quantityPack: product.quantityPack,
               pricePack: product.pricePack,
               bonus: product.bonus,
-              discPercent: product.discPercent,
+              discRatio: product.discRatio,
               priceLose: product.priceLose,
               quantityLose: product.quantityLose,
               rowTotal: product.rowTotal,
-              discValue: product.discValue,
+              discValuePack: product.discValuePack,
               multiplier: product.multiplier,
               packingName: product.packingName,
               packingId: product.packingId,
+              sTaxRatio: product.sTaxRatio,
             ),
           );
         }

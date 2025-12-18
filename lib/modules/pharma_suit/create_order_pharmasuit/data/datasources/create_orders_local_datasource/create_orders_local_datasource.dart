@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-
 import 'package:sqflite/sqflite.dart';
 
 import '../../../../../../core/local_storage/database/database_helper.dart';
@@ -8,23 +7,32 @@ import '../../../../../../core/shared/models/post_models/create_order_for_local.
 abstract interface class CreateOrdersLocalDatasource {
   Future<List<OrderItemsForLocal>> getUnsyncedOrders();
   Future<int> countUnsyncedOrders();
+  Future<int> getSyncTries(int orderId);
+  Future<bool> getFailedStatus(int orderId);
   Future<bool> updateOrderSyncStatus(int orderId, bool isSynced);
   Future<int> insertOrderLocal({required OrderItemsForLocal order});
   Future<bool> updateOrderLocal({required OrderItemsForLocal order});
   Future<bool> deleteOrderLocal({required int orderId});
+  Future<int> incrementSyncTries(int orderId);
+  Future<int> markOrderAsFailed(int orderId);
+  Future<int> markOrderAsNotFailed(int orderId);
+  Future<int> resetSyncTries(int orderId);
+  Future<List<OrderItemsForLocal>> getFailedOrders();
 }
 
 class CreateOrdersLocalDatasourceImpl implements CreateOrdersLocalDatasource {
   final SoftronixBookingDatabase databaseHelper;
   CreateOrdersLocalDatasourceImpl({required this.databaseHelper});
+
   static final String tableName = 'orders';
+
+  // ==================== GET METHODS ====================
+
   @override
   Future<List<OrderItemsForLocal>> getUnsyncedOrders() async {
     try {
       var dbClient = await databaseHelper.database;
-      // Use transaction for consistent data retrieval
       return await dbClient!.transaction((txn) async {
-        // Get orders that are not synced
         List<Map<String, dynamic>> orderMaps = await txn.query(
           tableName,
           where: 'synced = ?',
@@ -33,11 +41,9 @@ class CreateOrdersLocalDatasourceImpl implements CreateOrdersLocalDatasource {
 
         List<OrderItemsForLocal> orders = [];
 
-        // Build complete order objects (same as getAllOrders but filtered)
         for (var orderMap in orderMaps) {
           OrderItemsForLocal order = OrderItemsForLocal.fromMap(orderMap);
 
-          // Get companies for this order
           List<Map<String, dynamic>> companyMaps = await txn.query(
             'order_companies',
             where: 'orderId = ?',
@@ -48,7 +54,6 @@ class CreateOrdersLocalDatasourceImpl implements CreateOrdersLocalDatasource {
           for (var companyMap in companyMaps) {
             OrderCompanies company = OrderCompanies.fromMap(companyMap);
 
-            // Get products for this company
             List<Map<String, dynamic>> productMaps = await txn.query(
               'order_products',
               where: 'companyOrderId = ?',
@@ -66,10 +71,6 @@ class CreateOrdersLocalDatasourceImpl implements CreateOrdersLocalDatasource {
 
           order = order.copyWith(companies: companies);
           orders.add(order);
-        }
-
-        if (kDebugMode) {
-          print('Retrieved ${orders.length} unsynced orders');
         }
 
         return orders;
@@ -110,6 +111,112 @@ class CreateOrdersLocalDatasourceImpl implements CreateOrdersLocalDatasource {
   }
 
   @override
+  Future<int> getSyncTries(int orderId) async {
+    try {
+      var dbClient = await databaseHelper.database;
+
+      var result = await dbClient!.query(
+        tableName,
+        columns: ['syncTries'],
+        where: 'orderId = ?',
+        whereArgs: [orderId],
+      );
+
+      if (result.isNotEmpty) {
+        return result.first['syncTries'] as int? ?? 0;
+      }
+      return 0;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting sync tries: $e');
+      }
+      return 0;
+    }
+  }
+
+  @override
+  Future<bool> getFailedStatus(int orderId) async {
+    try {
+      var dbClient = await databaseHelper.database;
+
+      var result = await dbClient!.query(
+        tableName,
+        columns: ['isFailed'],
+        where: 'orderId = ?',
+        whereArgs: [orderId],
+      );
+
+      if (result.isNotEmpty) {
+        final isFailed = result.first['isFailed'] as int?;
+        return isFailed == 1;
+      }
+      return false;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting failed status: $e');
+      }
+      return false;
+    }
+  }
+
+ @override
+Future<List<OrderItemsForLocal>> getFailedOrders() async {
+  try {
+    var dbClient = await databaseHelper.database;
+    return await dbClient!.transaction((txn) async {
+      List<Map<String, dynamic>> orderMaps = await txn.query(
+        tableName,
+        where: 'isFailed = ?',
+        whereArgs: [1],
+      );
+
+      List<OrderItemsForLocal> orders = [];
+
+      for (var orderMap in orderMaps) {
+        OrderItemsForLocal order = OrderItemsForLocal.fromMap(orderMap);
+
+        List<Map<String, dynamic>> companyMaps = await txn.query(
+          'order_companies',
+          where: 'orderId = ?',
+          whereArgs: [order.orderId],
+        );
+
+        List<OrderCompanies> companies = [];
+        for (var companyMap in companyMaps) {
+          OrderCompanies company = OrderCompanies.fromMap(companyMap);
+
+          List<Map<String, dynamic>> productMaps = await txn.query(
+            'order_products',
+            where: 'companyOrderId = ?',
+            whereArgs: [company.companyOrderId],
+          );
+
+          company = company.copyWith(
+            products: productMaps
+                .map((map) => OrderProducts.fromMap(map))
+                .toList(),
+          );
+
+          companies.add(company);
+        }
+
+        order = order.copyWith(companies: companies);
+        orders.add(order);
+      }
+
+      return orders;
+    });
+  } catch (e) {
+    if (kDebugMode) {
+      print('Error getting failed orders: $e');
+    }
+    return [];
+  }
+}
+
+  // ==================== UPDATE METHODS ====================
+
+  @override
   Future<bool> updateOrderSyncStatus(int orderId, bool isSynced) async {
     try {
       var dbClient = await databaseHelper.database;
@@ -142,24 +249,99 @@ class CreateOrdersLocalDatasourceImpl implements CreateOrdersLocalDatasource {
   }
 
   @override
+  Future<int> incrementSyncTries(int orderId) async {
+    try {
+      var dbClient = await databaseHelper.database;
+
+      int currentTries = await getSyncTries(orderId);
+
+      return await dbClient!.update(
+        tableName,
+        {'syncTries': currentTries + 1},
+        where: 'orderId = ?',
+        whereArgs: [orderId],
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error incrementing sync tries: $e');
+      }
+      return 0;
+    }
+  }
+
+  @override
+  Future<int> markOrderAsFailed(int orderId) async {
+    try {
+      var dbClient = await databaseHelper.database;
+
+      return await dbClient!.update(
+        tableName,
+        {'isFailed': 1},
+        where: 'orderId = ?',
+        whereArgs: [orderId],
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error marking order as failed: $e');
+      }
+      return 0;
+    }
+  }
+
+  @override
+  Future<int> markOrderAsNotFailed(int orderId) async {
+    try {
+      var dbClient = await databaseHelper.database;
+
+      return await dbClient!.update(
+        tableName,
+        {'isFailed': 0},
+        where: 'orderId = ?',
+        whereArgs: [orderId],
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error marking order as not failed: $e');
+      }
+      return 0;
+    }
+  }
+
+  @override
+  Future<int> resetSyncTries(int orderId) async {
+    try {
+      var dbClient = await databaseHelper.database;
+
+      return await dbClient!.update(
+        tableName,
+        {'syncTries': 0},
+        where: 'orderId = ?',
+        whereArgs: [orderId],
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error resetting sync tries: $e');
+      }
+      return 0;
+    }
+  }
+
+  // ==================== INSERT/UPDATE/DELETE METHODS ====================
+
+  @override
   Future<int> insertOrderLocal({required OrderItemsForLocal order}) async {
     try {
       var dbClient = await databaseHelper.database;
 
-      // Use transaction to ensure all-or-nothing operation
       return await dbClient!.transaction((txn) async {
-        // Insert the main order record
-        int orderId = await txn.insert('orders', order.toMap());
+        int orderId = await txn.insert(tableName, order.toMap());
 
-        // Insert all companies and their products for this order
         for (var company in order.companies) {
-          // Insert company and get generated ID
           int companyOrderId = await txn.insert(
             'order_companies',
             company.copyWith(orderId: orderId).toMap(),
           );
 
-          // Insert all products for this company
           for (var product in company.products) {
             await txn.insert(
               'order_products',
@@ -188,15 +370,13 @@ class CreateOrdersLocalDatasourceImpl implements CreateOrdersLocalDatasource {
       var dbClient = await databaseHelper.database;
 
       return await dbClient!.transaction((txn) async {
-        // 1. Update the main order record
         await txn.update(
-          'orders',
+          tableName,
           order.toMap(),
           where: 'orderId = ?',
           whereArgs: [order.orderId],
         );
 
-        // 2. Delete existing related data
         await txn.delete(
           'order_products',
           where:
@@ -210,7 +390,6 @@ class CreateOrdersLocalDatasourceImpl implements CreateOrdersLocalDatasource {
           whereArgs: [order.orderId],
         );
 
-        // 3. Insert updated companies and their products
         for (var company in order.companies) {
           final companyMap = company.toMap();
           companyMap['orderId'] = order.orderId;
@@ -248,7 +427,7 @@ class CreateOrdersLocalDatasourceImpl implements CreateOrdersLocalDatasource {
 
       return await dbClient!.transaction((txn) async {
         int deletedRows = await txn.delete(
-          'orders',
+          tableName,
           where: 'orderId = ?',
           whereArgs: [orderId],
         );

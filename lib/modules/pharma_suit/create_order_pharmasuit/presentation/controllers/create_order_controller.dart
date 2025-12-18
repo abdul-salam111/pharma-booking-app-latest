@@ -342,7 +342,7 @@ class CreateOrderController extends GetxController {
   /// Calculate discount amount for a product
   double getProductDiscountAmount(OrderProducts product) {
     final subtotal = getProductSubtotal(product);
-    return (subtotal * product.discPercent!) / 100;
+    return (subtotal * product.discRatio!) / 100;
   }
 
   // ========================================================================
@@ -426,7 +426,7 @@ class CreateOrderController extends GetxController {
 
   /// Navigate to all products screen for adding more products
   void goToAllProducts([String? companyId]) async {
-    final String softwareVersion =  CurrentUserHelper.softwareVersion;
+    final String softwareVersion = CurrentUserHelper.softwareVersion;
     if (softwareVersion == "2") {
       // Ensure AllProductsController is available
       if (!Get.isRegistered<AllProductsIntellibizController>()) {
@@ -697,8 +697,9 @@ class CreateOrderController extends GetxController {
               productName: product.productName,
               quantityPack: product.quantityPack,
               bonus: product.bonus,
-              discPercent: product.discPercent,
+              discRatio: product.discRatio,
               pricePack: product.pricePack, // Keep original price
+              rowTotal: calculateProductTotal(product),
             ),
           )
           .toList();

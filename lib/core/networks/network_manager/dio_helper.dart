@@ -195,6 +195,8 @@ class DioHelper {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         switch (statusCode) {
+          case 400:
+            throw BadRequestException("${error.response?.data}");
           case 401:
             throw UnauthorizedException("${error.response?.data}");
           case 4012:

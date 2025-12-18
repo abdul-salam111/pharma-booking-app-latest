@@ -114,7 +114,7 @@ class OrderDetailsOnDateController extends GetxController {
               quantityPack: product.quantityPack,
               pricePack: product.pricePack,
               bonus: product.bonus,
-              discPercent: product.discPercent,
+              discRatio: product.discRatio,
             ),
           );
         }

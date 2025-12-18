@@ -317,7 +317,7 @@ class OrderDetailsOnDateView extends GetView<OrderDetailsOnDateController> {
                                           flex: 1,
                                           child: Center(
                                             child: Text(
-                                              product.discPercent!.toStringAsFixed(
+                                              product.discRatio!.toStringAsFixed(
                                                 0,
                                               ),
                                               style: context.displayLargeStyle!

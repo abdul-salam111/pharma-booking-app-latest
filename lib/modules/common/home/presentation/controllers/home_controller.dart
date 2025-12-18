@@ -2,13 +2,20 @@
 // HOME CONTROLLER
 // ============================================================================
 import 'dart:async';
+
 import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
+import 'package:pharma_booking_app/core/utils/error_popup.dart';
 import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/clear_local_packings_usecase.dart';
 import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/insert_packings_locally_usecase.dart';
 import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_remote_usecases/get_all_remote_packings_usecase.dart';
 import 'package:pharma_booking_app/modules/pharma_suit/create_order_pharmasuit/data/models/get_order_response/get_order_response.dart'
     show GetOrderResponse;
+import 'package:pharma_booking_app/modules/pharma_suit/create_order_pharmasuit/domain/usecases/local_usecases/mark_order_as_not_failed_usecase.dart';
 
+import '../../../../../core/utils/success_popup.dart';
+import '../../../../../core/utils/warning_popup.dart';
+import '../../../../pharma_suit/create_order_pharmasuit/domain/usecases/local_usecases/increment_sync_tries_usecase.dart';
+import '../../../../pharma_suit/create_order_pharmasuit/domain/usecases/local_usecases/mark_order_as_failed_usecase.dart';
 import '../../../select_customer/domain/usecases/local_usecases/insert_sub_areas_local_usecase.dart';
 import '../barrel.dart';
 
@@ -71,6 +78,10 @@ class HomeController extends GetxController {
   final GetCountUnsyncordersUsecase getCountUnsyncordersUsecase;
   final UpdateOrdersSyncStatusUsecase updateOrdersSyncStatusUsecase;
   final CreateOrdersRemotelyUsecase createOrdersRemotelyUsecase;
+  final MarkOrderAsFailedUsecase markOrderAsFailedUsecase;
+  final MarkOrderAsNotFailedUsecase markOrderAsNotFailedUsecase;
+  final IncrementSyncTriesUsecase incrementSyncTriesUsecase;
+
   // ==========================================================================
   // CONSTRUCTOR
   // ==========================================================================
@@ -111,6 +122,9 @@ class HomeController extends GetxController {
     required this.getCountUnsyncordersUsecase,
     required this.updateOrdersSyncStatusUsecase,
     required this.createOrdersRemotelyUsecase,
+    required this.markOrderAsFailedUsecase,
+    required this.markOrderAsNotFailedUsecase,
+    required this.incrementSyncTriesUsecase,
   });
 
   // ==========================================================================
@@ -373,7 +387,6 @@ class HomeController extends GetxController {
     );
   }
 
-  // ================= ORDER SYNCHRONIZATION =================
   // ================= ORDER SYNCHRONIZATION (CORRECTED) =================
   Future<void> _syncOrders() async {
     // Check if already syncing to prevent multiple calls
@@ -395,33 +408,34 @@ class HomeController extends GetxController {
             AppToasts.showWarningToast(Get.context!, 'No orders found.');
             return;
           }
+          print(
+            'Orders to sync: ${orders.map((order) => order.toMap()).toList()}',
+          );
 
           AppToasts.showLoaderDialog(Get.context!, 'Syncing orders...');
           final syncModel = await _prepareSyncModel(orders);
-          print(syncModel.map((e) => e.toJson()).toList());
 
           final remoteOrdersResponse = await createOrdersRemotelyUsecase.call(
             syncModel,
           );
 
           await remoteOrdersResponse.fold(
-            (error) {
+            (error) async {
               AppToasts.dismiss(Get.context!);
-              AppToasts.showErrorToast(
-                Get.context!,
-                "Error syncing orders. ${error.toString()}",
-              );
+              await showDialog(
+                context: Get.context!,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return ErrorPopup(failedOrders: orders.length);
+                },
+              ).then((result) {
+                if (result == 'download') {
+                } else if (result == 'continue') {}
+              });
             },
             (bookedOrders) async {
-              if (bookedOrders.isEmpty) {
-                AppToasts.dismiss(Get.context!);
-                AppToasts.showErrorToast(Get.context!, 'Orders did not sync.');
-                return;
-              }
-              final ordersListResponse = bookedOrders;
-
               // Update synced orders
-              await _updateSyncedOrders(orders, ordersListResponse);
+              await _updateSyncedOrders(orders, bookedOrders);
 
               // Update unsynced count
               final updateUnsynccount = await getCountUnsyncordersUsecase.call(
@@ -432,10 +446,6 @@ class HomeController extends GetxController {
               });
 
               AppToasts.dismiss(Get.context!);
-              AppToasts.showSuccessToast(
-                Get.context!,
-                '${bookedOrders.length} orders synced successfully.',
-              );
             },
           );
         },
@@ -458,10 +468,12 @@ class HomeController extends GetxController {
 
       ordersList.add(
         SyncOrdersModel(
-          deviceOrderId: orders[i].orderId,
+          deviceOrderGuid: orders[i].guid,
           customerId: int.tryParse(orders[i].customerId),
           salesmanId: CurrentUserHelper.salesmanId,
           deviceOrderDateTime: orders[i].orderDate,
+          orderTotalAmt:
+              orders[i].totalAmount.withCommasAndDecimals.toDoubleOrNull,
           orderRows: orderRows,
         ),
       );
@@ -478,11 +490,15 @@ class HomeController extends GetxController {
         orderRows.add(
           SyncOrderRow(
             productId: int.parse(product.productId),
-            qty: product.quantityPack,
+            qtyPack: product.quantityPack,
+            qtyLose: product.quantityLose ?? 0,
             bonus: product.bonus,
-            discRatio: product.discPercent,
-            price: product.pricePack,
-            orderId: order.orderId,
+            discRatio: product.discRatio,
+            pricePack: product.pricePack,
+            sTaxRatio: product.sTaxRatio ?? 0,
+            rowTotal: product.rowTotal,
+            packingId: product.packingId,
+            discValuePack: product.discValuePack ?? 0,
           ),
         );
       }
@@ -493,19 +509,75 @@ class HomeController extends GetxController {
 
   Future<void> _updateSyncedOrders(
     List<OrderItemsForLocal> orders,
-    List<GetOrderResponse> bookedOrders,
+    GetOrderResponse bookedOrders,
   ) async {
-    print(
-      'bookedOrders length: ${bookedOrders.length} I am updating thse orders',
-    );
-    for (int i = 0; i < bookedOrders.length; i++) {
-      if (bookedOrders[i].tenantOrderId != null) {
-        print('Order synced: Local Order ID ${orders[i].orderId} ');
-        await updateOrdersSyncStatusUsecase.call({
-          'orderId': orders[i].orderId,
-          'isSynced': true,
-        });
+    for (int i = 0; i < bookedOrders.results!.length; i++) {
+      if (bookedOrders.results![i].errors != null &&
+          bookedOrders.results![i].errors!.isNotEmpty) {
+        await markOrderAsFailedUsecase.call(
+          MarkOrderAsFailedParams(orderId: orders[i].orderId!),
+        );
+        await incrementSyncTriesUsecase.call(
+          IncrementSyncTriesParams(orderId: orders[i].orderId!),
+        );
+      } else {
+        // await updateOrdersSyncStatusUsecase.call({
+        //   'orderId': orders[i].orderId,
+        //   'isSynced': true,
+        // });
       }
+    }
+    if (bookedOrders.failedOrders == 0 &&
+        bookedOrders.success == true &&
+        bookedOrders.successfulOrders != 0) {
+      await showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return SuccessPopup(totalOrders: bookedOrders.successfulOrders ?? 0);
+        },
+      ).then((result) {
+        if (result == 'view_orders') {
+          Get.back();
+          Get.toNamed(Routes.ORDERS_SUMMARY);
+        } else if (result == 'continue') {}
+      });
+    } else if (bookedOrders.failedOrders != 0 &&
+        bookedOrders.successfulOrders != 0) {
+      await showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return WarningPopup(
+            successfulOrders: bookedOrders.successfulOrders ?? 0,
+            failedOrders: bookedOrders.failedOrders ?? 0,
+          );
+        },
+      ).then((result) {
+        if (result == 'download') {
+          // Handle retry action
+          print('User chose to download failed orders');
+        } else if (result == 'continue') {
+          // Handle continue action
+          print('User chose to continue');
+        }
+      });
+    } else {
+      await showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return ErrorPopup(failedOrders: bookedOrders.failedOrders ?? 0);
+        },
+      ).then((result) {
+        if (result == 'download') {
+          // Handle retry action
+          print('User chose to download failed orders');
+        } else if (result == 'continue') {
+          // Handle continue action
+          print('User chose to continue');
+        }
+      });
     }
   }
 

@@ -225,7 +225,9 @@ class HomeView extends GetView<HomeController> {
                                 await storage.clearValues(
                                   StorageKeys.isDatasynced,
                                 );
-                                await storage.clearValues(StorageKeys.softwareVersion);
+                                await storage.clearValues(
+                                  StorageKeys.softwareVersion,
+                                );
                                 Get.offAllNamed(Routes.LOGIN_SCREEN);
                               },
                               style: ElevatedButton.styleFrom(

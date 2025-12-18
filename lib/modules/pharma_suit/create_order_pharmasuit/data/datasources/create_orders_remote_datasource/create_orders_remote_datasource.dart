@@ -5,7 +5,7 @@ import '../../../../../../core/shared/models/post_models/sync_orders_model.dart'
 import '../../models/get_order_response/get_order_response.dart';
 
 abstract interface class CreateOrdersRemoteDatasource {
-  Future<List<GetOrderResponse>> syncOrdersRemotely({
+  Future<GetOrderResponse> syncOrdersRemotely({
     required List<SyncOrdersModel> orderdata,
   });
 }
@@ -15,7 +15,7 @@ class CreateOrdersRemoteDatasourceImpl implements CreateOrdersRemoteDatasource {
 
   CreateOrdersRemoteDatasourceImpl({required this.dioHelper});
   @override
-  Future<List<GetOrderResponse>> syncOrdersRemotely({
+  Future<GetOrderResponse> syncOrdersRemotely({
     required List<SyncOrdersModel> orderdata,
   }) async {
     try {
@@ -25,13 +25,10 @@ class CreateOrdersRemoteDatasourceImpl implements CreateOrdersRemoteDatasource {
         isAuthRequired: true,
         authToken: await storage.readValues(StorageKeys.token),
       );
-      if (response is List) {
-        return response.map((item) => GetOrderResponse.fromJson(item)).toList();
-      } else {
-        return [];
-      }
+
+      return GetOrderResponse.fromJson(response);
     } catch (error) {
-      throw AppException(error.toString());
+      rethrow;
     }
   }
 }

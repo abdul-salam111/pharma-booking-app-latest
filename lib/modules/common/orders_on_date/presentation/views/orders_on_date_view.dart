@@ -37,7 +37,7 @@ class OrdersOnDateView extends GetView<OrdersOnDateController> {
 
         return ListView.separated(
           itemCount: controller.ordersForDate.length,
-          padding: screenPadding,
+          padding: EdgeInsets.only(top: 5, left: 8, right: 8, bottom: 20),
           itemBuilder: (context, index) {
             final order = controller.ordersForDate[index];
 
@@ -72,32 +72,62 @@ class OrdersOnDateView extends GetView<OrdersOnDateController> {
                           heightBox(2),
                           Text(
                             controller.getCustomerAddress(order),
-                            style: context.bodySmallStyle!.copyWith(
+                            style: context.displayLargeStyle!.copyWith(
                               color: AppColors.greyColor,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Text(
-                      "Rs. ${(controller.getOrderTotal(order)).withCommasAndDecimals}",
-                      style: context.bodyMediumStyle!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                     widthBox(20),
-                    Container(
-                      padding: const EdgeInsets.all(4),
-
-                      child: Icon(
-                        order.syncedStatus == 'Yes'
-                            ? Icons.cloud_done
-                            : Icons.cloud_upload_outlined,
-                        size: 20,
-                        color: order.syncedStatus == 'Yes'
-                            ? Colors.green[700]
-                            : Colors.orange[700],
-                      ),
+                    Column(
+                      crossAxisAlignment: crossAxisEnd,
+                      children: [
+                        Text(
+                          "Rs. ${(controller.getOrderTotal(order)).withCommasAndDecimals}",
+                          style: context.bodyMediumStyle!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: mainAxisEnd,
+                          children: [
+                            if (order.isFailed == 1)
+                              Row(
+                                children: [
+                                  Text(
+                                    "Sync Retries : ",
+                                    style: context.displayLargeStyle!.copyWith(
+                                      color: AppColors.darkGreyColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${order.syncTries}",
+                                    style: context.displayLargeStyle!.copyWith(
+                                      color: AppColors.blackTextColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            widthBox(5),
+                            Icon(
+                              (order.syncedStatus == 'Yes' &&
+                                      order.isFailed == 0)
+                                  ? Icons.cloud_done
+                                  : Icons.cloud_upload_outlined,
+                              size: 20,
+                              color:
+                                  (order.syncedStatus == 'Yes' &&
+                                      order.isFailed == 0)
+                                  ? Colors.green[700]
+                                  : order.isFailed == 1
+                                  ? AppColors.appPrimaryColor
+                                  : AppColors.greyColor,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),

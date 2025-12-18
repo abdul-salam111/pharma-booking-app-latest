@@ -290,7 +290,7 @@ class OrderDetailsOnDateViewIntellibiz
                                         ),
                                         _buildDataCell(
                                           context,
-                                          product.discPercent!.toStringAsFixed(
+                                          product.discRatio!.toStringAsFixed(
                                             0,
                                           ),
                                         ),

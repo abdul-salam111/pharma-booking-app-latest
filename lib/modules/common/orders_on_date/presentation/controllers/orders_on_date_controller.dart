@@ -104,12 +104,11 @@ class OrdersOnDateController extends GetxController {
               (productModel) {
                 orderRows.add(
                   SyncOrderRow(
-                    orderId: ordersForDate[i].orderId,
                     productId: product.productId.toIntOrNull,
-                    qty: product.quantityPack,
+                    qtyPack: product.quantityPack,
                     bonus: product.bonus,
-                    discRatio: product.discPercent,
-                    price: product.pricePack,
+                    discRatio: product.discRatio,
+                    pricePack: product.pricePack,
                   ),
                 );
               },
@@ -128,7 +127,7 @@ class OrdersOnDateController extends GetxController {
             // Add order to data list
             ordersList.add(
               SyncOrdersModel(
-                deviceOrderId: ordersForDate[i].orderId,
+                deviceOrderGuid: ordersForDate[i].guid,
                 customerId: getCustomersModel?.id,
                 salesmanId: CurrentUserHelper.salesmanId,
                 deviceOrderDateTime: ordersForDate[i].orderDate,

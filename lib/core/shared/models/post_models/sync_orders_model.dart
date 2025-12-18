@@ -6,14 +6,21 @@ part 'sync_orders_model.g.dart';
 @freezed
 abstract class SyncOrdersModel with _$SyncOrdersModel {
   const factory SyncOrdersModel({
-    @JsonKey(name: "DeviceOrderID")
-    int? deviceOrderId,
+    @JsonKey(name: "DeviceOrderGuid")
+    String? deviceOrderGuid,
+
     @JsonKey(name: "CustomerId")
     int? customerId,
+
     @JsonKey(name: "SalesmanId")
     int? salesmanId,
+
     @JsonKey(name: "DeviceOrderDateTime")
     DateTime? deviceOrderDateTime,
+
+    @JsonKey(name: "OrderTotalAmt")
+    double? orderTotalAmt,
+
     @JsonKey(name: "OrderRows")
     List<SyncOrderRow>? orderRows,
   }) = _SyncOrdersModel;
@@ -25,18 +32,35 @@ abstract class SyncOrdersModel with _$SyncOrdersModel {
 @freezed
 abstract class SyncOrderRow with _$SyncOrderRow {
   const factory SyncOrderRow({
-    @JsonKey(name: "OrderId")
-    int? orderId,
     @JsonKey(name: "ProductId")
     int? productId,
-    @JsonKey(name: "Qty")
-    int? qty,
+
+    @JsonKey(name: "PackingId")
+    int? packingId,
+
+    @JsonKey(name: "QtyPack")
+    int? qtyPack,
+
+    @JsonKey(name: "QtyLose")
+    int? qtyLose,
+
     @JsonKey(name: "Bonus")
     int? bonus,
+
     @JsonKey(name: "DiscRatio")
     double? discRatio,
-    @JsonKey(name: "Price")
-    double? price,
+
+    @JsonKey(name: "DiscValuePack")
+    double? discValuePack,
+
+    @JsonKey(name: "PricePack")
+    double? pricePack,
+
+    @JsonKey(name: "STaxRatio")
+    double? sTaxRatio,
+
+    @JsonKey(name: "RowTotal")
+    double? rowTotal,
   }) = _SyncOrderRow;
 
   factory SyncOrderRow.fromJson(Map<String, dynamic> json) =>

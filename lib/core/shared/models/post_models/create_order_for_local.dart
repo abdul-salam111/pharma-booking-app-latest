@@ -7,6 +7,8 @@ class OrderItemsForLocal {
   final DateTime orderDate;
   final DateTime? syncDate;
   final String syncedStatus;
+  final int? isFailed;
+  final int? syncTries;
   final double totalAmount;
   final int totalItems;
   final String? guid;
@@ -20,8 +22,11 @@ class OrderItemsForLocal {
     required this.orderDate,
     this.syncDate,
     this.syncedStatus = 'No',
+    this.isFailed = 0,
+    this.syncTries = 0,
     required this.totalAmount,
     required this.totalItems,
+
     this.guid,
   });
 
@@ -34,6 +39,8 @@ class OrderItemsForLocal {
       'orderDate': orderDate.toIso8601String(),
       'syncDate': syncDate?.toIso8601String(),
       'synced': syncedStatus,
+      'isFailed': isFailed,
+      'syncTries': syncTries,
       'grandTotalProducts': totalItems,
       'grandTotalAmount': totalAmount,
       'guid': guid,
@@ -51,6 +58,8 @@ class OrderItemsForLocal {
           ? DateTime.parse(map['syncDate'])
           : null,
       syncedStatus: map['synced'],
+      isFailed: map['isFailed'],
+      syncTries: map['syncTries'],
       totalAmount: map['grandTotalAmount'],
       totalItems: map['grandTotalProducts'],
       customerAddress: map['customerAddress'] ?? '',
@@ -67,6 +76,8 @@ class OrderItemsForLocal {
     DateTime? orderDate,
     DateTime? syncDate,
     String? syncedStatus,
+    int? isFailed,
+    int? syncTries,
     double? totalAmount,
     int? totalItems,
     String? customerAddress,
@@ -81,6 +92,8 @@ class OrderItemsForLocal {
       orderDate: orderDate ?? this.orderDate,
       syncDate: syncDate ?? this.syncDate,
       syncedStatus: syncedStatus ?? this.syncedStatus,
+      isFailed: isFailed ?? this.isFailed,
+      syncTries: syncTries ?? this.syncTries,
       totalAmount: totalAmount ?? this.totalAmount,
       totalItems: totalItems ?? this.totalItems,
       guid: guid ?? this.guid,
@@ -163,13 +176,14 @@ class OrderProducts {
   final int? quantityLose;
   final double pricePack;
   final double? priceLose;
-  final double? discPercent;
-  final double? discValue;
+  final double? discRatio;
+  final double? discValuePack;
   final int? packingId;
   final int? multiplier;
   final String? packingName;
   final int bonus;
   final double rowTotal;
+  final double? sTaxRatio;
 
   OrderProducts({
     this.orderProductId,
@@ -181,13 +195,14 @@ class OrderProducts {
     this.quantityLose,
     required this.pricePack,
     this.priceLose,
-    this.discPercent,
-    this.discValue,
+    this.discRatio,
+    this.discValuePack,
     this.multiplier,
     this.packingName,
     this.packingId,
     this.bonus = 0,
     this.rowTotal = 0,
+    this.sTaxRatio,
   });
 
   Map<String, dynamic> toMap() {
@@ -200,13 +215,14 @@ class OrderProducts {
       'quantityLose': quantityLose,
       'pricePack': pricePack,
       'priceLose': priceLose,
-      'discPercent': discPercent,
-      'discValue': discValue,
+      'discRatio': discRatio,
+      'discValuePack': discValuePack,
       'multiplier': multiplier,
       'packingName': packingName,
       'packingId': packingId,
       'bonus': bonus,
       'rowTotal': rowTotal,
+      'sTaxRatio': sTaxRatio,
     };
   }
 
@@ -220,13 +236,14 @@ class OrderProducts {
       quantityLose: map['quantityLose'],
       pricePack: map['pricePack'],
       priceLose: map['priceLose'],
-      discPercent: map['discPercent'],
-      discValue: map['discValue'],
+      discRatio: map['discRatio'],
+      discValuePack: map['discValuePack'],
       multiplier: map['multiplier'],
       packingName: map['packingName'],
       packingId: map['packingId'],
       bonus: map['bonus'],
       rowTotal: map['rowTotal'],
+      sTaxRatio: map['sTaxRatio'],
     );
   }
 
@@ -238,13 +255,14 @@ class OrderProducts {
     String? productName,
     int? quantityPack,
     int? quantityLose,
-    double? discPercent,
-    double? discValue,
+    double? discRatio,
+    double? discValuePack,
     double? pricePack,
     double? priceLose,
     int? multiplier,
     int? packingId,
     String? packingName,
+    double? sTaxRatio,
 
     int? bonus,
     double? rowTotal,
@@ -258,13 +276,14 @@ class OrderProducts {
       quantityLose: quantityLose ?? this.quantityLose,
       pricePack: pricePack ?? this.pricePack,
       priceLose: priceLose ?? this.priceLose,
-      discPercent: discPercent ?? this.discPercent,
-      discValue: discValue ?? this.discValue,
+      discRatio: discRatio ?? this.discRatio,
+      discValuePack: discValuePack ?? this.discValuePack,
       multiplier: multiplier ?? this.multiplier,
       packingName: packingName ?? this.packingName,
       packingId: packingId ?? this.packingId,
       bonus: bonus ?? this.bonus,
       rowTotal: rowTotal ?? this.rowTotal,
+      sTaxRatio: sTaxRatio ?? this.sTaxRatio,
     );
   }
 }

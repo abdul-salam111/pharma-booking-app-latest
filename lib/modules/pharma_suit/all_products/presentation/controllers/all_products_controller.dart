@@ -287,7 +287,7 @@ class AllProductsController extends GetxController {
   /// Formula: (quantity * price) - discount
   double calculateProductTotal(OrderProducts product) {
     final subtotal = product.quantityPack * product.pricePack;
-    final discountAmount = (subtotal * product.discPercent!) / 100;
+    final discountAmount = (subtotal * product.discRatio!) / 100;
     return subtotal - discountAmount;
   }
 
@@ -299,7 +299,7 @@ class AllProductsController extends GetxController {
   /// Calculate the discount amount for a product
   double getProductDiscountAmount(OrderProducts product) {
     final subtotal = product.quantityPack * product.pricePack;
-    return (subtotal * product.discPercent!) / 100;
+    return (subtotal * product.discRatio!) / 100;
   }
 
   /// Calculate total amounts and item counts for the order

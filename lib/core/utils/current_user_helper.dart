@@ -18,17 +18,14 @@ class CurrentUserHelper {
 
   static int get salesmanId => _session.getUserDetails.user?.salesmanId ?? 0;
 
-
   static bool get isAllowChangeBookingPrice =>
-      _session.getUserDetails.user?.salesman?.isAllowChangeBookingPrice ??
-      false;
+      _session.getUserDetails.salesman?.isAllowChangeBookingPrice ?? false;
   static bool get isAllowChangeBookingDisc =>
-      _session.getUserDetails.user?.salesman?.isAllowChangeBookingDisc ?? false;
+      _session.getUserDetails.salesman?.isAllowChangeBookingDisc ?? false;
   static bool get isAllowChangeBookingBonus =>
-      _session.getUserDetails.user?.salesman?.isAllowChangeBookingBonus ??
-      false;
+      _session.getUserDetails.salesman?.isAllowChangeBookingBonus ?? false;
   static bool get isShowCurrentStock =>
-      _session.getUserDetails.user?.salesman?.isShowCurrentStock ?? false;
+      _session.getUserDetails.salesman?.isShowCurrentStock ?? false;
   static String get softwareVersion =>
-      _session.getUserDetails.user?.salesman?.software!.id!.toString() ?? "1";
+      _session.getUserDetails.software!.id!.toString();
 }

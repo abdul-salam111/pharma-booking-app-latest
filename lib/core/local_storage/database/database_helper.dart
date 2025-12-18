@@ -162,6 +162,8 @@ class SoftronixBookingDatabase {
             orderDate TEXT,
             syncDate TEXT,
             synced TEXT DEFAULT 'No',
+            isFailed INTEGER DEFAULT 0,
+            syncTries INTEGER DEFAULT 0,
             grandTotalProducts INTEGER DEFAULT 0,
             grandTotalAmount REAL DEFAULT 0,
             guid TEXT
@@ -193,12 +195,13 @@ class SoftronixBookingDatabase {
     quantityLose INTEGER,
     pricePack REAL,
     priceLose REAL,
-    discPercent REAL,
-    discValue REAL,
+    discRatio REAL,
+    discValuePack REAL,
     multiplier INTEGER,
     packingId INTEGER,
     packingName TEXT,     
     bonus INTEGER DEFAULT 0,
+    sTaxRatio REAL,
     rowTotal REAL,
     
     FOREIGN KEY (companyOrderId) REFERENCES order_companies(companyOrderId) ON DELETE CASCADE

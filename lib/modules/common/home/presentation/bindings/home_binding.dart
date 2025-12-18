@@ -7,6 +7,9 @@ import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/useca
 import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/insert_packings_locally_usecase.dart';
 import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_remote_usecases/get_all_remote_packings_usecase.dart';
 
+import '../../../../pharma_suit/create_order_pharmasuit/domain/usecases/local_usecases/increment_sync_tries_usecase.dart';
+import '../../../../pharma_suit/create_order_pharmasuit/domain/usecases/local_usecases/mark_order_as_failed_usecase.dart';
+import '../../../../pharma_suit/create_order_pharmasuit/domain/usecases/local_usecases/mark_order_as_not_failed_usecase.dart';
 import '../../../select_customer/domain/usecases/local_usecases/insert_sub_areas_local_usecase.dart';
 import '../barrel.dart';
 
@@ -307,6 +310,24 @@ class HomeBinding extends Bindings {
         createOrdersRepository: Get.find<CreateOrdersRepository>(),
       ),
     );
+
+    Get.lazyPut(
+      () => MarkOrderAsFailedUsecase(
+        createOrdersRepository: Get.find<CreateOrdersRepository>(),
+      ),
+    );
+
+    Get.lazyPut(
+      () => MarkOrderAsNotFailedUsecase(
+        createOrdersRepository: Get.find<CreateOrdersRepository>(),
+      ),
+    );
+
+    Get.lazyPut(
+      () => IncrementSyncTriesUsecase(
+        createOrdersRepository: Get.find<CreateOrdersRepository>(),
+      ),
+    );
   }
 
   // ==========================================================================
@@ -357,6 +378,10 @@ class HomeBinding extends Bindings {
         updateOrdersSyncStatusUsecase:
             Get.find<UpdateOrdersSyncStatusUsecase>(),
         createOrdersRemotelyUsecase: Get.find<CreateOrdersRemotelyUsecase>(),
+
+        markOrderAsFailedUsecase: Get.find<MarkOrderAsFailedUsecase>(),
+        markOrderAsNotFailedUsecase: Get.find<MarkOrderAsNotFailedUsecase>(),
+        incrementSyncTriesUsecase: Get.find<IncrementSyncTriesUsecase>(),
       ),
     );
   }

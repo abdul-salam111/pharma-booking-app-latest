@@ -433,12 +433,12 @@ class AllProductsIntellibizView
                                                           TextSpan(
                                                             text:
                                                                 (selectedProduct
-                                                                            ?.discPercent !=
+                                                                            ?.discRatio !=
                                                                         0.0 &&
                                                                     selectedProduct
-                                                                            ?.discPercent !=
+                                                                            ?.discRatio !=
                                                                         null)
-                                                                ? "${selectedProduct?.discPercent.toString()}%"
+                                                                ? "${selectedProduct?.discRatio.toString()}%"
                                                                 : "",
                                                             style: context
                                                                 .displayLargeStyle!
@@ -692,8 +692,8 @@ class _ProductBottomSheetIntellibizState
           ? existingProduct!.bonus.toString()
           : '';
 
-      discController.text = (existingProduct?.discPercent ?? 0.0) > 0
-          ? existingProduct!.discPercent.toString()
+      discController.text = (existingProduct?.discRatio ?? 0.0) > 0
+          ? existingProduct!.discRatio.toString()
           : '';
 
       priceController.text = existingProduct?.pricePack.toString() ?? '0';
@@ -1195,7 +1195,7 @@ class _ProductBottomSheetIntellibizState
                                 ? '0'
                                 : bonusController.text,
                           ),
-                          discPercent: double.parse(
+                          discRatio: double.parse(
                             discController.text.isEmpty
                                 ? '0.0'
                                 : discController.text,
@@ -1203,6 +1203,8 @@ class _ProductBottomSheetIntellibizState
                           packingName: selectedPacking.value?.packingName,
                           multiplier: selectedPacking.value?.multiplier,
                           packingId: selectedPacking.value?.packingId,
+                          sTaxRatio: widget.product.sTaxRatio,
+                          
                         ),
                       );
 

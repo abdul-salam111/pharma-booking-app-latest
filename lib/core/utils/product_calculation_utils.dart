@@ -107,7 +107,7 @@ class ProductCalculationUtils {
       quantityPack: orderProduct.quantityPack,
       quantityLose: orderProduct.quantityLose ?? 0,
       price: orderProduct.pricePack,
-      discountPercent: orderProduct.discPercent ?? 0,
+      discountPercent: orderProduct.discRatio ?? 0,
       selectedPacking: selectedPacking,
     );
   }

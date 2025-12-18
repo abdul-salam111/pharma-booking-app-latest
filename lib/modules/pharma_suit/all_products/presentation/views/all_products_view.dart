@@ -426,12 +426,12 @@ class AllProductsView extends GetView<AllProductsController> {
                                                             TextSpan(
                                                               text:
                                                                   (selectedProduct
-                                                                              ?.discPercent !=
+                                                                              ?.discRatio !=
                                                                           0.0 &&
                                                                       selectedProduct
-                                                                              ?.discPercent !=
+                                                                              ?.discRatio !=
                                                                           null)
-                                                                  ? "${selectedProduct?.discPercent.toString()}%"
+                                                                  ? "${selectedProduct?.discRatio.toString()}%"
                                                                   : "",
                                                               style: context
                                                                   .displayLargeStyle!
@@ -690,9 +690,9 @@ class _ProductBottomSheetPharmaSuitState
     );
     discController = TextEditingController(
       text:
-          (existingProduct?.discPercent != null &&
-              existingProduct!.discPercent != 0.0)
-          ? existingProduct.discPercent.toString()
+          (existingProduct?.discRatio != null &&
+              existingProduct!.discRatio != 0.0)
+          ? existingProduct.discRatio.toString()
           : '',
     );
     priceController = TextEditingController(
@@ -1098,7 +1098,7 @@ class _ProductBottomSheetPharmaSuitState
                                 ? '0'
                                 : bonusController.text,
                           ),
-                          discPercent: double.parse(
+                          discRatio: double.parse(
                             discController.text.isEmpty
                                 ? '0.0'
                                 : discController.text,

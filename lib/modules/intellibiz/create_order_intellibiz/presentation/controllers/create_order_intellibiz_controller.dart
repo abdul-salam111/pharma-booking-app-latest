@@ -369,7 +369,7 @@ class CreateOrderIntellibizController extends GetxController {
   // ========================================================================
 
   void goToAllProducts([String? companyId]) async {
-    final String softwareVersion =  CurrentUserHelper.softwareVersion;
+    final String softwareVersion = CurrentUserHelper.softwareVersion;
     if (softwareVersion == "2") {
       if (!Get.isRegistered<AllProductsIntellibizController>()) {
         Get.lazyPut(() => AllProductsIntellibizController());
@@ -616,15 +616,16 @@ class CreateOrderIntellibizController extends GetxController {
               productName: product.productName,
               quantityPack: product.quantityPack,
               bonus: product.bonus,
-              discPercent: product.discPercent,
+              discRatio: product.discRatio,
               pricePack: product.pricePack,
               rowTotal: calculateProductTotal(product),
               packingName: product.packingName,
               quantityLose: product.quantityLose,
               priceLose: product.priceLose,
-              discValue: product.discValue,
+              discValuePack: product.discValuePack,
               multiplier: product.multiplier,
               packingId: product.packingId,
+              sTaxRatio: product.sTaxRatio,
             ),
           )
           .toList();
