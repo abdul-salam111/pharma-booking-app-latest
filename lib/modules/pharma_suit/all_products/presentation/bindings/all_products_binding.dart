@@ -1,4 +1,4 @@
-import '../../../../common/home/presentation/barrel.dart';
+import '../../../../common/presentations/home/presentation/barrel.dart';
 
 import '../controllers/all_products_controller.dart';
 

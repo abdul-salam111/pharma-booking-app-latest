@@ -6,7 +6,7 @@ import '../../../../../core/core.dart';
 import '../../../../../core/routes/app_pages.dart';
 import '../../../../../core/shared/models/post_models/create_order_for_local.dart';
 import '../../../../../core/widgets/widgets.dart';
-import '../../data/models/get_products_model/get_all_products_model.dart';
+import '../../../../common/data/all_products_data/data/models/get_products_model/get_all_products_model.dart';
 import '../controllers/all_products_controller.dart';
 
 class AllProductsView extends GetView<AllProductsController> {

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import '../../modules/common/login_screen/data/models/login_response_model/login_response_model.dart';
+import '../../modules/common/presentations/login_screen/data/models/login_response_model/login_response_model.dart';
 import '../local_storage/storage.dart';
 
 class SessionController {

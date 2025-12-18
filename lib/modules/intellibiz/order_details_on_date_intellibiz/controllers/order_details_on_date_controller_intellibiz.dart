@@ -1,7 +1,7 @@
-import 'package:pharma_booking_app/modules/pharma_suit/all_products/data/models/get_products_packing/get_packings.dart';
+import 'package:pharma_booking_app/modules/common/data/all_products_data/data/models/get_products_packing/get_packings.dart';
 
-import '../../../common/home/presentation/barrel.dart';
-import '../../../pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/get_all_local_packings_usecase.dart';
+import '../../../common/presentations/home/presentation/barrel.dart';
+import '../../../common/domain/all_products_domain/domain/usecases/products_usecases/product_local_usecases/get_all_local_packings_usecase.dart';
 
 class OrderDetailsOnDateControllerIntellibiz extends GetxController {
   final GetAllLocalProductsUsecase getAllLocalProductsUsecase;

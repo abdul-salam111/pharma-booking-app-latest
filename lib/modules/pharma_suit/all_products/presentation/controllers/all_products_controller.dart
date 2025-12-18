@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../../../create_order_pharmasuit/presentation/controllers/create_order_controller.dart';
-import '../../../../common/home/presentation/barrel.dart';
+import '../../../../common/presentations/home/presentation/barrel.dart';
 
 /// Controller for managing product selection and order creation in the pharma app
 /// Handles product filtering, company selection, and order management

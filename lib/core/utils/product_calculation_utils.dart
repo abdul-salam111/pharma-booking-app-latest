@@ -1,6 +1,6 @@
 // Yeh file create karo: lib/core/utils/product_calculation_utils.dart
 
-import 'package:pharma_booking_app/modules/common/home/presentation/barrel.dart';
+import 'package:pharma_booking_app/modules/common/presentations/home/presentation/barrel.dart';
 
 // ============================================
 // Yeh class calculation ka result hold karegi

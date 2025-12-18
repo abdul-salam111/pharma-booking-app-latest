@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import 'package:pharma_booking_app/modules/common/home/presentation/barrel.dart';
+import 'package:pharma_booking_app/modules/common/presentations/home/presentation/barrel.dart';
 
 class SuccessPopup extends StatefulWidget {
   final int totalOrders;

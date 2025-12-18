@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 import '../../../../core/widgets/custom_button.dart';
-import '../../../common/home/presentation/barrel.dart';
+import '../../../common/presentations/home/presentation/barrel.dart';
 import '../controllers/order_details_on_date_controller.dart';
 
 class OrderDetailsOnDateView extends GetView<OrderDetailsOnDateController> {

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../../modules/common/home/presentation/barrel.dart';
+import '../../modules/common/presentations/home/presentation/barrel.dart';
 
 class SplashServices {
   void isLoggedIn() {

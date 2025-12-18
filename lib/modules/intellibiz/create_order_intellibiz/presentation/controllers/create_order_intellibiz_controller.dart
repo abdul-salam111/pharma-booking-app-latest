@@ -4,9 +4,9 @@ import 'package:pharma_booking_app/modules/intellibiz/all_products_intellibiz/co
 import 'package:uuid/uuid.dart';
 import '../../../../../core/utils/current_user_helper.dart';
 
-import '../../../../common/home/presentation/barrel.dart';
-import '../../../../pharma_suit/create_order_pharmasuit/domain/usecases/local_usecases/create_order_local_usecase.dart';
-import '../../../../pharma_suit/create_order_pharmasuit/domain/usecases/local_usecases/update_order_local_usecase.dart';
+import '../../../../common/presentations/home/presentation/barrel.dart';
+import '../../../../common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_local_usecases/create_order_local_usecase.dart';
+import '../../../../common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_local_usecases/update_order_local_usecase.dart';
 
 // ════════════════════════════════════════════════════════════
 // 👇 STEP 1: YEH IMPORT ADD KARO (Line 12 par)

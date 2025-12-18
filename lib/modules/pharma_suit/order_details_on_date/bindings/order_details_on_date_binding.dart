@@ -1,4 +1,4 @@
-import '../../../common/home/presentation/barrel.dart';
+import '../../../common/presentations/home/presentation/barrel.dart';
 import '../controllers/order_details_on_date_controller.dart';
 
 class OrderDetailsOnDateBinding extends Bindings {

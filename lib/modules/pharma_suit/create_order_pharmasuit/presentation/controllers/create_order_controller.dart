@@ -4,9 +4,9 @@ import 'package:pharma_booking_app/modules/intellibiz/all_products_intellibiz/co
 import 'package:uuid/uuid.dart';
 import '../../../../../core/utils/current_user_helper.dart';
 import '../../../all_products/presentation/controllers/all_products_controller.dart';
-import '../../../../common/home/presentation/barrel.dart';
-import '../../domain/usecases/local_usecases/create_order_local_usecase.dart';
-import '../../domain/usecases/local_usecases/update_order_local_usecase.dart';
+import '../../../../common/presentations/home/presentation/barrel.dart';
+import '../../../../common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_local_usecases/create_order_local_usecase.dart';
+import '../../../../common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_local_usecases/update_order_local_usecase.dart';
 
 /// Controller for managing order creation and editing functionality
 /// Handles product selection, customer details, order calculations, and database operations

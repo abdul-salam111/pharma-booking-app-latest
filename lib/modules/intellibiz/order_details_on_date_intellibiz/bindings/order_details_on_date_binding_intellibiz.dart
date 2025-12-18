@@ -1,6 +1,6 @@
-import 'package:pharma_booking_app/modules/pharma_suit/all_products/domain/usecases/products_usecases/product_local_usecases/get_all_local_packings_usecase.dart';
+import 'package:pharma_booking_app/modules/common/domain/all_products_domain/domain/usecases/products_usecases/product_local_usecases/get_all_local_packings_usecase.dart';
 
-import '../../../common/home/presentation/barrel.dart';
+import '../../../common/presentations/home/presentation/barrel.dart';
 import '../controllers/order_details_on_date_controller_intellibiz.dart';
 
 class OrderDetailsOnDateBindingIntellibiz extends Bindings {
