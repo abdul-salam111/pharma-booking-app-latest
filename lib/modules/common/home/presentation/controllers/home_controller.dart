@@ -19,8 +19,6 @@ import '../../../../pharma_suit/create_order_pharmasuit/domain/usecases/local_us
 import '../../../select_customer/domain/usecases/local_usecases/insert_sub_areas_local_usecase.dart';
 import '../barrel.dart';
 
-/// Controller to manage HomeScreen state and data synchronization.
-/// Handles data loading, synchronization, and UI card interactions.
 class HomeController extends GetxController {
   // ==========================================================================
   // PRODUCT USECASES
@@ -164,7 +162,7 @@ class HomeController extends GetxController {
   }
 
   // ==========================================================================
-  // INITIALIZATION
+  // INITIALIZATION OF CARDS FOR THE HOME SCREEN
   // ==========================================================================
 
   void _initializeCards() {
@@ -211,9 +209,23 @@ class HomeController extends GetxController {
       Future.delayed(const Duration(seconds: 1), syncAllData);
     }
   }
-
   // ==========================================================================
-  // DATA SYNCHRONIZATION (OPTIMIZED)
+  // NAVIGATION HANDLERS
+  // ==========================================================================
+
+  void _handleExportOrders() async {
+    await _syncOrders();
+  }
+
+  void _navigateToOrderSummary() {
+    Get.toNamed(Routes.ORDERS_SUMMARY);
+  }
+
+  void _navigateToRecovery() {
+    Get.toNamed(Routes.RECOVERY);
+  }
+  // ==========================================================================
+  // DATA SYNCHRONIZATION
   // ==========================================================================
 
   Future<void> syncAllData() async {
@@ -316,7 +328,7 @@ class HomeController extends GetxController {
   }
 
   // ==========================================================================
-  // LOCAL DATA MANAGEMENT (OPTIMIZED)
+  // LOCAL DATA MANAGEMENT
   // ==========================================================================
 
   Future<void> loadLocalData() async {
@@ -387,7 +399,7 @@ class HomeController extends GetxController {
     );
   }
 
-  // ================= ORDER SYNCHRONIZATION (CORRECTED) =================
+  // ================= ORDER SYNCHRONIZATION =================
   Future<void> _syncOrders() async {
     // Check if already syncing to prevent multiple calls
     if (isSyncingData.value) return;
@@ -521,10 +533,10 @@ class HomeController extends GetxController {
           IncrementSyncTriesParams(orderId: orders[i].orderId!),
         );
       } else {
-        // await updateOrdersSyncStatusUsecase.call({
-        //   'orderId': orders[i].orderId,
-        //   'isSynced': true,
-        // });
+        await updateOrdersSyncStatusUsecase.call({
+          'orderId': orders[i].orderId,
+          'isSynced': true,
+        });
       }
     }
     if (bookedOrders.failedOrders == 0 &&
@@ -555,12 +567,7 @@ class HomeController extends GetxController {
         },
       ).then((result) {
         if (result == 'download') {
-          // Handle retry action
-          print('User chose to download failed orders');
-        } else if (result == 'continue') {
-          // Handle continue action
-          print('User chose to continue');
-        }
+        } else if (result == 'continue') {}
       });
     } else {
       await showDialog(
@@ -571,30 +578,9 @@ class HomeController extends GetxController {
         },
       ).then((result) {
         if (result == 'download') {
-          // Handle retry action
-          print('User chose to download failed orders');
-        } else if (result == 'continue') {
-          // Handle continue action
-          print('User chose to continue');
-        }
+        } else if (result == 'continue') {}
       });
     }
-  }
-
-  // ==========================================================================
-  // NAVIGATION HANDLERS
-  // ==========================================================================
-
-  void _handleExportOrders() async {
-    await _syncOrders();
-  }
-
-  void _navigateToOrderSummary() {
-    Get.toNamed(Routes.ORDERS_SUMMARY);
-  }
-
-  void _navigateToRecovery() {
-    Get.toNamed(Routes.RECOVERY);
   }
 }
 

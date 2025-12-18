@@ -208,7 +208,7 @@ class SelectCustomerView extends GetView<SelectCustomerController> {
           searchHint: "Search Town...",
           enabled:
               controller.selectedSector.value != null &&
-              controller.towns.isNotEmpty,
+              controller.towns.isNotEmpty, // ← THIS IS THE PROBLEM
           onChanged: (value) => controller.onTownChanged(value),
           context: context,
           itemAsString: (item) => item?.name ?? "",

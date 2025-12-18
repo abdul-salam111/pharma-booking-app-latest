@@ -136,19 +136,9 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
           try {
             return GetCustomersModelDbX.fromDbJson(customer);
           } catch (e) {
-            if (kDebugMode) {
-              print('Error parsing customer: $e');
-              print('Customer data: $customer');
-            }
             rethrow;
           }
         }).toList();
-
-        if (kDebugMode) {
-          print(
-            'Successfully parsed ${customers.length} customers from database',
-          );
-        }
 
         return customers;
       });
@@ -276,10 +266,6 @@ class CustomerLocalDataSourceImpl implements CustomerLocalDataSource {
           final customer = customers[i];
           try {
             final dbJson = customer.toDbJson();
-
-            if (kDebugMode && i == 0) {
-              print('First customer DB JSON: $dbJson');
-            }
 
             final result = await txn.insert(
               customerTable,
