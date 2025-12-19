@@ -6,6 +6,7 @@ import 'package:pharma_booking_app/modules/common/domain/all_products_domain/dom
 
 import 'package:pharma_booking_app/modules/common/domain/all_products_domain/domain/usecases/products_usecases/product_local_usecases/insert_packings_locally_usecase.dart';
 import 'package:pharma_booking_app/modules/common/domain/all_products_domain/domain/usecases/products_usecases/product_remote_usecases/get_all_remote_packings_usecase.dart';
+import 'package:pharma_booking_app/modules/common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_local_usecases/get_failed_orders_usecase.dart';
 
 import '../../../../domain/create_order_domain/domain/usecases/local_usecases/manage_order_syncing_and_unsycing_usecases/increment_sync_tries_usecase.dart';
 import '../../../../domain/create_order_domain/domain/usecases/local_usecases/manage_order_syncing_and_unsycing_usecases/mark_order_as_failed_usecase.dart';
@@ -328,6 +329,11 @@ class HomeBinding extends Bindings {
         createOrdersRepository: Get.find<CreateOrdersRepository>(),
       ),
     );
+     Get.lazyPut(
+      () => GetFailedOrdersUsecase(
+        createOrdersRepository: Get.find<CreateOrdersRepository>(),
+      ),
+    );
   }
 
   // ==========================================================================
@@ -382,6 +388,7 @@ class HomeBinding extends Bindings {
         markOrderAsFailedUsecase: Get.find<MarkOrderAsFailedUsecase>(),
         markOrderAsNotFailedUsecase: Get.find<MarkOrderAsNotFailedUsecase>(),
         incrementSyncTriesUsecase: Get.find<IncrementSyncTriesUsecase>(),
+        getFailedOrdersUsecase: Get.find<GetFailedOrdersUsecase>(),
       ),
     );
   }

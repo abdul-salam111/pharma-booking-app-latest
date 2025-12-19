@@ -8,9 +8,11 @@ import 'package:pharma_booking_app/core/utils/error_popup.dart';
 import 'package:pharma_booking_app/modules/common/domain/all_products_domain/domain/usecases/products_usecases/product_local_usecases/clear_local_packings_usecase.dart';
 import 'package:pharma_booking_app/modules/common/domain/all_products_domain/domain/usecases/products_usecases/product_local_usecases/insert_packings_locally_usecase.dart';
 import 'package:pharma_booking_app/modules/common/domain/all_products_domain/domain/usecases/products_usecases/product_remote_usecases/get_all_remote_packings_usecase.dart';
+import 'package:pharma_booking_app/modules/common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_local_usecases/get_failed_orders_usecase.dart';
 
 import 'package:pharma_booking_app/modules/common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_syncing_and_unsycing_usecases/mark_order_as_not_failed_usecase.dart';
 
+import '../../../../../../core/utils/export_orders.dart';
 import '../../../../../../core/utils/success_popup.dart';
 import '../../../../../../core/utils/warning_popup.dart';
 import '../../../../data/create_order_data/data/models/response_models/get_order_response/get_order_response.dart';
@@ -79,6 +81,7 @@ class HomeController extends GetxController {
   final MarkOrderAsFailedUsecase markOrderAsFailedUsecase;
   final MarkOrderAsNotFailedUsecase markOrderAsNotFailedUsecase;
   final IncrementSyncTriesUsecase incrementSyncTriesUsecase;
+  final GetFailedOrdersUsecase getFailedOrdersUsecase;
 
   // ==========================================================================
   // CONSTRUCTOR
@@ -123,6 +126,7 @@ class HomeController extends GetxController {
     required this.markOrderAsFailedUsecase,
     required this.markOrderAsNotFailedUsecase,
     required this.incrementSyncTriesUsecase,
+    required this.getFailedOrdersUsecase,
   });
 
   // ==========================================================================
@@ -423,8 +427,14 @@ class HomeController extends GetxController {
                 builder: (BuildContext context) {
                   return ErrorPopup(failedOrders: orders.length);
                 },
-              ).then((result) {
+              ).then((result) async {
                 if (result == 'download') {
+                  final response = await getFailedOrdersUsecase.call(
+                    NoParams(),
+                  );
+                  await response.fold((error) {
+                    print(error);
+                  }, (orders) {});
                 } else if (result == 'continue') {}
               });
             },
@@ -521,9 +531,7 @@ class HomeController extends GetxController {
         });
       }
     }
-    if (bookedOrders.failedOrders == 0 &&
-        bookedOrders.success == true &&
-        bookedOrders.successfulOrders != 0) {
+    if (bookedOrders.failedOrders == 0 && bookedOrders.successfulOrders != 0) {
       await showDialog(
         context: Get.context!,
         barrierDismissible: false,
@@ -547,8 +555,9 @@ class HomeController extends GetxController {
             failedOrders: bookedOrders.failedOrders ?? 0,
           );
         },
-      ).then((result) {
+      ).then((result) async {
         if (result == 'download') {
+          await _downloadFailedOrders();
         } else if (result == 'continue') {}
       });
     } else {
@@ -560,8 +569,64 @@ class HomeController extends GetxController {
         },
       ).then((result) {
         if (result == 'download') {
+          _downloadFailedOrders();
         } else if (result == 'continue') {}
       });
+    }
+  }
+
+  // Helper method to download failed orders
+  Future<void> _downloadFailedOrders() async {
+    try {
+      final response = await getFailedOrdersUsecase.call(NoParams());
+      await response.fold(
+        (error) {
+          AppToasts.showErrorToast(
+            Get.context!,
+            'Failed to fetch failed orders: ${error.toString()}',
+          );
+        },
+        (orders) {
+          ExcelExporter.export(
+            fileName: "failed_orders.xlsx",
+            headers: const [
+              "Order Guid",
+              "Customer Name",
+              "Customer Address",
+              "Order Date",
+              "Order Status",
+              "Company Name",
+              "Product Name",
+              "Price",
+              "Quantity",
+              "Bonus",
+              "Discount %",
+            ],
+            rows: orders.expand((order) {
+              return order.companies.expand((company) {
+                return company.products.map((product) {
+                  return [
+                    order.guid.toString(),
+                    order.customerName,
+                    order.customerAddress,
+                    DateTime.parse(order.orderDate.toString()).formatDate(),
+                    order.syncedStatus == "No" ? "Unsynced" : "Synced",
+                    company.companyName,
+                    product.productName,
+                    product.pricePack.toStringAsFixed(1),
+                    product.quantityPack.toString(),
+                    product.bonus.toString(),
+                    product.discRatio?.toStringAsFixed(0) ?? "0",
+                  ];
+                });
+              });
+            }).toList(),
+          );
+        },
+      );
+    } catch (error) {
+      AppToasts.dismiss(Get.context!);
+      AppToasts.showErrorToast(Get.context!, 'Failed to export orders: $error');
     }
   }
 }
