@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
 import '../../../../../core/core.dart';
 import '../../../../../core/routes/app_pages.dart';
@@ -38,12 +39,14 @@ class AllProductsView extends GetView<AllProductsController> {
                     "Amount",
                     style: context.bodySmallStyle!.copyWith(
                       color: Colors.white,
+                      fontSize: 13,
                     ),
                   ),
                   Text(
                     "Items",
                     style: context.bodySmallStyle!.copyWith(
                       color: Colors.white,
+                      fontSize: 13,
                     ),
                   ),
                   heightBox(3),
@@ -52,17 +55,23 @@ class AllProductsView extends GetView<AllProductsController> {
               Obx(
                 () => controller.selectedCompanyId.isNotEmpty
                     ? Column(
-                        crossAxisAlignment: crossAxisStart,
+                        crossAxisAlignment: crossAxisEnd,
                         mainAxisAlignment: mainAxisCenter,
 
                         children: [
                           Text(
-                            "Company",
+                            "Company Total",
                             style: context.bodySmallStyle!.copyWith(
                               color: Colors.white,
+                              fontSize: 13,
                             ),
                           ),
-
+                          heightBox(3),
+                          Container(
+                            width: context.screenWidth * 0.27,
+                            height: 1.5,
+                            color: Colors.white,
+                          ),
                           Obx(
                             () => Text(
                               controller
@@ -72,6 +81,7 @@ class AllProductsView extends GetView<AllProductsController> {
                               style: context.bodySmallStyle!.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
+                                fontSize: 13,
                               ),
                             ),
                           ),
@@ -80,7 +90,7 @@ class AllProductsView extends GetView<AllProductsController> {
                               controller.companyTotalItems.value.withCommas,
                               style: context.bodySmallStyle!.copyWith(
                                 color: Colors.white,
-
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -90,15 +100,21 @@ class AllProductsView extends GetView<AllProductsController> {
                     : SizedBox.shrink(),
               ),
               Column(
-                crossAxisAlignment: crossAxisStart,
+                crossAxisAlignment: crossAxisEnd,
                 mainAxisAlignment: mainAxisCenter,
                 children: [
-                  heightBox(3),
                   Text(
-                    "Order",
+                    "Order Total",
                     style: context.bodySmallStyle!.copyWith(
                       color: Colors.white,
+                      fontSize: 13,
                     ),
+                  ),
+                  heightBox(3),
+                  Container(
+                    width: context.screenWidth * 0.2,
+                    height: 1.5,
+                    color: Colors.white,
                   ),
                   Obx(
                     () => Text(
@@ -106,6 +122,7 @@ class AllProductsView extends GetView<AllProductsController> {
                       style: context.bodySmallStyle!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
+                        fontSize: 13,
                       ),
                     ),
                   ),
@@ -115,6 +132,7 @@ class AllProductsView extends GetView<AllProductsController> {
                       style: context.bodySmallStyle!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
+                        fontSize: 13,
                       ),
                     ),
                   ),
@@ -184,7 +202,7 @@ class AllProductsView extends GetView<AllProductsController> {
               CustomSearchField(
                 controller: controller.searchController,
 
-                hintText: "Search medicines...",
+                hintText: "Search products...",
                 onChanged: (query) {
                   controller.filterProducts();
                 },
@@ -202,291 +220,268 @@ class AllProductsView extends GetView<AllProductsController> {
                                 .getProductFromOrder(product.id.toString());
 
                             return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8.0,
-                                horizontal: 4,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "${product.productName}",
-                                              style: context.bodySmallStyle!
-                                                  .copyWith(
-                                                    color: AppColors
-                                                        .blackTextColor,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                            ),
-                                            Text(
-                                              " (${product.packSize}) ",
-                                              style: context.displayLargeStyle!
-                                                  .copyWith(
-                                                    color: AppColors.greyColor,
-                                                  ),
-                                            ),
-                                          ],
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "${product.productName}",
+                                        style: context.bodySmallStyle!.copyWith(
+                                          color: AppColors.blackTextColor,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        heightBox(5),
-                                        Row(
+                                      ),
+                                      widthBox(10),
+                                      Text(
+                                        " (${product.packSize}) ",
+                                        style: context.displayLargeStyle!
+                                            .copyWith(
+                                              color: AppColors.greyColor,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                  heightBox(5),
+                                  Row(
+                                    mainAxisAlignment: mainAxisSpaceBetween,
+                                    crossAxisAlignment: crossAxisCenter,
+                                    children: [
+                                      SizedBox(
+                                        width: context.screenWidth * 0.03,
+                                      ),
+                                      if (!CurrentUserHelper.isShowCurrentStock)
+                                        SizedBox(
+                                          height: 27,
+                                          child: Column(
+                                            crossAxisAlignment: crossAxisCenter,
+                                            mainAxisAlignment:
+                                                mainAxisSpaceBetween,
+                                            children: [
+                                              Text(
+                                                "Stock",
+                                                style: context
+                                                    .displayMediumStyle!
+                                                    .copyWith(
+                                                      color: AppColors
+                                                          .greyTextColor,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontFamily:
+                                                          GoogleFonts.roboto()
+                                                              .fontFamily,
+                                                    ),
+                                              ),
+
+                                              Text(
+                                                product.currentStock.toString(),
+                                                style: context
+                                                    .displayMediumStyle!
+                                                    .copyWith(
+                                                      color:
+                                                          selectedProduct !=
+                                                                  null &&
+                                                              selectedProduct
+                                                                      .pricePack !=
+                                                                  product
+                                                                      .pricePackSal1
+                                                          ? Colors.blue
+                                                          : AppColors
+                                                                .blackTextColor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+
+                                      SizedBox(
+                                        height: 27,
+                                        child: Column(
+                                          crossAxisAlignment: crossAxisCenter,
                                           mainAxisAlignment:
                                               mainAxisSpaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "T.P: ${product.tradePrice}",
-                                                  style: context
-                                                      .displayLargeStyle!
-                                                      .copyWith(
-                                                        color: AppColors
-                                                            .greyTextColor,
-                                                      ),
-                                                ),
-                                                widthBox(5),
-                                                if (CurrentUserHelper
-                                                    .isShowCurrentStock)
-                                                  Text(
-                                                    "( CS: ${product.currentStock} )",
-                                                    style: context
-                                                        .displayLargeStyle!
-                                                        .copyWith(
-                                                          color: AppColors
-                                                              .greyTextColor,
-                                                        ),
+                                            Text(
+                                              "Price",
+                                              style: context.displayMediumStyle!
+                                                  .copyWith(
+                                                    color:
+                                                        AppColors.greyTextColor,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily:
+                                                        GoogleFonts.dmSans()
+                                                            .fontFamily,
                                                   ),
-                                              ],
                                             ),
 
-                                            SizedBox(
-                                              width: context.width * 0.56,
-
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    mainAxisSpaceBetween,
-                                                children: [
-                                                  if (CurrentUserHelper
-                                                      .isAllowChangeBookingPrice)
-                                                    SizedBox(
-                                                      width:
-                                                          context.width * 0.15,
-                                                      child: RichText(
-                                                        text: TextSpan(
-                                                          children: [
-                                                            TextSpan(
-                                                              text: "P: ",
-                                                              style: context
-                                                                  .displayLargeStyle!
-                                                                  .copyWith(
-                                                                    color: AppColors
-                                                                        .greyTextColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                            ),
-                                                            TextSpan(
-                                                              text:
-                                                                  selectedProduct !=
-                                                                      null
-                                                                  ? "${selectedProduct.pricePack}"
-                                                                  : "${product.tradePrice}",
-                                                              style: context
-                                                                  .displayLargeStyle! //change the color to blue when the price is changed
-                                                                  .copyWith(
-                                                                    color:
-                                                                        selectedProduct !=
-                                                                                null &&
-                                                                            selectedProduct.pricePack !=
-                                                                                product.tradePrice
-                                                                        ? Colors
-                                                                              .blue
-                                                                        : AppColors
-                                                                              .blackTextColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-
-                                                  SizedBox(
-                                                    width: context.width * 0.1,
-                                                    child: RichText(
-                                                      text: TextSpan(
-                                                        children: [
-                                                          TextSpan(
-                                                            text: "Q: ",
-                                                            style: context
-                                                                .displayLargeStyle!
-                                                                .copyWith(
-                                                                  color: AppColors
-                                                                      .greyTextColor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                          ),
-                                                          TextSpan(
-                                                            text:
-                                                                selectedProduct
-                                                                    ?.quantityPack
-                                                                    .toString() ??
-                                                                "",
-                                                            style: context
-                                                                .displayLargeStyle!
-                                                                .copyWith(
-                                                                  color: Colors
-                                                                      .green,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
+                                            Text(
+                                              selectedProduct != null
+                                                  ? "${selectedProduct.pricePack}"
+                                                  : "${product.pricePackSal1}",
+                                              style: context.displayMediumStyle!
+                                                  .copyWith(
+                                                    color:
+                                                        selectedProduct !=
+                                                                null &&
+                                                            selectedProduct
+                                                                    .pricePack !=
+                                                                product
+                                                                    .pricePackSal1
+                                                        ? Colors.blue
+                                                        : AppColors
+                                                              .blackTextColor,
+                                                    fontFamily:
+                                                        GoogleFonts.dmSans()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
-
-                                                  SizedBox(
-                                                    width: context.width * 0.1,
-
-                                                    child: RichText(
-                                                      text: TextSpan(
-                                                        children: [
-                                                          TextSpan(
-                                                            text: "B: ",
-                                                            style: context
-                                                                .displayLargeStyle!
-                                                                .copyWith(
-                                                                  color: AppColors
-                                                                      .greyTextColor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                          ),
-                                                          TextSpan(
-                                                            text:
-                                                                selectedProduct
-                                                                        ?.bonus !=
-                                                                    0
-                                                                ? selectedProduct
-                                                                      ?.bonus
-                                                                      .toString()
-                                                                : "",
-
-                                                            style: context
-                                                                .displayLargeStyle!
-                                                                .copyWith(
-                                                                  color: AppColors
-                                                                      .blackTextColor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-
-                                                  if (CurrentUserHelper
-                                                      .isAllowChangeBookingDisc)
-                                                    SizedBox(
-                                                      width:
-                                                          context.width * 0.13,
-
-                                                      child: RichText(
-                                                        text: TextSpan(
-                                                          children: [
-                                                            TextSpan(
-                                                              text: "D: ",
-                                                              style: context
-                                                                  .displayLargeStyle!
-                                                                  .copyWith(
-                                                                    color: AppColors
-                                                                        .greyTextColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                            ),
-                                                            TextSpan(
-                                                              text:
-                                                                  (selectedProduct
-                                                                              ?.discRatio !=
-                                                                          0.0 &&
-                                                                      selectedProduct
-                                                                              ?.discRatio !=
-                                                                          null)
-                                                                  ? "${selectedProduct?.discRatio.toString()}%"
-                                                                  : "",
-                                                              style: context
-                                                                  .displayLargeStyle!
-                                                                  .copyWith(
-                                                                    color: Colors
-                                                                        .red,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-
-                                                  SizedBox(
-                                                    height: 24,
-                                                    width: 24,
-                                                    child: IconButton(
-                                                      padding: EdgeInsets.zero,
-                                                      constraints:
-                                                          const BoxConstraints(),
-                                                      icon: Icon(
-                                                        Icons.add_shopping_cart,
-                                                        size: 18,
-                                                      ),
-                                                      onPressed: () async {
-                                                        controller
-                                                            .searchFocusNode
-                                                            .unfocus();
-
-                                                        await Get.bottomSheet(
-                                                          ProductBottomSheetPharmaSuit(
-                                                            product: product,
-                                                          ),
-                                                          isScrollControlled:
-                                                              true,
-                                                        );
-
-                                                        controller
-                                                            .searchFocusNode
-                                                            .unfocus();
-                                                      },
-                                                      color: AppColors
-                                                          .appPrimaryColor,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+
+                                      SizedBox(
+                                        height: 27,
+                                        child: Column(
+                                          crossAxisAlignment: crossAxisCenter,
+                                          mainAxisAlignment:
+                                              mainAxisSpaceBetween,
+                                          children: [
+                                            Text(
+                                              "Qty",
+                                              style: context.displayMediumStyle!
+                                                  .copyWith(
+                                                    color:
+                                                        AppColors.greyTextColor,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily:
+                                                        GoogleFonts.dmSans()
+                                                            .fontFamily,
+                                                  ),
+                                            ),
+
+                                            if (selectedProduct != null)
+                                              Text(
+                                                "${selectedProduct.quantityPack}",
+                                                style: context
+                                                    .displayMediumStyle!
+                                                    .copyWith(
+                                                      color: Colors.green,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily:
+                                                          GoogleFonts.dmSans()
+                                                              .fontFamily,
+                                                    ),
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      SizedBox(
+                                        height: 27,
+                                        child: Column(
+                                          crossAxisAlignment: crossAxisCenter,
+                                          mainAxisAlignment:
+                                              mainAxisSpaceBetween,
+                                          children: [
+                                            Text(
+                                              "Bns",
+                                              style: context.displayMediumStyle!
+                                                  .copyWith(
+                                                    color:
+                                                        AppColors.greyTextColor,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily:
+                                                        GoogleFonts.dmSans()
+                                                            .fontFamily,
+                                                  ),
+                                            ),
+
+                                            Text(
+                                              (selectedProduct?.bonus ?? 0) != 0
+                                                  ? selectedProduct!.bonus
+                                                        .toString()
+                                                  : "",
+                                              style: context.displayMediumStyle!
+                                                  .copyWith(
+                                                    color: AppColors
+                                                        .blackTextColor,
+                                                    fontFamily:
+                                                        GoogleFonts.dmSans()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      SizedBox(
+                                        height: 27,
+                                        child: Column(
+                                          crossAxisAlignment: crossAxisCenter,
+                                          mainAxisAlignment:
+                                              mainAxisSpaceBetween,
+                                          children: [
+                                            Text(
+                                              "Disc%",
+                                              style: context.displayMediumStyle!
+                                                  .copyWith(
+                                                    color:
+                                                        AppColors.greyTextColor,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily:
+                                                        GoogleFonts.dmSans()
+                                                            .fontFamily,
+                                                  ),
+                                            ),
+
+                                            Text(
+                                              (selectedProduct?.discRatio !=
+                                                          0.0 &&
+                                                      selectedProduct
+                                                              ?.discRatio !=
+                                                          null)
+                                                  ? "${selectedProduct?.discRatio.toString()}"
+                                                  : "",
+                                              style: context.displayMediumStyle!
+                                                  .copyWith(
+                                                    color: Colors.red,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily:
+                                                        GoogleFonts.dmSans()
+                                                            .fontFamily,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: IconButton(
+                                          padding: EdgeInsets.only(bottom: 10),
+                                          constraints: const BoxConstraints(),
+                                          icon: const Icon(
+                                            Icons.add_shopping_cart,
+                                            size: 18,
+                                          ),
+                                          onPressed: () async {
+                                            await Get.bottomSheet(
+                                              ProductBottomSheetPharmaSuit(
+                                                product: product,
+                                              ),
+                                              isScrollControlled: true,
+                                            );
+                                          },
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -711,6 +706,7 @@ class _ProductBottomSheetPharmaSuitState
     // Calculate initial totals
     WidgetsBinding.instance.addPostFrameCallback((_) {
       calculateTotals();
+
       qtyFocusNode.requestFocus();
     });
   }
@@ -827,6 +823,7 @@ class _ProductBottomSheetPharmaSuitState
                 Expanded(
                   child: SizedBox(
                     child: CustomTextFormField(
+                      focusNode: qtyFocusNode,
                       textfieldHeight: 30,
                       label: "Quantity*",
                       labelColor: AppColors.greyColor,
@@ -972,7 +969,7 @@ class _ProductBottomSheetPharmaSuitState
                       ),
                       Obx(
                         () => Text(
-                        "Rs. ${finalAmount.value.withCommasAndDecimals}",
+                          "Rs. ${finalAmount.value.withCommasAndDecimals}",
                           style: context.bodySmallStyle!.copyWith(
                             color: AppColors.greyTextColor,
                             fontWeight: FontWeight.w500,

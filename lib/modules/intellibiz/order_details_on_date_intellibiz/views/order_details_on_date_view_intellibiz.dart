@@ -262,7 +262,16 @@ class OrderDetailsOnDateViewIntellibiz
                                         _buildHeaderCell(context, "P. Price"),
                                         _buildHeaderCell(context, "Qty (P-L)"),
                                         _buildHeaderCell(context, "Bns"),
-                                        _buildHeaderCell(context, "Disc%"),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 8.0,
+                                          ),
+                                          child: _buildHeaderCell(
+                                            context,
+                                            "Disc%",
+                                            alignment: Alignment.centerRight,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     // Table Row
@@ -274,9 +283,15 @@ class OrderDetailsOnDateViewIntellibiz
                                         Obx(
                                           () => controller.isLoading.value
                                               ? SizedBox.shrink()
-                                              : _buildDataCell(
-                                                  context,
-                                                  "${controller.getPackingAbbrivation(product.packingId ?? 1)} (${product.multiplier.toString()})",
+                                              : Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                        left: 8.0,
+                                                      ),
+                                                  child: _buildDataCell(
+                                                    context,
+                                                    "${controller.getPackingAbbrivation(product.packingId ?? 1)} (${product.multiplier.toString()})",
+                                                  ),
                                                 ),
                                         ),
                                         _buildDataCell(
@@ -291,9 +306,17 @@ class OrderDetailsOnDateViewIntellibiz
                                           context,
                                           product.bonus.toString(),
                                         ),
-                                        _buildDataCell(
-                                          context,
-                                          product.discRatio!.toStringAsFixed(0),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 10,
+                                          ),
+                                          child: _buildDataCell(
+                                            context,
+                                            product.discRatio!.toStringAsFixed(
+                                              0,
+                                            ),
+                                            alignment: Alignment.centerRight,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -346,7 +369,6 @@ class OrderDetailsOnDateViewIntellibiz
         style: context.displayLargeStyle!.copyWith(
           color: AppColors.blackTextColor,
         ),
-        textAlign: TextAlign.center,
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
 import 'package:pharma_booking_app/modules/intellibiz/all_products_intellibiz/widgets/packing_dropdown.dart';
 import '../../../../../core/core.dart';
@@ -273,35 +274,40 @@ class AllProductsIntellibizView
                                               mainAxisSpaceBetween,
                                           crossAxisAlignment: crossAxisStart,
                                           children: [
+                                            SizedBox(
+                                              width: context.screenWidth * 0.03,
+                                            ),
                                             if (CurrentUserHelper
                                                 .isShowCurrentStock)
-                                              Row(
-                                                children: [
-                                                  widthBox(5),
-                                                  SizedBox(
-                                                    height: 27,
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          crossAxisCenter,
-                                                      mainAxisAlignment:
-                                                          mainAxisSpaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          "Stock",
-                                                          style: context
-                                                              .displayLargeStyle!
-                                                              .copyWith(
-                                                                color: AppColors
-                                                                    .greyTextColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                        ),
-                                                        Text(
-                                                          product.currentStock
-                                                              .toString(),
-                                                          style: context.displayLargeStyle!.copyWith(
+                                              SizedBox(
+                                                height: 27,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      crossAxisCenter,
+                                                  mainAxisAlignment:
+                                                      mainAxisSpaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "Stock",
+                                                      style: context
+                                                          .displayMediumStyle!
+                                                          .copyWith(
+                                                            color: AppColors
+                                                                .greyTextColor,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontFamily:
+                                                                GoogleFonts.roboto()
+                                                                    .fontFamily,
+                                                          ),
+                                                    ),
+
+                                                    Text(
+                                                      product.currentStock
+                                                          .toString(),
+                                                      style: context
+                                                          .displayMediumStyle!
+                                                          .copyWith(
                                                             color:
                                                                 selectedProduct !=
                                                                         null &&
@@ -315,11 +321,9 @@ class AllProductsIntellibizView
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                           ),
-                                                        ),
-                                                      ],
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
 
                                             SizedBox(
@@ -331,22 +335,26 @@ class AllProductsIntellibizView
                                                     mainAxisSpaceBetween,
                                                 children: [
                                                   Text(
-                                                    "Price-Pack: ",
+                                                    "Price P",
                                                     style: context
-                                                        .displayLargeStyle!
+                                                        .displayMediumStyle!
                                                         .copyWith(
                                                           color: AppColors
                                                               .greyTextColor,
                                                           fontWeight:
                                                               FontWeight.w500,
+                                                          fontFamily:
+                                                              GoogleFonts.dmSans()
+                                                                  .fontFamily,
                                                         ),
                                                   ),
+
                                                   Text(
                                                     selectedProduct != null
                                                         ? "${selectedProduct.pricePack}"
                                                         : "${product.pricePackSal1}",
                                                     style: context
-                                                        .displayLargeStyle!
+                                                        .displayMediumStyle!
                                                         .copyWith(
                                                           color:
                                                               selectedProduct !=
@@ -358,6 +366,9 @@ class AllProductsIntellibizView
                                                               ? Colors.blue
                                                               : AppColors
                                                                     .blackTextColor,
+                                                          fontFamily:
+                                                              GoogleFonts.dmSans()
+                                                                  .fontFamily,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                         ),
@@ -375,25 +386,32 @@ class AllProductsIntellibizView
                                                     mainAxisSpaceBetween,
                                                 children: [
                                                   Text(
-                                                    "Qty: P-L",
+                                                    "Qty",
                                                     style: context
-                                                        .displayLargeStyle!
+                                                        .displayMediumStyle!
                                                         .copyWith(
                                                           color: AppColors
                                                               .greyTextColor,
                                                           fontWeight:
                                                               FontWeight.w500,
+                                                          fontFamily:
+                                                              GoogleFonts.dmSans()
+                                                                  .fontFamily,
                                                         ),
                                                   ),
+
                                                   if (selectedProduct != null)
                                                     Text(
-                                                      "${selectedProduct.quantityPack}${'-${selectedProduct.quantityLose}'}",
+                                                      "${selectedProduct.quantityPack} - ${selectedProduct.quantityLose}",
                                                       style: context
-                                                          .displayLargeStyle!
+                                                          .displayMediumStyle!
                                                           .copyWith(
                                                             color: Colors.green,
                                                             fontWeight:
                                                                 FontWeight.bold,
+                                                            fontFamily:
+                                                                GoogleFonts.dmSans()
+                                                                    .fontFamily,
                                                           ),
                                                     ),
                                                 ],
@@ -409,16 +427,20 @@ class AllProductsIntellibizView
                                                     mainAxisSpaceBetween,
                                                 children: [
                                                   Text(
-                                                    "BNS",
+                                                    "Bns",
                                                     style: context
-                                                        .displayLargeStyle!
+                                                        .displayMediumStyle!
                                                         .copyWith(
                                                           color: AppColors
                                                               .greyTextColor,
                                                           fontWeight:
                                                               FontWeight.w500,
+                                                          fontFamily:
+                                                              GoogleFonts.dmSans()
+                                                                  .fontFamily,
                                                         ),
                                                   ),
+
                                                   Text(
                                                     (selectedProduct?.bonus ??
                                                                 0) !=
@@ -427,10 +449,13 @@ class AllProductsIntellibizView
                                                               .toString()
                                                         : "",
                                                     style: context
-                                                        .displayLargeStyle!
+                                                        .displayMediumStyle!
                                                         .copyWith(
                                                           color: AppColors
                                                               .blackTextColor,
+                                                          fontFamily:
+                                                              GoogleFonts.dmSans()
+                                                                  .fontFamily,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                         ),
@@ -450,14 +475,18 @@ class AllProductsIntellibizView
                                                   Text(
                                                     "Disc%",
                                                     style: context
-                                                        .displayLargeStyle!
+                                                        .displayMediumStyle!
                                                         .copyWith(
                                                           color: AppColors
                                                               .greyTextColor,
                                                           fontWeight:
                                                               FontWeight.w500,
+                                                          fontFamily:
+                                                              GoogleFonts.dmSans()
+                                                                  .fontFamily,
                                                         ),
                                                   ),
+
                                                   Text(
                                                     (selectedProduct?.discRatio !=
                                                                 0.0 &&
@@ -467,39 +496,40 @@ class AllProductsIntellibizView
                                                         ? "${selectedProduct?.discRatio.toString()}"
                                                         : "",
                                                     style: context
-                                                        .displayLargeStyle!
+                                                        .displayMediumStyle!
                                                         .copyWith(
                                                           color: Colors.red,
                                                           fontWeight:
                                                               FontWeight.bold,
+                                                          fontFamily:
+                                                              GoogleFonts.dmSans()
+                                                                  .fontFamily,
                                                         ),
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                            SizedBox(
-                                              height: 24,
-                                              width: 24,
-                                              child: IconButton(
-                                                padding: EdgeInsets.zero,
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                icon: const Icon(
-                                                  Icons.add_shopping_cart,
-                                                  size: 18,
-                                                ),
-                                                onPressed: () async {
-                                                  await Get.bottomSheet(
-                                                    ProductBottomSheetIntellibiz(
-                                                      product: product,
-                                                    ),
-                                                    isScrollControlled: true,
-                                                  );
-                                                },
-                                                color:
-                                                    AppColors.appPrimaryColor,
+                                             SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: IconButton(
+                                          padding: EdgeInsets.only(bottom: 10),
+                                          constraints: const BoxConstraints(),
+                                          icon: const Icon(
+                                            Icons.add_shopping_cart,
+                                            size: 18,
+                                          ),
+                                          onPressed: () async {
+                                            await Get.bottomSheet(
+                                              ProductBottomSheetIntellibiz(
+                                                product: product,
                                               ),
-                                            ),
+                                              isScrollControlled: true,
+                                            );
+                                          },
+                                          color: Colors.blue,
+                                        ),
+                                      ),
                                           ],
                                         ),
                                       ],
