@@ -1,9 +1,9 @@
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../../../core/core.dart';
-import '../../../../../../core/shared/models/post_models/create_order_for_local.dart';
-import '../../../../../../core/shared/models/post_models/sync_orders_model.dart';
-import '../../../../data/create_order_data/data/models/get_order_response/get_order_response.dart';
+import '../../../../data/create_order_data/data/models/request_models/create_order_for_local.dart';
+import '../../../../data/create_order_data/data/models/request_models/sync_orders_remote_model/sync_orders_model.dart';
+import '../../../../data/create_order_data/data/models/response_models/get_order_response/get_order_response.dart';
 
 abstract interface class CreateOrdersRepository {
   // ==================== GET METHODS ====================

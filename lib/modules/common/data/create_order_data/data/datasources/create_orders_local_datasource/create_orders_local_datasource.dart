@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../../../../../../core/local_storage/database/database_helper.dart';
-import '../../../../../../../core/shared/models/post_models/create_order_for_local.dart';
+import '../../models/request_models/create_order_for_local.dart';
 
 // ╔══════════════════════════════════════════════════════════════════════════════╗
 // ║                              ABSTRACT INTERFACE                              ║

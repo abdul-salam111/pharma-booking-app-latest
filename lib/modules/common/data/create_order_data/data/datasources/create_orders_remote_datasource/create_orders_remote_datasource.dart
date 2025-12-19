@@ -1,8 +1,8 @@
 import '../../../../../../../core/core.dart';
 
 import '../../../../../../../core/networks/network_manager/dio_helper.dart';
-import '../../../../../../../core/shared/models/post_models/sync_orders_model.dart';
-import '../../models/get_order_response/get_order_response.dart';
+import '../../models/request_models/sync_orders_remote_model/sync_orders_model.dart';
+import '../../models/response_models/get_order_response/get_order_response.dart';
 
 abstract interface class CreateOrdersRemoteDatasource {
   Future<GetOrderResponse> syncOrdersRemotely({

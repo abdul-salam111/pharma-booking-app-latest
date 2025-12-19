@@ -8,12 +8,12 @@ import 'package:pharma_booking_app/core/utils/error_popup.dart';
 import 'package:pharma_booking_app/modules/common/domain/all_products_domain/domain/usecases/products_usecases/product_local_usecases/clear_local_packings_usecase.dart';
 import 'package:pharma_booking_app/modules/common/domain/all_products_domain/domain/usecases/products_usecases/product_local_usecases/insert_packings_locally_usecase.dart';
 import 'package:pharma_booking_app/modules/common/domain/all_products_domain/domain/usecases/products_usecases/product_remote_usecases/get_all_remote_packings_usecase.dart';
-import 'package:pharma_booking_app/modules/common/data/create_order_data/data/models/get_order_response/get_order_response.dart'
-    show GetOrderResponse;
+
 import 'package:pharma_booking_app/modules/common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_syncing_and_unsycing_usecases/mark_order_as_not_failed_usecase.dart';
 
 import '../../../../../../core/utils/success_popup.dart';
 import '../../../../../../core/utils/warning_popup.dart';
+import '../../../../data/create_order_data/data/models/response_models/get_order_response/get_order_response.dart';
 import '../../../../domain/create_order_domain/domain/usecases/local_usecases/manage_order_syncing_and_unsycing_usecases/increment_sync_tries_usecase.dart';
 import '../../../../domain/create_order_domain/domain/usecases/local_usecases/manage_order_syncing_and_unsycing_usecases/mark_order_as_failed_usecase.dart';
 import '../../../../domain/select_customer_domain/usecases/local_usecases/insert_sub_areas_local_usecase.dart';
@@ -235,7 +235,7 @@ class HomeController extends GetxController {
       isSyncingData.value = true;
       AppToasts.showLoaderDialog(Get.context!, 'Syncing data...');
 
-      // Phase 1: Fetch all remote data in parallel (PERFORMANCE BOOST)
+      // Phase 1: Fetch all remote data in parallel
       final results = await Future.wait([
         getAllCompaniesUsecase.call(NoParams()),
         getAllProductsUsecase.call(NoParams()),
@@ -245,18 +245,16 @@ class HomeController extends GetxController {
         getAllRemotePackingsUsecase.call(NoParams()),
       ]);
 
-      // // Phase 2: Clear all local data in parallel (PERFORMANCE BOOST)
-      await Future.wait([
-        clearLocalCompaniesUsecase.call(NoParams()),
-        clearLocalProductsUsecase.call(NoParams()),
-        clearCustomersLocalUsecase.call(NoParams()),
-        clearAreasLocalUsecase.call(NoParams()),
-        clearSubAreasLocalUsecase.call(NoParams()),
-        clearLocalPackingsUsecase.call(NoParams()),
-      ]);
+      // // Phase 2: Clear all local data in parallel
+      await clearLocalCompaniesUsecase.call(NoParams());
+      await clearLocalProductsUsecase.call(NoParams());
+      await clearCustomersLocalUsecase.call(NoParams());
+      await clearAreasLocalUsecase.call(NoParams());
+      await clearSubAreasLocalUsecase.call(NoParams());
+      await clearLocalPackingsUsecase.call(NoParams());
 
       // Phase 3: Insert all data in parallel
-      await _insertAllDataInParallel(results);
+      await _insertAllDataInSequential(results);
 
       // // Phase 4: Reload local data
       await loadLocalData();
@@ -273,60 +271,48 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> _insertAllDataInParallel(List<dynamic> results) async {
-    final insertOperations = <Future>[];
-
+  Future<void> _insertAllDataInSequential(List<dynamic> results) async {
     // Companies
-    results[0].fold(
+    await results[0].fold(
       (error) =>
           throw Exception('Failed to insert companies: ${error.toString()}'),
-      (companies) =>
-          insertOperations.add(insertLocalCompaniesUsecase.call(companies)),
+      (companies) async => await insertLocalCompaniesUsecase.call(companies),
     );
 
-    // //Products
-    results[1].fold(
+    // Products
+    await results[1].fold(
       (error) =>
           throw Exception('Failed to insert products: ${error.toString()}'),
-      (products) =>
-          insertOperations.add(insertProductsLocallyUsecase.call(products)),
+      (products) async => await insertProductsLocallyUsecase.call(products),
     );
 
     // Customers
-    results[2].fold(
+    await results[2].fold(
       (error) =>
           throw Exception('Failed to insert customers: ${error.toString()}'),
-      (customers) =>
-          insertOperations.add(insertAllCustomersLocalUsecase.call(customers)),
+      (customers) async => await insertAllCustomersLocalUsecase.call(customers),
     );
 
-    // // // Sectors
-    results[3].fold(
+    // Sectors
+    await results[3].fold(
       (error) =>
           throw Exception('Failed to insert sectors: ${error.toString()}'),
-      (sectors) =>
-          insertOperations.add(insertAllAreasLocalUsecase.call(sectors)),
+      (sectors) async => await insertAllAreasLocalUsecase.call(sectors),
     );
 
-    // // // Towns
-    results[4].fold(
+    // Towns
+    await results[4].fold(
       (error) => throw Exception('Failed to insert towns: ${error.toString()}'),
-      (towns) =>
-          insertOperations.add(insertAllSubAreasLocalUsecase.call(towns)),
+      (towns) async => await insertAllSubAreasLocalUsecase.call(towns),
     );
 
     // Packings
-    results[5].fold(
+    await results[5].fold(
       (error) =>
           throw Exception('Failed to insert packings: ${error.toString()}'),
-      (packings) =>
-          insertOperations.add(insertPackingsLocallyUsecase.call(packings)),
+      (packings) async => await insertPackingsLocallyUsecase.call(packings),
     );
-
-    // // Execute all inserts in parallel
-    await Future.wait(insertOperations);
   }
-
   // ==========================================================================
   // LOCAL DATA MANAGEMENT
   // ==========================================================================
@@ -481,8 +467,7 @@ class HomeController extends GetxController {
           customerId: int.tryParse(orders[i].customerId),
           salesmanId: CurrentUserHelper.salesmanId,
           deviceOrderDateTime: orders[i].orderDate,
-          orderTotalAmt:
-              orders[i].totalAmount.withCommasAndDecimals.toDoubleOrNull,
+          orderTotalAmt: orders[i].totalAmount,
           orderRows: orderRows,
         ),
       );

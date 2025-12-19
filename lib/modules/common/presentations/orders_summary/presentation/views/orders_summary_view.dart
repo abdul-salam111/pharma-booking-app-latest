@@ -1,5 +1,3 @@
-
-
 import '../../../home/presentation/barrel.dart';
 import '../controllers/orders_summary_controller.dart';
 
@@ -47,9 +45,9 @@ class OrdersSummaryView extends GetView<OrdersSummaryController> {
         horizontalInside: BorderSide(color: Colors.grey, width: 0.5),
       ),
       columnWidths: const {
-        0: FlexColumnWidth(1.3), // Date
-        1: FlexColumnWidth(1), // Synced
-        2: FlexColumnWidth(1), // Orders
+        0: FlexColumnWidth(1.1), // Date
+        1: FlexColumnWidth(0.5), // orders
+        2: FlexColumnWidth(1), // synced
         3: FlexColumnWidth(1.2), // Amount
       },
       children: [_buildTableHeader(context), ..._buildTableRows(context)],
@@ -61,8 +59,9 @@ class OrdersSummaryView extends GetView<OrdersSummaryController> {
       decoration: BoxDecoration(color: Colors.grey[200]),
       children: [
         _buildHeaderCell("Date", leftPadding: 8, context: context),
-        _buildHeaderCell("Synced", context: context),
         _buildHeaderCell("Orders", context: context),
+        _buildHeaderCell("Synced", context: context),
+
         _buildHeaderCell("Amount", context: context),
       ],
     );
@@ -104,6 +103,7 @@ class OrdersSummaryView extends GetView<OrdersSummaryController> {
         ),
         children: [
           _buildClickableCell(summary.date, index, context),
+          _buildClickableCell(summary.totalOrders.toString(), index, context),
           _buildClickableCell(
             summary.syncStatus,
             index,
@@ -112,8 +112,12 @@ class OrdersSummaryView extends GetView<OrdersSummaryController> {
                 ? Colors.green[700]
                 : Colors.red[700],
           ),
-          _buildClickableCell(summary.totalOrders.toString(), index, context),
-          _buildClickableCell("Rs. ${summary.totalAmount.withCommasAndDecimals}", index, context),
+
+          _buildClickableCell(
+            "Rs. ${summary.totalAmount.withCommasAndDecimals}",
+            index,
+            context,
+          ),
         ],
       );
     }).toList();

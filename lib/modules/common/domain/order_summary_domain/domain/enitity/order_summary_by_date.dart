@@ -1,5 +1,5 @@
 
-import '../../../../../../core/shared/models/post_models/create_order_for_local.dart';
+import '../../../../data/create_order_data/data/models/request_models/create_order_for_local.dart';
 
 class OrderSummaryByDate {
   final String date;

@@ -4,7 +4,7 @@ import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
 import 'package:pharma_booking_app/modules/intellibiz/all_products_intellibiz/widgets/packing_dropdown.dart';
 import '../../../../../core/core.dart';
 import '../../../../../core/routes/app_pages.dart';
-import '../../../../../core/shared/models/post_models/create_order_for_local.dart';
+import '../../../common/data/create_order_data/data/models/request_models/create_order_for_local.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../common/data/all_products_data/data/models/get_products_model/get_all_products_model.dart';
 import '../controllers/all_products_intellibiz_controller.dart';

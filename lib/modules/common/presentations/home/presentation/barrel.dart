@@ -49,8 +49,8 @@ export 'package:pharma_booking_app/modules/common/domain/select_customer_domain/
 export 'package:pharma_booking_app/modules/common/domain/select_customer_domain/usecases/local_usecases/clear_sectors_local_usecase.dart';
 export 'package:pharma_booking_app/modules/common/domain/select_customer_domain/usecases/local_usecases/clear_towns_local_usecase.dart';
 
-export 'package:pharma_booking_app/core/shared/models/post_models/create_order_for_local.dart';
-export 'package:pharma_booking_app/core/shared/models/post_models/sync_orders_model.dart';
+export 'package:pharma_booking_app/modules/common/data/create_order_data/data/models/request_models/create_order_for_local.dart';
+export 'package:pharma_booking_app/modules/common/data/create_order_data/data/models/request_models/sync_orders_remote_model/sync_orders_model.dart';
 
 export 'package:pharma_booking_app/modules/common/data/all_products_data/data/models/get_companies_model/companies_model.dart';
 export 'package:pharma_booking_app/modules/common/data/all_products_data/data/models/get_products_model/get_all_products_model.dart';

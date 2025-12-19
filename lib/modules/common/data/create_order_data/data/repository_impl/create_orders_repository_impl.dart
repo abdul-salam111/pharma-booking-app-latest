@@ -1,12 +1,12 @@
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../../../core/core.dart';
-import '../../../../../../core/shared/models/post_models/create_order_for_local.dart';
-import '../../../../../../core/shared/models/post_models/sync_orders_model.dart';
+import '../models/request_models/create_order_for_local.dart';
+import '../models/request_models/sync_orders_remote_model/sync_orders_model.dart';
 import '../../../../domain/create_order_domain/domain/repository/create_orders_repository.dart';
 import '../datasources/create_orders_local_datasource/create_orders_local_datasource.dart';
 import '../datasources/create_orders_remote_datasource/create_orders_remote_datasource.dart';
-import '../models/get_order_response/get_order_response.dart';
+import '../models/response_models/get_order_response/get_order_response.dart';
 
 class CreateOrdersRepositoryImpl implements CreateOrdersRepository {
   final CreateOrdersLocalDatasource createOrdersLocalDatasource;
