@@ -24,6 +24,7 @@ class CustomTextFormField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters; // Added this
   final TextStyle? hintStyle;
   final double borderRadius;
+  final FocusNode? focusNode;
 
   const CustomTextFormField({
     super.key,
@@ -47,6 +48,7 @@ class CustomTextFormField extends StatefulWidget {
     this.inputFormatters, // Added this
     this.hintStyle,
     this.borderRadius = 10,
+    this.focusNode,
   });
 
   @override
@@ -95,6 +97,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         SizedBox(
           height: widget.textfieldHeight,
           child: TextFormField(
+            focusNode: widget.focusNode,
             autofocus: false,
             textCapitalization: TextCapitalization.words,
             readOnly: widget.readonly,

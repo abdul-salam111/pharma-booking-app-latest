@@ -427,16 +427,7 @@ class HomeController extends GetxController {
                 builder: (BuildContext context) {
                   return ErrorPopup(failedOrders: orders.length);
                 },
-              ).then((result) async {
-                if (result == 'download') {
-                  final response = await getFailedOrdersUsecase.call(
-                    NoParams(),
-                  );
-                  await response.fold((error) {
-                    print(error);
-                  }, (orders) {});
-                } else if (result == 'continue') {}
-              });
+              );
             },
             (bookedOrders) async {
               // Update synced orders

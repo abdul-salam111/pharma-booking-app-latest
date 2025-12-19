@@ -2,13 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-
 import '../../../../../core/core.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../controllers/create_order_intellibiz_controller.dart';
 
-class CreateOrderIntellibizView extends GetView<CreateOrderIntellibizController> {
+class CreateOrderIntellibizView
+    extends GetView<CreateOrderIntellibizController> {
   const CreateOrderIntellibizView({super.key});
 
   @override
@@ -62,7 +61,9 @@ class CreateOrderIntellibizView extends GetView<CreateOrderIntellibizController>
                         heightBox(5),
                         Obx(
                           () => Text(
-                            controller.totalAmount.toDouble().withCommasAndDecimals,
+                            controller.totalAmount
+                                .toDouble()
+                                .withCommasAndDecimals,
                             style: context.bodySmallStyle!.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -152,15 +153,15 @@ class CreateOrderIntellibizView extends GetView<CreateOrderIntellibizController>
           child: Column(
             children: [
               heightBox(10),
-              CustomSearchField(
-                controller: controller.searchController,
+              // CustomSearchField(
+              //   controller: controller.searchController,
 
-                hintText: "Search companies...",
-                onChanged: (query) {
-                  controller.filterCompanies();
-                },
-              ),
-              heightBox(10),
+              //   hintText: "Search companies...",
+              //   onChanged: (query) {
+              //     controller.filterCompanies();
+              //   },
+              // ),
+              // heightBox(10),
               Obx(
                 () => controller.isLoading.value
                     ? const Center(child: CircularProgressIndicator())
@@ -175,6 +176,7 @@ class CreateOrderIntellibizView extends GetView<CreateOrderIntellibizController>
                       )
                     : Expanded(
                         child: ListView.separated(
+                          padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
                             final company = controller.filteredCompanies[index];
                             final companyId = company.id.toString();
@@ -193,21 +195,28 @@ class CreateOrderIntellibizView extends GetView<CreateOrderIntellibizController>
                                   vertical: 8.0,
                                 ),
                                 child: Row(
+                                  mainAxisAlignment: mainAxisSpaceBetween,
                                   children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            companyName,
-                                            style: context.bodyMediumStyle!
-                                                .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Company Name",
+                                          style: context.bodySmallStyle!
+                                              .copyWith(
+                                                color: AppColors.greyTextColor,
+                                              ),
+                                        ),
+                                        Text(
+                                          companyName,
+                                          style: context.bodySmallStyle!
+                                              .copyWith(
+                                                color: AppColors.blackTextColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
+                                      ],
                                     ),
                                     Column(
                                       children: [
@@ -228,7 +237,7 @@ class CreateOrderIntellibizView extends GetView<CreateOrderIntellibizController>
                                         ),
                                       ],
                                     ),
-                                    widthBox(20),
+
                                     Column(
                                       children: [
                                         Text(
@@ -248,17 +257,21 @@ class CreateOrderIntellibizView extends GetView<CreateOrderIntellibizController>
                                         ),
                                       ],
                                     ),
-                                    IconButton(
-                                      padding: EdgeInsets.zero,
-                                      constraints: const BoxConstraints(),
-                                      icon: const Icon(
-                                        Iconsax.arrow_right_3,
-                                        size: 15,
+
+                                    SizedBox(
+                                      width: 30,
+                                      child: IconButton(
+                                        padding: EdgeInsets.zero,
+
+                                        icon: const Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 15,
+                                        ),
+                                        onPressed: () {
+                                          controller.goToAllProducts(companyId);
+                                        },
+                                        color: AppColors.appPrimaryColor,
                                       ),
-                                      onPressed: () {
-                                        controller.goToAllProducts(companyId);
-                                      },
-                                      color: AppColors.appPrimaryColor,
                                     ),
                                   ],
                                 ),

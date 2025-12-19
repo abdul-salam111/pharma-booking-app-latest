@@ -212,7 +212,6 @@ class OrderDetailsOnDateViewIntellibiz
                                     color: AppColors.halfWhiteColor,
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: mainAxisSpaceBetween,
                                     children: [
                                       Text(
                                         "${productIndex + 1}",
@@ -222,14 +221,18 @@ class OrderDetailsOnDateViewIntellibiz
                                               fontWeight: FontWeight.bold,
                                             ),
                                       ),
-                                      Text(
-                                        product.productName,
-                                        style: context.displayLargeStyle!
-                                            .copyWith(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                      widthBox(10),
+                                      Expanded(
+                                        child: Text(
+                                          product.productName,
+                                          style: context.displayLargeStyle!
+                                              .copyWith(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
                                       ),
+                                      widthBox(10),
                                       Text(
                                         "Rs. ${product.rowTotal.withCommasAndDecimals}",
                                         style: context.displayLargeStyle!
@@ -290,9 +293,7 @@ class OrderDetailsOnDateViewIntellibiz
                                         ),
                                         _buildDataCell(
                                           context,
-                                          product.discRatio!.toStringAsFixed(
-                                            0,
-                                          ),
+                                          product.discRatio!.toStringAsFixed(0),
                                         ),
                                       ],
                                     ),
@@ -344,7 +345,6 @@ class OrderDetailsOnDateViewIntellibiz
         text,
         style: context.displayLargeStyle!.copyWith(
           color: AppColors.blackTextColor,
-          fontWeight: FontWeight.bold,
         ),
         textAlign: TextAlign.center,
       ),
