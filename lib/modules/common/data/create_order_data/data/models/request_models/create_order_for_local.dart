@@ -5,12 +5,15 @@ class OrderItemsForLocal {
   final String customerAddress;
   final List<OrderCompanies> companies;
   final DateTime orderDate;
+
   final DateTime? syncDate;
   final String syncedStatus;
   final int? isFailed;
   final int? syncTries;
   final double totalAmount;
   final int totalItems;
+  final double? orderlat;
+  final double? orderlng;
   final String? guid;
 
   OrderItemsForLocal({
@@ -26,6 +29,8 @@ class OrderItemsForLocal {
     this.syncTries = 0,
     required this.totalAmount,
     required this.totalItems,
+    this.orderlat,
+    this.orderlng,
 
     this.guid,
   });
@@ -43,6 +48,8 @@ class OrderItemsForLocal {
       'syncTries': syncTries,
       'grandTotalProducts': totalItems,
       'grandTotalAmount': totalAmount,
+      'orderLat': orderlat,
+      'orderLng': orderlng,
       'guid': guid,
     };
   }
@@ -61,6 +68,8 @@ class OrderItemsForLocal {
       isFailed: map['isFailed'],
       syncTries: map['syncTries'],
       totalAmount: map['grandTotalAmount'],
+      orderlat: map['orderLat'],
+      orderlng: map['orderLng'],
       totalItems: map['grandTotalProducts'],
       customerAddress: map['customerAddress'] ?? '',
       guid: map['guid'],
@@ -80,6 +89,8 @@ class OrderItemsForLocal {
     int? syncTries,
     double? totalAmount,
     int? totalItems,
+    double? orderlat,
+    double? orderlng,
     String? customerAddress,
     String? guid,
   }) {
@@ -96,6 +107,8 @@ class OrderItemsForLocal {
       syncTries: syncTries ?? this.syncTries,
       totalAmount: totalAmount ?? this.totalAmount,
       totalItems: totalItems ?? this.totalItems,
+      orderlat: orderlat ?? this.orderlat,
+      orderlng: orderlng ?? this.orderlng,
       guid: guid ?? this.guid,
     );
   }

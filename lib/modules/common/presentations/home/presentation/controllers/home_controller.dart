@@ -11,7 +11,7 @@ import 'package:pharma_booking_app/modules/common/domain/all_products_domain/dom
 import 'package:pharma_booking_app/modules/common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_local_usecases/get_failed_orders_usecase.dart';
 import 'package:pharma_booking_app/modules/common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_syncing_and_unsycing_usecases/mark_order_as_not_failed_usecase.dart';
 
-import '../../../../../../core/utils/data_sync_popup.dart';
+import '../../../../../../core/widgets/data_sync_popup.dart';
 import '../../../../../../core/utils/export_orders.dart';
 import '../../../../../../core/utils/success_popup.dart';
 import '../../../../../../core/utils/warning_popup.dart';

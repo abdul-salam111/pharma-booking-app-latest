@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
 
+import '../../../../../../core/widgets/logout_popup.dart';
 import '../barrel.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -203,45 +204,16 @@ class HomeView extends GetView<HomeController> {
                   ),
                   TextButton.icon(
                     onPressed: () {
-                      Get.dialog(
-                        AlertDialog(
-                          backgroundColor: Colors.white,
-                          title: const Text("Logout"),
-                          content: const Text(
-                            "Are you sure you want to logout?",
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: const Text("Cancel"),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                Get.back();
-                                await storage.clearValues(StorageKeys.userId);
-                                await storage.clearValues(StorageKeys.loggedIn);
-                                await storage.clearValues(
-                                  StorageKeys.isDatasynced,
-                                );
-                                await storage.clearValues(
-                                  StorageKeys.softwareVersion,
-                                );
-                                Get.offAllNamed(Routes.LOGIN_SCREEN);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red,
-                              ),
-                              child: Text(
-                                "Logout",
-                                style: context.bodySmallStyle!.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      LogoutDialogHelper.show(
+                        onLogout: () async {
+                          await storage.clearValues(StorageKeys.userId);
+                          await storage.clearValues(StorageKeys.loggedIn);
+                          await storage.clearValues(StorageKeys.isDatasynced);
+                          await storage.clearValues(
+                            StorageKeys.softwareVersion,
+                          );
+                          Get.offAllNamed(Routes.LOGIN_SCREEN);
+                        },
                       );
                     },
                     label: Text(

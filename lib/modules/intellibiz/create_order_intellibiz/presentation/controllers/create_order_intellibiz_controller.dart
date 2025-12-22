@@ -4,6 +4,8 @@ import 'package:pharma_booking_app/modules/intellibiz/all_products_intellibiz/co
 import 'package:uuid/uuid.dart';
 import '../../../../../core/utils/current_user_helper.dart';
 
+import '../../../../../core/utils/get_current_location.dart';
+import '../../../../../core/widgets/location_popup.dart';
 import '../../../../common/presentations/home/presentation/barrel.dart';
 import '../../../../common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_local_usecases/create_order_local_usecase.dart';
 import '../../../../common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_local_usecases/update_order_local_usecase.dart';
@@ -498,11 +500,38 @@ class CreateOrderIntellibizController extends GetxController {
   // ========================================================================
   // DATABASE OPERATIONS
   // ========================================================================
-
   Future<void> saveOrder() async {
     try {
       isSaving.value = true;
 
+      LocationResult result = await getCurrentLocation();
+
+      if (result.position == null) {
+        if (result.isPermanentlyDenied) {
+          // Show beautiful animated dialog for permanently denied
+          Get.dialog(
+            const LocationPermissionDialog(isPermanentlyDenied: true),
+            barrierDismissible: false,
+          );
+          return;
+        } else if (result.isDenied) {
+          // Show beautiful animated dialog for denied
+          Get.dialog(
+            const LocationPermissionDialog(isPermanentlyDenied: false),
+            barrierDismissible: false,
+          );
+          return;
+        } else {
+          _showErrorSnackbar(
+            'Location Error',
+            result.error ??
+                'Unable to get location. Please enable location services.',
+          );
+          return;
+        }
+      }
+
+      // Proceed with order creation
       final order = OrderItemsForLocal(
         customerAddress:
             "${selectedSector.value!.name} - ${selectedTown.value!.name}",
@@ -513,6 +542,8 @@ class CreateOrderIntellibizController extends GetxController {
         totalAmount: totalAmount.value,
         totalItems: totalItems.value,
         guid: uuid.v1(),
+        orderlat: result.position!.latitude,
+        orderlng: result.position!.longitude,
       );
 
       final localOrderResponse = await createOrderLocalUsecase.call(order);

@@ -35,7 +35,7 @@ class SyncProgressDialog extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: const Color(0xff90FDF0).withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
@@ -43,7 +43,7 @@ class SyncProgressDialog extends StatelessWidget {
                     child: const Icon(
                       Icons.sync,
                       color: Color(0xff09877A),
-                      size: 28,
+                      size: 22,
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -51,7 +51,7 @@ class SyncProgressDialog extends StatelessWidget {
                     child: Text(
                       'Syncing Data',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff1A1A1A),
                       ),
@@ -62,7 +62,7 @@ class SyncProgressDialog extends StatelessWidget {
               const SizedBox(height: 8),
               const Text(
                 'Please wait while we sync your data',
-                style: TextStyle(fontSize: 14, color: Color(0xff666666)),
+                style: TextStyle(fontSize: 12, color: Color(0xff666666)),
               ),
               const SizedBox(height: 24),
 

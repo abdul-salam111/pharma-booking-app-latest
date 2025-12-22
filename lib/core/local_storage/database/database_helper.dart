@@ -166,6 +166,8 @@ class SoftronixBookingDatabase {
             syncTries INTEGER DEFAULT 0,
             grandTotalProducts INTEGER DEFAULT 0,
             grandTotalAmount REAL DEFAULT 0,
+            orderLat REAL,
+            orderLng REAL,
             guid TEXT
           )
           

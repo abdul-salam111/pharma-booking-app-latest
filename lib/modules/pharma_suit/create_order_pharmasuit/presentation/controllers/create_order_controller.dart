@@ -3,6 +3,8 @@
 import 'package:pharma_booking_app/modules/intellibiz/all_products_intellibiz/controllers/all_products_intellibiz_controller.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../../core/utils/current_user_helper.dart';
+import '../../../../../core/utils/get_current_location.dart';
+import '../../../../../core/widgets/location_popup.dart';
 import '../../../all_products/presentation/controllers/all_products_controller.dart';
 import '../../../../common/presentations/home/presentation/barrel.dart';
 import '../../../../common/domain/create_order_domain/domain/usecases/local_usecases/manage_order_local_usecases/create_order_local_usecase.dart';
@@ -569,12 +571,38 @@ class CreateOrderController extends GetxController {
   // DATABASE OPERATIONS
   // ========================================================================
 
-  /// Save new order to local database
   Future<void> saveOrder() async {
     try {
       isSaving.value = true;
 
-      // Create order object with all necessary details
+      LocationResult result = await getCurrentLocation();
+
+      if (result.position == null) {
+        if (result.isPermanentlyDenied) {
+          // Show beautiful animated dialog for permanently denied
+          Get.dialog(
+            const LocationPermissionDialog(isPermanentlyDenied: true),
+            barrierDismissible: false,
+          );
+          return;
+        } else if (result.isDenied) {
+          // Show beautiful animated dialog for denied
+          Get.dialog(
+            const LocationPermissionDialog(isPermanentlyDenied: false),
+            barrierDismissible: false,
+          );
+          return;
+        } else {
+          _showErrorSnackbar(
+            'Location Error',
+            result.error ??
+                'Unable to get location. Please enable location services.',
+          );
+          return;
+        }
+      }
+
+      // Proceed with order creation
       final order = OrderItemsForLocal(
         customerAddress:
             "${selectedSector.value!.name} - ${selectedTown.value!.name}",
@@ -585,12 +613,12 @@ class CreateOrderController extends GetxController {
         totalAmount: totalAmount.value,
         totalItems: totalItems.value,
         guid: uuid.v1(),
+        orderlat: result.position!.latitude,
+        orderlng: result.position!.longitude,
       );
 
-      // Save to local database
       final localOrderResponse = await createOrderLocalUsecase.call(order);
 
-      // Extract ID
       final orderId = localOrderResponse.fold(
         (error) => -1,
         (success) => success,
@@ -599,11 +627,9 @@ class CreateOrderController extends GetxController {
       print('Order saved with ID: $orderId');
 
       if (orderId >= 0) {
-        // Success - show message and navigate to home
         _showSuccessSnackbar('Order saved successfully');
         Get.offAllNamed(Routes.HOME);
       } else {
-        // Failed to save
         _showErrorSnackbar('Failed to save order', 'Database operation failed');
       }
     } catch (e) {
@@ -636,9 +662,12 @@ class CreateOrderController extends GetxController {
         totalAmount: totalAmount.value,
         totalItems: totalItems.value,
         isFailed: existingOrder.isFailed, // Keep failure info
+        syncTries: existingOrder.syncTries, // Keep sync tries`
         syncDate: existingOrder.syncDate, // Keep sync info
         syncedStatus: existingOrder.syncedStatus, // Keep sync status
         guid: existingOrder.guid,
+        orderlat: existingOrder.orderlat,
+        orderlng: existingOrder.orderlng,
       );
 
       // Update in database
