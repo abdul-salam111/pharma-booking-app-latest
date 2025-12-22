@@ -226,7 +226,7 @@ class AllProductsIntellibizView
 
                             return Padding(
                               padding: const EdgeInsets.symmetric(
-                                vertical: 4.0,
+                                // vertical: 4.0,
                                 horizontal: 4,
                               ),
                               child: Row(
@@ -509,27 +509,30 @@ class AllProductsIntellibizView
                                                 ],
                                               ),
                                             ),
-                                             SizedBox(
-                                        height: 20,
-                                        width: 20,
-                                        child: IconButton(
-                                          padding: EdgeInsets.only(bottom: 10),
-                                          constraints: const BoxConstraints(),
-                                          icon: const Icon(
-                                            Icons.add_shopping_cart,
-                                            size: 18,
-                                          ),
-                                          onPressed: () async {
-                                            await Get.bottomSheet(
-                                              ProductBottomSheetIntellibiz(
-                                                product: product,
+                                            SizedBox(
+                                              height: 20,
+                                              width: 20,
+                                              child: IconButton(
+                                                padding: EdgeInsets.only(
+                                                  bottom: 10,
+                                                ),
+                                                constraints:
+                                                    const BoxConstraints(),
+                                                icon: const Icon(
+                                                  Icons.add_shopping_cart,
+                                                  size: 18,
+                                                ),
+                                                onPressed: () async {
+                                                  await Get.bottomSheet(
+                                                    ProductBottomSheetIntellibiz(
+                                                      product: product,
+                                                    ),
+                                                    isScrollControlled: true,
+                                                  );
+                                                },
+                                                color: Colors.blue,
                                               ),
-                                              isScrollControlled: true,
-                                            );
-                                          },
-                                          color: Colors.blue,
-                                        ),
-                                      ),
+                                            ),
                                           ],
                                         ),
                                       ],

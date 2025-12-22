@@ -1,6 +1,7 @@
 import 'package:pharma_booking_app/core/utils/current_user_helper.dart';
 
 import '../../../../../../core/utils/export_file.dart';
+import '../../../../../../core/utils/export_orders.dart';
 import '../../../../../../core/utils/type_conversion.dart';
 
 import '../../../../domain/all_products_domain/domain/usecases/products_usecases/product_local_usecases/get_product_by_id_usecase.dart';
@@ -78,7 +79,7 @@ class OrdersOnDateController extends GetxController {
   }
 
   /// Synchronizes unsynced orders with the server
-  Future<void> exportOrders() async {
+  Future<void> exportAsJson() async {
     // Get all unsynced orders from database
     // Check if there are orders to sync
     if (ordersForDate.isEmpty) {
@@ -104,11 +105,16 @@ class OrdersOnDateController extends GetxController {
               (productModel) {
                 orderRows.add(
                   SyncOrderRow(
-                    productId: product.productId.toIntOrNull,
+                    productId: int.parse(product.productId),
                     qtyPack: product.quantityPack,
+                    qtyLose: product.quantityLose ?? 0,
                     bonus: product.bonus,
                     discRatio: product.discRatio,
                     pricePack: product.pricePack,
+                    sTaxRatio: product.sTaxRatio ?? 0,
+                    rowTotal: product.rowTotal.roundToDouble(),
+                    packingId: product.packingId,
+                    discValuePack: product.discValuePack ?? 0,
                   ),
                 );
               },
@@ -131,6 +137,7 @@ class OrdersOnDateController extends GetxController {
                 customerId: getCustomersModel?.id,
                 salesmanId: CurrentUserHelper.salesmanId,
                 deviceOrderDateTime: ordersForDate[i].orderDate,
+                orderTotalAmt: ordersForDate[i].totalAmount.roundToDouble(),
                 orderRows: orderRows,
               ),
             );
@@ -144,6 +151,87 @@ class OrdersOnDateController extends GetxController {
       );
     } catch (e) {
       AppToasts.showErrorToast(Get.context!, 'Sync error: $e');
+    }
+  }
+
+  // Helper method to download failed orders
+  Future<void> exportAsExcel() async {
+    try {
+      ExcelExporter.export(
+        sheetName: "Orders",
+        fileName: "${DateTime.now().formatDate()} orders.xlsx",
+        headers: CurrentUserHelper.softwareVersion == "1"
+            ? const [
+                "Order Guid",
+                "Customer Name",
+                "Customer Address",
+                "Order Date",
+                "Order Status",
+                "Company Name",
+                "Product Name",
+                "Price",
+                "Quantity",
+                "Bonus",
+                "Discount %",
+              ]
+            : const [
+                "Order Guid",
+                "Customer Name",
+                "Customer Address",
+                "Order Date",
+                "Order Status",
+                "Company Name",
+                "Product Name",
+                "Price Pack",
+                "Packing",
+                "Quantity Pack",
+                "Quantity Lose",
+                "Bonus",
+                "Discount %",
+              ],
+        rows: ordersForDate.expand((order) {
+          return order.companies.expand((company) {
+            return company.products.map((product) {
+              if (CurrentUserHelper.softwareVersion == "1") {
+                return [
+                  order.guid.toString(),
+                  order.customerName,
+                  order.customerAddress,
+                  DateTime.parse(order.orderDate.toString()).formatDate(),
+                  order.syncedStatus == "No" ? "Unsynced" : "Synced",
+                  company.companyName,
+                  product.productName,
+                  product.pricePack.toStringAsFixed(1),
+                  product.quantityPack.toString(),
+                  product.bonus.toString(),
+                  product.discRatio?.toStringAsFixed(0) ?? "0",
+                ];
+              }
+
+              // SOFTWARE VERSION != 1
+              return [
+                order.guid.toString(),
+                order.customerName,
+                order.customerAddress,
+                DateTime.parse(order.orderDate.toString()).formatDate(),
+                order.syncedStatus == "No" ? "Unsynced" : "Synced",
+                company.companyName,
+                product.productName,
+                product.pricePack.toString(),
+                "${product.packingName.toString()} x ${product.multiplier.toString()}",
+
+                product.quantityPack.toString(),
+                product.quantityLose?.toString() ?? "0",
+                product.bonus.toString(),
+                product.discRatio?.toStringAsFixed(0) ?? "0",
+              ];
+            });
+          });
+        }).toList(),
+      );
+    } catch (error) {
+      AppToasts.dismiss(Get.context!);
+      AppToasts.showErrorToast(Get.context!, 'Failed to export orders: $error');
     }
   }
 }

@@ -14,10 +14,41 @@ class OrdersOnDateView extends GetView<OrdersOnDateController> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () async {
-              await controller.exportOrders();
+            icon: const Icon(Icons.download),
+            onPressed: () {
+              Get.bottomSheet(
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(16),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.table_chart),
+                        title: const Text("Export as Excel"),
+                        onTap: () async {
+                          Get.back();
+                          await controller.exportAsExcel();
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.code),
+                        title: const Text("Export as JSON"),
+                        onTap: () async {
+                          Get.back();
+                          await controller.exportAsJson();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
             },
-            icon: Icon(Icons.download),
           ),
         ],
       ),

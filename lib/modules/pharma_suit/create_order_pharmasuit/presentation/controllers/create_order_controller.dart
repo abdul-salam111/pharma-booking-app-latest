@@ -635,6 +635,7 @@ class CreateOrderController extends GetxController {
         orderDate: existingOrder.orderDate, // Keep original date
         totalAmount: totalAmount.value,
         totalItems: totalItems.value,
+        isFailed: existingOrder.isFailed, // Keep failure info
         syncDate: existingOrder.syncDate, // Keep sync info
         syncedStatus: existingOrder.syncedStatus, // Keep sync status
         guid: existingOrder.guid,
